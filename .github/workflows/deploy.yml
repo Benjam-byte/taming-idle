@@ -25,12 +25,12 @@ jobs:
         run: npm run build # ou `ionic build` si tu utilises Ionic CLI globalement
 
       # 👇 Remplace "www" par "dist/<project-name>" si tu utilises Angular CLI
-      - name: Upload build to Hostinger via SFTP
-        uses: appleboy/scp-action@master
+      - name: Upload build to Hostinger via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: ${{ secrets.SFTP_PORT }}
+          host: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
           source: www/ # ou dist/my-app/
           target: /domains/mitnoos.com/public_html/taming-idle/
