@@ -1,0 +1,8 @@
+<ion-content [fullscreen]="true">
+  <div class="h-full w-full">
+    @switch (currentMap()) { @case ('empty') {
+    <app-empty-area (nextMap)="action()" /> } @case ('tresor') {
+    <app-tresor-area (nextMap)="action()" /> } @case('monster') {
+    <app-monster-area (nextMap)="action()" /> } }
+  </div>
+</ion-content>
