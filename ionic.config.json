@@ -1,0 +1,7 @@
+{
+  "name": "taming-idle",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
