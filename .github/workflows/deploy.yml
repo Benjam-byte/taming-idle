@@ -21,8 +21,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Ionic CLI
+        run: npm install -g @ionic/cli
+
       - name: Build Ionic project
-        run: ionic build --base-href /taming-idle/ # ou `ionic build` si tu utilises Ionic CLI globalement
+        run: ionic build --base-href /taming-idle/
 
       - name: Upload build to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
