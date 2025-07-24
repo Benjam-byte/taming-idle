@@ -58,7 +58,7 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "/"
+              "baseHref": "/taming-idle/"
             },
             "development": {
               "optimization": false,
