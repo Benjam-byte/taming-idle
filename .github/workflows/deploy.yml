@@ -1,4 +1,4 @@
-name: Build and Deploy Angular/Ionic to Hostinger via SFTP
+name: Build and Deploy Ionic to Hostinger via FTP
 
 on:
   push:
@@ -13,10 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "22" # ou autre version compatible avec Ionic/Angular
+          node-version: "22"
 
       - name: Install dependencies
         run: npm install
@@ -24,13 +24,11 @@ jobs:
       - name: Build Ionic project
         run: npm run build # ou `ionic build` si tu utilises Ionic CLI globalement
 
-      # 👇 Remplace "www" par "dist/<project-name>" si tu utilises Angular CLI
       - name: Upload build to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ${{ secrets.FTP_HOST }}
+          server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          source: www/ # ou dist/my-app/
-          target: /domains/mitnoos.com/public_html/taming-idle/
+          local-dir: www/
+          server-dir: /domains/mitnoos.com/public_html/taming-idle/
