@@ -1,4 +1,5 @@
-import { Component, OnInit, output } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { GameEngineService } from 'src/app/core/service/game-engine.service';
 
 @Component({
   selector: 'app-tresor-area',
@@ -6,11 +7,11 @@ import { Component, OnInit, output } from '@angular/core';
   styleUrls: ['./tresor-area.component.scss'],
 })
 export class TresorAreaComponent {
-  nextMap = output<void>();
+  gameEngineService = inject(GameEngineService);
 
   constructor() {}
 
   changeMap() {
-    this.nextMap.emit();
+    this.gameEngineService.switchMap();
   }
 }

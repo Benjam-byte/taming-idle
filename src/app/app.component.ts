@@ -8,4 +8,17 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 })
 export class AppComponent {
   constructor() {}
+
+  spawnClickEffect(event: MouseEvent) {
+    const circle = document.createElement('div');
+    circle.className = 'click-circle';
+    circle.style.left = `${event.clientX}px`;
+    circle.style.top = `${event.clientY}px`;
+
+    document.body.appendChild(circle);
+
+    setTimeout(() => {
+      circle.remove();
+    }, 600);
+  }
 }

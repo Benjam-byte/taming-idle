@@ -1,0 +1,21 @@
+<ion-content class="ion-padding custom-modal-content">
+  <div class="centered">
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th>Damage</th>
+          <th>Travelling Speed</th>
+          <th>Fighting Speed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ human.damage }}</td>
+          <td>{{ human.travellingSpeed }} ms</td>
+          <td>{{ human.fightingSpeed }} ms</td>
+        </tr>
+      </tbody>
+    </table>
+    <ion-button expand="block" (click)="close()">Fermer</ion-button>
+  </div>
+</ion-content>
