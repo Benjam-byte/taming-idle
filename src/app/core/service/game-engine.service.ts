@@ -71,10 +71,8 @@ export class GameEngineService {
         if (this.human().fight(now)) event.payload();
         break;
       case 'kill':
-        console.log('get killed');
         this.changeMap();
         break;
-      // Tu pourras ajouter d'autres cases comme 'fight', 'search', etc.
     }
   }
 
@@ -95,7 +93,6 @@ export class GameEngineService {
   private changeMap() {
     this.currentMap.set(undefined);
     const map = this.getRandomMap();
-    console.log(map);
     setTimeout(() => {
       this.currentMap.set(map);
     }, 100);

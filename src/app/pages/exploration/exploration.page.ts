@@ -44,17 +44,33 @@ export class ExplorationPage {
   ];
 
   imageUrl = '';
+  previousImageUrl: string | null = null;
+  imageLoaded = false;
 
   constructor() {
     effect(() => {
-      this.currentMap();
-      this.imageUrl = this.getRandomImage();
+      const value = this.currentMap();
+      if (value) this.changeBackgroundImage(this.getRandomImage());
     });
   }
 
   getRandomImage(): string {
     const index = Math.floor(Math.random() * this.images.length);
-    console.log(index);
     return this.images[index];
+  }
+
+  changeBackgroundImage(newUrl: string) {
+    this.previousImageUrl = this.imageUrl;
+    this.imageUrl = newUrl;
+    this.imageLoaded = false;
+  }
+
+  onImageLoad() {
+    this.imageLoaded = true;
+
+    // Optionnel : retirer l’image précédente après la transition
+    setTimeout(() => {
+      this.previousImageUrl = null;
+    }, 100); // même durée que la transition CSS
   }
 }

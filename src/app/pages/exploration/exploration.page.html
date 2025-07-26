@@ -1,19 +1,29 @@
 <ion-content [fullscreen]="true">
-  <div
-    class="page-container"
-    [ngStyle]="{'background-image': 'url(' + imageUrl + ')'}"
-  >
-    <app-info-bar />
-    @if (currentMap()) {
-    <div class="area-wrapper">
-      @switch (currentMap()) { @case ('empty') {
-      <app-empty-area /> } @case ('tresor') { <app-tresor-area /> }
-      @case('monster') { <app-monster-area /> } @default {
-      <p>...</p>
-      } }
+  <div class="background-wrapper">
+    <div
+      class="background-image"
+      *ngIf="previousImageUrl"
+      [ngStyle]="{'background-image': 'url(' + previousImageUrl + ')'}"
+    ></div>
+    <div
+      class="background-image new"
+      [class.loaded]="imageLoaded"
+      [ngStyle]="{'background-image': 'url(' + imageUrl + ')'}"
+      (load)="onImageLoad()"
+    ></div>
+
+    <div class="page-container">
+      <app-info-bar />
+      @if (currentMap()) {
+      <div class="area-wrapper">
+        @switch (currentMap()) { @case ('empty') {
+        <app-empty-area /> } @case ('tresor') { <app-tresor-area /> }
+        @case('monster') { <app-monster-area /> } @default { } }
+      </div>
+      }
     </div>
-    }
   </div>
+
   <div class="progress-centered">
     <div class="progress-bar-group">
       <app-icon-progress
