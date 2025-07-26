@@ -33,7 +33,6 @@ export class IconProgressComponent {
 
   ngOnInit() {
     this.sub = this.countdown$.subscribe((remaining) => {
-      console.log('lol');
       const pct = 100 - (remaining / this.duration()) * 100;
       this.progress = Math.min(100, Math.max(0, pct));
       this.cdr.markForCheck();

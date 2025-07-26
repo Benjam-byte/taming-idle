@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { IonContent } from '@ionic/angular/standalone';
 import { EmptyAreaComponent } from './empty-area/empty-area.component';
 import { TresorAreaComponent } from './tresor-area/tresor-area.component';
@@ -34,5 +34,27 @@ export class ExplorationPage {
   fightingDuration = this.gameEngineService.human().fightingSpeed;
   searchDuration = this.gameEngineService.human().searchingSpeed;
 
-  constructor() {}
+  images = [
+    'assets/map/plaine/Plaine_1.png',
+    'assets/map/plaine/Plaine_2.png',
+    'assets/map/plaine/Plaine_3.png',
+    'assets/map/plaine/Plaine_4.png',
+    'assets/map/plaine/Plaine_5.png',
+    'assets/map/plaine/Plaine_6.png',
+  ];
+
+  imageUrl = '';
+
+  constructor() {
+    effect(() => {
+      this.currentMap();
+      this.imageUrl = this.getRandomImage();
+    });
+  }
+
+  getRandomImage(): string {
+    const index = Math.floor(Math.random() * this.images.length);
+    console.log(index);
+    return this.images[index];
+  }
 }

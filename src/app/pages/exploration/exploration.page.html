@@ -1,5 +1,8 @@
 <ion-content [fullscreen]="true">
-  <div class="page-container">
+  <div
+    class="page-container"
+    [ngStyle]="{'background-image': 'url(' + imageUrl + ')'}"
+  >
     <app-info-bar />
     @if (currentMap()) {
     <div class="area-wrapper">
