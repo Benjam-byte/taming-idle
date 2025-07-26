@@ -6,6 +6,9 @@ export default class Human {
   travellingSpeed: number;
   fightingSpeed: number;
   searchingSpeed: number;
+  nextTravelTime = 0;
+  nextFightTime = 0;
+  nextSearchTime = 0;
 
   readonly skillManager: SkillManager;
 
@@ -17,11 +20,39 @@ export default class Human {
     this.searchingSpeed = 1000;
 
     this.skillManager = new SkillManager(this);
+
+    const now = 0;
+    this.nextTravelTime = now + this.travellingSpeed;
+    this.nextFightTime = now + this.fightingSpeed;
+    this.nextSearchTime = now + this.searchingSpeed;
   }
 
-  advance() {
+  getNextActionTimes() {
+    return {
+      travel: this.nextTravelTime,
+      fight: this.nextFightTime,
+      search: this.nextSearchTime,
+    };
+  }
+
+  getClickDamage(now: number) {
+    if (now < this.nextFightTime) return 0;
+    else return this.damage;
+  }
+
+  advance(now: number): boolean {
+    if (now < this.nextTravelTime) return false;
     this.distanceTravelled++;
+    this.nextTravelTime = now + this.travellingSpeed;
     this.skillManager.travelProgress();
+    return true;
+  }
+
+  fight(now: number): boolean {
+    if (now < this.nextFightTime) return false;
+    this.nextFightTime = now + this.fightingSpeed;
+    this.skillManager.fightProgress();
+    return true;
   }
 
   improveTravellingSpeed() {

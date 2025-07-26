@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { auditTime, Subject } from 'rxjs';
+import { ClickEffectService } from 'src/app/core/service/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import Monster from 'src/app/core/value-object/monster';
 
@@ -10,27 +10,21 @@ import Monster from 'src/app/core/value-object/monster';
 })
 export class MonsterAreaComponent {
   gameEngineService = inject(GameEngineService);
+  clickEffectService = inject(ClickEffectService);
   monster = new Monster(3, 'slime');
-  private readonly clickSubject = new Subject<void>();
 
-  constructor() {
-    this.clickSubject
-      .pipe(auditTime(this.gameEngineService.human().fightingSpeed))
-      .subscribe(() => {
-        this.handleClick();
-      });
+  constructor() {}
+
+  onClick(event: MouseEvent) {
+    this.clickEffectService.spawnClickEffect(event);
+    this.gameEngineService.submitEventByType('fight', () => {
+      if (!this.monster.isAlive) return;
+      this.monster.getHit(this.gameEngineService.human().damage);
+      this.monsterKilled();
+    });
   }
 
-  onClick() {
-    this.clickSubject.next();
-  }
-
-  private handleClick() {
-    this.monster.getHit(this.gameEngineService.human().damage);
-    if (!this.monster.isAlive) this.changeMap();
-  }
-
-  private changeMap() {
-    this.gameEngineService.switchMap();
+  private monsterKilled() {
+    if (!this.monster.isAlive) this.gameEngineService.submitEventByType('kill');
   }
 }

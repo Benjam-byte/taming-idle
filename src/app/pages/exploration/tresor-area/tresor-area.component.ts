@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { ClickEffectService } from 'src/app/core/service/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
 
 @Component({
@@ -8,10 +9,12 @@ import { GameEngineService } from 'src/app/core/service/game-engine.service';
 })
 export class TresorAreaComponent {
   gameEngineService = inject(GameEngineService);
+  clickEffectService = inject(ClickEffectService);
 
   constructor() {}
 
-  changeMap() {
-    this.gameEngineService.switchMap();
+  onClick(event: MouseEvent) {
+    this.clickEffectService.spawnClickEffect(event);
+    this.gameEngineService.submitEventByType('travel');
   }
 }

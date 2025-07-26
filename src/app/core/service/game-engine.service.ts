@@ -1,5 +1,15 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import Human from '../value-object/human';
+import { GameLoopService } from './game-loop.service';
+import { GameEvent } from '../models/gameEvent.type';
+import {
+  combineLatest,
+  distinctUntilChanged,
+  first,
+  map,
+  Observable,
+} from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 type MapKey = 'tresor' | 'monster' | 'empty';
 
@@ -7,11 +17,9 @@ type MapKey = 'tresor' | 'monster' | 'empty';
   providedIn: 'root',
 })
 export class GameEngineService {
-  currentMap = signal<string>('empty');
+  currentMap = signal<string | undefined>('empty');
   human = signal<Human>(new Human(1));
-  lastMovementTime = 0;
-
-  constructor() {}
+  gameLoop = inject(GameLoopService);
 
   mapDict: Record<MapKey, number> = {
     tresor: 1 / 10,
@@ -19,12 +27,54 @@ export class GameEngineService {
     empty: 8 / 10,
   };
 
-  switchMap() {
-    const now = Date.now();
-    if (now - this.lastMovementTime >= this.human().travellingSpeed) {
-      this.currentMap.update(() => this.getRandomMap());
-      this.human().advance();
-      this.lastMovementTime = now;
+  constructor() {
+    this.gameLoop.start();
+  }
+
+  getNextTick$() {
+    return this.gameLoop.tick$.pipe(first());
+  }
+
+  submitEventByType(type: string, payload?: any) {
+    this.gameLoop.tick$
+      .pipe(first())
+      .subscribe((now) => this.processEvent({ type, time: now, payload }, now));
+  }
+
+  getTravelCountDown$(): Observable<number> {
+    return combineLatest([this.gameLoop.tick$, toObservable(this.human)]).pipe(
+      map(([now, human]) => Math.max(0, human.nextTravelTime - now)),
+      distinctUntilChanged()
+    );
+  }
+
+  getFightingCountDown$(): Observable<number> {
+    return combineLatest([this.gameLoop.tick$, toObservable(this.human)]).pipe(
+      map(([now, human]) => Math.max(0, human.nextFightTime - now)),
+      distinctUntilChanged()
+    );
+  }
+
+  getSearchingCountDown$(): Observable<number> {
+    return combineLatest([this.gameLoop.tick$, toObservable(this.human)]).pipe(
+      map(([now, human]) => Math.max(0, human.nextSearchTime - now)),
+      distinctUntilChanged()
+    );
+  }
+
+  private processEvent(event: GameEvent, now: number) {
+    switch (event.type) {
+      case 'travel':
+        if (this.human().advance(now)) this.changeMap();
+        break;
+      case 'fight':
+        if (this.human().fight(now)) event.payload();
+        break;
+      case 'kill':
+        console.log('get killed');
+        this.changeMap();
+        break;
+      // Tu pourras ajouter d'autres cases comme 'fight', 'search', etc.
     }
   }
 
@@ -40,5 +90,14 @@ export class GameEngineService {
     }
 
     return 'empty';
+  }
+
+  private changeMap() {
+    this.currentMap.set(undefined);
+    const map = this.getRandomMap();
+    console.log(map);
+    setTimeout(() => {
+      this.currentMap.set(map);
+    }, 100);
   }
 }

@@ -84,3 +84,26 @@ section {
     opacity: 0;
   }
 }
+
+.damage-text {
+  position: absolute;
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+  user-select: none;
+  transform: translate(-50%, -50%);
+  animation: damage-pop 600ms ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes damage-pop {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -100%) scale(1.3);
+  }
+}

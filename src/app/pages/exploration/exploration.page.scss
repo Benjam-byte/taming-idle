@@ -8,3 +8,20 @@
     flex: 1;
     overflow: auto;
 }
+
+.progress-bar-group {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    height: fit-content;
+    border: 1px solid red;
+    position: fixed;
+    bottom: 0;
+}
+
+.progress-centered {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
