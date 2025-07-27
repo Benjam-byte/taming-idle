@@ -41,12 +41,6 @@
         [duration]="fightingDuration"
         type="fight"
       />
-      <app-icon-progress
-        [style.opacity]="currentMap() === 'tresor' ? 1 : 0.2"
-        [countdown$]="SearchingCountDown$"
-        [duration]="searchDuration"
-        type="search"
-      />
     </div>
   </div>
 </ion-content>

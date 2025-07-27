@@ -1,14 +1,18 @@
-export default class Chest {
-  vie: number;
-  isAlive: boolean;
+import { rollCompoundChance } from '../helpers/proba-rolls';
 
-  constructor(vie: number) {
-    this.vie = vie;
-    this.isAlive = true;
+export default class Chest {
+  crochetageSuccesProbability: number;
+  loot: number;
+  try: number;
+
+  constructor() {
+    this.crochetageSuccesProbability = 0.5 / 100;
+    this.loot = 5;
+    this.try = 0;
   }
 
-  getHit(damage: number) {
-    this.vie = this.vie - damage;
-    if (this.vie === 0) this.isAlive = false;
+  getCrocheted(proba: number) {
+    this.try++;
+    return rollCompoundChance(this.crochetageSuccesProbability, proba);
   }
 }

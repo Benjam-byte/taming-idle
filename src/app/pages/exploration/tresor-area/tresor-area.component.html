@@ -1,3 +1,11 @@
-<section class="full text-centered" (click)="onClick($event)">
-  <img src="assets/object/Chest.png" />
+<section
+  class="full text-centered"
+  (mousedown)="startLoop()"
+  (mouseup)="stopLoop()"
+  (mouseleave)="stopLoop()"
+  (touchstart)="startLoop()"
+  (touchend)="stopLoop()"
+>
+  <app-floating-messages #msgDisplay></app-floating-messages>
+  <img src="assets/object/Chest.png" class="no-click no-select" />
 </section>

@@ -16,7 +16,10 @@
         [max]="combatTower.boss.maxLife"
         [current]="combatTower.boss.life"
       ></app-health-bar>
-      <img src="assets/monster/slime/Slime_Base.png" />
+      <img
+        src="assets/monster/slime/Slime_Base.png"
+        class="no-click no-select"
+      />
     </div>
     @if (isFighting) {
     <app-attack-button

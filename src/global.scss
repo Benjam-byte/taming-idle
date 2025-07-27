@@ -46,17 +46,23 @@
   /* Standard syntax */
 }
 
+.no-click {
+  pointer-events: none;
+  /* désactive les clics */
+}
+
+.no-select {
+  user-select: none;
+  /* empêche la sélection */
+  -webkit-user-drag: none;
+  /* empêche le glisser sur Safari/Chrome */
+}
 
 .text-centered {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-section {
-  border: 1px solid red;
-}
-
 
 .small-modal {
   --width: 300px;

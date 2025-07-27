@@ -1,0 +1,7 @@
+<div class="message-container">
+  @for (msg of messages; track msg.id) {
+  <p class="floating-message" [style.left.px]="msg.x" [style.top.px]="msg.y">
+    {{ msg.text }}
+  </p>
+  }
+</div>
