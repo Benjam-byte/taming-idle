@@ -1,9 +1,36 @@
+.background-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 1;
+    transition: opacity 0.1s ease-in-out;
+    z-index: 0;
+}
+
+.background-image .new {
+    opacity: 0;
+}
+
+.background-image.new.loaded {
+    opacity: 1;
+}
+
 .page-container {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
-    background-size: cover;
-    background-position: center;
 }
 
 .area-wrapper {
@@ -38,5 +65,4 @@
     background-color: brown;
     outline: 3px solid rgb(37, 19, 2);
     border-radius: 5px;
-    ;
 }
