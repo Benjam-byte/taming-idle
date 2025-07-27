@@ -10,6 +10,7 @@ import {
   Observable,
 } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
+import World from '../value-object/world';
 
 type MapKey = 'tresor' | 'monster' | 'empty';
 
@@ -18,8 +19,9 @@ type MapKey = 'tresor' | 'monster' | 'empty';
 })
 export class GameEngineService {
   currentMap = signal<string | undefined>('empty');
-  human = signal<Human>(new Human(1));
   gameLoop = inject(GameLoopService);
+  human = signal<Human>(new Human(1));
+  world = signal<World>(new World());
 
   mapDict: Record<MapKey, number> = {
     tresor: 1 / 10,

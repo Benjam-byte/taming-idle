@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject } from '@angular/core';
-import { IonContent } from '@ionic/angular/standalone';
+import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { EmptyAreaComponent } from './empty-area/empty-area.component';
 import { TresorAreaComponent } from './tresor-area/tresor-area.component';
 import { MonsterAreaComponent } from './monster-area/monster-area.component';
@@ -7,6 +7,7 @@ import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import { InfoBarComponent } from 'src/app/core/components/info-bar/info-bar.component';
 import { CommonModule } from '@angular/common';
 import { IconProgressComponent } from 'src/app/core/components/icon-progress/icon-progress.component';
+import { WorldMapComponent } from 'src/app/core/components/modal/world-map/world-map.component';
 
 @Component({
   selector: 'app-exploration',
@@ -24,6 +25,7 @@ import { IconProgressComponent } from 'src/app/core/components/icon-progress/ico
 })
 export class ExplorationPage {
   gameEngineService = inject(GameEngineService);
+  modalCtrl = inject(ModalController);
   currentMap = computed(() => this.gameEngineService.currentMap());
 
   travelCountDown$ = this.gameEngineService.getTravelCountDown$();
@@ -72,5 +74,16 @@ export class ExplorationPage {
     setTimeout(() => {
       this.previousImageUrl = null;
     }, 100); // même durée que la transition CSS
+  }
+
+  async openWorldMapModal() {
+    const modal = await this.modalCtrl.create({
+      component: WorldMapComponent,
+      cssClass: 'full-screen-modal',
+      backdropDismiss: true,
+      showBackdrop: true,
+    });
+
+    modal.present();
   }
 }

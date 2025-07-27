@@ -1,0 +1,46 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 6px);
+  background-color: brown;
+  z-index: 3;
+  margin: 3px;
+  outline: 3px solid rgb(37, 19, 2);
+}
+
+h2 {
+  padding: 0;
+  margin: 0;
+}
+
+.svg-map-wrapper {
+  position: absolute;
+  top: 0px;
+  /* hauteur de ton header */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100%);
+  /* adapte à la taille de ton header */
+  z-index: 1;
+  overflow: hidden;
+}
+
+svg path:hover {
+  fill: rgba(255, 255, 0, 0.3);
+  cursor: pointer;
+}
+
+ion-content.custom-modal-content {
+  --background: rgba(101, 67, 33, 0.5);
+  /* marron + 70% d'opacité */
+  background: rgba(101, 67, 33, 0.5);
+
+}
+
+::ng-deep .modal-wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+}
