@@ -1,8 +1,41 @@
 <ion-content class="ion-padding custom-modal-content">
+  <div></div>
   <div class="content">
     <div class="header">
       <h2>Combat Tower</h2>
+      <p>Etage Actuel : {{ combatTower.level }}</p>
     </div>
-    <app-attack-button></app-attack-button>
+    <button class="icon-button" (click)="openWorldMapModal()">
+      <img src="assets/icon/earth.png" alt="earth" />
+    </button>
+    <div class="boss-container">
+      <app-health-bar
+        [max]="combatTower.boss.maxLife"
+        [current]="combatTower.boss.life"
+      ></app-health-bar>
+      <img src="assets/monster/slime/Slime_Base.png" />
+    </div>
+    @if (isFighting) {
+    <app-attack-button
+      value="Hit"
+      [countdown$]="fightingCountDown$"
+      (click)="hit()"
+    ></app-attack-button>
+    } @else {
+    <app-attack-button value="Start" (click)="startFight()"></app-attack-button>
+    }
   </div>
+  <div class="burning-border">
+    <div class="border-line left" [style.height.%]="borderHeight"></div>
+    <div class="border-line right" [style.height.%]="borderHeight"></div>
+  </div>
+  @if(isBossKilled){
+  <div class="victory-menu">
+    <p>Victoire, que souhaitez vous faire ?</p>
+    <div>
+      <button (click)="continue()">Monter au niveau suivant</button>
+      <button (click)="close()">Quitter la tour</button>
+    </div>
+  </div>
+  }
 </ion-content>

@@ -1,10 +1,10 @@
-.foot-wrapper {
+.icon-wrapper {
   position: relative;
   width: 80px;
   height: 80px;
 }
 
-.foot-image {
+.icon-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -23,7 +23,7 @@
   pointer-events: none;
 }
 
-.foot-wrapper.ready .foot-image {
+.icon-wrapper.ready .icon-image {
   animation: pulse 1s infinite ease-in-out;
 }
 

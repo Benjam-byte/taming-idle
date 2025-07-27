@@ -1,4 +1,4 @@
-import SkillManager from './skillManager';
+import SkillManager from './skill-manager';
 
 export default class Human {
   damage: number;

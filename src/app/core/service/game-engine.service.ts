@@ -11,6 +11,7 @@ import {
 } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import World from '../value-object/world';
+import { CombatTower } from '../value-object/combat-tower';
 
 type MapKey = 'tresor' | 'monster' | 'empty';
 
@@ -22,6 +23,7 @@ export class GameEngineService {
   gameLoop = inject(GameLoopService);
   human = signal<Human>(new Human(1));
   world = signal<World>(new World());
+  combatTower = signal<CombatTower>(new CombatTower());
 
   mapDict: Record<MapKey, number> = {
     tresor: 1 / 10,
@@ -35,6 +37,10 @@ export class GameEngineService {
 
   getNextTick$() {
     return this.gameLoop.tick$.pipe(first());
+  }
+
+  getTick$() {
+    return this.gameLoop.tick$;
   }
 
   submitEventByType(type: string, payload?: any) {

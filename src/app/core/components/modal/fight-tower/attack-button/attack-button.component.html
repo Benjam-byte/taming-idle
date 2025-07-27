@@ -1,1 +1,6 @@
-<a class="codepen-button"><span>Attaque</span></a>
+<div class="icon-wrapper" [class.ready]="progress === 100">
+  <button (click)="onClick()" class="codepen-button icon-image">
+    <span>{{ value() }}</span>
+  </button>
+  <div class="black-mask" [style.height.%]="100 - progress"></div>
+</div>

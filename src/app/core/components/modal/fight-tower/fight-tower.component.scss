@@ -4,3 +4,136 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
+.burning-border {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.border-line {
+  position: absolute;
+  background-color: red;
+  transition: height 0.1s linear;
+}
+
+/* Ligne du haut */
+.border-line.top {
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+}
+
+/* Côtés gauche et droit */
+.border-line.left,
+.border-line.right {
+  width: 4px;
+  background-color: red;
+}
+
+.border-line.left {
+  left: 0;
+  bottom: 0;
+}
+
+.border-line.right {
+  right: 0;
+  bottom: 0;
+}
+
+.border-line.bottom {
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+}
+
+
+.victory-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(101, 67, 33, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 150;
+}
+
+.victory-menu div {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+button {
+  background-color: #FFFFFF;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #222222;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  margin: 0;
+  outline: none;
+  padding: 10px 15px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition: box-shadow .2s, -ms-transform .1s, -webkit-transform .1s, transform .1s;
+  user-select: none;
+  -webkit-user-select: none;
+  width: auto;
+}
+
+button:focus-visible {
+  box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+  transition: box-shadow .2s;
+}
+
+button:active {
+  background-color: #F7F7F7;
+  border-color: #000000;
+  transform: scale(.96);
+}
+
+button:disabled {
+  border-color: #DDDDDD;
+  color: #DDDDDD;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.boss-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-button {
+  position: absolute;
+  z-index: 500;
+  top: 100px;
+  right: 7px;
+  height: 40px;
+  width: 40px;
+  padding: 2px;
+  background-color: brown;
+  outline: 3px solid rgb(37, 19, 2);
+  border-radius: 5px;
+}
