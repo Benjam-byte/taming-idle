@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { sampleTime, Subscription } from 'rxjs';
 import { ClickEffectService } from 'src/app/core/service/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
@@ -11,7 +11,7 @@ import { FloatingMessagesComponent } from 'src/app/core/components/floating-mess
   styleUrls: ['./tresor-area.component.scss'],
   imports: [FloatingMessagesComponent],
 })
-export class TresorAreaComponent {
+export class TresorAreaComponent implements OnDestroy {
   gameEngineService = inject(GameEngineService);
   clickEffectService = inject(ClickEffectService);
   @ViewChild('msgDisplay') msgDisplay!: FloatingMessagesComponent;
@@ -19,12 +19,16 @@ export class TresorAreaComponent {
 
   private loop: Subscription | undefined;
 
+  ngOnDestroy(): void {
+    this.loop?.unsubscribe();
+  }
+
   startLoop() {
     this.loop = this.gameEngineService
       .getTick$()
       .pipe(sampleTime(this.gameEngineService.human().searchingSpeed))
-      .subscribe(() => {
-        this.crochetage();
+      .subscribe((now) => {
+        this.crochetage(now);
       });
   }
 
@@ -35,7 +39,8 @@ export class TresorAreaComponent {
     }
   }
 
-  crochetage() {
+  crochetage(now: number) {
+    if (!this.gameEngineService.human().search(now)) return;
     if (this.chest.getCrocheted(0)) {
       this.gameEngineService.submitEventByType('travel');
       this.gameEngineService.human().receiveLoot(this.chest.loot);

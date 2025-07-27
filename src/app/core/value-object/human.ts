@@ -76,6 +76,13 @@ export default class Human {
     return true;
   }
 
+  search(now: number): boolean {
+    if (now < this.nextSearchTime) return false;
+    this.nextSearchTime = now + this.searchingSpeed;
+    this.skillManager.searchProgress();
+    return true;
+  }
+
   improveTravellingSpeed() {
     this.travellingSpeed = Math.max(20, this.travellingSpeed * 0.9);
   }
