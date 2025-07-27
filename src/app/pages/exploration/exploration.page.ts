@@ -86,4 +86,8 @@ export class ExplorationPage {
 
     modal.present();
   }
+
+  emitEvent(event: string) {
+    this.gameEngineService.submitEventByType(event);
+  }
 }

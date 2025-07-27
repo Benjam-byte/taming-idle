@@ -78,8 +78,14 @@ export class GameEngineService {
       case 'fight':
         if (this.human().fight(now)) event.payload();
         break;
+      case 'flee':
+        this.changeMap();
+        break;
       case 'kill':
         this.human().advance(now);
+        this.changeMap();
+        break;
+      case 'skip':
         this.changeMap();
         break;
     }

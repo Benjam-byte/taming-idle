@@ -17,8 +17,14 @@
       @if (currentMap()) {
       <div class="area-wrapper">
         @switch (currentMap()) { @case ('empty') {
-        <app-empty-area /> } @case ('tresor') { <app-tresor-area /> }
-        @case('monster') { <app-monster-area /> } @default { } }
+        <app-empty-area /> } @case ('tresor') { <app-tresor-area />
+        <button class="special-button" (click)="emitEvent('skip')">
+          <p>skip</p>
+        </button>
+        } @case('monster') { <app-monster-area />
+        <button class="special-button" (click)="emitEvent('flee')">
+          <p>fuite</p></button
+        >} @default { } }
       </div>
       }
     </div>

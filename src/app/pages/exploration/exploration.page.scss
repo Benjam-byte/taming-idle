@@ -66,3 +66,21 @@
     outline: 3px solid rgb(37, 19, 2);
     border-radius: 5px;
 }
+
+.special-button {
+    position: absolute;
+    z-index: 500;
+    bottom: 4px;
+    right: 4px;
+    height: fit-content;
+    width: fit-content;
+    padding: 2px;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+}
+
+.special-button p {
+    padding: 4px;
+    margin: 0;
+}
