@@ -27,6 +27,18 @@ export default class Human {
     this.nextSearchTime = now + this.searchingSpeed;
   }
 
+  getPower() {
+    const travellingSpeedindicator = (1000 - this.travellingSpeed) * 10;
+    const fightingSpeedindicator = (1000 - this.fightingSpeed) * 10;
+    const searchingSpeedindicator = (1000 - this.searchingSpeed) * 10;
+    return (
+      this.damage +
+      travellingSpeedindicator +
+      fightingSpeedindicator +
+      searchingSpeedindicator
+    );
+  }
+
   getNextActionTimes() {
     return {
       travel: this.nextTravelTime,
