@@ -70,10 +70,9 @@ export class ExplorationPage {
   onImageLoad() {
     this.imageLoaded = true;
 
-    // Optionnel : retirer l’image précédente après la transition
     setTimeout(() => {
       this.previousImageUrl = null;
-    }, 100); // même durée que la transition CSS
+    }, 100);
   }
 
   async openWorldMapModal() {

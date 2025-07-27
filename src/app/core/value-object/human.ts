@@ -9,6 +9,7 @@ export default class Human {
   nextTravelTime = 0;
   nextFightTime = 0;
   nextSearchTime = 0;
+  copper = 0;
 
   readonly skillManager: SkillManager;
 
@@ -25,6 +26,10 @@ export default class Human {
     this.nextTravelTime = now + this.travellingSpeed;
     this.nextFightTime = now + this.fightingSpeed;
     this.nextSearchTime = now + this.searchingSpeed;
+  }
+
+  getLoot() {
+    return this.copper;
   }
 
   getPower() {
@@ -50,6 +55,10 @@ export default class Human {
   getClickDamage(now: number) {
     if (now < this.nextFightTime) return 0;
     else return this.damage;
+  }
+
+  receiveLoot(copper: number) {
+    this.copper = this.copper + copper;
   }
 
   advance(now: number): boolean {

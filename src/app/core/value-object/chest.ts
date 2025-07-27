@@ -6,7 +6,7 @@ export default class Chest {
   try: number;
 
   constructor() {
-    this.crochetageSuccesProbability = 0.5 / 100;
+    this.crochetageSuccesProbability = 2 / 100;
     this.loot = 5;
     this.try = 0;
   }
