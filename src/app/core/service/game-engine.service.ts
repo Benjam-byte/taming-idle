@@ -27,7 +27,7 @@ export class GameEngineService {
 
   mapDict: Record<MapKey, number> = {
     tresor: 1 / 10,
-    monster: 1 / 10,
+    monster: 2 / 10,
     empty: 8 / 10,
   };
 
@@ -79,6 +79,7 @@ export class GameEngineService {
         if (this.human().fight(now)) event.payload();
         break;
       case 'kill':
+        this.human().advance(now);
         this.changeMap();
         break;
     }
