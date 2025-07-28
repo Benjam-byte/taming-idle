@@ -3,9 +3,9 @@ import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { AttackButtonComponent } from './attack-button/attack-button.component';
-import { ClickEffectService } from 'src/app/core/service/clickEffect.service';
 import { HealthBarComponent } from '../../health-bar/health-bar.component';
 import { WorldMapComponent } from '../world-map/world-map.component';
+import { MonsterSpriteComponent } from '../../monster-sprite/monster-sprite.component';
 
 @Component({
   selector: 'app-fight-tower',
@@ -14,6 +14,7 @@ import { WorldMapComponent } from '../world-map/world-map.component';
     CommonModule,
     AttackButtonComponent,
     HealthBarComponent,
+    MonsterSpriteComponent,
   ],
   templateUrl: './fight-tower.component.html',
   styleUrl: './fight-tower.component.scss',
