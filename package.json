@@ -9,7 +9,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "build:android": "rm -rf android && ionic build && powershell -Command \"(Get-Content www/index.html).Replace('<base href=\\\"/taming-idle/\\\">','<base href=\\\"./\\\">') | Set-Content www/index.html\" && npx cap add android && npx cap sync android && npx cap open android"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +22,7 @@
     "@angular/platform-browser": "^20.0.0",
     "@angular/platform-browser-dynamic": "^20.0.0",
     "@angular/router": "^20.0.0",
+    "@capacitor/android": "^7.4.2",
     "@capacitor/app": "7.0.1",
     "@capacitor/core": "7.4.2",
     "@capacitor/haptics": "7.0.1",
