@@ -26,6 +26,7 @@ export class FightTowerComponent {
   borderHeight = 100;
   isFighting = false;
   isBossKilled = false;
+  isBossFailed = false;
   timer!: ReturnType<typeof setInterval>;
   combatTower = this.gameEngineService.combatTower();
   fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
@@ -38,6 +39,13 @@ export class FightTowerComponent {
     this.isFighting = false;
     this.isBossKilled = false;
     this.borderHeight = 100;
+  }
+
+  retry() {
+    this.isFighting = false;
+    this.isBossFailed = false;
+    this.borderHeight = 100;
+    this.combatTower.retry();
   }
 
   hit() {
@@ -56,6 +64,13 @@ export class FightTowerComponent {
     if (this.timer) clearInterval(this.timer);
   }
 
+  private bossFightFailed() {
+    this.isBossFailed = true;
+    this.borderHeight = 0;
+    clearInterval(this.timer);
+    this.isFighting = false;
+  }
+
   startFight() {
     if (this.isFighting) return;
     this.isFighting = true;
@@ -69,9 +84,7 @@ export class FightTowerComponent {
       this.borderHeight = Math.max(100 - (elapsed / duration) * 100, 0);
 
       if (elapsed >= duration) {
-        this.borderHeight = 0;
-        clearInterval(this.timer);
-        this.isFighting = false;
+        this.bossFightFailed();
       }
     }, interval);
   }

@@ -43,5 +43,13 @@
       <button (click)="close()">Quitter la tour</button>
     </div>
   </div>
+  } @if(isBossFailed){
+  <div class="victory-menu">
+    <p>Dommage, que souhaitez vous faire ?</p>
+    <div>
+      <button (click)="retry()">Retenter sa chance</button>
+      <button (click)="close()">Quitter la tour</button>
+    </div>
+  </div>
   }
 </ion-content>

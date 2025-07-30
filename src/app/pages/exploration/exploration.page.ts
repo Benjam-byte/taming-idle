@@ -8,6 +8,7 @@ import { InfoBarComponent } from 'src/app/core/components/info-bar/info-bar.comp
 import { CommonModule } from '@angular/common';
 import { IconProgressComponent } from 'src/app/core/components/icon-progress/icon-progress.component';
 import { WorldMapComponent } from 'src/app/core/components/modal/world-map/world-map.component';
+import { GodPalaceComponent } from 'src/app/core/components/modal/god-palace/god-palace.component';
 
 @Component({
   selector: 'app-exploration',
@@ -78,6 +79,17 @@ export class ExplorationPage {
   async openWorldMapModal() {
     const modal = await this.modalCtrl.create({
       component: WorldMapComponent,
+      cssClass: 'full-screen-modal',
+      backdropDismiss: true,
+      showBackdrop: true,
+    });
+
+    modal.present();
+  }
+
+  async openGodPalaceModal() {
+    const modal = await this.modalCtrl.create({
+      component: GodPalaceComponent,
       cssClass: 'full-screen-modal',
       backdropDismiss: true,
       showBackdrop: true,

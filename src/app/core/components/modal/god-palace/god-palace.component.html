@@ -1,0 +1,27 @@
+<ion-content class="ion-padding custom-modal-content">
+  <div
+    class="background-image"
+    [ngStyle]="{ 'background-image': 'url(assets/map/God_Hotel.png)' }"
+  ></div>
+  <div class="content">
+    <button class="icon-button" (click)="openWorldMapModal()">
+      <img src="assets/icon/earth.png" alt="earth" />
+    </button>
+    <button class="special-button" (click)="close()">
+      <img src="assets/icon/back.png" alt="earth" />
+    </button>
+    <div class="altar-container">
+      <img class="altar" src="assets/altar/Altar_Adventure.png" alt="altar" />
+      <div class="altar-description">
+        <h3>Offrande</h3>
+        <p class="justify">
+          Le dieu de l'aventure accepte le blé, sa bénédiction vous permet de
+          voyager plus rapidement
+        </p>
+        <div class="centered">
+          <button class="bouton-offrande">Offrir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
