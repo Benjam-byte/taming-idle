@@ -1,4 +1,5 @@
-import SkillManager from './skill-manager';
+import Profession from './profession';
+import professionList from './professionJson.json';
 
 export default class Human {
   damage: number;
@@ -11,7 +12,7 @@ export default class Human {
   nextSearchTime = 0;
   copper = 0;
 
-  readonly skillManager: SkillManager;
+  readonly professionList: Profession[];
 
   constructor(damage: number) {
     this.damage = damage;
@@ -20,7 +21,9 @@ export default class Human {
     this.fightingSpeed = 1000;
     this.searchingSpeed = 1000;
 
-    this.skillManager = new SkillManager(this);
+    this.professionList = professionList.map(
+      (profession) => new Profession(profession)
+    );
 
     const now = 0;
     this.nextTravelTime = now + this.travellingSpeed;
@@ -30,18 +33,6 @@ export default class Human {
 
   getLoot() {
     return this.copper;
-  }
-
-  getPower() {
-    const travellingSpeedindicator = (1000 - this.travellingSpeed) * 10;
-    const fightingSpeedindicator = (1000 - this.fightingSpeed) * 10;
-    const searchingSpeedindicator = (1000 - this.searchingSpeed) * 10;
-    return (
-      this.damage +
-      travellingSpeedindicator +
-      fightingSpeedindicator +
-      searchingSpeedindicator
-    );
   }
 
   getNextActionTimes() {
@@ -65,32 +56,18 @@ export default class Human {
     if (now < this.nextTravelTime) return false;
     this.distanceTravelled++;
     this.nextTravelTime = now + this.travellingSpeed;
-    this.skillManager.travelProgress();
     return true;
   }
 
   fight(now: number): boolean {
     if (now < this.nextFightTime) return false;
     this.nextFightTime = now + this.fightingSpeed;
-    this.skillManager.fightProgress();
     return true;
   }
 
   search(now: number): boolean {
     if (now < this.nextSearchTime) return false;
     this.nextSearchTime = now + this.searchingSpeed;
-    this.skillManager.searchProgress();
     return true;
-  }
-
-  improveTravellingSpeed() {
-    this.travellingSpeed = Math.max(20, this.travellingSpeed * 0.9);
-  }
-
-  improveFightingSpeed() {
-    this.fightingSpeed = Math.max(20, this.fightingSpeed * 0.9);
-  }
-  improveSearchingSpeed() {
-    this.searchingSpeed = Math.max(20, this.searchingSpeed * 0.9);
   }
 }

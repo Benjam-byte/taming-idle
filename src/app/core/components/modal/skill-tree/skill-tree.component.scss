@@ -1,0 +1,91 @@
+ion-content.full-height {
+  --padding-bottom: 0;
+  --padding-top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 1;
+  transition: opacity 0.1s ease-in-out;
+  z-index: -1;
+}
+
+.title {
+  background-color: brown;
+  outline: 3px solid rgb(37, 19, 2);
+  border-radius: 5px;
+  padding: 4px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+h2 {
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  background-color: transparent;
+  width: 30px;
+}
+
+.inverse {
+  transform: scaleX(-1)
+}
+
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+}
+
+.skill-line {
+  flex: 1;
+  overflow: auto;
+  z-index: 1;
+}
+
+app-skill-line {
+  display: block;
+  height: 100%;
+}
+
+.icon-button {
+  position: absolute;
+  z-index: 500;
+  top: 100px;
+  right: 7px;
+  height: 40px;
+  width: 40px;
+  padding: 2px;
+  background-color: brown;
+  outline: 3px solid rgb(37, 19, 2);
+  border-radius: 5px;
+}
+
+.special-button {
+  position: absolute;
+  z-index: 500;
+  top: 150px;
+  right: 7px;
+  height: 40px;
+  width: 40px;
+  padding: 2px;
+  background-color: brown;
+  outline: 3px solid rgb(37, 19, 2);
+  border-radius: 5px;
+}

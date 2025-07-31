@@ -1,0 +1,32 @@
+<ion-content class="ion-padding full-height" fullscreen>
+  <div class="page-container">
+    <div
+      class="background-image"
+      [ngStyle]="{
+        'background-image': 'url(' + selectedProfession().background + ')'
+      }"
+    ></div>
+    <button class="icon-button" (click)="openWorldMapModal()">
+      <img src="assets/icon/earth.png" alt="earth" />
+    </button>
+    <button class="special-button" (click)="close()">
+      <img src="assets/icon/back.png" alt="earth" />
+    </button>
+    <div class="title">
+      <button (click)="next()">
+        <img class="inverse" src="assets/icon/next.png" />
+      </button>
+      <h2>{{ selectedProfession().profession }} skill tree</h2>
+      <button (click)="previous()">
+        <img src="assets/icon/next.png" />
+      </button>
+    </div>
+
+    <div class="skill-line">
+      <app-skill-line
+        [color]="selectedProfession().color"
+        [profession]="selectedProfession()"
+      />
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,42 @@
+[
+  {
+    "profession": "Voleur",
+    "description": "Crocheter un coffre, commettre un mefait pourrez vous donnez un éclair de génie",
+    "background": "assets/skill-tree/skill-tree-yellow.png",
+    "color": "#ffff00",
+    "bonusA": "+2% de chance de crocheter",
+    "bonusB": "+2 de précision"
+  },
+  {
+    "profession": "Fermier",
+    "description": "Collecter du blé, planter un arbre pourrez vous donnez un éclair de génie",
+    "background": "assets/skill-tree/skill-tree-green.png",
+    "color": "#008000",
+    "bonusA": "+2% de recolte",
+    "bonusB": "+2 de vitesse d'attaque"
+  },
+  {
+    "profession": "Voyageur",
+    "description": "Se promener, se deplacer dans les dimensions pourrez vous donnez un éclair de génie",
+    "background": "assets/skill-tree/skill-tree-purple.png",
+    "color": "#800080",
+    "bonusA": "+2 de tacle",
+    "bonusB": "+2% de vitesse de deplacement"
+  },
+  {
+    "profession": "Guerrier",
+    "description": "Se battre peu importe l'endroit pourrez vous donnez un éclair de génie",
+    "background": "assets/skill-tree/skill-tree-blue.png",
+    "color": "#0000ff",
+    "bonusA": "+2 de degat",
+    "bonusB": "+2 de réduction d'armure"
+  },
+  {
+    "profession": "Berserk",
+    "description": "Des coups critiques pourrez vous donnez un éclair de génie",
+    "background": "assets/skill-tree/skill-tree-red.png",
+    "color": "#ff0000",
+    "bonusA": "+2% de chance de coup critique",
+    "bonusB": "+2% de degat de coup critique"
+  }
+]
