@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Dieu de l'aventure",
+    "description": "Le dieu de l'aventure accepte le blé, en échange il augmente votre vitesse de déplacement",
+    "imagePath": "assets/altar/Altar_Adventure.webp",
+    "offeringList": [
+      {
+        "gain": "+1 vitesse deplacement",
+        "price": 10
+      }
+    ]
+  },
+  {
+    "name": "Dieu du combat",
+    "description": "Le dieu du combat accepte des peaux de monstre. En échange, les monstres apparaissent plus souvent et sont plus puissants, offrant de meilleurs butins.",
+    "imagePath": "assets/altar/Altar_Combat.webp",
+    "offeringList": [
+      {
+        "gain": "+20% taux d'apparition des monstres",
+        "price": 5
+      },
+      {
+        "gain": "+20% puissance des monstres (meilleures récompenses)",
+        "price": 10
+      }
+    ]
+  },
+  {
+    "name": "Dieu de la malice",
+    "description": "Le dieu de la malice accepte des peaux de monstres rares. En échange, il augmente vos chances et vos dégâts de coup critique.",
+    "imagePath": "assets/altar/Altar_Malice.webp",
+    "offeringList": [
+      {
+        "gain": "+5% chance de coup critique",
+        "price": 3
+      },
+      {
+        "gain": "+10% dégâts de coup critique",
+        "price": 5
+      }
+    ]
+  },
+  {
+    "name": "Dieu de la récolte",
+    "description": "Le dieu de la récolte accepte du blé rare. En échange, il augmente vos chances de récolter plus de ressources.",
+    "imagePath": "assets/altar/Altar_Speed.webp",
+    "offeringList": [
+      {
+        "gain": "+15% taux de récolte de ressources",
+        "price": 2
+      },
+      {
+        "gain": "+30% taux de récolte de ressources",
+        "price": 4
+      }
+    ]
+  }
+]

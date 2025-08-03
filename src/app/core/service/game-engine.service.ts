@@ -12,6 +12,8 @@ import {
 import { toObservable } from '@angular/core/rxjs-interop';
 import World from '../value-object/world';
 import { CombatTower } from '../value-object/combat-tower';
+import God from '../value-object/god';
+import godJson from '../value-object/godJson.json';
 
 type MapKey = 'tresor' | 'monster' | 'empty';
 
@@ -23,6 +25,7 @@ export class GameEngineService {
   gameLoop = inject(GameLoopService);
   human = signal<Human>(new Human(1));
   world = signal<World>(new World());
+  godList = signal<God[]>(this.parseGodsFromJson(godJson));
   combatTower = signal<CombatTower>(new CombatTower());
 
   mapDict: Record<MapKey, number> = {
@@ -111,5 +114,12 @@ export class GameEngineService {
     setTimeout(() => {
       this.currentMap.set(map);
     }, 100);
+  }
+
+  private parseGodsFromJson(json: God[]): God[] {
+    return json.map(
+      (god) =>
+        new God(god.name, god.description, god.imagePath, god.offeringList)
+    );
   }
 }

@@ -8,15 +8,17 @@
       <img src="assets/icon/earth.png" alt="earth" />
     </button>
     <button class="special-button" (click)="close()">
-      <img src="assets/icon/back.png" alt="earth" />
+      <img src="assets/icon/back.png" alt="back" />
+    </button>
+    <button class="next-button" (click)="next()">
+      <img src="assets/icon/back.png" alt="back" />
     </button>
     <div class="altar-container">
-      <img class="altar" src="assets/altar/Altar_Adventure.webp" alt="altar" />
+      <img class="altar" [src]="selectedGod().imagePath" alt="altar" />
       <div class="altar-description">
         <h3>Offrande</h3>
         <p class="justify">
-          Le dieu de l'aventure accepte le blé, sa bénédiction vous permet de
-          voyager plus rapidement
+          {{ selectedGod().description }}
         </p>
         <div class="centered">
           <button class="bouton-offrande">Offrir</button>
