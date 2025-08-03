@@ -14,7 +14,13 @@
       <img src="assets/icon/back.png" alt="back" />
     </button>
     <div class="altar-container">
-      <img class="altar" [src]="selectedGod().imagePath" alt="altar" />
+      <img
+        class="altar"
+        [src]="selectedGod().imagePath"
+        alt="altar"
+        (click)="goToMetaPalace()"
+      />
+      @if(selectedGod().description !== "") {
       <div class="altar-description">
         <h3>Offrande</h3>
         <p class="justify">
@@ -24,6 +30,7 @@
           <button class="bouton-offrande">Offrir</button>
         </div>
       </div>
+      }
     </div>
   </div>
 </ion-content>

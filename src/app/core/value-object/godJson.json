@@ -54,5 +54,11 @@
         "price": 4
       }
     ]
+  },
+  {
+    "name": "Meta fracture",
+    "description": "",
+    "imagePath": "assets/altar/MetaGod_Portal_Closed_Glitch.webp",
+    "offeringList": []
   }
 ]

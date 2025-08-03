@@ -9,6 +9,7 @@ import {
 import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import { WorldMapComponent } from '../world-map/world-map.component';
+import { MetaGodPalaceComponent } from '../meta-god-palace/meta-god-palace.component';
 
 @Component({
   selector: 'app-god-palace',
@@ -43,6 +44,23 @@ export class GodPalaceComponent {
   async openWorldModal() {
     const modal = await this.modalCtrl.create({
       component: WorldMapComponent,
+      cssClass: 'full-screen-modal',
+      backdropDismiss: true,
+      showBackdrop: true,
+    });
+
+    modal.present();
+  }
+
+  goToMetaPalace() {
+    if (this.selectedGod().name !== 'Meta fracture') return;
+    this.close();
+    this.openMetaGodModal();
+  }
+
+  async openMetaGodModal() {
+    const modal = await this.modalCtrl.create({
+      component: MetaGodPalaceComponent,
       cssClass: 'full-screen-modal',
       backdropDismiss: true,
       showBackdrop: true,
