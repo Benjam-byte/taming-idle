@@ -39,12 +39,12 @@ export class ExplorationPage {
   searchDuration = this.gameEngineService.human().searchingSpeed;
 
   images = [
-    'assets/map/plaine/Plaine_1.png',
-    'assets/map/plaine/Plaine_2.png',
-    'assets/map/plaine/Plaine_3.png',
-    'assets/map/plaine/Plaine_4.png',
-    'assets/map/plaine/Plaine_5.png',
-    'assets/map/plaine/Plaine_6.png',
+    'assets/map/plaine/Plaine_1.webp',
+    'assets/map/plaine/Plaine_2.webp',
+    'assets/map/plaine/Plaine_3.webp',
+    'assets/map/plaine/Plaine_4.webp',
+    'assets/map/plaine/Plaine_5.webp',
+    'assets/map/plaine/Plaine_6.webp',
   ];
 
   imageUrl = '';
