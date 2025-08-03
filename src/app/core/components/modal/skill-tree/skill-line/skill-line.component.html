@@ -6,16 +6,6 @@
 >
   <defs>
     <filter id="mysticGlow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
-      <feColorMatrix
-        in="blur"
-        type="matrix"
-        values="0 0 1 0 0
-            0 0 1 0 0
-            0 0 1 0 0
-            0 0 0 1 0"
-        result="blueBlur"
-      />
       <feMerge>
         <feMergeNode in="blueBlur" />
         <feMergeNode in="SourceGraphic" />
@@ -32,19 +22,31 @@
       [attr.cy]="950 - i * 100"
       r="20"
       [attr.fill]="node.active ? color() : '#999'"
-      [attr.stroke]="color() ?? 'black'"
-      stroke-width="1"
+      [attr.stroke]="'#000000'"
+      stroke-width="2"
     />
     <text
       x="50"
       [attr.y]="955 - i * 100"
       text-anchor="middle"
-      [attr.fill]="color() === '#ffff00' ? 'black' : 'white'"
+      [attr.fill]="'black'"
       font-size="12"
       font-weight="bold"
     >
       {{ i + 1 }}
     </text>
+
+    <rect
+      x="74"
+      [attr.y]="936 - i * 100"
+      rx="4"
+      ry="4"
+      width="300"
+      height="32"
+      fill="black"
+      fill-opacity="0.6"
+    />
+
     <text
       x="80"
       [attr.y]="952 - i * 100"
