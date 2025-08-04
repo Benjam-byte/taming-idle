@@ -7,9 +7,9 @@ import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import { InfoBarComponent } from 'src/app/core/components/info-bar/info-bar.component';
 import { CommonModule } from '@angular/common';
 import { IconProgressComponent } from 'src/app/core/components/icon-progress/icon-progress.component';
-import { WorldMapComponent } from 'src/app/core/components/modal/world-map/world-map.component';
-import { GodPalaceComponent } from 'src/app/core/components/modal/god-palace/god-palace.component';
-import { SkillTreeComponent } from 'src/app/core/components/modal/skill-tree/skill-tree.component';
+import { WorldMapComponent } from 'src/app/modal/world-map/world-map.component';
+import { GodPalaceComponent } from 'src/app/modal/god-palace/god-palace.component';
+import { SkillTreeComponent } from 'src/app/modal/skill-tree/skill-tree.component';
 
 @Component({
   selector: 'app-exploration',

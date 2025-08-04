@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { GameEngineService } from '../../service/game-engine.service';
 import { ModalController } from '@ionic/angular/standalone';
-import { HumanStatComponent } from '../modal/human-stat/human-stat.component';
+import { HumanStatComponent } from '../../../../app/modal/human-stat/human-stat.component';
 
 @Component({
   selector: 'app-info-bar',

@@ -15,8 +15,6 @@ import { CombatTower } from '../value-object/combat-tower';
 import God from '../value-object/god';
 import godJson from '../value-object/godJson.json';
 
-type MapKey = 'tresor' | 'monster' | 'empty';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -27,12 +25,6 @@ export class GameEngineService {
   world = signal<World>(new World());
   godList = signal<God[]>(this.parseGodsFromJson(godJson));
   combatTower = signal<CombatTower>(new CombatTower());
-
-  mapDict: Record<MapKey, number> = {
-    tresor: 1 / 10,
-    monster: 2 / 10,
-    empty: 8 / 10,
-  };
 
   constructor() {
     this.gameLoop.start();
@@ -94,23 +86,9 @@ export class GameEngineService {
     }
   }
 
-  private getRandomMap(): MapKey {
-    const rand = Math.random();
-    let cumulative = 0;
-
-    for (const [key, prob] of Object.entries(this.mapDict)) {
-      cumulative += prob;
-      if (rand < cumulative) {
-        return key as MapKey;
-      }
-    }
-
-    return 'empty';
-  }
-
   private changeMap() {
     this.currentMap.set(undefined);
-    const map = this.getRandomMap();
+    const map = this.world().getRandomMap();
     setTimeout(() => {
       this.currentMap.set(map);
     }, 100);

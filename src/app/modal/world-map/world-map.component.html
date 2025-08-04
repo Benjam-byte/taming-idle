@@ -17,28 +17,28 @@
         (click)="onZoneClick('forest')"
         d="M282 3188L53 3294.5V3842H1640L1593.5 3791.5L1429.5 3685.5L1316 3519.5L1278.5 3359.5L1262 3048.5L1200.5 2925.5L1018 2797H772L599 2961L282 3188Z"
         stroke="black"
-        fill="transparent"
+        [class]="world.mapUnlocked.includes('forest') ? 'active' : 'hide'"
       />
       <path
         id="bermude"
         (click)="onZoneClick('bermude')"
         d="M289.5 3091.5L51 3186.5V1746.5C171.5 1729.17 414.7 1693.4 423.5 1689C432.3 1684.6 537.833 1703.17 589.5 1713L680.5 1832V2029.5L720 2396.5L770 2605L658.5 2817.5L289.5 3091.5Z"
         stroke="black"
-        fill="transparent"
+        [class]="world.mapUnlocked.includes('bermude') ? 'active' : 'hide'"
       />
       <path
         id="volcan"
         (click)="onZoneClick('volcan')"
         d="M1070 143L1094 5H2163.5V1454H2150.5L1984.5 1465.5H1796.5L1679 1400L1604.5 1310.5L1496.5 1202.5L1392 1158L1306.5 1098.5L1245 1016.5L1221 888L1234 754L1211.5 580.5L1141 474.5L1094 331L1070 143Z"
         stroke="black"
-        fill="transparent"
+        [class]="world.mapUnlocked.includes('volcan') ? 'active' : 'hide'"
       />
       <path
         id="wind moutain"
         (click)="onZoneClick('wind mountain')"
         d="M2034.45 1508L2160 1486L2150.61 3842H1741.84L1708.73 3709.5L1489.76 3614.5L1419.58 3557L1383 3451V3270L1401.29 3013L1469.5 2758L1570.82 2527L1612.84 2199L1718.12 1879L1778.91 1672L1815.49 1530.5L1837.73 1508H2034.45Z"
         stroke="black"
-        fill="transparent"
+        [class]="world.mapUnlocked.includes('wind moutain') ? 'active' : 'hide'"
       />
       <path
         id="fight tower"
@@ -46,13 +46,14 @@
         d="M1257 2651L1081 2662.5L941.5 2628L838.5 2559.5L756 2376.5L724 1932.5V1562L756 1493.5L918.5 1440.5L1424 1420L1538.5 1466L1579.5 1562L1538.5 1802V2124.5L1492.5 2442.5L1399 2584.5L1257 2651Z"
         stroke="black"
         fill="transparent"
+        class="active"
       />
       <path
         id="plaine"
         (click)="onZoneClick('plaine')"
         d="M279.584 1663L0.5 1676V1H964.464V32.5094L1016.83 274.582L1030.44 459.137L1016.83 697.708L1120.5 1019.8L1100.6 1116.83L978.078 1221.36L751.879 1316.39L597.414 1457.93L427.765 1619.98L279.584 1663Z"
         stroke="black"
-        fill="transparent"
+        [class]="world.mapUnlocked.includes('plaine') ? 'active' : 'hide'"
       />
     </svg>
   </div>
