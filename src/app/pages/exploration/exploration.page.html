@@ -1,4 +1,18 @@
 <ion-content [fullscreen]="true">
+  <app-info-bar />
+  <button class="icon-button" (click)="openWorldMapModal()">
+    <img src="assets/icon/earth.png" alt="earth" />
+  </button>
+  <button class="skill-button" (click)="openSkillTreeModal()">
+    <img src="assets/icon/skilltree.png" alt="earth" />
+  </button>
+  <button class="stall-button" (click)="openGodPalaceModal()">
+    <img src="assets/icon/hands.png" alt="earth" />
+  </button>
+  <div class="footer">
+    <app-info-footer />
+  </div>
+
   <div class="background-wrapper">
     <div
       class="background-image"
@@ -11,48 +25,20 @@
       [ngStyle]="{'background-image': 'url(' + imageUrl + ')'}"
       (load)="onImageLoad()"
     ></div>
-
     <div class="page-container">
-      <app-info-bar />
       @if (currentMap()) {
       <div class="area-wrapper">
         @switch (currentMap()) { @case ('empty') {
         <app-empty-area /> } @case ('tresor') { <app-tresor-area />
         <button class="special-button" (click)="emitEvent('skip')">
-          <p>skip</p>
+          <p>Skip</p>
         </button>
         } @case('monster') { <app-monster-area />
         <button class="special-button" (click)="emitEvent('flee')">
-          <p>fuite</p></button
+          <p>Fuir</p></button
         >} @default { } }
       </div>
       }
-    </div>
-  </div>
-  <button class="icon-button" (click)="openWorldMapModal()">
-    <img src="assets/icon/earth.png" alt="earth" />
-  </button>
-  <button class="skill-button" (click)="openSkillTreeModal()">
-    <img src="assets/icon/skilltree.png" alt="earth" />
-  </button>
-  <button class="stall-button" (click)="openGodPalaceModal()">
-    <img src="assets/icon/hands.png" alt="earth" />
-  </button>
-
-  <div class="progress-centered">
-    <div class="progress-bar-group">
-      <app-icon-progress
-        [style.opacity]="currentMap() === 'empty' ? 1 : 0.2"
-        [countdown$]="travelCountDown$"
-        [duration]="travelDuration"
-        type="travel"
-      />
-      <app-icon-progress
-        [style.opacity]="currentMap() === 'monster' ? 1 : 0.2"
-        [countdown$]="fightingCountDown$"
-        [duration]="fightingDuration"
-        type="fight"
-      />
     </div>
   </div>
 </ion-content>

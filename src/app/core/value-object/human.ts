@@ -3,6 +3,10 @@ import professionList from './professionJson.json';
 
 export default class Human {
   damage: number;
+  precison: number;
+  armorPen: number;
+  criticalChancePercentage: number;
+
   distanceTravelled: number;
   travellingSpeed: number;
   fightingSpeed: number;
@@ -16,6 +20,9 @@ export default class Human {
 
   constructor(damage: number) {
     this.damage = damage;
+    this.precison = 1;
+    this.armorPen = 1;
+    this.criticalChancePercentage = 0;
     this.distanceTravelled = 0;
     this.travellingSpeed = 1000;
     this.fightingSpeed = 1000;

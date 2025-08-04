@@ -27,31 +27,15 @@
 
 .page-container {
     position: relative;
-    z-index: 1;
+    z-index: 10;
     display: flex;
-    flex-direction: column;
     height: 100%;
+    flex-direction: column;
 }
 
 .area-wrapper {
     flex: 1;
     overflow: auto;
-}
-
-.progress-bar-group {
-    display: flex;
-    flex-direction: row;
-    width: fit-content;
-    height: fit-content;
-    position: fixed;
-    bottom: 0;
-}
-
-.progress-centered {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
 }
 
 .icon-button {
@@ -70,12 +54,12 @@
 .special-button {
     position: absolute;
     z-index: 500;
-    bottom: 4px;
+    bottom: 110px;
     right: 4px;
     height: fit-content;
     width: fit-content;
     padding: 2px;
-    background-color: brown;
+    background-color: rgb(224, 4, 4);
     outline: 3px solid rgb(37, 19, 2);
     border-radius: 5px;
 }
@@ -111,4 +95,18 @@
 .special-button p {
     padding: 4px;
     margin: 0;
+}
+
+.footer {
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    bottom: 0;
+}
+
+app-info-bar {
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    top: 0;
 }

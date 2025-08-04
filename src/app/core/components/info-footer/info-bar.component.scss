@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: brown;
+  padding: 6px;
+  border: 3px solid rgb(37, 19, 2);
+}
+
+.icon-button {
+  height: 40px;
+  width: 40px;
+  padding: 2px;
+  background-color: brown;
+  border-radius: 5px;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+}

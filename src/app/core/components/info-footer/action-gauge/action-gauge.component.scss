@@ -1,0 +1,36 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 22px;
+  position: relative
+}
+
+.gauge-container {
+  height: 100%;
+  position: absolute;
+}
+
+.gauge-track {
+  position: relative;
+  height: 100%;
+  width: 22px;
+  background-color: transparent;
+  border-radius: 8px;
+}
+
+.gauge-fill {
+  width: 100%;
+  position: absolute;
+  border-radius: 8px;
+  bottom: 0;
+  height: 0%;
+}
+
+
+.yellow {
+  background: linear-gradient(90deg, yellow, orange, pink);
+}
+
+.green {
+  background: linear-gradient(to top, #006400, #00a000, #00ff00);
+}

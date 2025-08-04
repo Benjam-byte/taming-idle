@@ -25,7 +25,7 @@ export default class World {
     this.mapUnlocked = ['plaine'];
     this.wheatDropPercentage = 0;
     this.shinyWheatDropPercentage = 0;
-    this.monsterDropPercentage = 0;
+    this.monsterDropPercentage = 1 / 50;
     this.shinyMonsterDropPercentage = 0;
     this.monsterWithTresorDropPercentage = 0;
     this.monsterEggDropPercentage = 0;
@@ -42,6 +42,7 @@ export default class World {
     let cumulative = 0;
 
     for (const [key, prob] of Object.entries(this.mapDict)) {
+      console.log(key, prob);
       cumulative += prob;
       if (rand < cumulative) {
         return key as MapKey;
