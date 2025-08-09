@@ -1,18 +1,20 @@
 import { inject, Injectable } from '@angular/core';
 import { GameEngineService } from './game-engine.service';
+import { MapService } from './location/map.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClickEffectService {
   gameEngineService = inject(GameEngineService);
-  currentMap = this.gameEngineService.currentMap;
+  mapService = inject(MapService);
+  currentMap = this.mapService.map().content();
 
   constructor() {}
 
   spawnClickEffect(event: MouseEvent) {
     this.gameEngineService.getNextTick$().subscribe((now) => {
-      if (this.currentMap() === 'monster')
+      if (this.currentMap === 'monster')
         this.spawnDamageClickEffect(
           event,
           this.gameEngineService.human().getClickDamage(now)

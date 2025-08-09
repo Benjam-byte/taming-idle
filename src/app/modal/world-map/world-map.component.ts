@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { FightTowerComponent } from '../fight-tower/fight-tower.component';
+import { WorldService } from 'src/app/core/service/location/world.service';
 
 @Component({
   selector: 'app-world-map',
@@ -12,10 +12,10 @@ import { FightTowerComponent } from '../fight-tower/fight-tower.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorldMapComponent {
-  gameEngineService = inject(GameEngineService);
+  worldService = inject(WorldService);
   modalCtrl = inject(ModalController);
 
-  world = this.gameEngineService.world();
+  world = this.worldService.world();
 
   onZoneClick(zone: string) {
     console.log('Zone cliquée :', zone);

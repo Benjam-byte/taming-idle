@@ -10,19 +10,21 @@ import {
   Observable,
 } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
-import World from '../value-object/world';
 import { CombatTower } from '../value-object/combat-tower';
 import God from '../value-object/god';
 import godJson from '../value-object/godJson.json';
+import { MapService } from './location/map.service';
+import { WorldService } from './location/world.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameEngineService {
-  currentMap = signal<string | undefined>('empty');
+  mapService = inject(MapService);
+  worldService = inject(WorldService);
   gameLoop = inject(GameLoopService);
+
   human = signal<Human>(new Human(1));
-  world = signal<World>(new World());
   godList = signal<God[]>(this.parseGodsFromJson(godJson));
   combatTower = signal<CombatTower>(new CombatTower());
 
@@ -68,30 +70,22 @@ export class GameEngineService {
   private processEvent(event: GameEvent, now: number) {
     switch (event.type) {
       case 'travel':
-        if (this.human().advance(now)) this.changeMap();
+        if (this.human().advance(now)) this.mapService.changeMap();
         break;
       case 'fight':
         if (this.human().fight(now)) event.payload();
         break;
       case 'flee':
-        this.changeMap();
+        this.mapService.changeMap();
         break;
       case 'kill':
         this.human().advance(now);
-        this.changeMap();
+        this.mapService.changeMap();
         break;
       case 'skip':
-        this.changeMap();
+        this.mapService.changeMap();
         break;
     }
-  }
-
-  private changeMap() {
-    this.currentMap.set(undefined);
-    const map = this.world().getRandomMap();
-    setTimeout(() => {
-      this.currentMap.set(map);
-    }, 100);
   }
 
   private parseGodsFromJson(json: God[]): God[] {
