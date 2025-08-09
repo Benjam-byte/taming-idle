@@ -36,10 +36,30 @@
   </div>
   <div class="text-col">
     <div class="button-bar">
-      <img src="assets/icon/stat/cthulhu.png" alt="piggy-bank" />
-      <img src="assets/icon/stat/forest.png" alt="piggy-bank" />
-      <img src="assets/icon/stat/piggy-bank.png" alt="piggy-bank" />
-      <img class="selected" src="assets/icon/stat/user.png" alt="piggy-bank" />
+      <img
+        [class]="infoMode === 'monster' ? 'selected' : ''"
+        src="assets/icon/stat/cthulhu.png"
+        alt="cthulhu"
+        (click)="updateInfoMode('monster')"
+      />
+      <img
+        [class]="infoMode === 'world' ? 'selected' : ''"
+        src="assets/icon/stat/forest.png"
+        alt="forest"
+        (click)="updateInfoMode('world')"
+      />
+      <img
+        [class]="infoMode === 'loot' ? 'selected' : ''"
+        src="assets/icon/stat/piggy-bank.png"
+        alt="piggy-bank"
+        (click)="updateInfoMode('loot')"
+      />
+      <img
+        [class]="infoMode === 'fight' ? 'selected' : ''"
+        src="assets/icon/stat/user.png"
+        alt="user"
+        (click)="updateInfoMode('fight')"
+      />
     </div>
     <div>
       <div class="line">

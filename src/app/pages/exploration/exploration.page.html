@@ -9,9 +9,6 @@
   <button class="stall-button" (click)="openGodPalaceModal()">
     <img src="assets/icon/hands.png" alt="earth" />
   </button>
-  <div class="footer">
-    <app-info-footer />
-  </div>
 
   <div class="background-wrapper">
     <div
@@ -25,20 +22,25 @@
       [ngStyle]="{'background-image': 'url(' + imageUrl + ')'}"
       (load)="onImageLoad()"
     ></div>
-    <div class="page-container">
-      @if (currentMap()) {
-      <div class="area-wrapper">
-        @switch (currentMap()) { @case ('empty') {
-        <app-empty-area /> } @case ('tresor') { <app-tresor-area />
-        <button class="special-button" (click)="emitEvent('skip')">
-          <p>Skip</p>
-        </button>
-        } @case('monster') { <app-monster-area />
-        <button class="special-button" (click)="emitEvent('flee')">
-          <p>Fuir</p></button
-        >} @default { } }
-      </div>
-      }
+  </div>
+
+  <div class="page-container">
+    @if (currentMap()) {
+    <div class="area-wrapper">
+      @switch (currentMap()) { @case ('empty') {
+      <app-empty-area /> } @case ('tresor') { <app-tresor-area />
+      <button class="special-button" (click)="emitEvent('skip')">
+        <p>Skip</p>
+      </button>
+      } @case('monster') { <app-monster-area />
+      <button class="special-button" (click)="emitEvent('flee')">
+        <p>Fuir</p></button
+      >} @default { } }
     </div>
+    }
+  </div>
+
+  <div class="footer">
+    <app-info-footer />
   </div>
 </ion-content>
