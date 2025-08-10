@@ -61,6 +61,8 @@ export class FightTowerComponent {
   }
 
   private bossKilled() {
+    console.log('bossKilled');
+    console.log(this.combatTowerService.boss());
     if (this.combatTowerService.boss().isAlive) return;
     this.combatTowerService.levelUp();
     this.borderHeight = 0;

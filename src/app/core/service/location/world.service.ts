@@ -26,6 +26,15 @@ export class WorldService {
     this.offrandeAvailable = false;
     this.mapUnlocked = ['plaine'];
 
+    const towerPath = localStorage.getItem('towerPath');
+    if (towerPath !== null) {
+      const parsedTowerPath = JSON.parse(towerPath);
+      this.skillTreeAvailable = Boolean(parsedTowerPath.skillTreeAvailable);
+      this.offrandeAvailable = Boolean(parsedTowerPath.offrandeAvailable);
+    } else {
+      this.store();
+    }
+
     effect(() => {
       this.evolve(this.combatTowerService.level());
     });
@@ -44,9 +53,19 @@ export class WorldService {
 
   enableSkillTree() {
     this.skillTreeAvailable = true;
+    this.store();
   }
 
   enableOffrande() {
     this.offrandeAvailable = true;
+    this.store();
+  }
+
+  store() {
+    const towerPath = {
+      skillTreeAvailable: this.skillTreeAvailable,
+      offrandeAvailable: this.offrandeAvailable,
+    };
+    localStorage.setItem('towerPath', JSON.stringify(towerPath));
   }
 }

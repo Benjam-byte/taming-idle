@@ -23,6 +23,6 @@ export default class Monster {
 
   getHit(damage: number) {
     this.life = this.life - damage;
-    if (this.life === 0) this.isAlive = false;
+    if (this.life <= 0) this.isAlive = false;
   }
 }

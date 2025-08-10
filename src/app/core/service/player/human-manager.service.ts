@@ -27,7 +27,6 @@ export class HumanManagerService {
 
   calculateValue() {
     const bonusList = this.professionManangerService.getBonusList();
-    console.log(bonusList);
     this.damage = this.damage + bonusList.damage;
     this.tacle = this.tacle + bonusList.tacle;
     this.armorPen = this.armorPen + bonusList.armorPen;
