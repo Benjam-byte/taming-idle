@@ -16,6 +16,7 @@
   </div>
 </section>
 <section class="value">
+  @if(infoMode === 'fight') {
   <div class="text-col">
     <div class="line">
       <img src="assets/icon/stat/damage.png" alt="damage" />
@@ -35,32 +36,6 @@
     </div>
   </div>
   <div class="text-col">
-    <div class="button-bar">
-      <img
-        [class]="infoMode === 'monster' ? 'selected' : ''"
-        src="assets/icon/stat/cthulhu.png"
-        alt="cthulhu"
-        (click)="updateInfoMode('monster')"
-      />
-      <img
-        [class]="infoMode === 'world' ? 'selected' : ''"
-        src="assets/icon/stat/forest.png"
-        alt="forest"
-        (click)="updateInfoMode('world')"
-      />
-      <img
-        [class]="infoMode === 'loot' ? 'selected' : ''"
-        src="assets/icon/stat/piggy-bank.png"
-        alt="piggy-bank"
-        (click)="updateInfoMode('loot')"
-      />
-      <img
-        [class]="infoMode === 'fight' ? 'selected' : ''"
-        src="assets/icon/stat/user.png"
-        alt="user"
-        (click)="updateInfoMode('fight')"
-      />
-    </div>
     <div>
       <div class="line">
         <img src="assets/icon/footsteps.png" alt="footsteps" />
@@ -75,5 +50,73 @@
         <p>{{ human().searchingSpeed }}ms Search speed</p>
       </div>
     </div>
+  </div>
+  } @if(infoMode === 'loot') {
+  <div class="text-col">
+    <div class="line"></div>
+  </div>
+  <div class="text-col">
+    <div class="line"></div>
+  </div>
+  } @if(infoMode === 'world') {
+  <div class="text-col">
+    <div class="line">
+      <p>{{ region.monsterSpanwRate }} monster %</p>
+    </div>
+    <div class="line">
+      <p>{{ region.shinyMonsterSpawnRate }} shiny monster (sp) %</p>
+    </div>
+    <div class="line">
+      <p>{{ region.monsterEggDropPercentage }} monster egg (sp) %</p>
+    </div>
+  </div>
+  <div class="text-col">
+    <div class="line">
+      <p>{{ region.lootDropPercentage }} loot drop %</p>
+    </div>
+    <div class="line">
+      <p>{{ region.shinyLootDropPercentage }} shiny loot drop %</p>
+    </div>
+    <div class="line">
+      <p>{{ region.monsterWithTresorDropPercentage }} monster tresor (sp) %</p>
+    </div>
+    <div class="line">
+      <p>{{ region.tresorMapSpawnRate }} tresor map (sp) %</p>
+    </div>
+  </div>
+  } @if(infoMode === 'monster') {
+  <div class="text-col">
+    <div class="line"></div>
+  </div>
+  <div class="text-col">
+    <div class="line"></div>
+  </div>
+  }
+
+  <div class="button-bar">
+    <img
+      [class]="infoMode === 'monster' ? 'selected' : ''"
+      src="assets/icon/stat/cthulhu.png"
+      alt="cthulhu"
+      (click)="updateInfoMode('monster')"
+    />
+    <img
+      [class]="infoMode === 'world' ? 'selected' : ''"
+      src="assets/icon/stat/forest.png"
+      alt="forest"
+      (click)="updateInfoMode('world')"
+    />
+    <img
+      [class]="infoMode === 'loot' ? 'selected' : ''"
+      src="assets/icon/stat/piggy-bank.png"
+      alt="piggy-bank"
+      (click)="updateInfoMode('loot')"
+    />
+    <img
+      [class]="infoMode === 'fight' ? 'selected' : ''"
+      src="assets/icon/stat/user.png"
+      alt="user"
+      (click)="updateInfoMode('fight')"
+    />
   </div>
 </section>
