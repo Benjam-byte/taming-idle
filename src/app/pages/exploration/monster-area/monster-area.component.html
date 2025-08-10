@@ -1,6 +1,9 @@
 <section class="full centered" (click)="onClick($event)">
+  @if(monster.isAlive){
   <app-monster-sprite
+    (click)="fight($event)"
     spritePath="assets/monster/sprite/slime/SpriteSheet_Slime_Sauvage.webp"
-    class="no-click no-select"
+    class="no-select"
   />
+  }
 </section>

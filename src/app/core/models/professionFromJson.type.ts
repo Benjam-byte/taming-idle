@@ -5,4 +5,6 @@ export interface ProfessionFromJson {
   color: string;
   bonusA: string;
   bonusB: string;
+  valueA: { stat: string; value: number };
+  valueB: { stat: string; value: number };
 }

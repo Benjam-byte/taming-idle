@@ -3,6 +3,7 @@ import { GameEngineService } from '../../service/game-engine.service';
 import { ModalController } from '@ionic/angular/standalone';
 import { HumanStatComponent } from '../../../../app/modal/human-stat/human-stat.component';
 import { LootManagerService } from '../../service/player/loot-manager.service';
+import { HumanManagerService } from '../../service/player/human-manager.service';
 
 @Component({
   selector: 'app-info-bar',
@@ -13,7 +14,8 @@ import { LootManagerService } from '../../service/player/loot-manager.service';
 export class InfoBarComponent {
   gameEngineService = inject(GameEngineService);
   lootManagerService = inject(LootManagerService);
-  human = computed(() => this.gameEngineService.human());
+  humanManagerService = inject(HumanManagerService);
+
   modalCtrl = inject(ModalController);
 
   async openModal() {

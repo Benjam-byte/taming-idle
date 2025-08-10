@@ -22,10 +22,24 @@ export class SkillLineComponent {
   nodes = computed<SkillNode[]>(() => {
     const profession = this.profession();
     if (!profession) return [];
-    return Array.from({ length: 10 }, (_, i) => ({
-      id: i + 1,
-      text: i % 2 === 0 ? profession.bonusA : profession.bonusB,
-      active: i < profession.level,
-    }));
+
+    const level = profession.level();
+
+    return Array.from({ length: 10 }, (_, i) => {
+      let text: string;
+      if (i === 0) {
+        text = 'level up for more';
+      } else if (i % 2 === 0) {
+        text = profession.bonusB;
+      } else {
+        text = profession.bonusA;
+      }
+
+      return {
+        id: i + 1,
+        text,
+        active: i < level,
+      };
+    });
   });
 }

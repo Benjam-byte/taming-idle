@@ -1,6 +1,3 @@
-import Profession from './profession';
-import professionList from './professionJson.json';
-
 export default class Human {
   damage: number;
   precison: number;
@@ -15,8 +12,6 @@ export default class Human {
   nextFightTime = 0;
   nextSearchTime = 0;
 
-  readonly professionList: Profession[];
-
   constructor(damage: number) {
     this.damage = damage;
     this.precison = 1;
@@ -26,10 +21,6 @@ export default class Human {
     this.travellingSpeed = 1000;
     this.fightingSpeed = 1000;
     this.searchingSpeed = 1000;
-
-    this.professionList = professionList.map(
-      (profession) => new Profession(profession)
-    );
 
     const now = 0;
     this.nextTravelTime = now + this.travellingSpeed;

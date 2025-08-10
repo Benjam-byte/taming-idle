@@ -10,6 +10,7 @@ import { SkillLineComponent } from './skill-line/skill-line.component';
 import { CommonModule } from '@angular/common';
 import { WorldMapComponent } from '../world-map/world-map.component';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
+import { ProfessionManagerService } from 'src/app/core/service/player/profession-manager.service';
 
 @Component({
   selector: 'app-skill-tree',
@@ -20,12 +21,12 @@ import { GameEngineService } from 'src/app/core/service/game-engine.service';
 })
 export class SkillTreeComponent {
   modalCtrl = inject(ModalController);
-  gameEngineService = inject(GameEngineService);
+  professionManagerService = inject(ProfessionManagerService);
 
   selectedProfessionIndex = signal<number>(0);
   selectedProfession = computed(
     () =>
-      this.gameEngineService.human().professionList[
+      this.professionManagerService.professionList[
         this.selectedProfessionIndex()
       ]
   );
@@ -40,12 +41,12 @@ export class SkillTreeComponent {
   }
 
   next() {
-    const total = this.gameEngineService.human().professionList.length;
+    const total = this.professionManagerService.professionList.length;
     this.selectedProfessionIndex.update((i) => (i + 1) % total);
   }
 
   previous() {
-    const total = this.gameEngineService.human().professionList.length;
+    const total = this.professionManagerService.professionList.length;
     this.selectedProfessionIndex.update((i) => (i - 1 + total) % total);
   }
 

@@ -1,8 +1,11 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { RegionManagerService } from '../location/region-manager.service';
+import { ProfessionManagerService } from './profession-manager.service';
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
   regionManagerService = inject(RegionManagerService);
+  professionManagerService = inject(ProfessionManagerService);
+
   wheatQuantity = signal<number>(0);
 
   constructor() {
@@ -30,5 +33,6 @@ export class LootManagerService {
 
   addWheat(wheat: number) {
     this.wheatQuantity.update((value) => value + wheat);
+    this.professionManagerService.updateFermier();
   }
 }

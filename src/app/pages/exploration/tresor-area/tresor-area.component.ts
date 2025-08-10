@@ -4,6 +4,7 @@ import { ClickEffectService } from 'src/app/core/service/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import Chest from 'src/app/core/value-object/chest';
 import { FloatingMessagesComponent } from 'src/app/core/components/floating-messages/floating-messages.component';
+import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 
 @Component({
   selector: 'app-tresor-area',
@@ -13,6 +14,7 @@ import { FloatingMessagesComponent } from 'src/app/core/components/floating-mess
 })
 export class TresorAreaComponent implements OnDestroy {
   gameEngineService = inject(GameEngineService);
+  humanManagerService = inject(HumanManagerService);
   clickEffectService = inject(ClickEffectService);
   @ViewChild('msgDisplay') msgDisplay!: FloatingMessagesComponent;
   chest = new Chest();
@@ -26,7 +28,7 @@ export class TresorAreaComponent implements OnDestroy {
   startLoop() {
     this.loop = this.gameEngineService
       .getTick$()
-      .pipe(sampleTime(this.gameEngineService.human().searchingSpeed))
+      .pipe(sampleTime(this.humanManagerService.searchingSpeed))
       .subscribe((now) => {
         this.crochetage(now);
       });
@@ -40,7 +42,7 @@ export class TresorAreaComponent implements OnDestroy {
   }
 
   crochetage(now: number) {
-    if (!this.gameEngineService.human().search(now)) return;
+    if (!this.humanManagerService.search(now)) return;
     if (this.chest.getCrocheted(0)) {
       this.gameEngineService.submitEventByType('travel');
     } else {

@@ -5,7 +5,9 @@
     "background": "assets/skill-tree/skill-tree-yellow.png",
     "color": "#ffff00",
     "bonusA": "+2% de chance de crocheter",
-    "bonusB": "+2 de précision"
+    "bonusB": "+2 de précision",
+    "valueA": { "stat": "loot", "value": 0.2 },
+    "valueB": { "stat": "fightSpeed", "value": 0.2 }
   },
   {
     "profession": "Fermier",
@@ -13,7 +15,9 @@
     "background": "assets/skill-tree/skill-tree-green.png",
     "color": "#008000",
     "bonusA": "+2% de recolte",
-    "bonusB": "+2 de vitesse d'attaque"
+    "bonusB": "-100ms de vitesse d'attaque",
+    "valueA": { "stat": "loot", "value": 0.2 },
+    "valueB": { "stat": "fightSpeed", "value": 100 }
   },
   {
     "profession": "Voyageur",
@@ -21,7 +25,9 @@
     "background": "assets/skill-tree/skill-tree-purple.png",
     "color": "#800080",
     "bonusA": "+2 de tacle",
-    "bonusB": "+2% de vitesse de deplacement"
+    "bonusB": "+2% de vitesse de deplacement",
+    "valueA": { "stat": "tacle", "value": 2 },
+    "valueB": { "stat": "travelSpeed", "value": 0.2 }
   },
   {
     "profession": "Guerrier",
@@ -29,7 +35,9 @@
     "background": "assets/skill-tree/skill-tree-blue.png",
     "color": "#0000ff",
     "bonusA": "+2 de degat",
-    "bonusB": "+2 de réduction d'armure"
+    "bonusB": "+2 de réduction d'armure",
+    "valueA": { "stat": "damage", "value": 2 },
+    "valueB": { "stat": "armorPen", "value": 2 }
   },
   {
     "profession": "Berserk",
@@ -37,6 +45,8 @@
     "background": "assets/skill-tree/skill-tree-red.png",
     "color": "#ff0000",
     "bonusA": "+2% de chance de coup critique",
-    "bonusB": "+2% de degat de coup critique"
+    "bonusB": "+2% de degat de coup critique",
+    "valueA": { "stat": "damage", "value": 0.2 },
+    "valueB": { "stat": "armorPen", "value": 0.2 }
   }
 ]

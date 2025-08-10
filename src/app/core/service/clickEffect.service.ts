@@ -1,12 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { GameEngineService } from './game-engine.service';
 import { MapService } from './location/map.service';
+import { HumanManagerService } from './player/human-manager.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClickEffectService {
   gameEngineService = inject(GameEngineService);
+  humanManagerService = inject(HumanManagerService);
   mapService = inject(MapService);
   currentMap = this.mapService.map().content();
 
@@ -17,7 +19,7 @@ export class ClickEffectService {
       if (this.currentMap === 'monster')
         this.spawnDamageClickEffect(
           event,
-          this.gameEngineService.human().getClickDamage(now)
+          this.humanManagerService.getClickDamage(now)
         );
       else this.spawnTravelClickEffect(event);
     });
@@ -27,7 +29,7 @@ export class ClickEffectService {
     this.gameEngineService.getNextTick$().subscribe((now) => {
       this.spawnDamageClickEffect(
         event,
-        this.gameEngineService.human().getClickDamage(now)
+        this.humanManagerService.getClickDamage(now)
       );
     });
   }

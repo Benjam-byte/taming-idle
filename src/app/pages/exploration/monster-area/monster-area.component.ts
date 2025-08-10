@@ -3,6 +3,7 @@ import { ClickEffectService } from 'src/app/core/service/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import Monster from 'src/app/core/value-object/monster';
 import { MonsterSpriteComponent } from 'src/app/core/components/monster-sprite/monster-sprite.component';
+import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 
 @Component({
   selector: 'app-monster-area',
@@ -12,16 +13,25 @@ import { MonsterSpriteComponent } from 'src/app/core/components/monster-sprite/m
 })
 export class MonsterAreaComponent {
   gameEngineService = inject(GameEngineService);
+  humanManagerService = inject(HumanManagerService);
   clickEffectService = inject(ClickEffectService);
   monster = new Monster(3, 'slime');
 
   constructor() {}
 
   onClick(event: MouseEvent) {
+    if (this.monster.isAlive) return;
+    this.clickEffectService.spawnClickEffect(event);
+    this.gameEngineService.submitEventByType('travel');
+  }
+
+  fight(event: MouseEvent) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
     this.clickEffectService.damageClickEffect(event);
     this.gameEngineService.submitEventByType('fight', () => {
       if (!this.monster.isAlive) return;
-      this.monster.getHit(this.gameEngineService.human().damage);
+      this.monster.getHit(this.humanManagerService.damage);
       this.monsterKilled();
     });
   }

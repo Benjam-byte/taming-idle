@@ -12,6 +12,7 @@ import { SkillTreeComponent } from 'src/app/modal/skill-tree/skill-tree.componen
 import { InfoFooterComponent } from 'src/app/core/components/info-footer/info-footer.component';
 import { MapService } from 'src/app/core/service/location/map.service';
 import { WorldService } from 'src/app/core/service/location/world.service';
+import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 
 @Component({
   selector: 'app-exploration',
@@ -29,6 +30,7 @@ import { WorldService } from 'src/app/core/service/location/world.service';
 })
 export class ExplorationPage {
   gameEngineService = inject(GameEngineService);
+  humanManagerService = inject(HumanManagerService);
   mapService = inject(MapService);
   modalCtrl = inject(ModalController);
   worldService = inject(WorldService);
@@ -38,9 +40,9 @@ export class ExplorationPage {
   fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
   SearchingCountDown$ = this.gameEngineService.getSearchingCountDown$();
 
-  travelDuration = this.gameEngineService.human().travellingSpeed;
-  fightingDuration = this.gameEngineService.human().fightingSpeed;
-  searchDuration = this.gameEngineService.human().searchingSpeed;
+  travelDuration = this.humanManagerService.travellingSpeed;
+  fightingDuration = this.humanManagerService.fightingSpeed;
+  searchDuration = this.humanManagerService.searchingSpeed;
 
   images = [
     'assets/map/plaine/Plaine_1.webp',

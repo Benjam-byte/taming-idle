@@ -5,6 +5,7 @@ import {
   IonButton,
   ModalController,
 } from '@ionic/angular/standalone';
+import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 
 @Component({
   selector: 'app-human-stat',
@@ -15,8 +16,8 @@ import {
 })
 export class HumanStatComponent {
   gameEngineService = inject(GameEngineService);
+  humanManagerService = inject(HumanManagerService);
   modalCtrl = inject(ModalController);
-  human = this.gameEngineService.human();
 
   close() {
     this.modalCtrl.dismiss();
