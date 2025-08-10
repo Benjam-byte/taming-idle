@@ -43,7 +43,6 @@ export class TresorAreaComponent implements OnDestroy {
     if (!this.gameEngineService.human().search(now)) return;
     if (this.chest.getCrocheted(0)) {
       this.gameEngineService.submitEventByType('travel');
-      this.gameEngineService.human().receiveLoot(this.chest.loot);
     } else {
       this.msgDisplay.showMessage(
         'Failure, try again !' + ' ' + this.chest.try,

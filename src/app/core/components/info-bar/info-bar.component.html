@@ -1,8 +1,4 @@
 <div>
   <p>Plaine exploré : {{ human().distanceTravelled }}</p>
-  <p>Blé : {{ human().copper }}</p>
+  <p>Blé : {{ lootManagerService.wheat }}</p>
 </div>
-
-<button class="icon-button" (click)="openModal()">
-  <img src="assets/icon/stat.png" alt="earth" />
-</button>

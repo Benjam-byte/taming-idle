@@ -14,7 +14,6 @@ export default class Human {
   nextTravelTime = 0;
   nextFightTime = 0;
   nextSearchTime = 0;
-  copper = 0;
 
   readonly professionList: Profession[];
 
@@ -38,10 +37,6 @@ export default class Human {
     this.nextSearchTime = now + this.searchingSpeed;
   }
 
-  getLoot() {
-    return this.copper;
-  }
-
   getNextActionTimes() {
     return {
       travel: this.nextTravelTime,
@@ -53,10 +48,6 @@ export default class Human {
   getClickDamage(now: number) {
     if (now < this.nextFightTime) return 0;
     else return this.damage;
-  }
-
-  receiveLoot(copper: number) {
-    this.copper = this.copper + copper;
   }
 
   advance(now: number): boolean {

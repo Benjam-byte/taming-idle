@@ -29,7 +29,6 @@ export class MonsterAreaComponent {
   private monsterKilled() {
     if (!this.monster.isAlive) {
       this.gameEngineService.submitEventByType('kill');
-      this.gameEngineService.human().receiveLoot(this.monster.loot.copper);
     }
   }
 }
