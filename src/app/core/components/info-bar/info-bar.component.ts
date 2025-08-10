@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { GameEngineService } from '../../service/game-engine.service';
 import { ModalController } from '@ionic/angular/standalone';
 import { HumanStatComponent } from '../../../../app/modal/human-stat/human-stat.component';
-import { LootManagerService } from '../../service/game/loot-manager.service';
+import { LootManagerService } from '../../service/player/loot-manager.service';
 
 @Component({
   selector: 'app-info-bar',

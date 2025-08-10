@@ -15,15 +15,13 @@ export class WorldMapComponent {
   worldService = inject(WorldService);
   modalCtrl = inject(ModalController);
 
-  world = this.worldService.world();
-
   onZoneClick(zone: string) {
     console.log('Zone cliquée :', zone);
     if (zone === 'fight tower') {
       this.openFightTowerModal();
       this.close();
     }
-    if (zone === this.world.map) this.close();
+    if (zone === this.worldService.map) this.close();
   }
 
   close() {

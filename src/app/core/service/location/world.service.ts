@@ -1,11 +1,45 @@
 import { Injectable, signal } from '@angular/core';
-import World from '../../value-object/world';
+
+type availableMap =
+  | 'plaine'
+  | 'volcan'
+  | 'fight tower'
+  | 'bermude'
+  | 'wind moutain'
+  | 'forest';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorldService {
-  world = signal<World>(new World());
+  mapUnlocked: availableMap[];
+  map: availableMap;
+  skillTreeAvailable: boolean;
+  offrandeAvailable: boolean;
 
-  constructor() {}
+  constructor() {
+    this.map = 'plaine';
+    this.skillTreeAvailable = false;
+    this.offrandeAvailable = false;
+    this.mapUnlocked = ['plaine'];
+  }
+
+  evolve(level: number) {
+    switch (level) {
+      case 2:
+        this.enableSkillTree();
+        break;
+      case 4:
+        this.enableOffrande();
+        break;
+    }
+  }
+
+  enableSkillTree() {
+    this.skillTreeAvailable = true;
+  }
+
+  enableOffrande() {
+    this.offrandeAvailable = true;
+  }
 }

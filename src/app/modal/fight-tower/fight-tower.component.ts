@@ -6,6 +6,7 @@ import { AttackButtonComponent } from './attack-button/attack-button.component';
 import { WorldMapComponent } from '../world-map/world-map.component';
 import { HealthBarComponent } from '../../../app/core/components/health-bar/health-bar.component';
 import { MonsterSpriteComponent } from '../../../app/core/components/monster-sprite/monster-sprite.component';
+import { CombatTowerService } from 'src/app/core/service/location/combat-tower.service';
 
 @Component({
   selector: 'app-fight-tower',
@@ -21,6 +22,7 @@ import { MonsterSpriteComponent } from '../../../app/core/components/monster-spr
 })
 export class FightTowerComponent {
   gameEngineService = inject(GameEngineService);
+  combatTowerService = inject(CombatTowerService);
   modalCtrl = inject(ModalController);
   cdr = inject(ChangeDetectorRef);
   borderHeight = 100;
@@ -28,11 +30,11 @@ export class FightTowerComponent {
   isBossKilled = false;
   isBossFailed = false;
   timer!: ReturnType<typeof setInterval>;
-  combatTower = this.gameEngineService.combatTower();
   fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
 
   close() {
     this.modalCtrl.dismiss();
+    this.combatTowerService.retry();
   }
 
   continue() {
@@ -45,20 +47,22 @@ export class FightTowerComponent {
     this.isFighting = false;
     this.isBossFailed = false;
     this.borderHeight = 100;
-    this.combatTower.retry();
+    this.combatTowerService.retry();
   }
 
   hit() {
     this.gameEngineService.submitEventByType('fight', () => {
-      if (!this.combatTower.boss.isAlive) return;
-      this.combatTower.boss.getHit(this.gameEngineService.human().damage);
+      if (!this.combatTowerService.boss().isAlive) return;
+      this.combatTowerService
+        .boss()
+        .getHit(this.gameEngineService.human().damage);
       this.bossKilled();
     });
   }
 
   private bossKilled() {
-    if (this.combatTower.boss.isAlive) return;
-    this.gameEngineService.combatTower().levelUp();
+    if (this.combatTowerService.boss().isAlive) return;
+    this.combatTowerService.levelUp();
     this.borderHeight = 0;
     this.isBossKilled = true;
     if (this.timer) clearInterval(this.timer);

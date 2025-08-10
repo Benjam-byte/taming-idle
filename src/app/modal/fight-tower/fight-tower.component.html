@@ -6,15 +6,15 @@
   <div class="content">
     <div class="header">
       <h2>Combat Tower</h2>
-      <p>Etage Actuel : {{ combatTower.level }}</p>
+      <p>Etage Actuel : {{ combatTowerService.level() }}</p>
     </div>
     <button class="icon-button" (click)="openWorldMapModal()">
       <img src="assets/icon/earth.png" alt="earth" />
     </button>
     <div class="boss-container">
       <app-health-bar
-        [max]="combatTower.boss.maxLife"
-        [current]="combatTower.boss.life"
+        [max]="combatTowerService.boss().maxLife"
+        [current]="combatTowerService.boss().life"
       ></app-health-bar>
       <app-monster-sprite
         spritePath="assets/monster/sprite/slime/SpriteSheet_Slime_Cursed.webp"

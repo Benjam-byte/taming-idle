@@ -11,6 +11,7 @@ import { GodPalaceComponent } from 'src/app/modal/god-palace/god-palace.componen
 import { SkillTreeComponent } from 'src/app/modal/skill-tree/skill-tree.component';
 import { InfoFooterComponent } from 'src/app/core/components/info-footer/info-footer.component';
 import { MapService } from 'src/app/core/service/location/map.service';
+import { WorldService } from 'src/app/core/service/location/world.service';
 
 @Component({
   selector: 'app-exploration',
@@ -30,6 +31,7 @@ export class ExplorationPage {
   gameEngineService = inject(GameEngineService);
   mapService = inject(MapService);
   modalCtrl = inject(ModalController);
+  worldService = inject(WorldService);
   currentMap = computed(() => this.mapService.map().content());
 
   travelCountDown$ = this.gameEngineService.getTravelCountDown$();

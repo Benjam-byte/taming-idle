@@ -10,11 +10,11 @@ import {
   Observable,
 } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { CombatTower } from '../value-object/combat-tower';
 import God from '../value-object/god';
 import godJson from '../value-object/godJson.json';
 import { MapService } from './location/map.service';
 import { WorldService } from './location/world.service';
+import { CombatTowerService } from './location/combat-tower.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,46 +22,54 @@ import { WorldService } from './location/world.service';
 export class GameEngineService {
   mapService = inject(MapService);
   worldService = inject(WorldService);
-  gameLoop = inject(GameLoopService);
+  gameLoopService = inject(GameLoopService);
 
   human = signal<Human>(new Human(1));
   godList = signal<God[]>(this.parseGodsFromJson(godJson));
-  combatTower = signal<CombatTower>(new CombatTower());
 
   constructor() {
-    this.gameLoop.start();
+    this.gameLoopService.start();
   }
 
   getNextTick$() {
-    return this.gameLoop.tick$.pipe(first());
+    return this.gameLoopService.tick$.pipe(first());
   }
 
   getTick$() {
-    return this.gameLoop.tick$;
+    return this.gameLoopService.tick$;
   }
 
   submitEventByType(type: string, payload?: any) {
-    this.gameLoop.tick$
+    this.gameLoopService.tick$
       .pipe(first())
       .subscribe((now) => this.processEvent({ type, time: now, payload }, now));
   }
 
   getTravelCountDown$(): Observable<number> {
-    return combineLatest([this.gameLoop.tick$, toObservable(this.human)]).pipe(
+    return combineLatest([
+      this.gameLoopService.tick$,
+      toObservable(this.human),
+    ]).pipe(
       map(([now, human]) => Math.max(0, human.nextTravelTime - now)),
       distinctUntilChanged()
     );
   }
 
   getFightingCountDown$(): Observable<number> {
-    return combineLatest([this.gameLoop.tick$, toObservable(this.human)]).pipe(
+    return combineLatest([
+      this.gameLoopService.tick$,
+      toObservable(this.human),
+    ]).pipe(
       map(([now, human]) => Math.max(0, human.nextFightTime - now)),
       distinctUntilChanged()
     );
   }
 
   getSearchingCountDown$(): Observable<number> {
-    return combineLatest([this.gameLoop.tick$, toObservable(this.human)]).pipe(
+    return combineLatest([
+      this.gameLoopService.tick$,
+      toObservable(this.human),
+    ]).pipe(
       map(([now, human]) => Math.max(0, human.nextSearchTime - now)),
       distinctUntilChanged()
     );
