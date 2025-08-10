@@ -128,3 +128,25 @@ ion-modal.full-screen-modal::part(content) {
     transform: translate(-50%, -100%) scale(1.3);
   }
 }
+
+.pickup-text {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  color: #ffd54f;
+  pointer-events: none;
+  user-select: none;
+  animation: pickup-float 600ms ease-out forwards;
+}
+
+@keyframes pickup-float {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -120%) scale(1.2);
+  }
+}

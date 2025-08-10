@@ -1,13 +1,27 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { RegionManagerService } from '../location/region-manager.service';
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
-  wheat: number;
+  regionManagerService = inject(RegionManagerService);
+  wheatQuantity: number;
 
   constructor() {
-    this.wheat = 0;
+    this.wheatQuantity = 0;
+  }
+
+  getLootValue() {
+    const r = Math.random();
+
+    if (r < 0.5) {
+      return 1;
+    } else if (r < 0.75) {
+      return 2;
+    } else {
+      return 3;
+    }
   }
 
   addWheat(value: number) {
-    this.wheat += value;
+    this.wheatQuantity += value;
   }
 }

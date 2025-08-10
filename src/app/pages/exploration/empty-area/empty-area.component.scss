@@ -9,3 +9,11 @@ section {
     height: 100%;
     align-items: center;
 }
+
+
+img {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    z-index: 20;
+}
