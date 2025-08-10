@@ -18,7 +18,7 @@ export class MonsterAreaComponent {
   constructor() {}
 
   onClick(event: MouseEvent) {
-    this.clickEffectService.spawnClickEffect(event);
+    this.clickEffectService.damageClickEffect(event);
     this.gameEngineService.submitEventByType('fight', () => {
       if (!this.monster.isAlive) return;
       this.monster.getHit(this.gameEngineService.human().damage);

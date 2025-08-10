@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class GameLoopService {
   private running = false;
   zone = inject(NgZone);
-  private tickSubject = new BehaviorSubject<number>(Date.now());
+  private readonly tickSubject = new BehaviorSubject<number>(Date.now());
 
   tick$: Observable<number> = this.tickSubject.asObservable();
 

@@ -23,6 +23,15 @@ export class ClickEffectService {
     });
   }
 
+  damageClickEffect(event: MouseEvent) {
+    this.gameEngineService.getNextTick$().subscribe((now) => {
+      this.spawnDamageClickEffect(
+        event,
+        this.gameEngineService.human().getClickDamage(now)
+      );
+    });
+  }
+
   spawnCollectEffect(event: MouseEvent, value: number) {
     const pickupText = document.createElement('div');
     pickupText.className = 'pickup-text';

@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
+import { CombatTowerService } from './combat-tower.service';
 
 type availableMap =
   | 'plaine'
@@ -12,6 +13,8 @@ type availableMap =
   providedIn: 'root',
 })
 export class WorldService {
+  combatTowerService = inject(CombatTowerService);
+
   mapUnlocked: availableMap[];
   map: availableMap;
   skillTreeAvailable: boolean;
@@ -22,6 +25,10 @@ export class WorldService {
     this.skillTreeAvailable = false;
     this.offrandeAvailable = false;
     this.mapUnlocked = ['plaine'];
+
+    effect(() => {
+      this.evolve(this.combatTowerService.level());
+    });
   }
 
   evolve(level: number) {

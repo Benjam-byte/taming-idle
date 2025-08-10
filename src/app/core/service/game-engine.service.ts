@@ -14,7 +14,6 @@ import God from '../value-object/god';
 import godJson from '../value-object/godJson.json';
 import { MapService } from './location/map.service';
 import { WorldService } from './location/world.service';
-import { CombatTowerService } from './location/combat-tower.service';
 
 @Injectable({
   providedIn: 'root',

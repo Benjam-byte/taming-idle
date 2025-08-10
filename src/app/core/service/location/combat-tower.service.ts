@@ -18,7 +18,7 @@ const levelDict: Record<number, Encounter> = {
   providedIn: 'root',
 })
 export class CombatTowerService {
-  level = signal<number>(0);
+  level = signal<number>(1);
   boss = signal<Monster>(new Monster(0, 'slime'));
 
   constructor() {
