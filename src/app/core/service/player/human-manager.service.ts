@@ -1,18 +1,26 @@
-import { inject, Injectable } from '@angular/core';
+import { effect, inject, Injectable } from '@angular/core';
 import { ProfessionManagerService } from './profession-manager.service';
+
+const INITIAL_DAMAGE = 1;
+const INITIAL_PRECISION = 1;
+const INITIAL_TACLE = 1;
+const INITIAL_ARMORPEN = 1;
+
+const INITIAL_TRAVELLINGSPEED = 1000;
+const INITIAL_FIGHTINGSPEED = 1000;
 
 @Injectable({ providedIn: 'root' })
 export class HumanManagerService {
   professionManangerService = inject(ProfessionManagerService);
-  damage = 1;
-  precison = 1;
-  tacle = 1;
-  armorPen = 1;
+  damage = INITIAL_DAMAGE;
+  precison = INITIAL_PRECISION;
+  tacle = INITIAL_TACLE;
+  armorPen = INITIAL_ARMORPEN;
   criticalChancePercentage = 0;
 
   distanceTravelled = 0;
-  travellingSpeed = 1000;
-  fightingSpeed = 1000;
+  travellingSpeed = INITIAL_TRAVELLINGSPEED;
+  fightingSpeed = INITIAL_FIGHTINGSPEED;
   searchingSpeed = 1000;
   nextTravelTime = 0;
   nextFightTime = 0;
@@ -22,16 +30,24 @@ export class HumanManagerService {
     this.nextTravelTime = this.travellingSpeed;
     this.nextFightTime = this.fightingSpeed;
     this.nextSearchTime = this.searchingSpeed;
-    this.calculateValue();
+    effect(() => {
+      this.calculateValue(this.professionManangerService.bonusList());
+    });
   }
 
-  calculateValue() {
-    const bonusList = this.professionManangerService.getBonusList();
-    this.damage = this.damage + bonusList.damage;
-    this.tacle = this.tacle + bonusList.tacle;
-    this.armorPen = this.armorPen + bonusList.armorPen;
-    this.travellingSpeed = this.travellingSpeed - bonusList.travelSpeed;
-    this.fightingSpeed = this.fightingSpeed - bonusList.fightSpeed;
+  calculateValue(bonusList: {
+    damage: number;
+    armorPen: number;
+    tacle: number;
+    travelSpeed: number;
+    loot: number;
+    fightSpeed: number;
+  }) {
+    this.damage = INITIAL_DAMAGE + bonusList.damage;
+    this.tacle = INITIAL_TACLE + bonusList.tacle;
+    this.armorPen = INITIAL_ARMORPEN + bonusList.armorPen;
+    this.travellingSpeed = INITIAL_TRAVELLINGSPEED - bonusList.travelSpeed;
+    this.fightingSpeed = INITIAL_FIGHTINGSPEED - bonusList.fightSpeed;
   }
 
   getNextActionTimes() {
