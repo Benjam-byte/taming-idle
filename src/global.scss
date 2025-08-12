@@ -150,3 +150,29 @@ ion-modal.full-screen-modal::part(content) {
     transform: translate(-50%, -120%) scale(1.2);
   }
 }
+
+.broadcast-message {
+  position: absolute;
+  font-size: 18px;
+  font-weight: bold;
+  width: 100dvw;
+  text-align: center;
+  top: 100px;
+  color: white;
+  background-color: rgba(29, 29, 29, 0.6);
+  user-select: none;
+  transform: translate(0, -50%);
+  animation: damage-pop 1500ms ease-out forwards;
+  pointer-events: none;
+  z-index: 200;
+}
+
+@keyframes damage-pop {
+  0% {
+    transform: translate(0, 100px);
+  }
+
+  100% {
+    transform: translate(0, 50px);
+  }
+}

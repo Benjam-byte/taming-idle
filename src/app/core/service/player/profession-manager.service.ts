@@ -1,9 +1,11 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import Profession from '../../value-object/profession';
 import professionList from '../../json/professionJson.json';
+
 @Injectable({ providedIn: 'root' })
 export class ProfessionManagerService {
   readonly professionList: Profession[];
+
   bonusList = signal<{
     damage: number;
     armorPen: number;

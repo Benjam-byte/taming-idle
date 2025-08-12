@@ -1,7 +1,10 @@
-import { effect, signal } from '@angular/core';
+import { effect, inject, signal } from '@angular/core';
 import { ProfessionFromJson } from '../models/professionFromJson.type';
+import { BroadcastService } from '../service/Ui/broadcast.service';
 
 export default class Profession {
+  broadcastMessageService = inject(BroadcastService);
+
   level = signal<number>(1);
   xp = signal<number>(0);
   profession: string;
@@ -60,6 +63,9 @@ export default class Profession {
     if (this.xp() >= xpCap) {
       this.xp.set(0);
       this.level.update((value) => value + 1);
+      this.broadcastMessageService.displayMessage({
+        message: `${this.profession} has leveled up`,
+      });
     }
   }
 }

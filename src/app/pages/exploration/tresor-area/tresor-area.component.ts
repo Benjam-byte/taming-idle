@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { sampleTime, Subscription } from 'rxjs';
-import { ClickEffectService } from 'src/app/core/service/clickEffect.service';
+import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import Chest from 'src/app/core/value-object/chest';
 import { FloatingMessagesComponent } from 'src/app/core/components/floating-messages/floating-messages.component';

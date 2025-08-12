@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { GameEngineService } from './game-engine.service';
-import { MapService } from './location/map.service';
-import { HumanManagerService } from './player/human-manager.service';
+import { GameEngineService } from '../game-engine.service';
+import { MapService } from '../location/map.service';
+import { HumanManagerService } from '../player/human-manager.service';
 
 @Injectable({
   providedIn: 'root',

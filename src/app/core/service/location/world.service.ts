@@ -1,5 +1,6 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { CombatTowerService } from './combat-tower.service';
+import { BroadcastService } from '../Ui/broadcast.service';
 
 type availableMap =
   | 'plaine'
@@ -14,11 +15,13 @@ type availableMap =
 })
 export class WorldService {
   combatTowerService = inject(CombatTowerService);
+  broadcastMessageService = inject(BroadcastService);
 
   mapUnlocked: availableMap[];
   map: availableMap;
   skillTreeAvailable: boolean;
   offrandeAvailable: boolean;
+  isInit = true;
 
   constructor() {
     this.map = 'plaine';
@@ -42,13 +45,34 @@ export class WorldService {
 
   evolve(level: number) {
     switch (level) {
+      case 1:
+        if (this.isInit) break;
+        this.broadcastMessageService.displayMessage({
+          message: 'Word is evolving, monster are born',
+        });
+        break;
       case 2:
         this.enableSkillTree();
+        if (this.isInit) break;
+        this.broadcastMessageService.displayMessage({
+          message: 'Skill tree is now available',
+        });
+        break;
+      case 3:
+        if (this.isInit) break;
+        this.broadcastMessageService.displayMessage({
+          message: 'keep the good work, worl power is growing',
+        });
         break;
       case 4:
         this.enableOffrande();
+        if (this.isInit) break;
+        this.broadcastMessageService.displayMessage({
+          message: 'Gods want to talk with you',
+        });
         break;
     }
+    this.isInit = false;
   }
 
   enableSkillTree() {
