@@ -21,12 +21,14 @@ export class WorldService {
   map: availableMap;
   skillTreeAvailable: boolean;
   offrandeAvailable: boolean;
+  monsterAvailable: boolean;
   isInit = true;
 
   constructor() {
     this.map = 'plaine';
     this.skillTreeAvailable = false;
     this.offrandeAvailable = false;
+    this.monsterAvailable = false;
     this.mapUnlocked = ['plaine'];
 
     const towerPath = localStorage.getItem('towerPath');
@@ -34,6 +36,7 @@ export class WorldService {
       const parsedTowerPath = JSON.parse(towerPath);
       this.skillTreeAvailable = Boolean(parsedTowerPath.skillTreeAvailable);
       this.offrandeAvailable = Boolean(parsedTowerPath.offrandeAvailable);
+      this.monsterAvailable = Boolean(parsedTowerPath.monsterAvailable);
     } else {
       this.store();
     }
@@ -46,6 +49,7 @@ export class WorldService {
   evolve(level: number) {
     switch (level) {
       case 1:
+        this.enableMonster();
         if (this.isInit) break;
         this.broadcastMessageService.displayMessage({
           message: 'Word is evolving, monster are born',
@@ -75,6 +79,11 @@ export class WorldService {
     this.isInit = false;
   }
 
+  enableMonster() {
+    this.monsterAvailable = true;
+    this.store();
+  }
+
   enableSkillTree() {
     this.skillTreeAvailable = true;
     this.store();
@@ -89,6 +98,7 @@ export class WorldService {
     const towerPath = {
       skillTreeAvailable: this.skillTreeAvailable,
       offrandeAvailable: this.offrandeAvailable,
+      monsterAvailable: this.monsterAvailable,
     };
     localStorage.setItem('towerPath', JSON.stringify(towerPath));
   }

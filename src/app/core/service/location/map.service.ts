@@ -28,7 +28,6 @@ export class MapService {
     for (const [key, prob] of Object.entries(
       this.regionManagerService.currentRegion().getMapDict()
     )) {
-      console.log(key, prob);
       cumulative += prob;
       if (rand < cumulative) {
         return key as MapKey;

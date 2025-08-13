@@ -6,7 +6,7 @@ export class Region {
   shinyLootDropPercentage: number;
   monsterWithTresorDropPercentage: number;
 
-  monsterSpanwRate: number;
+  monsterSpawnRate: number;
   shinyMonsterSpawnRate: number;
   monsterEggDropPercentage: number;
   tresorMapSpawnRate: number;
@@ -15,7 +15,7 @@ export class Region {
     this.name = name;
     this.lootDropPercentage = 0;
     this.shinyLootDropPercentage = 0;
-    this.monsterSpanwRate = 1 / 50;
+    this.monsterSpawnRate = 0;
     this.shinyMonsterSpawnRate = 0;
     this.monsterWithTresorDropPercentage = 0;
     this.monsterEggDropPercentage = 0;
@@ -25,8 +25,8 @@ export class Region {
   getMapDict(): Record<MapKey, number> {
     return {
       tresor: this.tresorMapSpawnRate,
-      monster: this.monsterSpanwRate,
-      empty: 1 - (this.tresorMapSpawnRate + this.monsterSpanwRate),
+      monster: this.monsterSpawnRate,
+      empty: 1 - (this.tresorMapSpawnRate + this.monsterSpawnRate),
     };
   }
 }
