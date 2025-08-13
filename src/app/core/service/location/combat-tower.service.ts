@@ -1,5 +1,6 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import Monster from '../../value-object/monster';
+import { CombatTowerController } from 'src/app/database/combatTower/combatTower.controller';
 
 type Encounter = {
   createBoss: () => Monster;
@@ -18,6 +19,7 @@ const levelDict: Record<number, Encounter> = {
   providedIn: 'root',
 })
 export class CombatTowerService {
+  combatTowerController = inject(CombatTowerController);
   level = signal<number>(1);
   boss = signal<Monster>(new Monster(0, 'slime'));
 
