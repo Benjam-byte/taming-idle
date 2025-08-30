@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-import { Observable, defer, from, of, forkJoin } from 'rxjs';
-import { map, switchMap, shareReplay } from 'rxjs/operators';
+import { Observable, from, of, forkJoin, defer } from 'rxjs';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { Platform } from '@ionic/angular';
 
 @Injectable({ providedIn: 'root' })
 export class DatabaseService {
-  private readonly ready$: Observable<void>;
+  ready$: Observable<void>;
 
-  constructor(private storage: Storage) {
-    this.ready$ = defer(() => from(this.storage.create())).pipe(
+  constructor(private storage: Storage, private platform: Platform) {
+    this.ready$ = defer(() => from(this.init())).pipe(
       map(() => void 0),
       shareReplay({ bufferSize: 1, refCount: true })
     );
+  }
+
+  async init() {
+    await this.platform.ready();
+    await this.storage.create();
   }
 
   set<T = unknown>(key: string, value: T): Observable<void> {

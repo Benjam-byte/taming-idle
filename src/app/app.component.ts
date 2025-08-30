@@ -6,6 +6,7 @@ import { LootController } from './database/loot/loot.controller';
 import { ProfessionController } from './database/profession/profession.controller';
 import { RegionController } from './database/region/region.controller';
 import { WorldController } from './database/world/world.controller';
+import { DatabaseService } from './database/database.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { WorldController } from './database/world/world.controller';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
+  databaseService = inject(DatabaseService);
   humanControllerService = inject(HumanController);
   combatTowerControllerService = inject(CombatTowerController);
   lootControllerService = inject(LootController);
@@ -21,17 +23,20 @@ export class AppComponent {
   worldControllerService = inject(WorldController);
 
   constructor() {
-    if (!this.humanControllerService.get()) {
+    const dbInitialized = localStorage.getItem('db');
+
+    if (dbInitialized === null) {
       this.initDatabase();
+      localStorage.setItem('db', JSON.stringify(true));
     }
   }
 
   initDatabase() {
-    this.humanControllerService.init();
-    this.combatTowerControllerService.init();
-    this.lootControllerService.init();
-    this.professionControllerService.init();
-    this.regionControllerService.init();
-    this.worldControllerService.init();
+    this.humanControllerService.init().subscribe();
+    this.combatTowerControllerService.init().subscribe();
+    this.lootControllerService.init().subscribe();
+    this.professionControllerService.init().subscribe();
+    this.regionControllerService.init().subscribe();
+    this.worldControllerService.init().subscribe();
   }
 }

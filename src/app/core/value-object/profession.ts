@@ -50,7 +50,6 @@ export default class Profession {
     if (this.level() <= 2) return { [this.valueB.stat]: 0 };
     else {
       const index = (this.level() - 1) / 2;
-      console.log(this.profession, index);
       return {
         [this.valueB.stat]: index * this.valueB.value,
       };

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { concatMap, forkJoin, from, Observable } from 'rxjs';
 import { RegionService } from './region.service';
 import { Region } from './region.type';
 
@@ -17,18 +17,20 @@ export class RegionController {
   service = inject(RegionService);
 
   init() {
-    regionList.map((regionName) => {
-      this.create({
-        name: regionName,
-        lootDropPercentage: 0,
-        shinyLootDropPercentage: 0,
-        monsterWithTresorDropPercentage: 0,
-        monsterSpawnRate: 0,
-        shinyMonsterSpawnRate: 0,
-        monsterEggDropPercentage: 0,
-        tresorMapSpawnRate: 0,
-      });
-    });
+    return from(regionList).pipe(
+      concatMap((regionName) =>
+        this.create({
+          name: regionName,
+          lootDropPercentage: 0,
+          shinyLootDropPercentage: 0,
+          monsterWithTresorDropPercentage: 0,
+          monsterSpawnRate: 0,
+          shinyMonsterSpawnRate: 0,
+          monsterEggDropPercentage: 0,
+          tresorMapSpawnRate: 0,
+        })
+      )
+    );
   }
 
   create(region: Omit<Region, 'id'>): Observable<Region> {

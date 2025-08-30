@@ -9,7 +9,7 @@ import {
   IonicRouteStrategy,
   provideIonicAngular,
 } from '@ionic/angular/standalone';
-
+import { Drivers } from '@ionic/storage';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { IonicStorageModule } from '@ionic/storage-angular';
@@ -24,7 +24,11 @@ bootstrapApplication(AppComponent, {
       IonicStorageModule.forRoot({
         name: '__myappdb', // DB name
         storeName: 'keyval', // table/keyspace
-        driverOrder: ['indexeddb', 'sqlite', 'websql', 'localstorage'], // tweak as needed
+        driverOrder: [
+          Drivers.SecureStorage,
+          Drivers.IndexedDB,
+          Drivers.LocalStorage,
+        ],
       })
     ),
   ],

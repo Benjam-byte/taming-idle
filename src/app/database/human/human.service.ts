@@ -1,4 +1,13 @@
-import { map, Observable, of, switchMap, take, throwError } from 'rxjs';
+import {
+  map,
+  Observable,
+  of,
+  pipe,
+  switchMap,
+  take,
+  tap,
+  throwError,
+} from 'rxjs';
 import { Human } from './human.type';
 import { inject, Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
@@ -9,7 +18,6 @@ const COLLECTION_KEY = 'human';
 export class HumanService {
   db = inject(DatabaseService);
 
-  /** Liste complète */
   get(): Observable<Human> {
     return this.readAll$().pipe(
       take(1),

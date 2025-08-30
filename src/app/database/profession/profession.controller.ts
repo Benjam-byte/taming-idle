@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { concatMap, forkJoin, from, Observable, toArray } from 'rxjs';
 import { ProfessionService } from './profession.service';
 import { Profession } from './profession.type';
 import professionList from '../../core/json/professionJson copy.json';
@@ -9,9 +9,9 @@ export class ProfessionController {
   service = inject(ProfessionService);
 
   init() {
-    professionList.map((profession) => {
-      this.create(profession);
-    });
+    return from(professionList).pipe(
+      concatMap((profession) => this.create(profession))
+    );
   }
 
   create(profession: Omit<Profession, 'id'>): Observable<Profession> {
