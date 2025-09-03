@@ -1,22 +1,30 @@
-import { effect, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { RegionManagerService } from '../location/region-manager.service';
 import { ProfessionManagerService } from './profession-manager.service';
+import { LootController } from 'src/app/database/loot/loot.controller';
+import { BehaviorSubject, map } from 'rxjs';
+import { Loot } from 'src/app/database/loot/loot.type';
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
+  lootControllerService = inject(LootController);
   regionManagerService = inject(RegionManagerService);
   professionManagerService = inject(ProfessionManagerService);
 
-  wheatQuantity = signal<number>(0);
+  private _loot$!: BehaviorSubject<Loot>;
 
   constructor() {
-    const savedLevel = localStorage.getItem('wheatQuantity');
-    if (savedLevel !== null) {
-      this.wheatQuantity.set(Number(savedLevel));
-    }
+    this.lootControllerService
+      .get()
+      .pipe(map((loot) => (this._loot$ = new BehaviorSubject(loot))))
+      .subscribe();
+  }
 
-    effect(() => {
-      localStorage.setItem('wheatQuantity', String(this.wheatQuantity()));
-    });
+  get loot() {
+    return this._loot$.value;
+  }
+
+  get loot$() {
+    return this._loot$.asObservable();
   }
 
   getLootValue() {
@@ -32,7 +40,13 @@ export class LootManagerService {
   }
 
   addWheat(wheat: number) {
-    this.wheatQuantity.update((value) => value + wheat);
-    this.professionManagerService.updateByProfessionName('Fermier');
+    this.lootControllerService
+      .update(this.loot.id, {
+        wheatQuantity: wheat + this.loot.wheatQuantity,
+      })
+      .subscribe((loot) => {
+        this._loot$.next(loot);
+        this.professionManagerService.updateByProfessionName('Fermier');
+      });
   }
 }

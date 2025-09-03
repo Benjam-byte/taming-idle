@@ -19,11 +19,11 @@ export class LootController {
     return this.service.create(loot);
   }
 
-  get(): Observable<Loot | undefined> {
+  get(): Observable<Loot> {
     return this.service.get();
   }
 
-  update(id: string, loot: Loot): Observable<Loot> {
+  update(id: string, loot: Partial<Omit<Loot, 'id'>>): Observable<Loot> {
     return this.service.update(id, loot);
   }
 }

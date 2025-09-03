@@ -3,5 +3,7 @@
     Plaine exploré :
     {{ human.distanceTravelled }}
   </p>
-  <p>Blé : {{ lootManagerService.wheatQuantity() }}</p>
+  <p *ngIf="lootManagerService.loot$ | async as loot">
+    Blé : {{ loot.wheatQuantity }}
+  </p>
 </div>
