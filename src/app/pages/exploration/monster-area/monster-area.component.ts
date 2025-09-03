@@ -4,6 +4,7 @@ import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import Monster from 'src/app/core/value-object/monster';
 import { MonsterSpriteComponent } from 'src/app/core/components/monster-sprite/monster-sprite.component';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
+import { HumanController } from 'src/app/database/human/human.controller';
 
 @Component({
   selector: 'app-monster-area',
@@ -31,7 +32,7 @@ export class MonsterAreaComponent {
     this.clickEffectService.damageClickEffect(event);
     this.gameEngineService.submitEventByType('fight', () => {
       if (!this.monster.isAlive) return;
-      this.monster.getHit(this.humanManagerService.damage);
+      this.monster.getHit(this.humanManagerService.human.damage);
       this.monsterKilled();
     });
   }

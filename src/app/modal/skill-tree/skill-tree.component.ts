@@ -9,7 +9,6 @@ import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { SkillLineComponent } from './skill-line/skill-line.component';
 import { CommonModule } from '@angular/common';
 import { WorldMapComponent } from '../world-map/world-map.component';
-import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import { ProfessionManagerService } from 'src/app/core/service/player/profession-manager.service';
 
 @Component({
@@ -23,12 +22,13 @@ export class SkillTreeComponent {
   modalCtrl = inject(ModalController);
   professionManagerService = inject(ProfessionManagerService);
 
+  professionNameList = ['Voyageur', 'Voleur', 'Fermier', 'Guerrier', 'Berserk'];
+
   selectedProfessionIndex = signal<number>(0);
-  selectedProfession = computed(
-    () =>
-      this.professionManagerService.professionList[
-        this.selectedProfessionIndex()
-      ]
+  selectedProfession = computed(() =>
+    this.professionManagerService.getProfessionByName(
+      this.professionNameList[this.selectedProfessionIndex()]
+    )
   );
 
   close() {

@@ -2,14 +2,14 @@
   <div class="icon-gauge">
     <img src="assets/icon/footsteps.png" alt="foostep" />
     <app-action-gauge
-      [durationMs]="travelDuration"
+      [durationMs]="travelDuration() ?? 0"
       [progress]="(travelCountDown$ | async) ?? 0"
     />
   </div>
   <div class="icon-gauge">
     <img class="sword" src="assets/icon/sword.png" alt="sword" />
     <app-action-gauge
-      [durationMs]="fightingDuration"
+      [durationMs]="fightingDuration() ?? 0"
       [progress]="(fightingCountDown$ | async) ?? 0"
       [isGreen]="true"
     />
@@ -17,37 +17,37 @@
 </section>
 <section class="value">
   @if(infoMode === 'fight') {
-  <div class="text-col">
+  <div class="text-col" *ngIf="humanManagerService.human$ | async as human">
     <div class="line">
       <img src="assets/icon/stat/damage.png" alt="damage" />
-      <p>{{ humanManagerService.damage }} Damage</p>
+      <p>{{ human.damage }} Damage</p>
     </div>
     <div class="line">
       <img src="assets/icon/stat/precision.png" alt="damage" />
-      <p>{{ humanManagerService.precison }} precision</p>
+      <p>{{ human.precison }} precision</p>
     </div>
     <div class="line">
       <img src="assets/icon/stat/piercing.png" alt="damage" />
-      <p>{{ humanManagerService.armorPen }} Armor pen</p>
+      <p>{{ human.armorPen }} Armor pen</p>
     </div>
     <div class="line">
       <img src="assets/icon/stat/clover.png" alt="damage" />
-      <p>{{ humanManagerService.criticalChancePercentage }}% Critical</p>
+      <p>{{ human.criticalChancePercentage }}% Critical</p>
     </div>
   </div>
   <div class="text-col">
-    <div>
+    <div *ngIf="humanManagerService.human$ | async as human">
       <div class="line">
         <img src="assets/icon/footsteps.png" alt="footsteps" />
-        <p>{{ humanManagerService.travellingSpeed }}ms Move speed</p>
+        <p>{{ human.travellingSpeed }} ms Move speed</p>
       </div>
       <div class="line">
         <img src="assets/icon/sword.png" alt="damage" />
-        <p>{{ humanManagerService.fightingSpeed }}ms Attack speed</p>
+        <p>{{ human.fightingSpeed }} ms Attack speed</p>
       </div>
       <div class="line">
         <img src="assets/icon/loupe.png" alt="damage" />
-        <p>{{ humanManagerService.searchingSpeed }}ms Search speed</p>
+        <p>{{ human.searchingSpeed }} ms Search speed</p>
       </div>
     </div>
   </div>

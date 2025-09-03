@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { EmptyAreaComponent } from './empty-area/empty-area.component';
 import { TresorAreaComponent } from './tresor-area/tresor-area.component';
@@ -28,7 +28,7 @@ import { HumanManagerService } from 'src/app/core/service/player/human-manager.s
     InfoFooterComponent,
   ],
 })
-export class ExplorationPage {
+export class ExplorationPage implements OnInit {
   gameEngineService = inject(GameEngineService);
   humanManagerService = inject(HumanManagerService);
   mapService = inject(MapService);
@@ -40,10 +40,6 @@ export class ExplorationPage {
   fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
   SearchingCountDown$ = this.gameEngineService.getSearchingCountDown$();
 
-  travelDuration = this.humanManagerService.travellingSpeed;
-  fightingDuration = this.humanManagerService.fightingSpeed;
-  searchDuration = this.humanManagerService.searchingSpeed;
-
   images = [
     'assets/map/plaine/Plaine_1.webp',
     'assets/map/plaine/Plaine_2.webp',
@@ -53,6 +49,9 @@ export class ExplorationPage {
     'assets/map/plaine/Plaine_6.webp',
   ];
 
+  travelDuration!: number;
+  fightingDuration!: number;
+  searchDuration!: number;
   imageUrl = '';
   previousImageUrl: string | null = null;
   imageLoaded = false;
@@ -62,6 +61,14 @@ export class ExplorationPage {
       const value = this.currentMap();
       if (value) this.changeBackgroundImage(this.getRandomImage());
     });
+  }
+
+  ngOnInit(): void {
+    if (this.humanManagerService.human) {
+      this.travelDuration = this.humanManagerService.human.travellingSpeed;
+      this.fightingDuration = this.humanManagerService.human.fightingSpeed;
+      this.searchDuration = this.humanManagerService.human.searchingSpeed;
+    }
   }
 
   getRandomImage(): string {

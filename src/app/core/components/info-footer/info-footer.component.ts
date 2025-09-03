@@ -3,12 +3,14 @@ import {
   Component,
   computed,
   inject,
+  input,
 } from '@angular/core';
 import { GameEngineService } from '../../service/game-engine.service';
 import { ActionGaugeComponent } from './action-gauge/action-gauge.component';
 import { CommonModule } from '@angular/common';
 import { RegionManagerService } from '../../service/location/region-manager.service';
 import { HumanManagerService } from '../../service/player/human-manager.service';
+import { Human } from 'src/app/database/human/human.type';
 
 type InformationMode = 'fight' | 'loot' | 'world' | 'monster';
 
@@ -24,10 +26,11 @@ export class InfoFooterComponent {
   regionManagerService = inject(RegionManagerService);
   humanManagerService = inject(HumanManagerService);
 
+  travelDuration = input<number>();
+  fightingDuration = input<number>();
+
   travelCountDown$ = this.gameEngineService.getTravelCountDown$();
-  travelDuration = this.humanManagerService.travellingSpeed;
   fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
-  fightingDuration = this.humanManagerService.fightingSpeed;
 
   infoMode: InformationMode = 'fight';
   region = this.regionManagerService.currentRegion();

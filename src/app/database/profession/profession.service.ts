@@ -60,7 +60,7 @@ export class ProfessionService {
   update(
     id: string,
     patch: Partial<Omit<Profession, 'id'>>
-  ): Observable<Profession> {
+  ): Observable<Profession[]> {
     return this.readAll$().pipe(
       switchMap((list) => {
         const idx = list.findIndex((p) => p.id === id);
@@ -69,7 +69,7 @@ export class ProfessionService {
         const merged: Profession = { ...list[idx], ...patch, id };
         const updated = [...list];
         updated[idx] = merged;
-        return this.writeAll$(updated).pipe(map(() => merged));
+        return this.writeAll$(updated).pipe(map(() => updated));
       })
     );
   }

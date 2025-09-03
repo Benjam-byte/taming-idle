@@ -21,7 +21,7 @@
     "bonusA": "+2% de recolte",
     "bonusB": "-100ms de vitesse d'attaque",
     "valueA": { "stat": "loot", "value": 0.2 },
-    "valueB": { "stat": "fightSpeed", "value": 100 }
+    "valueB": { "stat": "fightingSpeed", "value": -100 }
   },
   {
     "name": "Voyageur",
@@ -30,10 +30,10 @@
     "description": "Se promener, se deplacer dans les dimensions pourrez vous donnez un éclair de génie",
     "background": "assets/skill-tree/skill-tree-purple.png",
     "color": "#800080",
-    "bonusA": "+2 de tacle",
-    "bonusB": "+2% de vitesse de deplacement",
-    "valueA": { "stat": "tacle", "value": 2 },
-    "valueB": { "stat": "travelSpeed", "value": 0.2 }
+    "bonusA": "+2% de vitesse de deplacement",
+    "bonusB": "+2 de tacle",
+    "valueA": { "stat": "travellingSpeed", "value": -100 },
+    "valueB": { "stat": "tacle", "value": 2 }
   },
   {
     "name": "Guerrier",

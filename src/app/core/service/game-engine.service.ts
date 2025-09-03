@@ -74,7 +74,7 @@ export class GameEngineService {
     switch (event.type) {
       case 'travel':
         if (this.humanManagerService.advance(now)) {
-          this.professionManager.updateTraveller();
+          this.professionManager.updateByProfessionName('Voyageur');
           this.mapService.changeMap();
         }
         break;
@@ -85,7 +85,7 @@ export class GameEngineService {
         this.mapService.changeMap();
         break;
       case 'kill':
-        this.professionManager.updateGuerrier();
+        this.professionManager.updateByProfessionName('Guerrier');
         break;
       case 'skip':
         this.mapService.changeMap();

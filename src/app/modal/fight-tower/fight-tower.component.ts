@@ -55,7 +55,9 @@ export class FightTowerComponent {
   hit() {
     this.gameEngineService.submitEventByType('fight', () => {
       if (!this.combatTowerService.boss().isAlive) return;
-      this.combatTowerService.boss().getHit(this.humanManagerService.damage);
+      this.combatTowerService
+        .boss()
+        .getHit(this.humanManagerService.human.damage);
       this.bossKilled();
     });
   }

@@ -28,7 +28,7 @@ export class TresorAreaComponent implements OnDestroy {
   startLoop() {
     this.loop = this.gameEngineService
       .getTick$()
-      .pipe(sampleTime(this.humanManagerService.searchingSpeed))
+      .pipe(sampleTime(this.humanManagerService.human.searchingSpeed))
       .subscribe((now) => {
         this.crochetage(now);
       });

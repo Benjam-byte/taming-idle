@@ -23,11 +23,11 @@ export class HumanController {
     return this.service.create(defaultHuman);
   }
 
-  get(): Observable<Human | undefined> {
+  get(): Observable<Human> {
     return this.service.get();
   }
 
-  update(id: string, human: Human): Observable<Human> {
+  update(id: string, human: Partial<Omit<Human, 'id'>>): Observable<Human> {
     return this.service.update(id, human);
   }
 }

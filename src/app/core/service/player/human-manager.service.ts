@@ -1,53 +1,31 @@
-import { effect, inject, Injectable } from '@angular/core';
-import { ProfessionManagerService } from './profession-manager.service';
-
-const INITIAL_DAMAGE = 1;
-const INITIAL_PRECISION = 1;
-const INITIAL_TACLE = 1;
-const INITIAL_ARMORPEN = 1;
-
-const INITIAL_TRAVELLINGSPEED = 1000;
-const INITIAL_FIGHTINGSPEED = 1000;
+import { inject, Injectable } from '@angular/core';
+import { Human } from 'src/app/database/human/human.type';
+import { HumanController } from 'src/app/database/human/human.controller';
+import { BehaviorSubject, map } from 'rxjs';
+import { Profession } from 'src/app/database/profession/profession.type';
 
 @Injectable({ providedIn: 'root' })
 export class HumanManagerService {
-  professionManangerService = inject(ProfessionManagerService);
-  damage = INITIAL_DAMAGE;
-  precison = INITIAL_PRECISION;
-  tacle = INITIAL_TACLE;
-  armorPen = INITIAL_ARMORPEN;
-  criticalChancePercentage = 0;
+  humanControllerService = inject(HumanController);
 
-  distanceTravelled = 0;
-  travellingSpeed = INITIAL_TRAVELLINGSPEED;
-  fightingSpeed = INITIAL_FIGHTINGSPEED;
-  searchingSpeed = 1000;
-  nextTravelTime = 0;
-  nextFightTime = 0;
-  nextSearchTime = 0;
+  private _human$!: BehaviorSubject<Human>;
+  nextTravelTime = Date.now();
+  nextFightTime = Date.now();
+  nextSearchTime = Date.now();
 
   constructor() {
-    this.nextTravelTime = this.travellingSpeed;
-    this.nextFightTime = this.fightingSpeed;
-    this.nextSearchTime = this.searchingSpeed;
-    effect(() => {
-      this.calculateValue(this.professionManangerService.bonusList());
-    });
+    this.humanControllerService
+      .get()
+      .pipe(map((human) => (this._human$ = new BehaviorSubject(human))))
+      .subscribe();
   }
 
-  calculateValue(bonusList: {
-    damage: number;
-    armorPen: number;
-    tacle: number;
-    travelSpeed: number;
-    loot: number;
-    fightSpeed: number;
-  }) {
-    this.damage = INITIAL_DAMAGE + bonusList.damage;
-    this.tacle = INITIAL_TACLE + bonusList.tacle;
-    this.armorPen = INITIAL_ARMORPEN + bonusList.armorPen;
-    this.travellingSpeed = INITIAL_TRAVELLINGSPEED - bonusList.travelSpeed;
-    this.fightingSpeed = INITIAL_FIGHTINGSPEED - bonusList.fightSpeed;
+  get human() {
+    return this._human$.value;
+  }
+
+  get human$() {
+    return this._human$.asObservable();
   }
 
   getNextActionTimes() {
@@ -60,25 +38,58 @@ export class HumanManagerService {
 
   getClickDamage(now: number) {
     if (now < this.nextFightTime) return 0;
-    else return this.damage;
+    else return this._human$.value.damage;
   }
 
   advance(now: number): boolean {
     if (now < this.nextTravelTime) return false;
-    this.distanceTravelled++;
-    this.nextTravelTime = now + this.travellingSpeed;
+    this.humanControllerService
+      .update(this._human$.value.id, {
+        distanceTravelled: this._human$.value.distanceTravelled + 1,
+      })
+      .subscribe((human) => this._human$.next(human));
+    this.nextTravelTime = now + this._human$.value.travellingSpeed;
     return true;
   }
 
   fight(now: number): boolean {
     if (now < this.nextFightTime) return false;
-    this.nextFightTime = now + this.fightingSpeed;
+    this.nextFightTime = now + this._human$.value.fightingSpeed;
     return true;
   }
 
   search(now: number): boolean {
     if (now < this.nextSearchTime) return false;
-    this.nextSearchTime = now + this.searchingSpeed;
+    this.nextSearchTime = now + this._human$.value.searchingSpeed;
     return true;
+  }
+
+  updateFromProfession(profession: Profession) {
+    console.log('human service try to update');
+    const human = this._human$.value;
+    this.humanControllerService
+      .update(human.id, this.updateStat(profession, human))
+      .subscribe((human) => this._human$.next(human));
+  }
+
+  private updateStat(profession: Profession, human: Human) {
+    if (profession.level % 2 === 0) return this.getValueA(profession, human);
+    else return this.getValueB(profession, human);
+  }
+
+  private getValueA(profession: Profession, human: Human) {
+    return {
+      [profession.valueA.stat]:
+        profession.valueA.value +
+        +human[profession.valueA.stat as keyof typeof human],
+    };
+  }
+
+  private getValueB(profession: Profession, human: Human) {
+    return {
+      [profession.valueB.stat]:
+        profession.valueB.value +
+        +human[profession.valueB.stat as keyof typeof human],
+    };
   }
 }

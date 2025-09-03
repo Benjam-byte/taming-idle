@@ -33,6 +33,6 @@ export class LootManagerService {
 
   addWheat(wheat: number) {
     this.wheatQuantity.update((value) => value + wheat);
-    this.professionManagerService.updateFermier();
+    this.professionManagerService.updateByProfessionName('Fermier');
   }
 }

@@ -1,4 +1,7 @@
-<div>
-  <p>Plaine exploré : {{ humanManagerService.distanceTravelled }}</p>
+<div *ngIf="humanManagerService.human$ | async as human">
+  <p>
+    Plaine exploré :
+    {{ human.distanceTravelled }}
+  </p>
   <p>Blé : {{ lootManagerService.wheatQuantity() }}</p>
 </div>

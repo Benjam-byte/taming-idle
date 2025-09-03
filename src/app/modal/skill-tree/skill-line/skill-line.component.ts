@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { SkillNode } from './skill-node.type';
 import { CommonModule } from '@angular/common';
-import Profession from 'src/app/core/value-object/profession';
+import { Profession } from 'src/app/database/profession/profession.type';
 
 @Component({
   selector: 'app-skill-line',
@@ -23,20 +23,18 @@ export class SkillLineComponent {
     const profession = this.profession();
     if (!profession) return [];
 
-    const level = profession.level();
+    const level = profession.level;
 
     return Array.from({ length: 10 }, (_, i) => {
       let text: string;
-      if (i === 0) {
-        text = 'level up for more';
-      } else if (i % 2 === 0) {
-        text = profession.bonusB;
-      } else {
+      if (i % 2 === 0) {
         text = profession.bonusA;
+      } else {
+        text = profession.bonusB;
       }
 
       return {
-        id: i + 1,
+        id: i,
         text,
         active: i < level,
       };
