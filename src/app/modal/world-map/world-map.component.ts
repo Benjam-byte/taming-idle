@@ -16,7 +16,6 @@ export class WorldMapComponent {
   modalCtrl = inject(ModalController);
 
   onZoneClick(zone: string) {
-    console.log('Zone cliquée :', zone);
     if (zone === 'fight tower') {
       this.openFightTowerModal();
       this.close();
