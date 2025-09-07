@@ -8,6 +8,7 @@ import { HealthBarComponent } from '../../../app/core/components/health-bar/heal
 import { MonsterSpriteComponent } from '../../../app/core/components/monster-sprite/monster-sprite.component';
 import { CombatTowerService } from 'src/app/core/service/location/combat-tower.service';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
+import Monster from 'src/app/core/value-object/monster';
 
 @Component({
   selector: 'app-fight-tower',
@@ -28,44 +29,48 @@ export class FightTowerComponent {
   modalCtrl = inject(ModalController);
   cdr = inject(ChangeDetectorRef);
   borderHeight = 100;
+  boss!: Monster;
   isFighting = false;
   isBossKilled = false;
   isBossFailed = false;
   timer!: ReturnType<typeof setInterval>;
   fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
 
+  constructor() {
+    this.boss = this.combatTowerService.getBoss();
+  }
+
   close() {
     this.modalCtrl.dismiss();
-    this.combatTowerService.retry();
   }
 
   continue() {
     this.isFighting = false;
     this.isBossKilled = false;
     this.borderHeight = 100;
+    this.boss = this.combatTowerService.getBoss();
   }
 
   retry() {
     this.isFighting = false;
     this.isBossFailed = false;
     this.borderHeight = 100;
-    this.combatTowerService.retry();
+    this.boss = this.combatTowerService.getBoss();
   }
 
-  hit() {
+  hit(boss: Monster) {
     this.gameEngineService.submitEventByType('fight', () => {
-      if (!this.combatTowerService.boss().isAlive) return;
-      this.combatTowerService
-        .boss()
-        .getHit(this.humanManagerService.human.damage);
-      this.bossKilled();
+      if (!boss.isAlive) return;
+      console.log('fight', boss);
+      boss.getHit(this.humanManagerService.human.damage);
+      this.bossKilled(boss);
     });
   }
 
-  private bossKilled() {
+  private bossKilled(boss: Monster) {
     console.log('bossKilled');
-    console.log(this.combatTowerService.boss());
-    if (this.combatTowerService.boss().isAlive) return;
+    console.log(boss);
+    if (boss.isAlive) return;
     this.combatTowerService.levelUp();
     this.borderHeight = 0;
     this.isBossKilled = true;

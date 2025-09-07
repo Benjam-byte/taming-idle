@@ -29,11 +29,11 @@ export class WorldController {
     return this.service.create(world);
   }
 
-  get(): Observable<World | undefined> {
+  get(): Observable<World> {
     return this.service.get();
   }
 
-  update(id: string, world: World): Observable<World> {
+  update(id: string, world: Partial<Omit<World, 'id'>>): Observable<World> {
     return this.service.update(id, world);
   }
 }

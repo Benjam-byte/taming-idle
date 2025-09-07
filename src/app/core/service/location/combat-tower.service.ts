@@ -1,18 +1,22 @@
-import { effect, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import Monster from '../../value-object/monster';
 import { CombatTowerController } from 'src/app/database/combatTower/combatTower.controller';
+import { CombatTower } from 'src/app/database/combatTower/combatTower.type';
+import { BehaviorSubject, map } from 'rxjs';
+import { WorldService } from './world.service';
 
 type Encounter = {
-  createBoss: () => Monster;
+  life: number;
+  type: 'slime';
   duration: number;
 };
 
 const levelDict: Record<number, Encounter> = {
-  1: { createBoss: () => new Monster(5, 'slime'), duration: 10000 },
-  2: { createBoss: () => new Monster(15, 'slime'), duration: 10000 },
-  3: { createBoss: () => new Monster(25, 'slime'), duration: 10000 },
-  4: { createBoss: () => new Monster(50, 'slime'), duration: 10000 },
-  5: { createBoss: () => new Monster(80, 'slime'), duration: 10000 },
+  1: { life: 5, type: 'slime', duration: 10000 },
+  2: { life: 15, type: 'slime', duration: 10000 },
+  3: { life: 25, type: 'slime', duration: 10000 },
+  4: { life: 50, type: 'slime', duration: 10000 },
+  5: { life: 80, type: 'slime', duration: 10000 },
 };
 
 @Injectable({
@@ -20,27 +24,48 @@ const levelDict: Record<number, Encounter> = {
 })
 export class CombatTowerService {
   combatTowerController = inject(CombatTowerController);
-  level = signal<number>(1);
-  boss = signal<Monster>(new Monster(0, 'slime'));
+  worldService = inject(WorldService);
+
+  private _combatTower$!: BehaviorSubject<CombatTower>;
 
   constructor() {
-    const savedLevel = localStorage.getItem('level');
-    if (savedLevel !== null) {
-      this.level.set(Number(savedLevel));
-    }
-
-    effect(() => {
-      localStorage.setItem('level', String(this.level()));
-    });
-    this.boss.set(levelDict[this.level()].createBoss());
+    this.combatTowerController
+      .get()
+      .pipe(
+        map(
+          (combatTower) =>
+            (this._combatTower$ = new BehaviorSubject(combatTower))
+        )
+      )
+      .subscribe();
   }
 
-  retry() {
-    this.boss.set(levelDict[this.level()].createBoss());
+  get combatTower() {
+    return this._combatTower$.value;
+  }
+
+  get combatTower$() {
+    return this._combatTower$.asObservable();
+  }
+
+  getBoss() {
+    return this.createBoss(levelDict[this.combatTower.level]);
   }
 
   levelUp() {
-    this.level.update((v) => v + 1);
-    this.boss.set(levelDict[this.level()].createBoss());
+    const newLevel = this.combatTower.level + 1;
+    this.combatTowerController
+      .update(this.combatTower.id, {
+        level: newLevel,
+        boss: levelDict[newLevel],
+      })
+      .subscribe((combatTower) => {
+        this._combatTower$.next(combatTower);
+        this.worldService.evolve(combatTower.level);
+      });
+  }
+
+  private createBoss(encouter: Encounter) {
+    return new Monster(encouter.life, encouter.type);
   }
 }

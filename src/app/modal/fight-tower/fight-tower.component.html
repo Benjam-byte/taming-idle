@@ -1,55 +1,60 @@
 <ion-content class="ion-padding custom-modal-content">
-  <div
-    class="background-image"
-    [ngStyle]="{ 'background-image': 'url(assets/map/Tour.webp)' }"
-  ></div>
-  <div class="content">
-    <div class="header">
-      <h2>Combat Tower</h2>
-      <p>Etage Actuel : {{ combatTowerService.level() }}</p>
+  <div *ngIf="combatTowerService.combatTower$ | async as combatTower">
+    <div
+      class="background-image"
+      [ngStyle]="{ 'background-image': 'url(assets/map/Tour.webp)' }"
+    ></div>
+    <div class="content">
+      <div class="header">
+        <h2>Combat Tower</h2>
+        <p>Etage Actuel : {{ combatTower.level }}</p>
+      </div>
+      <button class="icon-button" (click)="openWorldMapModal()">
+        <img src="assets/icon/earth.png" alt="earth" />
+      </button>
+      <div class="boss-container">
+        <app-health-bar
+          [max]="boss.maxLife"
+          [current]="boss.life"
+        ></app-health-bar>
+        <app-monster-sprite
+          spritePath="assets/monster/sprite/slime/SpriteSheet_Slime_Cursed.webp"
+          class="no-click no-select"
+        />
+      </div>
+      @if (isFighting) {
+      <app-attack-button
+        value="Hit"
+        [countdown$]="fightingCountDown$"
+        (click)="hit(boss)"
+      ></app-attack-button>
+      } @else {
+      <app-attack-button
+        value="Start"
+        (click)="startFight()"
+      ></app-attack-button>
+      }
     </div>
-    <button class="icon-button" (click)="openWorldMapModal()">
-      <img src="assets/icon/earth.png" alt="earth" />
-    </button>
-    <div class="boss-container">
-      <app-health-bar
-        [max]="combatTowerService.boss().maxLife"
-        [current]="combatTowerService.boss().life"
-      ></app-health-bar>
-      <app-monster-sprite
-        spritePath="assets/monster/sprite/slime/SpriteSheet_Slime_Cursed.webp"
-        class="no-click no-select"
-      />
+    <div class="burning-border">
+      <div class="border-line left" [style.height.%]="borderHeight"></div>
+      <div class="border-line right" [style.height.%]="borderHeight"></div>
     </div>
-    @if (isFighting) {
-    <app-attack-button
-      value="Hit"
-      [countdown$]="fightingCountDown$"
-      (click)="hit()"
-    ></app-attack-button>
-    } @else {
-    <app-attack-button value="Start" (click)="startFight()"></app-attack-button>
+    @if(isBossKilled){
+    <div class="victory-menu">
+      <p>Victoire, que souhaitez vous faire ?</p>
+      <div>
+        <button (click)="continue()">Monter au niveau suivant</button>
+        <button (click)="close()">Quitter la tour</button>
+      </div>
+    </div>
+    } @if(isBossFailed){
+    <div class="victory-menu">
+      <p>Dommage, que souhaitez vous faire ?</p>
+      <div>
+        <button (click)="retry()">Retenter sa chance</button>
+        <button (click)="close()">Quitter la tour</button>
+      </div>
+    </div>
     }
   </div>
-  <div class="burning-border">
-    <div class="border-line left" [style.height.%]="borderHeight"></div>
-    <div class="border-line right" [style.height.%]="borderHeight"></div>
-  </div>
-  @if(isBossKilled){
-  <div class="victory-menu">
-    <p>Victoire, que souhaitez vous faire ?</p>
-    <div>
-      <button (click)="continue()">Monter au niveau suivant</button>
-      <button (click)="close()">Quitter la tour</button>
-    </div>
-  </div>
-  } @if(isBossFailed){
-  <div class="victory-menu">
-    <p>Dommage, que souhaitez vous faire ?</p>
-    <div>
-      <button (click)="retry()">Retenter sa chance</button>
-      <button (click)="close()">Quitter la tour</button>
-    </div>
-  </div>
-  }
 </ion-content>

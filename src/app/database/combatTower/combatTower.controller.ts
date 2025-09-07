@@ -2,11 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CombatTowerService } from './combatTower.service';
 import { CombatTower } from './combatTower.type';
-import Monster from 'src/app/core/value-object/monster';
 
-const defaultCombatTower = {
+const defaultCombatTower: Omit<CombatTower, 'id'> = {
   level: 1,
-  boss: new Monster(5, 'slime'),
+  boss: { life: 5, type: 'slime', duration: 10000 },
 };
 
 @Injectable({ providedIn: 'root' })
@@ -17,11 +16,14 @@ export class CombatTowerController {
     return this.service.create(defaultCombatTower);
   }
 
-  get(): Observable<CombatTower | undefined> {
+  get(): Observable<CombatTower> {
     return this.service.get();
   }
 
-  update(id: string, combatTower: CombatTower): Observable<CombatTower> {
+  update(
+    id: string,
+    combatTower: Partial<Omit<CombatTower, 'id'>>
+  ): Observable<CombatTower> {
     return this.service.update(id, combatTower);
   }
 }

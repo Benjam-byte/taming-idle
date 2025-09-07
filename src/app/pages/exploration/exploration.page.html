@@ -3,15 +3,15 @@
   <button class="icon-button" (click)="openWorldMapModal()">
     <img src="assets/icon/earth.png" alt="earth" />
   </button>
-  @if(worldService.skillTreeAvailable) {
+  @if(worldService.world$ | async; as world) { @if(world.skillTreeAvailable) {
   <button class="skill-button" (click)="openSkillTreeModal()">
     <img src="assets/icon/skilltree.png" alt="earth" />
   </button>
-  } @if(worldService.offrandeAvailable) {
+  } @if(world.offrandeAvailable) {
   <button class="stall-button" (click)="openGodPalaceModal()">
     <img src="assets/icon/hands.png" alt="earth" />
   </button>
-  }
+  } }
 
   <div class="background-wrapper">
     <div

@@ -21,7 +21,7 @@ export class WorldMapComponent {
       this.openFightTowerModal();
       this.close();
     }
-    if (zone === this.worldService.map) this.close();
+    if (zone === this.worldService.world.map) this.close();
   }
 
   close() {
