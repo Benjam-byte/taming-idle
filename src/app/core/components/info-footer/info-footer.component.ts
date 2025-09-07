@@ -10,7 +10,6 @@ import { ActionGaugeComponent } from './action-gauge/action-gauge.component';
 import { CommonModule } from '@angular/common';
 import { RegionManagerService } from '../../service/location/region-manager.service';
 import { HumanManagerService } from '../../service/player/human-manager.service';
-import { Human } from 'src/app/database/human/human.type';
 
 type InformationMode = 'fight' | 'loot' | 'world' | 'monster';
 

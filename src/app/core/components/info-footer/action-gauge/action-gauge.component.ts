@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 
 @Component({
   selector: 'app-action-gauge',

@@ -43,10 +43,13 @@
     }
   </div>
 
+  @if(humanManagerService.human$ | async; as human) {
+
   <div class="footer">
     <app-info-footer
-      [fightingDuration]="fightingDuration"
-      [travelDuration]="travelDuration"
+      [fightingDuration]="human.fightingSpeed"
+      [travelDuration]="human.travellingSpeed"
     />
   </div>
+  }
 </ion-content>

@@ -28,7 +28,7 @@ import { HumanManagerService } from 'src/app/core/service/player/human-manager.s
     InfoFooterComponent,
   ],
 })
-export class ExplorationPage implements OnInit {
+export class ExplorationPage {
   gameEngineService = inject(GameEngineService);
   humanManagerService = inject(HumanManagerService);
   mapService = inject(MapService);
@@ -49,9 +49,6 @@ export class ExplorationPage implements OnInit {
     'assets/map/plaine/Plaine_6.webp',
   ];
 
-  travelDuration!: number;
-  fightingDuration!: number;
-  searchDuration!: number;
   imageUrl = '';
   previousImageUrl: string | null = null;
   imageLoaded = false;
@@ -61,14 +58,6 @@ export class ExplorationPage implements OnInit {
       const value = this.currentMap();
       if (value) this.changeBackgroundImage(this.getRandomImage());
     });
-  }
-
-  ngOnInit(): void {
-    if (this.humanManagerService.human) {
-      this.travelDuration = this.humanManagerService.human.travellingSpeed;
-      this.fightingDuration = this.humanManagerService.human.fightingSpeed;
-      this.searchDuration = this.humanManagerService.human.searchingSpeed;
-    }
   }
 
   getRandomImage(): string {
