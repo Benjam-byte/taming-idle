@@ -1,4 +1,4 @@
-export type availableMap =
+export type availableRegion =
   | 'plaine'
   | 'volcan'
   | 'fight tower'
@@ -8,8 +8,8 @@ export type availableMap =
 
 export type World = {
   id: string;
-  mapUnlocked: availableMap[];
-  map: availableMap;
+  mapUnlocked: availableRegion[];
+  region: availableRegion;
   skillTreeAvailable: boolean;
   offrandeAvailable: boolean;
   monsterAvailable: boolean;

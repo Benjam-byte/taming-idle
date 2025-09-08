@@ -1,17 +1,17 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WorldService } from './world.service';
-import { availableMap, World } from './world.type';
+import { availableRegion, World } from './world.type';
 
 const defaultWorld: {
-  mapUnlocked: availableMap[];
-  map: availableMap;
+  mapUnlocked: availableRegion[];
+  region: availableRegion;
   skillTreeAvailable: boolean;
   offrandeAvailable: boolean;
   monsterAvailable: boolean;
 } = {
   mapUnlocked: ['plaine'],
-  map: 'plaine',
+  region: 'plaine',
   skillTreeAvailable: false,
   offrandeAvailable: false,
   monsterAvailable: false,
