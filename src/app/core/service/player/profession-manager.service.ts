@@ -5,12 +5,14 @@ import { Profession } from 'src/app/database/profession/profession.type';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { Human } from 'src/app/database/human/human.type';
 import { HumanManagerService } from './human-manager.service';
+import { WorldService } from '../location/world.service';
 
 const XP_STEP = 0.1;
 
 @Injectable({ providedIn: 'root' })
 export class ProfessionManagerService {
   professionControllerService = inject(ProfessionController);
+  worldService = inject(WorldService);
   humanService = inject(HumanManagerService);
   broadcastMessageService = inject(BroadcastService);
 
@@ -43,16 +45,17 @@ export class ProfessionManagerService {
   }
 
   updateByProfessionName(professionName: string) {
+    if (!this.worldService.world.skillTreeAvailable) return;
     this._professionlist$
       .pipe(
         take(1),
         map((professionList) => {
-          const travelerProfession = professionList.find(
+          const profession = professionList.find(
             (profession) => profession.name === professionName
           );
-          if (!travelerProfession) return;
+          if (!profession) return;
           this.professionControllerService
-            .updateOne(travelerProfession.id, this.progress(travelerProfession))
+            .updateOne(profession.id, this.progress(profession))
             .subscribe((professionList) =>
               this._professionlist$.next(professionList)
             );

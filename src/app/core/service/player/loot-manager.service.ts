@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { RegionManagerService } from '../location/region-manager.service';
 import { ProfessionManagerService } from './profession-manager.service';
 import { LootController } from 'src/app/database/loot/loot.controller';
 import { BehaviorSubject, map } from 'rxjs';
@@ -7,7 +6,6 @@ import { Loot } from 'src/app/database/loot/loot.type';
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
   lootControllerService = inject(LootController);
-  regionManagerService = inject(RegionManagerService);
   professionManagerService = inject(ProfessionManagerService);
 
   private _loot$!: BehaviorSubject<Loot>;

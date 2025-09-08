@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Map } from '../../value-object/map';
-import { RegionManagerService } from './region-manager.service';
+import { RegionService } from './region.service';
 
 type MapKey = 'tresor' | 'monster' | 'empty';
 
@@ -8,7 +8,7 @@ type MapKey = 'tresor' | 'monster' | 'empty';
   providedIn: 'root',
 })
 export class MapService {
-  regionManagerService = inject(RegionManagerService);
+  regionService = inject(RegionService);
   map = signal<Map>(new Map());
 
   constructor() {}
@@ -26,7 +26,7 @@ export class MapService {
     let cumulative = 0;
 
     for (const [key, prob] of Object.entries(
-      this.regionManagerService.currentRegion().getMapDict()
+      this.regionService.getSelectedRegionMapDict()
     )) {
       cumulative += prob;
       if (rand < cumulative) {

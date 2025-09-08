@@ -2,7 +2,6 @@ import { Component, ElementRef, inject, OnInit } from '@angular/core';
 import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
-import { RegionManagerService } from 'src/app/core/service/location/region-manager.service';
 import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
 
 @Component({

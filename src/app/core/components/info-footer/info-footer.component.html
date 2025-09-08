@@ -60,7 +60,8 @@
   <div class="text-col">
     <div class="line"></div>
   </div>
-  } @if(infoMode === 'world') {
+  } @if(infoMode === 'world') { @if(regionService.region$ | async; as region ){
+
   <div class="text-col">
     <div class="line">
       <p>{{ region.monsterSpawnRate }} monster %</p>
@@ -86,7 +87,7 @@
       <p>{{ region.tresorMapSpawnRate }} tresor map (sp) %</p>
     </div>
   </div>
-  } @if(infoMode === 'monster') {
+  } } @if(infoMode === 'monster') {
   <div class="text-col">
     <div class="line"></div>
   </div>
