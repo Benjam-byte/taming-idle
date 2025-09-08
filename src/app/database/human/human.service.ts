@@ -41,7 +41,6 @@ export class HumanService {
   }
 
   update(id: string, patch: Partial<Omit<Human, 'id'>>): Observable<Human> {
-    console.log('human stat', patch);
     return this.readAll$().pipe(
       switchMap((list) => {
         const idx = list.findIndex((h) => h.id === id);
@@ -49,8 +48,6 @@ export class HumanService {
         const merged: Human = { ...list[idx], ...patch, id };
         const updated = [...list];
         updated[idx] = merged;
-        console.log('updated', updated);
-        console.log('merged', merged);
         return this.writeAll$(updated).pipe(map(() => merged));
       })
     );
