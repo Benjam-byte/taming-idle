@@ -65,7 +65,6 @@ export class HumanManagerService {
   }
 
   updateFromProfession(profession: Profession) {
-    console.log('human service try to update');
     const human = this._human$.value;
     this.humanControllerService
       .update(human.id, this.updateStat(profession, human))
