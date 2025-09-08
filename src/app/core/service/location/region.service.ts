@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, filter, map } from 'rxjs';
+import { BehaviorSubject, filter, map, of } from 'rxjs';
 import { RegionController } from 'src/app/database/region/region.controller';
 import { MapKey, Region } from 'src/app/database/region/region.type';
 
@@ -24,6 +24,7 @@ export class RegionService {
   }
 
   get region$() {
+    if (!this._region$) return of(null);
     return this._region$.asObservable();
   }
 

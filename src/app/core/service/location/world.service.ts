@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { WorldController } from 'src/app/database/world/world.controller';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, of } from 'rxjs';
 import { World } from 'src/app/database/world/world.type';
 import { RegionService } from './region.service';
 
@@ -27,6 +27,7 @@ export class WorldService {
   }
 
   get world$() {
+    if (!this._world$) return of(null);
     return this._world$.asObservable();
   }
 

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Human } from 'src/app/database/human/human.type';
 import { HumanController } from 'src/app/database/human/human.controller';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, of } from 'rxjs';
 import { Profession } from 'src/app/database/profession/profession.type';
 
 @Injectable({ providedIn: 'root' })
@@ -25,6 +25,7 @@ export class HumanManagerService {
   }
 
   get human$() {
+    if (!this._human$) return of(null);
     return this._human$.asObservable();
   }
 

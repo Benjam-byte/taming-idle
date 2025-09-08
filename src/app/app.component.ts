@@ -8,6 +8,7 @@ import { RegionController } from './database/region/region.controller';
 import { WorldController } from './database/world/world.controller';
 import { DatabaseService } from './database/database.service';
 import { concat, forkJoin, take } from 'rxjs';
+import { CombatTowerService } from './core/service/location/combat-tower.service';
 
 const VERSION = 1;
 
@@ -24,6 +25,7 @@ export class AppComponent {
   professionControllerService = inject(ProfessionController);
   regionControllerService = inject(RegionController);
   worldControllerService = inject(WorldController);
+  combatTowerService = inject(CombatTowerService);
 
   isReady = signal<boolean>(false);
 

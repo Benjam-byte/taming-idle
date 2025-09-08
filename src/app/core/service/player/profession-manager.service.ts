@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ProfessionController } from 'src/app/database/profession/profession.controller';
-import { BehaviorSubject, map, take } from 'rxjs';
+import { BehaviorSubject, map, of, take } from 'rxjs';
 import { Profession } from 'src/app/database/profession/profession.type';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { Human } from 'src/app/database/human/human.type';
@@ -35,6 +35,7 @@ export class ProfessionManagerService {
   }
 
   get professionList$() {
+    if (!this._professionlist$) return of(null);
     return this._professionlist$.asObservable();
   }
 

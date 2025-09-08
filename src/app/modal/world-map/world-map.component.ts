@@ -20,6 +20,8 @@ export class WorldMapComponent {
       this.openFightTowerModal();
       this.close();
     }
+    console.log(zone);
+    console.log(this.worldService.world);
     if (zone === this.worldService.world.region) this.close();
   }
 

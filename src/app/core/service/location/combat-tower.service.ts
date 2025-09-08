@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import Monster from '../../value-object/monster';
 import { CombatTowerController } from 'src/app/database/combatTower/combatTower.controller';
 import { CombatTower } from 'src/app/database/combatTower/combatTower.type';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, of } from 'rxjs';
 import { WorldService } from './world.service';
 
 type Encounter = {
@@ -45,6 +45,7 @@ export class CombatTowerService {
   }
 
   get combatTower$() {
+    if (!this._combatTower$) return of(null);
     return this._combatTower$.asObservable();
   }
 

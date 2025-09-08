@@ -8,7 +8,7 @@ export type availableRegion =
 
 export type World = {
   id: string;
-  mapUnlocked: availableRegion[];
+  regionUnlocked: availableRegion[];
   region: availableRegion;
   skillTreeAvailable: boolean;
   offrandeAvailable: boolean;

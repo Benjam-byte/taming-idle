@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ProfessionManagerService } from './profession-manager.service';
 import { LootController } from 'src/app/database/loot/loot.controller';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, of } from 'rxjs';
 import { Loot } from 'src/app/database/loot/loot.type';
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
@@ -22,6 +22,7 @@ export class LootManagerService {
   }
 
   get loot$() {
+    if (!this._loot$) return of(null);
     return this._loot$.asObservable();
   }
 

@@ -4,13 +4,13 @@ import { WorldService } from './world.service';
 import { availableRegion, World } from './world.type';
 
 const defaultWorld: {
-  mapUnlocked: availableRegion[];
+  regionUnlocked: availableRegion[];
   region: availableRegion;
   skillTreeAvailable: boolean;
   offrandeAvailable: boolean;
   monsterAvailable: boolean;
 } = {
-  mapUnlocked: ['plaine'],
+  regionUnlocked: ['plaine'],
   region: 'plaine',
   skillTreeAvailable: false,
   offrandeAvailable: false,
