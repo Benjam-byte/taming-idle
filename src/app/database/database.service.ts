@@ -8,7 +8,10 @@ import { Platform } from '@ionic/angular';
 export class DatabaseService {
   ready$: Observable<void>;
 
-  constructor(private storage: Storage, private platform: Platform) {
+  constructor(
+    private readonly storage: Storage,
+    private readonly platform: Platform
+  ) {
     this.ready$ = defer(() => from(this.init())).pipe(
       map(() => void 0),
       shareReplay({ bufferSize: 1, refCount: true })

@@ -82,8 +82,8 @@ export class RegionService {
     );
   }
 
-  clearAll(): Observable<void> {
-    return this.writeAll$([]);
+  dropTable(): Observable<void> {
+    return this.db.remove(COLLECTION_KEY);
   }
 
   private readAll$(): Observable<Region[]> {

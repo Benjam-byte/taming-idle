@@ -30,4 +30,8 @@ export class HumanController {
   update(id: string, human: Partial<Omit<Human, 'id'>>): Observable<Human> {
     return this.service.update(id, human);
   }
+
+  dropTable(): Observable<void> {
+    return this.service.dropTable();
+  }
 }

@@ -43,6 +43,10 @@ export class LootService {
     );
   }
 
+  dropTable(): Observable<void> {
+    return this.db.remove(COLLECTION_KEY);
+  }
+
   private readAll$(): Observable<Loot[]> {
     return this.db
       .get<Loot[]>(COLLECTION_KEY, [])

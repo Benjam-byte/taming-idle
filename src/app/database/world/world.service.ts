@@ -45,6 +45,10 @@ export class WorldService {
     );
   }
 
+  dropTable(): Observable<void> {
+    return this.db.remove(COLLECTION_KEY);
+  }
+
   private readAll$(): Observable<World[]> {
     return this.db
       .get<World[]>(COLLECTION_KEY, [])

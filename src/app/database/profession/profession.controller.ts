@@ -36,4 +36,8 @@ export class ProfessionController {
   delete(id: string): Observable<boolean> {
     return this.service.remove(id);
   }
+
+  dropTable(): Observable<void> {
+    return this.service.dropTable();
+  }
 }

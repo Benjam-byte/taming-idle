@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { HumanController } from './database/human/human.controller';
 import { CombatTowerController } from './database/combatTower/combatTower.controller';
@@ -7,6 +7,9 @@ import { ProfessionController } from './database/profession/profession.controlle
 import { RegionController } from './database/region/region.controller';
 import { WorldController } from './database/world/world.controller';
 import { DatabaseService } from './database/database.service';
+import { concat, forkJoin, take } from 'rxjs';
+
+const VERSION = 1;
 
 @Component({
   selector: 'app-root',
@@ -22,21 +25,45 @@ export class AppComponent {
   regionControllerService = inject(RegionController);
   worldControllerService = inject(WorldController);
 
+  isReady = signal<boolean>(false);
+
   constructor() {
     const dbInitialized = localStorage.getItem('db');
 
     if (dbInitialized === null) {
-      this.initDatabase();
-      localStorage.setItem('db', JSON.stringify(true));
+      this.initDatabase$().subscribe(() => {
+        localStorage.setItem('db', JSON.stringify(VERSION));
+        this.isReady.set(true);
+      });
+    } else if (+dbInitialized !== VERSION) {
+      concat(this.dropDatabase$(), this.initDatabase$()).subscribe(() => {
+        localStorage.setItem('db', JSON.stringify(VERSION));
+        this.isReady.set(true);
+      });
+    } else {
+      this.isReady.set(true);
     }
   }
 
-  initDatabase() {
-    this.humanControllerService.init().subscribe();
-    this.combatTowerControllerService.init().subscribe();
-    this.lootControllerService.init().subscribe();
-    this.professionControllerService.init().subscribe();
-    this.regionControllerService.init().subscribe();
-    this.worldControllerService.init().subscribe();
+  initDatabase$() {
+    return forkJoin([
+      this.humanControllerService.init(),
+      this.combatTowerControllerService.init(),
+      this.lootControllerService.init(),
+      this.professionControllerService.init(),
+      this.regionControllerService.init(),
+      this.worldControllerService.init(),
+    ]);
+  }
+
+  dropDatabase$() {
+    return forkJoin([
+      this.humanControllerService.dropTable(),
+      this.combatTowerControllerService.dropTable(),
+      this.lootControllerService.dropTable(),
+      this.professionControllerService.dropTable(),
+      this.regionControllerService.dropTable(),
+      this.worldControllerService.dropTable(),
+    ]);
   }
 }

@@ -26,4 +26,8 @@ export class LootController {
   update(id: string, loot: Partial<Omit<Loot, 'id'>>): Observable<Loot> {
     return this.service.update(id, loot);
   }
+
+  dropTable(): Observable<void> {
+    return this.service.dropTable();
+  }
 }

@@ -1,13 +1,4 @@
-import {
-  map,
-  Observable,
-  of,
-  pipe,
-  switchMap,
-  take,
-  tap,
-  throwError,
-} from 'rxjs';
+import { map, Observable, switchMap, take, throwError } from 'rxjs';
 import { Human } from './human.type';
 import { inject, Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
@@ -51,6 +42,10 @@ export class HumanService {
         return this.writeAll$(updated).pipe(map(() => merged));
       })
     );
+  }
+
+  dropTable(): Observable<void> {
+    return this.db.remove(COLLECTION_KEY);
   }
 
   private readAll$(): Observable<Human[]> {

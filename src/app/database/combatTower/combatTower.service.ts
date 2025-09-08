@@ -49,6 +49,10 @@ export class CombatTowerService {
     );
   }
 
+  dropTable(): Observable<void> {
+    return this.db.remove(COLLECTION_KEY);
+  }
+
   private readAll$(): Observable<CombatTower[]> {
     return this.db
       .get<CombatTower[]>(COLLECTION_KEY, [])

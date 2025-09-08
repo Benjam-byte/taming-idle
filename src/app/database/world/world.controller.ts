@@ -36,4 +36,8 @@ export class WorldController {
   update(id: string, world: Partial<Omit<World, 'id'>>): Observable<World> {
     return this.service.update(id, world);
   }
+
+  dropTable(): Observable<void> {
+    return this.service.dropTable();
+  }
 }

@@ -26,4 +26,8 @@ export class CombatTowerController {
   ): Observable<CombatTower> {
     return this.service.update(id, combatTower);
   }
+
+  dropTable(): Observable<void> {
+    return this.service.dropTable();
+  }
 }
