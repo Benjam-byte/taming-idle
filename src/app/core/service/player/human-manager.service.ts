@@ -65,6 +65,12 @@ export class HumanManagerService {
     return true;
   }
 
+  updateDamage(damage: number) {
+    this.humanControllerService
+      .update(this.human.id, { damage })
+      .subscribe((human) => this._human$.next(human));
+  }
+
   updateFromProfession(profession: Profession) {
     const human = this._human$.value;
     this.humanControllerService

@@ -61,15 +61,12 @@ export class FightTowerComponent {
   hit(boss: Monster) {
     this.gameEngineService.submitEventByType('fight', () => {
       if (!boss.isAlive) return;
-      console.log('fight', boss);
       boss.getHit(this.humanManagerService.human.damage);
       this.bossKilled(boss);
     });
   }
 
   private bossKilled(boss: Monster) {
-    console.log('bossKilled');
-    console.log(boss);
     if (boss.isAlive) return;
     this.combatTowerService.levelUp();
     this.borderHeight = 0;

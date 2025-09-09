@@ -4,6 +4,7 @@ import { WorldController } from 'src/app/database/world/world.controller';
 import { BehaviorSubject, map, of } from 'rxjs';
 import { World } from 'src/app/database/world/world.type';
 import { RegionService } from './region.service';
+import { HumanManagerService } from '../player/human-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ import { RegionService } from './region.service';
 export class WorldService {
   broadcastMessageService = inject(BroadcastService);
   worldControllerService = inject(WorldController);
+  humanManagerService = inject(HumanManagerService);
   regionService = inject(RegionService);
 
   private _world$!: BehaviorSubject<World>;
@@ -39,12 +41,14 @@ export class WorldService {
           message: 'Word is evolving, monster are born',
         });
         this.regionService.updateSelectedRegionMonsterSpawnRate(2 / 50);
+        this.humanManagerService.updateDamage(2);
         break;
       case 3:
         this.enableSkillTree();
         this.broadcastMessageService.displayMessage({
           message: 'Skill tree is now available',
         });
+        this.humanManagerService.updateDamage(2);
         break;
       case 4:
         this.broadcastMessageService.displayMessage({
