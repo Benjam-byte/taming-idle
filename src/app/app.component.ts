@@ -7,8 +7,10 @@ import { ProfessionController } from './database/profession/profession.controlle
 import { RegionController } from './database/region/region.controller';
 import { WorldController } from './database/world/world.controller';
 import { DatabaseService } from './database/database.service';
-import { concat, forkJoin, take } from 'rxjs';
+import { concat, forkJoin } from 'rxjs';
 import { CombatTowerService } from './core/service/location/combat-tower.service';
+import { GodController } from './database/god/god.controller';
+import { GodService } from './core/service/location/god-palace.service';
 
 const VERSION = 1;
 
@@ -25,7 +27,10 @@ export class AppComponent {
   professionControllerService = inject(ProfessionController);
   regionControllerService = inject(RegionController);
   worldControllerService = inject(WorldController);
+  godControllerService = inject(GodController);
+
   combatTowerService = inject(CombatTowerService);
+  godPalaceService = inject(GodService);
 
   isReady = signal<boolean>(false);
 
@@ -55,6 +60,7 @@ export class AppComponent {
       this.professionControllerService.init(),
       this.regionControllerService.init(),
       this.worldControllerService.init(),
+      this.godControllerService.init(),
     ]);
   }
 
@@ -66,6 +72,7 @@ export class AppComponent {
       this.professionControllerService.dropTable(),
       this.regionControllerService.dropTable(),
       this.worldControllerService.dropTable(),
+      this.godControllerService.dropTable(),
     ]);
   }
 }

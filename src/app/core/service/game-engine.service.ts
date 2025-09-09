@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { GameLoopService } from './game-loop.service';
 import { GameEvent } from '../models/gameEvent.type';
 import {
@@ -8,8 +8,6 @@ import {
   map,
   Observable,
 } from 'rxjs';
-import God from '../value-object/god';
-import godJson from '../value-object/godJson.json';
 import { MapService } from './location/map.service';
 import { WorldService } from './location/world.service';
 import { ProfessionManagerService } from './player/profession-manager.service';
@@ -24,8 +22,6 @@ export class GameEngineService {
   professionManager = inject(ProfessionManagerService);
   gameLoopService = inject(GameLoopService);
   humanManagerService = inject(HumanManagerService);
-
-  godList = signal<God[]>(this.parseGodsFromJson(godJson));
 
   constructor() {
     this.gameLoopService.start();
@@ -91,12 +87,5 @@ export class GameEngineService {
         this.mapService.changeMap();
         break;
     }
-  }
-
-  private parseGodsFromJson(json: God[]): God[] {
-    return json.map(
-      (god) =>
-        new God(god.name, god.description, god.imagePath, god.offeringList)
-    );
   }
 }

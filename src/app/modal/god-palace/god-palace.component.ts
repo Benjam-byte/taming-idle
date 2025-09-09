@@ -7,9 +7,10 @@ import {
   signal,
 } from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
-import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import { WorldMapComponent } from '../world-map/world-map.component';
 import { MetaGodPalaceComponent } from '../meta-god-palace/meta-god-palace.component';
+import { GodService } from 'src/app/core/service/location/god-palace.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-god-palace',
@@ -19,12 +20,19 @@ import { MetaGodPalaceComponent } from '../meta-god-palace/meta-god-palace.compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GodPalaceComponent {
-  gameEngineService = inject(GameEngineService);
   modalCtrl = inject(ModalController);
+  godPalaceService = inject(GodService);
 
-  godList = this.gameEngineService.godList();
+  readonly godList = toSignal(this.godPalaceService.godList$, {
+    initialValue: [],
+  });
   readonly selectedIndex = signal(0);
-  readonly selectedGod = computed(() => this.godList[this.selectedIndex()]);
+  readonly selectedGod = computed(() => {
+    const godList = this.godList();
+    const selectedIndex = this.selectedIndex();
+    if (!godList) return;
+    return godList[selectedIndex];
+  });
 
   close() {
     this.modalCtrl.dismiss();
@@ -32,7 +40,7 @@ export class GodPalaceComponent {
 
   next(): void {
     const current = this.selectedIndex();
-    const total = this.godList.length;
+    const total = this.godPalaceService.godList.length;
     this.selectedIndex.update(() => (current + 1) % total);
   }
 
@@ -53,9 +61,12 @@ export class GodPalaceComponent {
   }
 
   goToMetaPalace() {
-    if (this.selectedGod().name !== 'Meta fracture') return;
-    this.close();
-    this.openMetaGodModal();
+    const selectedGod = this.selectedGod();
+    if (selectedGod) {
+      if (selectedGod.name !== 'Meta fracture') return;
+      this.close();
+      this.openMetaGodModal();
+    }
   }
 
   async openMetaGodModal() {

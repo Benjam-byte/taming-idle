@@ -59,15 +59,30 @@
 
 .altar-container {
   z-index: 10;
-  display: flex;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
   height: 100%;
-  justify-content: center;
-  flex-direction: column;
-  margin-top: 50px;
+  padding-top: 50px;
 }
 
 .altar {
   z-index: 10;
+  grid-row: 2;
+}
+
+.title {
+  grid-row-start: 1;
+  background-color: brown;
+  outline: 3px solid rgb(37, 19, 2);
+  border-radius: 5px;
+  height: fit-content;
+  padding: 4px;
+}
+
+.title p {
+  margin: 0;
+  text-align: center;
+  font-size: 24px;
 }
 
 .altar-description {
@@ -75,6 +90,7 @@
   outline: 3px solid rgb(37, 19, 2);
   border-radius: 5px;
   padding: 4px;
+  grid-row: 4;
 }
 
 .bouton-offrande {

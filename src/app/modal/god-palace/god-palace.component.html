@@ -13,18 +13,23 @@
     <button class="next-button" (click)="next()">
       <img src="assets/icon/back.png" alt="back" />
     </button>
+    @if(selectedGod(); as selectedGod) {
+
     <div class="altar-container">
+      <div class="title">
+        <p>{{ selectedGod.name }}</p>
+      </div>
       <img
         class="altar"
-        [src]="selectedGod().imagePath"
+        [src]="selectedGod.imagePath"
         alt="altar"
         (click)="goToMetaPalace()"
       />
-      @if(selectedGod().description !== "") {
+      @if(selectedGod.description !== "") {
       <div class="altar-description">
         <h3>Offrande</h3>
         <p class="justify">
-          {{ selectedGod().description }}
+          {{ selectedGod.description }}
         </p>
         <div class="centered">
           <button class="bouton-offrande">Offrir</button>
@@ -32,5 +37,6 @@
       </div>
       }
     </div>
+    }
   </div>
 </ion-content>

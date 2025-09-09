@@ -13,7 +13,7 @@ const defaultWorld: {
   regionUnlocked: ['plaine'],
   region: 'plaine',
   skillTreeAvailable: false,
-  offrandeAvailable: false,
+  offrandeAvailable: true,
   monsterAvailable: false,
 };
 
