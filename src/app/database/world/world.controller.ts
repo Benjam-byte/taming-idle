@@ -9,12 +9,14 @@ const defaultWorld: {
   skillTreeAvailable: boolean;
   offrandeAvailable: boolean;
   monsterAvailable: boolean;
+  geometricLootRatio: number;
 } = {
   regionUnlocked: ['plaine'],
   region: 'plaine',
   skillTreeAvailable: false,
   offrandeAvailable: true,
   monsterAvailable: false,
+  geometricLootRatio: 1.15,
 };
 
 @Injectable({ providedIn: 'root' })

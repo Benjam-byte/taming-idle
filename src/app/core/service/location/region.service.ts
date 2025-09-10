@@ -44,4 +44,12 @@ export class RegionService {
       })
       .subscribe((region) => this._region$.next(region));
   }
+
+  updateSelectedRegionLootDropPercentage(value: number) {
+    this.regionControllerService
+      .updateOne(this.region.id, {
+        lootDropPercentage: this.region.lootDropPercentage + value,
+      })
+      .subscribe((region) => this._region$.next(region));
+  }
 }

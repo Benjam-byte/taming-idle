@@ -1,37 +1,62 @@
 [
   {
     "name": "Dieu de l'aventure",
-    "description": "Le dieu de l'aventure accepte le blé, en échange il augmente votre vitesse de déplacement",
+    "description": "Le dieu de l'aventure accepte le blé, en échange il augmente la quantité de ressource dans votre monde",
     "imagePath": "assets/altar/Altar_Adventure.webp",
     "order": 1,
-    "offering": { "price": 10, "statGain": -100, "ressource": "wheat" }
+    "level": 1,
+    "offering": {
+      "price": 10,
+      "statGain": 0.1,
+      "ressource": "Wheat"
+    }
   },
   {
     "name": "Dieu du combat",
     "description": "Le dieu du combat accepte des peaux de monstre. En échange, les monstres apparaissent plus souvent et sont plus puissants, offrant de meilleurs butins.",
     "imagePath": "assets/altar/Altar_Combat.webp",
     "order": 2,
-    "offering": { "price": 100, "statGain": 0.04, "ressource": "wheat" }
+    "level": 1,
+    "offering": {
+      "price": 100,
+      "statGain": 0.01,
+      "ressource": "wheat"
+    }
   },
   {
     "name": "Dieu de la malice",
-    "description": "Le dieu de la malice accepte des peaux de monstres rares. En échange, il augmente vos chances et vos dégâts de coup critique.",
+    "description": "Le dieu de la malice accepte des peaux de monstres rares. En échange, il aggrandiras votre monde.",
     "imagePath": "assets/altar/Altar_Malice.webp",
     "order": 3,
-    "offering": { "price": 3, "statGain": 0.1, "ressource": "slime" }
+    "level": 1,
+    "offering": {
+      "price": 3,
+      "statGain": 1,
+      "ressource": "slime"
+    }
   },
   {
     "name": "Dieu de la récolte",
-    "description": "Le dieu de la récolte accepte du blé rare. En échange, il augmente vos chances de récolter plus de ressources.",
+    "description": "Le dieu de la récolte accepte du blé rare. En échange, il diversifie les plantes sur votre territoire.",
     "imagePath": "assets/altar/Altar_Speed.webp",
     "order": 4,
-    "offering": { "price": 5, "statGain": 0.2, "ressource": "slime" }
+    "level": 1,
+    "offering": {
+      "price": 5,
+      "statGain": 0.2,
+      "ressource": "Wheat_Shinny"
+    }
   },
   {
     "name": "Meta fracture",
     "description": "",
     "order": 5,
     "imagePath": "assets/altar/MetaGod_Portal_Closed_Glitch.webp",
-    "offering": { "price": 0, "statGain": 0.0, "ressource": "" }
+    "level": 0,
+    "offering": {
+      "price": 0,
+      "statGain": 0.0,
+      "ressource": ""
+    }
   }
 ]

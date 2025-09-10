@@ -59,6 +59,21 @@ export class ClickEffectService {
     }, 600);
   }
 
+  spawnFailMessageClickEffect(event: MouseEvent, message: string) {
+    const messageText = document.createElement('div');
+    messageText.className = 'message-text';
+    messageText.textContent = message;
+
+    messageText.style.left = `${event.clientX}px`;
+    messageText.style.top = `${event.clientY}px`;
+
+    document.body.appendChild(messageText);
+
+    setTimeout(() => {
+      messageText.remove();
+    }, 6000);
+  }
+
   spawnDamageClickEffect(event: MouseEvent, damage: number) {
     const damageText = document.createElement('div');
     damageText.className = 'damage-text';

@@ -11,6 +11,13 @@ import { WorldMapComponent } from '../world-map/world-map.component';
 import { MetaGodPalaceComponent } from '../meta-god-palace/meta-god-palace.component';
 import { GodService } from 'src/app/core/service/location/god-palace.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
+import { God } from 'src/app/database/god/god.type';
+import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
+import { RegionService } from 'src/app/core/service/location/region.service';
+import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
+import { costGeomInt } from 'src/app/core/helpers/cost-function';
+import { WorldService } from 'src/app/core/service/location/world.service';
 
 @Component({
   selector: 'app-god-palace',
@@ -22,6 +29,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class GodPalaceComponent {
   modalCtrl = inject(ModalController);
   godPalaceService = inject(GodService);
+  lootService = inject(LootManagerService);
+  worldService = inject(WorldService);
+  broadcastService = inject(BroadcastService);
+  regionService = inject(RegionService);
+  clickEffectService = inject(ClickEffectService);
 
   readonly godList = toSignal(this.godPalaceService.godList$, {
     initialValue: [],
@@ -78,5 +90,31 @@ export class GodPalaceComponent {
     });
 
     modal.present();
+  }
+
+  getPrice(selectedGod: God) {
+    const t = costGeomInt(
+      selectedGod.level,
+      selectedGod.offering.price,
+      this.worldService.world.geometricLootRatio
+    );
+    console.log(t);
+    return costGeomInt(
+      selectedGod.level,
+      selectedGod.offering.price,
+      this.worldService.world.geometricLootRatio
+    );
+  }
+
+  offer(selectedGod: God) {
+    this.lootService.paidWheat$(selectedGod.offering.price)?.subscribe(() => {
+      this.regionService.updateSelectedRegionLootDropPercentage(
+        selectedGod.offering.statGain
+      );
+      this.godPalaceService.updateGodLevel(selectedGod);
+      this.broadcastService.displayMessage({
+        message: 'Les champs sont maintenant plus fertile',
+      });
+    });
   }
 }

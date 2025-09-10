@@ -31,9 +31,33 @@
         <p class="justify">
           {{ selectedGod.description }}
         </p>
-        <div class="centered">
-          <button class="bouton-offrande">Offrir</button>
+        @if(lootService.loot$ | async; as loot ){
+        <div class="value-container">
+          <img class="icon" src="assets/object/Wheat.webp" />
+          <p class="value-text">
+            <span
+              [ngClass]="
+                loot.wheatQuantity >= selectedGod.offering.price
+                  ? 'green'
+                  : 'red'
+              "
+              >{{ loot.wheatQuantity }}</span
+            >
+            /
+            {{ getPrice(selectedGod) }}
+          </p>
         </div>
+
+        <div class="centered">
+          <button
+            class="bouton-offrande"
+            (click)="offer(selectedGod)"
+            [disabled]="loot.wheatQuantity < selectedGod.offering.price"
+          >
+            Offrir
+          </button>
+        </div>
+        }
       </div>
       }
     </div>

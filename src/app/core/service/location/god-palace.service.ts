@@ -26,4 +26,10 @@ export class GodService {
     if (!this._godList$) return of(null);
     return this._godList$.asObservable();
   }
+
+  updateGodLevel(god: God) {
+    this.godController
+      .updateOne(god.id, { level: god.level + 1 })
+      .subscribe((godList) => this._godList$.next(godList));
+  }
 }

@@ -13,4 +13,5 @@ export type World = {
   skillTreeAvailable: boolean;
   offrandeAvailable: boolean;
   monsterAvailable: boolean;
+  geometricLootRatio: number;
 };

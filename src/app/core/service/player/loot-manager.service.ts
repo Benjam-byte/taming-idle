@@ -1,12 +1,17 @@
 import { inject, Injectable } from '@angular/core';
 import { ProfessionManagerService } from './profession-manager.service';
 import { LootController } from 'src/app/database/loot/loot.controller';
-import { BehaviorSubject, map, of } from 'rxjs';
+import { BehaviorSubject, map, of, tap } from 'rxjs';
 import { Loot } from 'src/app/database/loot/loot.type';
+import { RegionService } from '../location/region.service';
+import { rateLinear } from '../../helpers/rate-function';
+import { stochasticRound } from '../../helpers/rounding-function';
+
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
   lootControllerService = inject(LootController);
   professionManagerService = inject(ProfessionManagerService);
+  regionService = inject(RegionService);
 
   private _loot$!: BehaviorSubject<Loot>;
 
@@ -27,15 +32,9 @@ export class LootManagerService {
   }
 
   getLootValue() {
-    const r = Math.random();
-
-    if (r < 0.5) {
-      return 1;
-    } else if (r < 0.75) {
-      return 2;
-    } else {
-      return 3;
-    }
+    return stochasticRound(
+      rateLinear(1, this.regionService.region.lootDropPercentage)
+    );
   }
 
   addWheat(wheat: number) {
@@ -47,5 +46,18 @@ export class LootManagerService {
         this._loot$.next(loot);
         this.professionManagerService.updateByProfessionName('Fermier');
       });
+  }
+
+  paidWheat$(wheat: number) {
+    if (this.loot.wheatQuantity - wheat < 0) return;
+    return this.lootControllerService
+      .update(this.loot.id, {
+        wheatQuantity: this.loot.wheatQuantity - wheat,
+      })
+      .pipe(
+        tap((loot) => {
+          this._loot$.next(loot);
+        })
+      );
   }
 }

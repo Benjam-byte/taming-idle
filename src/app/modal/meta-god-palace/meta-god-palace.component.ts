@@ -14,6 +14,7 @@ export class MetaGodPalaceComponent {
   modalCtrl = inject(ModalController);
   metaGod: God = {
     id: '0',
+    level: 100000000,
     name: '.?xexs?',
     description: '...',
     imagePath: 'assets/altar/Altar_MetaGod.webp',

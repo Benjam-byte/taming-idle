@@ -93,6 +93,11 @@
   grid-row: 4;
 }
 
+.altar-description h3,
+p {
+  margin: 0;
+}
+
 .bouton-offrande {
   background-color: #8B1E1E;
   /* Rouge sombre assorti au panneau */
@@ -115,4 +120,42 @@
 .bouton-offrande:active {
   transform: scale(0.95);
   background-color: #7A1717;
+}
+
+.bouton-offrande:disabled {
+  background-color: #555;
+  color: #ccc;
+  border-color: #888;
+  transform: none;
+  box-shadow: none;
+}
+
+.bouton-offrande:disabled:hover,
+.bouton-offrande:disabled:active {
+  background-color: #555;
+  transform: none;
+}
+
+
+.icon {
+  height: 50px;
+}
+
+.value-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.value-text {
+  transform: translateX(-17px) translateY(-8px);
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red
 }
