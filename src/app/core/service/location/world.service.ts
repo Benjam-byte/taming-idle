@@ -33,6 +33,16 @@ export class WorldService {
     return this._world$.asObservable();
   }
 
+  addNextRegion$() {
+    const newRegionList = this.world.regionUnlocked;
+    newRegionList.push('forest');
+    this.worldControllerService
+      .update(this.world.id, {
+        regionUnlocked: newRegionList,
+      })
+      .subscribe((world) => this._world$.next(world));
+  }
+
   evolve(level: number) {
     switch (level) {
       case 2:

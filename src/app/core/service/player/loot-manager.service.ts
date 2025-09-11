@@ -37,6 +37,22 @@ export class LootManagerService {
     );
   }
 
+  getCorrectValueFromRessource$(ressource: string) {
+    console.log(ressource);
+    switch (ressource) {
+      case 'Wheat':
+        return this._loot$.pipe(map((loot) => loot.wheatQuantity));
+      case 'Wheat_Shinny':
+        return this._loot$.pipe(map((loot) => loot.enchantedWheatQuantity));
+      case 'Soul_Slime':
+        return this._loot$.pipe(map((loot) => loot.slimeSoul));
+      case 'Soul_Slime_Shinny':
+        return this._loot$.pipe(map((loot) => loot.enchantedSlimeSoul));
+      default:
+        return this._loot$.pipe(map((loot) => loot.wheatQuantity));
+    }
+  }
+
   addWheat(wheat: number) {
     this.lootControllerService
       .update(this.loot.id, {
@@ -53,6 +69,45 @@ export class LootManagerService {
     return this.lootControllerService
       .update(this.loot.id, {
         wheatQuantity: this.loot.wheatQuantity - wheat,
+      })
+      .pipe(
+        tap((loot) => {
+          this._loot$.next(loot);
+        })
+      );
+  }
+
+  paidEnchantedWheat$(wheat: number) {
+    if (this.loot.enchantedWheatQuantity - wheat < 0) return;
+    return this.lootControllerService
+      .update(this.loot.id, {
+        enchantedWheatQuantity: this.loot.enchantedWheatQuantity - wheat,
+      })
+      .pipe(
+        tap((loot) => {
+          this._loot$.next(loot);
+        })
+      );
+  }
+
+  paidEnchantedSlimeSoul$(shinnySoul: number) {
+    if (this.loot.enchantedSlimeSoul - shinnySoul < 0) return;
+    return this.lootControllerService
+      .update(this.loot.id, {
+        enchantedSlimeSoul: this.loot.enchantedSlimeSoul - shinnySoul,
+      })
+      .pipe(
+        tap((loot) => {
+          this._loot$.next(loot);
+        })
+      );
+  }
+
+  paidSlimeSoul$(soul: number) {
+    if (this.loot.slimeSoul - soul < 0) return;
+    return this.lootControllerService
+      .update(this.loot.id, {
+        slimeSoul: this.loot.slimeSoul - soul,
       })
       .pipe(
         tap((loot) => {

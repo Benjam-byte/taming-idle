@@ -20,19 +20,19 @@
     "offering": {
       "price": 100,
       "statGain": 0.01,
-      "ressource": "wheat"
+      "ressource": "Soul_Slime"
     }
   },
   {
     "name": "Dieu de la malice",
-    "description": "Le dieu de la malice accepte des peaux de monstres rares. En échange, il aggrandiras votre monde.",
+    "description": "Le dieu de la malice accepte des ames de monstres rares. En échange, il aggrandiras votre monde.",
     "imagePath": "assets/altar/Altar_Malice.webp",
     "order": 3,
     "level": 1,
     "offering": {
       "price": 3,
       "statGain": 1,
-      "ressource": "slime"
+      "ressource": "Soul_Slime_Shinny"
     }
   },
   {

@@ -13,5 +13,6 @@ export type World = {
   skillTreeAvailable: boolean;
   offrandeAvailable: boolean;
   monsterAvailable: boolean;
+  metaGodAvailable: boolean;
   geometricLootRatio: number;
 };

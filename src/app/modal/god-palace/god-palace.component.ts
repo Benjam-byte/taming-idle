@@ -10,7 +10,7 @@ import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { WorldMapComponent } from '../world-map/world-map.component';
 import { MetaGodPalaceComponent } from '../meta-god-palace/meta-god-palace.component';
 import { GodService } from 'src/app/core/service/location/god-palace.service';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 import { God } from 'src/app/database/god/god.type';
 import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
@@ -18,6 +18,7 @@ import { RegionService } from 'src/app/core/service/location/region.service';
 import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
 import { costGeomInt } from 'src/app/core/helpers/cost-function';
 import { WorldService } from 'src/app/core/service/location/world.service';
+import { distinctUntilChanged, map, of, switchMap, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-god-palace',
@@ -45,6 +46,19 @@ export class GodPalaceComponent {
     if (!godList) return;
     return godList[selectedIndex];
   });
+
+  readonly lootValue = toSignal(
+    toObservable(this.selectedGod).pipe(
+      switchMap((selectedGod) => {
+        console.log(selectedGod);
+        if (!selectedGod) return of(0);
+        return this.lootService
+          .getCorrectValueFromRessource$(selectedGod.offering.ressource)
+          .pipe(tap(console.log));
+      })
+    ),
+    { initialValue: 0 }
+  );
 
   close() {
     this.modalCtrl.dismiss();
@@ -75,6 +89,7 @@ export class GodPalaceComponent {
   goToMetaPalace() {
     const selectedGod = this.selectedGod();
     if (selectedGod) {
+      if (!this.worldService.world.metaGodAvailable) return;
       if (selectedGod.name !== 'Meta fracture') return;
       this.close();
       this.openMetaGodModal();
@@ -93,12 +108,6 @@ export class GodPalaceComponent {
   }
 
   getPrice(selectedGod: God) {
-    const t = costGeomInt(
-      selectedGod.level,
-      selectedGod.offering.price,
-      this.worldService.world.geometricLootRatio
-    );
-    console.log(t);
     return costGeomInt(
       selectedGod.level,
       selectedGod.offering.price,
@@ -107,6 +116,22 @@ export class GodPalaceComponent {
   }
 
   offer(selectedGod: God) {
+    switch (selectedGod.name) {
+      case "Dieu de l'aventure":
+        this.offerToTravelerGod(selectedGod);
+        break;
+      case 'Dieu du combat':
+        this.offerToFighterGod(selectedGod);
+        break;
+      case 'Dieu de la malice':
+        this.offerToMaliceGod(selectedGod);
+        break;
+      case 'Dieu de la récolte':
+        this.offerToGatheringGod(selectedGod);
+    }
+  }
+
+  offerToTravelerGod(selectedGod: God) {
     this.lootService.paidWheat$(selectedGod.offering.price)?.subscribe(() => {
       this.regionService.updateSelectedRegionLootDropPercentage(
         selectedGod.offering.statGain
@@ -116,5 +141,45 @@ export class GodPalaceComponent {
         message: 'Les champs sont maintenant plus fertile',
       });
     });
+  }
+
+  offerToGatheringGod(selectedGod: God) {
+    this.lootService
+      .paidEnchantedWheat$(selectedGod.offering.price)
+      ?.subscribe(() => {
+        this.regionService.updateSelectedRegionShinyLootDropPercentage(
+          selectedGod.offering.statGain
+        );
+        this.godPalaceService.updateGodLevel(selectedGod);
+        this.broadcastService.displayMessage({
+          message: 'Les champs sont maintenant plus fertile',
+        });
+      });
+  }
+
+  offerToMaliceGod(selectedGod: God) {
+    this.lootService
+      .paidEnchantedSlimeSoul$(selectedGod.offering.price)
+      ?.subscribe(() => {
+        this.worldService.addNextRegion$();
+        this.godPalaceService.updateGodLevel(selectedGod);
+        this.broadcastService.displayMessage({
+          message: 'Un nouveau continent est disponible',
+        });
+      });
+  }
+
+  offerToFighterGod(selectedGod: God) {
+    this.lootService
+      .paidSlimeSoul$(selectedGod.offering.price)
+      ?.subscribe(() => {
+        this.regionService.updateSelectedRegionMonsterSpawnRate(
+          selectedGod.offering.statGain
+        );
+        this.godPalaceService.updateGodLevel(selectedGod);
+        this.broadcastService.displayMessage({
+          message: 'Les monstres se reproduisent plus vite',
+        });
+      });
   }
 }

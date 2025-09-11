@@ -1,9 +1,23 @@
-<div *ngIf="humanManagerService.human$ | async as human">
-  <p>
-    Plaine exploré :
-    {{ human.distanceTravelled }}
-  </p>
-  <p *ngIf="lootManagerService.loot$ | async as loot">
-    Blé : {{ loot.wheatQuantity }}
-  </p>
+@if(lootManagerService.loot$ | async; as loot){
+
+<div>
+  <div class="icon-container">
+    <img src="assets/object/Wheat.webp" alt="blé" />
+    <p>Blé : {{ loot.wheatQuantity }}</p>
+  </div>
+  <div class="icon-container">
+    <img src="assets/object/Wheat_Shinny.webp" alt="blé" />
+    <p>Blé enchanté : {{ loot.enchantedWheatQuantity }}</p>
+  </div>
 </div>
+<div>
+  <div class="icon-container">
+    <img src="assets/object/Soul_Slime.webp" alt="blé" />
+    <p>Ame de slime : {{ loot.slimeSoul }}</p>
+  </div>
+  <div class="icon-container">
+    <img src="assets/object/Soul_Slime_Shinny.webp" alt="blé" />
+    <p>Ame de slime enchanté : {{ loot.enchantedSlimeSoul }}</p>
+  </div>
+</div>
+}

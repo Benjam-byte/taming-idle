@@ -9,16 +9,19 @@
   height: 58px;
 }
 
-.icon-button {
-  height: 40px;
-  width: 40px;
-  padding: 2px;
-  background-color: brown;
-  border-radius: 5px;
-}
-
 p {
-  padding: 0;
+  padding: 2px;
   margin: 0;
   font-size: 12px;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+
+}
+
+.icon-container img {
+  width: 10px;
+  transform: scale(2) translateY(-1px);
 }

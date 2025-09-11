@@ -9,6 +9,7 @@ const defaultWorld: {
   skillTreeAvailable: boolean;
   offrandeAvailable: boolean;
   monsterAvailable: boolean;
+  metaGodAvailable: boolean;
   geometricLootRatio: number;
 } = {
   regionUnlocked: ['plaine'],
@@ -16,6 +17,7 @@ const defaultWorld: {
   skillTreeAvailable: false,
   offrandeAvailable: true,
   monsterAvailable: false,
+  metaGodAvailable: false,
   geometricLootRatio: 1.15,
 };
 

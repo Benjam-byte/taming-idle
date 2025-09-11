@@ -86,11 +86,15 @@
 }
 
 .altar-description {
+  min-height: 190px;
   background-color: brown;
   outline: 3px solid rgb(37, 19, 2);
   border-radius: 5px;
   padding: 4px;
   grid-row: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .altar-description h3,
@@ -138,7 +142,7 @@ p {
 
 
 .icon {
-  height: 50px;
+  height: 25px;
 }
 
 .value-container {
@@ -146,10 +150,7 @@ p {
   justify-content: center;
   align-items: center;
   flex-direction: row;
-}
-
-.value-text {
-  transform: translateX(-17px) translateY(-8px);
+  margin-bottom: 4px;
 }
 
 .green {

@@ -52,4 +52,12 @@ export class RegionService {
       })
       .subscribe((region) => this._region$.next(region));
   }
+
+  updateSelectedRegionShinyLootDropPercentage(value: number) {
+    this.regionControllerService
+      .updateOne(this.region.id, {
+        shinyLootDropPercentage: this.region.shinyLootDropPercentage + value,
+      })
+      .subscribe((region) => this._region$.next(region));
+  }
 }

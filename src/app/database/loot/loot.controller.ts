@@ -5,6 +5,9 @@ import { Loot } from './loot.type';
 
 const defaultLoot = {
   wheatQuantity: 0,
+  enchantedWheatQuantity: 0,
+  slimeSoul: 0,
+  enchantedSlimeSoul: 0,
 };
 
 @Injectable({ providedIn: 'root' })
