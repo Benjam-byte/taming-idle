@@ -15,10 +15,10 @@ const defaultWorld: {
   regionUnlocked: ['plaine'],
   region: 'plaine',
   skillTreeAvailable: false,
-  offrandeAvailable: true,
+  offrandeAvailable: false,
+  geometricLootRatio: 1.15,
   monsterAvailable: false,
   metaGodAvailable: false,
-  geometricLootRatio: 1.15,
 };
 
 @Injectable({ providedIn: 'root' })

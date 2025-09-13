@@ -13,6 +13,7 @@ import { InfoFooterComponent } from 'src/app/core/components/info-footer/info-fo
 import { MapService } from 'src/app/core/service/location/map.service';
 import { WorldService } from 'src/app/core/service/location/world.service';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
+import { RelicListPage } from 'src/app/modal/relic-list/relic-list.page';
 
 @Component({
   selector: 'app-exploration',
@@ -82,6 +83,17 @@ export class ExplorationPage {
   async openWorldMapModal() {
     const modal = await this.modalCtrl.create({
       component: WorldMapComponent,
+      cssClass: 'full-screen-modal',
+      backdropDismiss: true,
+      showBackdrop: true,
+    });
+
+    modal.present();
+  }
+
+  async openRelicListModal() {
+    const modal = await this.modalCtrl.create({
+      component: RelicListPage,
       cssClass: 'full-screen-modal',
       backdropDismiss: true,
       showBackdrop: true,

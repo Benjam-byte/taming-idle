@@ -3,10 +3,12 @@ import { Human } from 'src/app/database/human/human.type';
 import { HumanController } from 'src/app/database/human/human.controller';
 import { BehaviorSubject, map, of } from 'rxjs';
 import { Profession } from 'src/app/database/profession/profession.type';
+import { RelicService } from './relic-manager.service';
 
 @Injectable({ providedIn: 'root' })
 export class HumanManagerService {
   humanControllerService = inject(HumanController);
+  relicManagerService = inject(RelicService);
 
   private _human$!: BehaviorSubject<Human>;
   nextTravelTime = Date.now();
@@ -29,6 +31,10 @@ export class HumanManagerService {
     return this._human$.asObservable();
   }
 
+  get damage() {
+    return this.human.damage + this.relicManagerService.damageFromRelic;
+  }
+
   getNextActionTimes() {
     return {
       travel: this.nextTravelTime,
@@ -39,7 +45,7 @@ export class HumanManagerService {
 
   getClickDamage(now: number) {
     if (now < this.nextFightTime) return 0;
-    else return this._human$.value.damage;
+    else return this.damage;
   }
 
   advance(now: number): boolean {
@@ -67,7 +73,7 @@ export class HumanManagerService {
 
   updateDamage(damage: number) {
     this.humanControllerService
-      .update(this.human.id, { damage })
+      .update(this.human.id, { damage: damage + this.human.damage })
       .subscribe((human) => this._human$.next(human));
   }
 

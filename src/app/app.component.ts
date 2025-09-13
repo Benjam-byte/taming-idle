@@ -13,6 +13,8 @@ import { GodController } from './database/god/god.controller';
 import { GodService } from './core/service/location/god-palace.service';
 import { BestiaryManagerService } from './core/service/monster/bestiary-manager.service';
 import { BestiaryController } from './database/bestiary/bestiary.controller';
+import { RelicsController } from './database/relics/relics.controller';
+import { RelicService } from './core/service/player/relic-manager.service';
 
 const VERSION = 1;
 
@@ -31,7 +33,9 @@ export class AppComponent {
   worldControllerService = inject(WorldController);
   godControllerService = inject(GodController);
   bestiaryControllerService = inject(BestiaryController);
+  relicControllerService = inject(RelicsController);
 
+  relicManagerService = inject(RelicService);
   bestiaryManagerService = inject(BestiaryManagerService);
   combatTowerService = inject(CombatTowerService);
   godPalaceService = inject(GodService);
@@ -66,6 +70,7 @@ export class AppComponent {
       this.worldControllerService.init(),
       this.godControllerService.init(),
       this.bestiaryControllerService.init(),
+      this.relicControllerService.init(),
     ]);
   }
 
@@ -79,6 +84,7 @@ export class AppComponent {
       this.worldControllerService.dropTable(),
       this.godControllerService.dropTable(),
       this.bestiaryControllerService.dropTable(),
+      this.relicControllerService.dropTable(),
     ]);
   }
 }

@@ -132,7 +132,7 @@ export class GodPalaceComponent {
   }
 
   offerToTravelerGod(selectedGod: God) {
-    this.lootService.paidWheat$(selectedGod.offering.price)?.subscribe(() => {
+    this.lootService.paidWheat$(this.getPrice(selectedGod))?.subscribe(() => {
       this.regionService.updateSelectedRegionLootDropPercentage(
         selectedGod.offering.statGain
       );

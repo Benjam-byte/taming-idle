@@ -50,6 +50,47 @@
     border-radius: 5px;
 }
 
+.relic-button {
+    position: absolute;
+    z-index: 500;
+    top: 150px;
+    right: 4px;
+    height: 40px;
+    width: 40px;
+    padding: 2px;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+}
+
+.stall-button {
+    position: absolute;
+    z-index: 500;
+    top: 200px;
+    right: 4px;
+    height: 40px;
+    width: 40px;
+    padding: 2px;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+}
+
+.skill-button {
+    position: absolute;
+    z-index: 500;
+    top: 250px;
+    right: 4px;
+    height: 40px;
+    width: 40px;
+    padding: 2px;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+}
+
+
+
 .special-button {
     position: absolute;
     z-index: 500;
@@ -63,32 +104,6 @@
     border-radius: 5px;
 }
 
-.skill-button {
-    position: absolute;
-    z-index: 500;
-    top: 200px;
-    right: 4px;
-    height: 40px;
-    width: 40px;
-    padding: 2px;
-    background-color: brown;
-    outline: 3px solid rgb(37, 19, 2);
-    border-radius: 5px;
-}
-
-
-.stall-button {
-    position: absolute;
-    z-index: 500;
-    top: 150px;
-    right: 4px;
-    height: 40px;
-    width: 40px;
-    padding: 2px;
-    background-color: brown;
-    outline: 3px solid rgb(37, 19, 2);
-    border-radius: 5px;
-}
 
 
 .special-button p {

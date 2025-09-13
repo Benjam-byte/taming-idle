@@ -20,7 +20,7 @@
   <div class="text-col" *ngIf="humanManagerService.human$ | async as human">
     <div class="line">
       <img src="assets/icon/stat/damage.png" alt="damage" />
-      <p>{{ human.damage }} Damage</p>
+      <p>{{ humanManagerService.damage }} Damage</p>
     </div>
     <div class="line">
       <img src="assets/icon/stat/precision.png" alt="damage" />

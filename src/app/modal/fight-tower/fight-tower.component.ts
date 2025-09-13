@@ -61,7 +61,7 @@ export class FightTowerComponent {
   hit(boss: TowerMonster) {
     this.gameEngineService.submitEventByType('fight', () => {
       if (!boss.isAlive) return;
-      boss.getHit(this.humanManagerService.human.damage);
+      boss.getHit(this.humanManagerService.damage);
       this.bossKilled(boss);
     });
   }

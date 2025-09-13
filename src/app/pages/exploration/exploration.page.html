@@ -3,6 +3,9 @@
   <button class="icon-button" (click)="openWorldMapModal()">
     <img src="assets/icon/earth.png" alt="earth" />
   </button>
+  <button class="relic-button" (click)="openRelicListModal()">
+    <img src="assets/icon/relic.png" alt="earth" />
+  </button>
   @if(worldService.world$ | async; as world) { @if(world.skillTreeAvailable) {
   <button class="skill-button" (click)="openSkillTreeModal()">
     <img src="assets/icon/skilltree.png" alt="earth" />

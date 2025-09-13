@@ -7,5 +7,9 @@ export const routes: Routes = [
       import('./pages/exploration/exploration.page').then(
         (m) => m.ExplorationPage
       ),
+  },  {
+    path: 'relic-list',
+    loadComponent: () => import('./modal/relic-list/relic-list.page').then( m => m.RelicListPage)
   },
+
 ];

@@ -36,7 +36,7 @@ export class MonsterAreaComponent {
     this.clickEffectService.damageClickEffect(event);
     this.gameEngineService.submitEventByType('fight', () => {
       if (!this.monster.isAlive) return;
-      this.monster.getHit(this.humanManagerService.human.damage);
+      this.monster.getHit(this.humanManagerService.damage);
       this.professionManagerService.updateByProfessionName('Guerrier');
       this.monsterKilled();
     });

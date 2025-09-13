@@ -1,0 +1,35 @@
+<ion-content [fullscreen]="true">
+  <div class="background"></div>
+  <button class="icon-button" (click)="close()">
+    <img src="assets/icon/earth.png" alt="earth" />
+  </button>
+  <h1>Liste des reliques</h1>
+  @if(relicManagerService.relicList$ |async; as relicList) { @for(entry of
+  groupRelicsByStat(relicList) | keyvalue; track entry.key) {
+  <div class="relic-category-container">
+    <h2>{{entry.key}}</h2>
+    <div class="relic-list-container">
+      @for (relic of entry.value; track relic.id) {
+      <div
+        class="relic-card"
+        [class.unknown]="relic.quantity < 0"
+        [class.selected]="selectedId() === relic.id"
+        (click)="select(relic.id)"
+      >
+        <img src="assets/relics/tissus.webp" alt="relic" />
+        <div class="badge">{{relic.quantity}}</div>
+      </div>
+      }
+    </div>
+  </div>
+  } @if(getSelectedRelic(relicList); as selectedRelic) {
+  <div class="relic-info">
+    <h3>{{selectedRelic.name}}</h3>
+    <p class="relic-description">{{selectedRelic.description}}</p>
+    <div class="stat-info">
+      <p>Gain : {{selectedRelic.effet.value}}</p>
+      <p>Rank : {{selectedRelic.rank}}</p>
+    </div>
+  </div>
+  } }
+</ion-content>

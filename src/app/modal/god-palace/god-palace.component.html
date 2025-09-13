@@ -38,9 +38,7 @@
           />
           <p>
             <span
-              [ngClass]="
-                lootValue() >= selectedGod.offering.price ? 'green' : 'red'
-              "
+              [ngClass]="lootValue() >= getPrice(selectedGod) ? 'green' : 'red'"
               >{{ lootValue() }}</span
             >
             /
@@ -52,7 +50,7 @@
           <button
             class="bouton-offrande"
             (click)="offer(selectedGod)"
-            [disabled]="lootValue() < selectedGod.offering.price"
+            [disabled]="lootValue() < getPrice(selectedGod)"
           >
             Offrir
           </button>
