@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { concatMap, filter, from, map, Observable } from 'rxjs';
+import { concatMap, from, map, Observable } from 'rxjs';
 import { RegionService } from './region.service';
 import { Region } from './region.type';
 
@@ -29,6 +29,7 @@ export class RegionController {
           shinyMonsterSpawnRate: 0,
           monsterEggDropPercentage: 0,
           tresorMapSpawnRate: 0,
+          existingMonsterType: ['slime'],
         })
       )
     );

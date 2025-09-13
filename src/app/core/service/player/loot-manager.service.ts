@@ -6,6 +6,7 @@ import { Loot } from 'src/app/database/loot/loot.type';
 import { RegionService } from '../location/region.service';
 import { rateLinear } from '../../helpers/rate-function';
 import { stochasticRound } from '../../helpers/rounding-function';
+import { rollWithBonus } from '../../helpers/proba-rolls';
 
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
@@ -50,6 +51,25 @@ export class LootManagerService {
         return this._loot$.pipe(map((loot) => loot.enchantedSlimeSoul));
       default:
         return this._loot$.pipe(map((loot) => loot.wheatQuantity));
+    }
+  }
+
+  addLootFromMonsterKilled(type: string, lootObject: Record<string, number>) {
+    switch (type) {
+      case 'slime':
+        this.lootControllerService
+          .update(this.loot.id, {
+            slimeSoul:
+              rollWithBonus(lootObject['slimeSoulPercentage']) +
+              this.loot.slimeSoul,
+            enchantedSlimeSoul:
+              rollWithBonus(lootObject['shinySlimeSoulPercentage']) +
+              this.loot.enchantedSlimeSoul,
+          })
+          .subscribe((loot) => {
+            this._loot$.next(loot);
+          });
+        break;
     }
   }
 

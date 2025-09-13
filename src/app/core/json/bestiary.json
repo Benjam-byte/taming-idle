@@ -1,0 +1,11 @@
+[
+  {
+    "name": "slime",
+    "maxLife": 3,
+    "apparitionProbability": 0.5,
+    "lootPercentage": {
+      "slimeSoulPercentage": 15,
+      "shinySlimeSoulPercentage": 0.5
+    }
+  }
+]

@@ -80,9 +80,6 @@ export class GameEngineService {
       case 'flee':
         this.mapService.changeMap();
         break;
-      case 'kill':
-        this.professionManager.updateByProfessionName('Guerrier');
-        break;
       case 'skip':
         this.mapService.changeMap();
         break;

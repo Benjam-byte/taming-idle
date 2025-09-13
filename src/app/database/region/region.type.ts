@@ -11,4 +11,5 @@ export type Region = {
   shinyMonsterSpawnRate: number;
   monsterEggDropPercentage: number;
   tresorMapSpawnRate: number;
+  existingMonsterType: string[];
 };

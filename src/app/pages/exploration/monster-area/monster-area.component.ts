@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
-import Monster from 'src/app/core/value-object/monster';
 import { MonsterSpriteComponent } from 'src/app/core/components/monster-sprite/monster-sprite.component';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
-import { HumanController } from 'src/app/database/human/human.controller';
+import { ProfessionManagerService } from 'src/app/core/service/player/profession-manager.service';
+import { BestiaryManagerService } from 'src/app/core/service/monster/bestiary-manager.service';
+import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 
 @Component({
   selector: 'app-monster-area',
@@ -14,9 +15,12 @@ import { HumanController } from 'src/app/database/human/human.controller';
 })
 export class MonsterAreaComponent {
   gameEngineService = inject(GameEngineService);
+  professionManagerService = inject(ProfessionManagerService);
   humanManagerService = inject(HumanManagerService);
+  lootManagerService = inject(LootManagerService);
+  bestiaryManagerService = inject(BestiaryManagerService);
   clickEffectService = inject(ClickEffectService);
-  monster = new Monster(3, 'slime');
+  monster = this.bestiaryManagerService.monster;
 
   constructor() {}
 
@@ -33,13 +37,17 @@ export class MonsterAreaComponent {
     this.gameEngineService.submitEventByType('fight', () => {
       if (!this.monster.isAlive) return;
       this.monster.getHit(this.humanManagerService.human.damage);
+      this.professionManagerService.updateByProfessionName('Guerrier');
       this.monsterKilled();
     });
   }
 
   private monsterKilled() {
     if (!this.monster.isAlive) {
-      this.gameEngineService.submitEventByType('kill');
+      this.lootManagerService.addLootFromMonsterKilled(
+        this.monster.type,
+        this.monster.lootPercentage
+      );
     }
   }
 }

@@ -11,6 +11,8 @@ import { concat, forkJoin } from 'rxjs';
 import { CombatTowerService } from './core/service/location/combat-tower.service';
 import { GodController } from './database/god/god.controller';
 import { GodService } from './core/service/location/god-palace.service';
+import { BestiaryManagerService } from './core/service/monster/bestiary-manager.service';
+import { BestiaryController } from './database/bestiary/bestiary.controller';
 
 const VERSION = 1;
 
@@ -28,7 +30,9 @@ export class AppComponent {
   regionControllerService = inject(RegionController);
   worldControllerService = inject(WorldController);
   godControllerService = inject(GodController);
+  bestiaryControllerService = inject(BestiaryController);
 
+  bestiaryManagerService = inject(BestiaryManagerService);
   combatTowerService = inject(CombatTowerService);
   godPalaceService = inject(GodService);
 
@@ -61,6 +65,7 @@ export class AppComponent {
       this.regionControllerService.init(),
       this.worldControllerService.init(),
       this.godControllerService.init(),
+      this.bestiaryControllerService.init(),
     ]);
   }
 
@@ -73,6 +78,7 @@ export class AppComponent {
       this.regionControllerService.dropTable(),
       this.worldControllerService.dropTable(),
       this.godControllerService.dropTable(),
+      this.bestiaryControllerService.dropTable(),
     ]);
   }
 }

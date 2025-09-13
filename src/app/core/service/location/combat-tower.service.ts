@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import Monster from '../../value-object/monster';
 import { CombatTowerController } from 'src/app/database/combatTower/combatTower.controller';
 import { CombatTower } from 'src/app/database/combatTower/combatTower.type';
 import { BehaviorSubject, map, of } from 'rxjs';
 import { WorldService } from './world.service';
+import TowerMonster from '../../value-object/tower-monster';
 
 type Encounter = {
   life: number;
@@ -67,6 +67,6 @@ export class CombatTowerService {
   }
 
   private createBoss(encouter: Encounter) {
-    return new Monster(encouter.life, encouter.type);
+    return new TowerMonster(encouter.life, encouter.type);
   }
 }

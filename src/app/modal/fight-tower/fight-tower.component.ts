@@ -8,7 +8,7 @@ import { HealthBarComponent } from '../../../app/core/components/health-bar/heal
 import { MonsterSpriteComponent } from '../../../app/core/components/monster-sprite/monster-sprite.component';
 import { CombatTowerService } from 'src/app/core/service/location/combat-tower.service';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
-import Monster from 'src/app/core/value-object/monster';
+import TowerMonster from 'src/app/core/value-object/tower-monster';
 
 @Component({
   selector: 'app-fight-tower',
@@ -29,7 +29,7 @@ export class FightTowerComponent {
   modalCtrl = inject(ModalController);
   cdr = inject(ChangeDetectorRef);
   borderHeight = 100;
-  boss!: Monster;
+  boss!: TowerMonster;
   isFighting = false;
   isBossKilled = false;
   isBossFailed = false;
@@ -58,7 +58,7 @@ export class FightTowerComponent {
     this.boss = this.combatTowerService.getBoss();
   }
 
-  hit(boss: Monster) {
+  hit(boss: TowerMonster) {
     this.gameEngineService.submitEventByType('fight', () => {
       if (!boss.isAlive) return;
       boss.getHit(this.humanManagerService.human.damage);
@@ -66,7 +66,7 @@ export class FightTowerComponent {
     });
   }
 
-  private bossKilled(boss: Monster) {
+  private bossKilled(boss: TowerMonster) {
     if (boss.isAlive) return;
     this.combatTowerService.levelUp();
     this.borderHeight = 0;

@@ -1,24 +1,18 @@
-const lootDict: Record<string, Minerals> = {
-  slime: { copper: 1 },
-};
-
-type Minerals = {
-  copper: number;
-};
+import { MonsterProfile } from 'src/app/database/bestiary/bestiary.type';
 
 export default class Monster {
   life: number;
   maxLife: number;
   type: string;
   isAlive: boolean;
-  loot: Minerals;
+  lootPercentage: Record<string, number>;
 
-  constructor(maxLife: number, type: string) {
-    this.maxLife = maxLife;
+  constructor(monsterProfile: MonsterProfile) {
+    this.maxLife = monsterProfile.maxLife;
     this.life = this.maxLife;
-    this.type = type;
+    this.type = monsterProfile.name;
     this.isAlive = true;
-    this.loot = lootDict[this.type];
+    this.lootPercentage = monsterProfile.lootPercentage;
   }
 
   getHit(damage: number) {
