@@ -43,7 +43,6 @@ export class LootManagerService {
     }
 
     getCorrectValueFromRessource$(ressource: string) {
-        console.log(ressource);
         switch (ressource) {
             case 'Wheat':
                 return this._loot$.pipe(map((loot) => loot.wheatQuantity));

@@ -50,13 +50,10 @@ export class GodPalaceComponent {
     readonly lootValue = toSignal(
         toObservable(this.selectedGod).pipe(
             switchMap((selectedGod) => {
-                console.log(selectedGod);
                 if (!selectedGod) return of(0);
-                return this.lootService
-                    .getCorrectValueFromRessource$(
-                        selectedGod.offering.ressource
-                    )
-                    .pipe(tap(console.log));
+                return this.lootService.getCorrectValueFromRessource$(
+                    selectedGod.offering.ressource
+                );
             })
         ),
         { initialValue: 0 }

@@ -10,13 +10,9 @@
  * Note : la probabilité totale est plafonnée à 100%.
  */
 export function rollWithBonus(baseChance: number, bonus: number = 0): number {
-  console.log(baseChance);
-  console.log(bonus);
-  const totalChance = Math.min(100, baseChance + bonus);
-  const roll = Math.random() * 100;
-  console.log('totalChance:', totalChance);
-  console.log('roll : ', roll);
-  return roll < totalChance ? 1 : 0;
+    const totalChance = Math.min(100, baseChance + bonus);
+    const roll = Math.random() * 100;
+    return roll < totalChance ? 1 : 0;
 }
 
 /**
@@ -34,13 +30,10 @@ export function rollWithBonus(baseChance: number, bonus: number = 0): number {
  *   "réussir soit grâce à la chance de base, soit grâce au bonus, soit aux deux".
  */
 export function rollCompoundChance(
-  baseChance: number,
-  bonusChance: number
+    baseChance: number,
+    bonusChance: number
 ): boolean {
-  console.log(baseChance);
-  console.log(bonusChance);
-  const combinedChance = 1 - (1 - baseChance) * (1 - bonusChance);
-  const roll = Math.random();
-  console.log(combinedChance, 'and', roll);
-  return roll < combinedChance;
+    const combinedChance = 1 - (1 - baseChance) * (1 - bonusChance);
+    const roll = Math.random();
+    return roll < combinedChance;
 }

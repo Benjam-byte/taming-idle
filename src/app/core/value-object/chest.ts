@@ -1,42 +1,41 @@
 import { rollCompoundChance } from '../helpers/proba-rolls';
 
 const lootDict = {
-  relicRank1: 0.1,
-  glitchedStone: 0.9,
+    relicRank1: 0.1,
+    glitchedStone: 0.9,
 };
 
 export default class Chest {
-  crochetageSuccesProbability: number;
-  loot: number;
-  try: number;
+    crochetageSuccesProbability: number;
+    loot: number;
+    try: number;
 
-  constructor() {
-    this.crochetageSuccesProbability = 2 / 100;
-    this.loot = 5;
-    this.try = 0;
-  }
-
-  getCrocheted(proba: number) {
-    this.try++;
-    console.log('croch proba', this.crochetageSuccesProbability);
-    return rollCompoundChance(this.crochetageSuccesProbability, proba);
-  }
-
-  openChest() {
-    return this.getRandomObject();
-  }
-
-  private getRandomObject(): string {
-    const rand = Math.random();
-    let cumulative = 0;
-
-    for (const [key, prob] of Object.entries(lootDict)) {
-      cumulative += prob;
-      if (rand < cumulative) {
-        return key;
-      }
+    constructor() {
+        this.crochetageSuccesProbability = 2 / 100;
+        this.loot = 5;
+        this.try = 0;
     }
 
-    return 'glitchedStone';
-  }
+    getCrocheted(proba: number) {
+        this.try++;
+        return rollCompoundChance(this.crochetageSuccesProbability, proba);
+    }
+
+    openChest() {
+        return this.getRandomObject();
+    }
+
+    private getRandomObject(): string {
+        const rand = Math.random();
+        let cumulative = 0;
+
+        for (const [key, prob] of Object.entries(lootDict)) {
+            cumulative += prob;
+            if (rand < cumulative) {
+                return key;
+            }
+        }
+
+        return 'glitchedStone';
+    }
 }

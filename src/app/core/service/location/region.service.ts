@@ -21,12 +21,10 @@ export class RegionManagerService {
     }
 
     init$() {
-        console.log('loaded');
         return this.regionControllerService
             .getSelected()
             .pipe(filter((region) => !!region))
             .pipe(
-                tap((region) => console.log(region)),
                 tap((region) => (this._region$ = new BehaviorSubject(region))),
                 map(() => void 0)
             );

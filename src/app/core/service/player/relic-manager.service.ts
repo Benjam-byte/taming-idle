@@ -25,7 +25,6 @@ export class RelicManagerService {
             .filter((relic) => relic.effet.stat === 'damage')
             .filter((relic) => relic.entityId !== null);
         if (!activatedDamageRelic[0]) return 0;
-        console.log(activatedDamageRelic);
         return activatedDamageRelic[0].effet.value;
     }
 
