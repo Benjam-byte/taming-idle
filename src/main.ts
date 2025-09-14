@@ -19,12 +19,21 @@ import {
     provideAppInitializer,
 } from '@angular/core';
 import { DatabaseBootstrapService } from './database-bootstrap';
+import { Capacitor } from '@capacitor/core';
+import { StatusBar } from '@capacitor/status-bar';
+import { NavigationBar } from '@squareetlabs/capacitor-navigation-bar';
 
 bootstrapApplication(AppComponent, {
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         provideIonicAngular(),
         provideAppInitializer(() => {
+            (async () => {
+                if (Capacitor.isNativePlatform()) {
+                    NavigationBar.hide();
+                    await StatusBar.hide();
+                }
+            })();
             const dbBootstrap = inject(DatabaseBootstrapService);
             return dbBootstrap.ensureInitialized();
         }),
