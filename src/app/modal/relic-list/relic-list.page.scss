@@ -82,20 +82,32 @@ h2 {
 .relic-info {
     margin-right: 10px;
     margin-left: 10px;
-    text-align: center;
     background-color: brown;
     outline: 3px solid rgb(37, 19, 2);
     border-radius: 5px;
     padding: 4px;
-}
-
-.relic-description {
-    padding: 0px 10px;
     text-align: left;
 }
+
+.relic-info p {
+    margin: 0;
+}
+
 
 .stat-info {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+
+.line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+}
+
+.line img {
+    width: 18px;
 }

@@ -27,7 +27,10 @@
     <h3>{{selectedRelic.name}}</h3>
     <p class="relic-description">{{selectedRelic.description}}</p>
     <div class="stat-info">
-      <p>Gain : {{selectedRelic.effet.value}}</p>
+      <div class="line">
+        <img src="assets/icon/stat/damage.png" alt="damage" />
+        <p>+ {{selectedRelic.effet.value}}</p>
+      </div>
       <p>Rank : {{selectedRelic.rank}}</p>
     </div>
   </div>
