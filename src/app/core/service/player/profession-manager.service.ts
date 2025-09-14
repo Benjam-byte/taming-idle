@@ -3,7 +3,6 @@ import { ProfessionController } from 'src/app/database/profession/profession.con
 import { BehaviorSubject, map, of, take } from 'rxjs';
 import { Profession } from 'src/app/database/profession/profession.type';
 import { BroadcastService } from '../Ui/broadcast.service';
-import { Human } from 'src/app/database/human/human.type';
 import { HumanManagerService } from './human-manager.service';
 import { WorldService } from '../location/world.service';
 

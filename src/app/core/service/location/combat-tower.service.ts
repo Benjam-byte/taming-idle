@@ -23,7 +23,7 @@ const levelDict: Record<number, Encounter> = {
 @Injectable({
   providedIn: 'root',
 })
-export class CombatTowerService {
+export class CombatTowerManagerService {
   combatTowerController = inject(CombatTowerController);
   worldService = inject(WorldService);
 

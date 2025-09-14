@@ -8,7 +8,7 @@ import {
   map,
   Observable,
 } from 'rxjs';
-import { MapService } from './location/map.service';
+import { MapManagerService } from './location/map.service';
 import { WorldService } from './location/world.service';
 import { ProfessionManagerService } from './player/profession-manager.service';
 import { HumanManagerService } from './player/human-manager.service';
@@ -17,7 +17,7 @@ import { HumanManagerService } from './player/human-manager.service';
   providedIn: 'root',
 })
 export class GameEngineService {
-  mapService = inject(MapService);
+  mapService = inject(MapManagerService);
   worldService = inject(WorldService);
   professionManager = inject(ProfessionManagerService);
   gameLoopService = inject(GameLoopService);

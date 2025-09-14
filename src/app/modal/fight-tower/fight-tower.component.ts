@@ -6,7 +6,7 @@ import { AttackButtonComponent } from './attack-button/attack-button.component';
 import { WorldMapComponent } from '../world-map/world-map.component';
 import { HealthBarComponent } from '../../../app/core/components/health-bar/health-bar.component';
 import { MonsterSpriteComponent } from '../../../app/core/components/monster-sprite/monster-sprite.component';
-import { CombatTowerService } from 'src/app/core/service/location/combat-tower.service';
+import { CombatTowerManagerService } from 'src/app/core/service/location/combat-tower.service';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import TowerMonster from 'src/app/core/value-object/tower-monster';
 
@@ -25,7 +25,7 @@ import TowerMonster from 'src/app/core/value-object/tower-monster';
 export class FightTowerComponent {
   gameEngineService = inject(GameEngineService);
   humanManagerService = inject(HumanManagerService);
-  combatTowerService = inject(CombatTowerService);
+  combatTowerService = inject(CombatTowerManagerService);
   modalCtrl = inject(ModalController);
   cdr = inject(ChangeDetectorRef);
   borderHeight = 100;

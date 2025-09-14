@@ -3,9 +3,9 @@ import { BroadcastService } from '../Ui/broadcast.service';
 import { WorldController } from 'src/app/database/world/world.controller';
 import { BehaviorSubject, concatWith, map, of } from 'rxjs';
 import { World } from 'src/app/database/world/world.type';
-import { RegionService } from './region.service';
+import { RegionManagerService } from './region.service';
 import { HumanManagerService } from '../player/human-manager.service';
-import { RelicService } from '../player/relic-manager.service';
+import { RelicManagerService } from '../player/relic-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +14,8 @@ export class WorldService {
   broadcastMessageService = inject(BroadcastService);
   worldControllerService = inject(WorldController);
   humanManagerService = inject(HumanManagerService);
-  relicManagerService = inject(RelicService);
-  regionService = inject(RegionService);
+  relicManagerService = inject(RelicManagerService);
+  regionService = inject(RegionManagerService);
 
   private _world$!: BehaviorSubject<World>;
 

@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
-import { RelicService } from 'src/app/core/service/player/relic-manager.service';
+import { RelicManagerService } from 'src/app/core/service/player/relic-manager.service';
 import { Relics } from 'src/app/database/relics/relics.type';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 
@@ -15,7 +15,7 @@ import { HumanManagerService } from 'src/app/core/service/player/human-manager.s
 })
 export class RelicListPage {
   modalCtrl = inject(ModalController);
-  relicManagerService = inject(RelicService);
+  relicManagerService = inject(RelicManagerService);
   humanManagerService = inject(HumanManagerService);
 
   readonly selectedId = signal<string | undefined>(undefined);

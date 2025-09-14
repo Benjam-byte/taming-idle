@@ -1,14 +1,14 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Map } from '../../value-object/map';
-import { RegionService } from './region.service';
+import { RegionManagerService } from './region.service';
 
 type MapKey = 'tresor' | 'monster' | 'empty';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MapService {
-  regionService = inject(RegionService);
+export class MapManagerService {
+  regionService = inject(RegionManagerService);
   map = signal<Map>(new Map());
 
   constructor() {}

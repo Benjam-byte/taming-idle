@@ -3,20 +3,20 @@ import { ProfessionManagerService } from './profession-manager.service';
 import { LootController } from 'src/app/database/loot/loot.controller';
 import { BehaviorSubject, map, of, tap } from 'rxjs';
 import { Loot } from 'src/app/database/loot/loot.type';
-import { RegionService } from '../location/region.service';
+import { RegionManagerService } from '../location/region.service';
 import { rateLinear } from '../../helpers/rate-function';
 import { stochasticRound } from '../../helpers/rounding-function';
 import { rollWithBonus } from '../../helpers/proba-rolls';
-import { RelicService } from './relic-manager.service';
+import { RelicManagerService } from './relic-manager.service';
 import { WorldService } from '../location/world.service';
 
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
   lootControllerService = inject(LootController);
-  relicManagerService = inject(RelicService);
+  relicManagerService = inject(RelicManagerService);
   professionManagerService = inject(ProfessionManagerService);
   worldManagerService = inject(WorldService);
-  regionManagerService = inject(RegionService);
+  regionManagerService = inject(RegionManagerService);
 
   private _loot$!: BehaviorSubject<Loot>;
 

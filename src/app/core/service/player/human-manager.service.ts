@@ -3,12 +3,12 @@ import { Human } from 'src/app/database/human/human.type';
 import { HumanController } from 'src/app/database/human/human.controller';
 import { BehaviorSubject, map, of } from 'rxjs';
 import { Profession } from 'src/app/database/profession/profession.type';
-import { RelicService } from './relic-manager.service';
+import { RelicManagerService } from './relic-manager.service';
 
 @Injectable({ providedIn: 'root' })
 export class HumanManagerService {
   humanControllerService = inject(HumanController);
-  relicManagerService = inject(RelicService);
+  relicManagerService = inject(RelicManagerService);
 
   private _human$!: BehaviorSubject<Human>;
   nextTravelTime = Date.now();

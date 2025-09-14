@@ -6,7 +6,7 @@ import { Region } from 'src/app/database/region/region.type';
 @Injectable({
   providedIn: 'root',
 })
-export class RegionService {
+export class RegionManagerService {
   regionControllerService = inject(RegionController);
 
   private _region$!: BehaviorSubject<Region>;

@@ -8,13 +8,14 @@ import { RegionController } from './database/region/region.controller';
 import { WorldController } from './database/world/world.controller';
 import { DatabaseService } from './database/database.service';
 import { concat, forkJoin } from 'rxjs';
-import { CombatTowerService } from './core/service/location/combat-tower.service';
+import { CombatTowerManagerService } from './core/service/location/combat-tower.service';
 import { GodController } from './database/god/god.controller';
-import { GodService } from './core/service/location/god-palace.service';
+import { GodPalaceManagerService } from './core/service/location/god-palace.service';
 import { BestiaryManagerService } from './core/service/monster/bestiary-manager.service';
 import { BestiaryController } from './database/bestiary/bestiary.controller';
 import { RelicsController } from './database/relics/relics.controller';
-import { RelicService } from './core/service/player/relic-manager.service';
+import { RelicManagerService } from './core/service/player/relic-manager.service';
+import { RegionManagerService } from './core/service/location/region.service';
 
 const VERSION = 2;
 
@@ -35,10 +36,11 @@ export class AppComponent {
   bestiaryControllerService = inject(BestiaryController);
   relicControllerService = inject(RelicsController);
 
-  relicManagerService = inject(RelicService);
+  regionManagerService = inject(RegionManagerService);
+  relicManagerService = inject(RelicManagerService);
   bestiaryManagerService = inject(BestiaryManagerService);
-  combatTowerService = inject(CombatTowerService);
-  godPalaceService = inject(GodService);
+  combatTowerService = inject(CombatTowerManagerService);
+  godPalaceService = inject(GodPalaceManagerService);
 
   isReady = signal<boolean>(false);
 

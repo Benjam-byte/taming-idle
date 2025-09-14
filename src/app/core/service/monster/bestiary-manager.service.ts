@@ -3,14 +3,14 @@ import { BestiaryController } from 'src/app/database/bestiary/bestiary.controlle
 import { MonsterProfile } from 'src/app/database/bestiary/bestiary.type';
 import { BehaviorSubject, map, of } from 'rxjs';
 import Monster from '../../value-object/monster';
-import { RegionService } from '../location/region.service';
+import { RegionManagerService } from '../location/region.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BestiaryManagerService {
   bestiaryController = inject(BestiaryController);
-  regionManagerService = inject(RegionService);
+  regionManagerService = inject(RegionManagerService);
 
   private _bestiaryList$!: BehaviorSubject<MonsterProfile[]>;
 

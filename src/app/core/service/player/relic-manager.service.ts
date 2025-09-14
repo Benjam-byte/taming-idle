@@ -2,12 +2,11 @@ import { inject, Injectable } from '@angular/core';
 import { RelicsController } from 'src/app/database/relics/relics.controller';
 import { Relics } from 'src/app/database/relics/relics.type';
 import { BehaviorSubject, map, of } from 'rxjs';
-import { HumanManagerService } from './human-manager.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RelicService {
+export class RelicManagerService {
   relicController = inject(RelicsController);
 
   private _relicList$!: BehaviorSubject<Relics[]>;

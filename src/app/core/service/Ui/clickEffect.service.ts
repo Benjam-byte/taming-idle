@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { GameEngineService } from '../game-engine.service';
-import { MapService } from '../location/map.service';
+import { MapManagerService } from '../location/map.service';
 import { HumanManagerService } from '../player/human-manager.service';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { HumanManagerService } from '../player/human-manager.service';
 export class ClickEffectService {
   gameEngineService = inject(GameEngineService);
   humanManagerService = inject(HumanManagerService);
-  mapService = inject(MapService);
+  mapService = inject(MapManagerService);
   currentMap = this.mapService.map().content();
 
   constructor() {}
