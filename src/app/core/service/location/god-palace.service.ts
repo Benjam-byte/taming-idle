@@ -1,35 +1,35 @@
 import { inject, Injectable } from '@angular/core';
 import { GodController } from 'src/app/database/god/god.controller';
 import { God } from 'src/app/database/god/god.type';
-import { BehaviorSubject, map, of } from 'rxjs';
+import { BehaviorSubject, map, of, tap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class GodPalaceManagerService {
-  godController = inject(GodController);
+    godController = inject(GodController);
 
-  private _godList$!: BehaviorSubject<God[]>;
+    private _godList$!: BehaviorSubject<God[]>;
 
-  constructor() {
-    this.godController
-      .getAll()
-      .pipe(map((godList) => (this._godList$ = new BehaviorSubject(godList))))
-      .subscribe();
-  }
+    get godList() {
+        return this._godList$.value;
+    }
 
-  get godList() {
-    return this._godList$.value;
-  }
+    get godList$() {
+        if (!this._godList$) return of(null);
+        return this._godList$.asObservable();
+    }
 
-  get godList$() {
-    if (!this._godList$) return of(null);
-    return this._godList$.asObservable();
-  }
+    init$() {
+        return this.godController.getAll().pipe(
+            tap((godList) => (this._godList$ = new BehaviorSubject(godList))),
+            map(() => void 0)
+        );
+    }
 
-  updateGodLevel(god: God) {
-    this.godController
-      .updateOne(god.id, { level: god.level + 1 })
-      .subscribe((godList) => this._godList$.next(godList));
-  }
+    updateGodLevel(god: God) {
+        this.godController
+            .updateOne(god.id, { level: god.level + 1 })
+            .subscribe((godList) => this._godList$.next(godList));
+    }
 }

@@ -2,41 +2,41 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { FightTowerComponent } from '../fight-tower/fight-tower.component';
-import { WorldService } from 'src/app/core/service/location/world.service';
+import { WorldManagerService } from 'src/app/core/service/location/world.service';
 
 @Component({
-  selector: 'app-world-map',
-  imports: [IonContent, CommonModule],
-  templateUrl: './world-map.component.html',
-  styleUrl: './world-map.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-world-map',
+    imports: [IonContent, CommonModule],
+    templateUrl: './world-map.component.html',
+    styleUrl: './world-map.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorldMapComponent {
-  worldService = inject(WorldService);
-  modalCtrl = inject(ModalController);
+    worldService = inject(WorldManagerService);
+    modalCtrl = inject(ModalController);
 
-  onZoneClick(zone: string) {
-    if (zone === 'fight tower') {
-      this.openFightTowerModal();
-      this.close();
+    onZoneClick(zone: string) {
+        if (zone === 'fight tower') {
+            this.openFightTowerModal();
+            this.close();
+        }
+        console.log(zone);
+        console.log(this.worldService.world);
+        if (zone === this.worldService.world.region) this.close();
     }
-    console.log(zone);
-    console.log(this.worldService.world);
-    if (zone === this.worldService.world.region) this.close();
-  }
 
-  close() {
-    this.modalCtrl.dismiss();
-  }
+    close() {
+        this.modalCtrl.dismiss();
+    }
 
-  async openFightTowerModal() {
-    const modal = await this.modalCtrl.create({
-      component: FightTowerComponent,
-      cssClass: 'full-screen-modal',
-      backdropDismiss: true,
-      showBackdrop: true,
-    });
+    async openFightTowerModal() {
+        const modal = await this.modalCtrl.create({
+            component: FightTowerComponent,
+            cssClass: 'full-screen-modal',
+            backdropDismiss: true,
+            showBackdrop: true,
+        });
 
-    modal.present();
-  }
+        modal.present();
+    }
 }
