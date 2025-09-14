@@ -104,7 +104,6 @@ export class DatabaseBootstrapService {
             this.lootManagerService.init$(),
             this.professionManagerService.init$(),
         ]).pipe(
-            tap(() => console.log('load manager blocking')),
             catchError((err) => {
                 // log and continue – avoid killing the app
                 console.error('[Managers warmup] failed', err);
@@ -116,7 +115,6 @@ export class DatabaseBootstrapService {
     /** The one entrypoint called by APP_INITIALIZER */
     async ensureInitialized(): Promise<void> {
         const stored = this.safeGetNumber(DB_KEY);
-        console.log(stored);
 
         try {
             await lastValueFrom(
@@ -133,7 +131,6 @@ export class DatabaseBootstrapService {
                             this.loadManagerBlocking$()
                         );
                     } else {
-                        console.log('mdr');
                         return this.loadManagerBlocking$();
                     }
                 })

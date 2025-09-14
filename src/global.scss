@@ -176,3 +176,55 @@ ion-modal.full-screen-modal::part(content) {
     transform: translate(0, 50px);
   }
 }
+
+
+// ---------------------------------- Index.html
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  /* fond noir */
+  font-family: Arial, sans-serif;
+}
+
+/* Container centré */
+#splash-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #fff;
+}
+
+/* Logo */
+#splash-screen img {
+  width: 200px;
+  height: auto;
+  margin-bottom: 1.5rem;
+  animation: bounce 2s infinite;
+}
+
+/* Texte "Chargement..." */
+#splash-screen p {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  color: #f9d71c;
+}
+
+/* Animation du logo */
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+// ------------------------------------------------ Index.html
