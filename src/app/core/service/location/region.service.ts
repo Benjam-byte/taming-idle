@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, filter, map, of } from 'rxjs';
+import { BehaviorSubject, filter, map, of, tap } from 'rxjs';
 import { RegionController } from 'src/app/database/region/region.controller';
-import { MapKey, Region } from 'src/app/database/region/region.type';
+import { Region } from 'src/app/database/region/region.type';
 
 @Injectable({
   providedIn: 'root',
@@ -28,21 +28,34 @@ export class RegionService {
     return this._region$.asObservable();
   }
 
-  getSelectedRegionMapDict(): Record<MapKey, number> {
+  getChestMapDict(): Record<string, number> {
     return {
       tresor: this.region.tresorMapSpawnRate,
-      monster: this.region.monsterSpawnRate,
-      empty:
-        1 - (this.region.tresorMapSpawnRate + this.region.monsterSpawnRate),
+      empty: 1 - this.region.monsterSpawnRate,
     };
   }
 
-  updateSelectedRegionMonsterSpawnRate(value: number) {
-    this.regionControllerService
+  getSelectedRegionMapDict(): Record<string, number> {
+    return {
+      monster: this.region.monsterSpawnRate,
+      empty: 1 - this.region.monsterSpawnRate,
+    };
+  }
+
+  updateSelectedRegionChestSpawnRate$(value: number) {
+    return this.regionControllerService
+      .updateOne(this.region.id, {
+        tresorMapSpawnRate: this.region.tresorMapSpawnRate + value,
+      })
+      .pipe(tap((region) => this._region$.next(region)));
+  }
+
+  updateSelectedRegionMonsterSpawnRate$(value: number) {
+    return this.regionControllerService
       .updateOne(this.region.id, {
         monsterSpawnRate: this.region.monsterSpawnRate + value,
       })
-      .subscribe((region) => this._region$.next(region));
+      .pipe(tap((region) => this._region$.next(region)));
   }
 
   updateSelectedRegionLootDropPercentage(value: number) {

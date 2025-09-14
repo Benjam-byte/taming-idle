@@ -14,26 +14,31 @@ export class MapService {
   constructor() {}
 
   changeMap() {
+    const oldMap = this.map().content();
     this.map().setContent(undefined);
-    const map = this.getRandomMap();
+    const map = this.getRandomMap(oldMap === ('monster' as any));
     setTimeout(() => {
       this.map().setContent(map);
     }, 100);
   }
 
-  private getRandomMap(): MapKey {
+  private getRandomMap(wasMonster: boolean): MapKey {
     const rand = Math.random();
     let cumulative = 0;
 
-    for (const [key, prob] of Object.entries(
-      this.regionService.getSelectedRegionMapDict()
-    )) {
+    for (const [key, prob] of Object.entries(this.getMapDict(wasMonster))) {
       cumulative += prob;
+      console.log(key);
       if (rand < cumulative) {
         return key as MapKey;
       }
     }
 
     return 'empty';
+  }
+
+  private getMapDict(wasMonster: boolean) {
+    if (wasMonster) return this.regionService.getChestMapDict();
+    return this.regionService.getSelectedRegionMapDict();
   }
 }

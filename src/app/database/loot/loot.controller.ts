@@ -8,6 +8,7 @@ const defaultLoot = {
   enchantedWheatQuantity: 0,
   slimeSoul: 0,
   enchantedSlimeSoul: 0,
+  openedChest: 0,
 };
 
 @Injectable({ providedIn: 'root' })

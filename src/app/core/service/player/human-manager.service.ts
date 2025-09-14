@@ -84,6 +84,10 @@ export class HumanManagerService {
       .subscribe((human) => this._human$.next(human));
   }
 
+  useOneRelic(relicName: string) {
+    this.relicManagerService.useOneRelicByName(relicName, this.human.id);
+  }
+
   private updateStat(profession: Profession, human: Human) {
     if (profession.level % 2 === 0) return this.getValueA(profession, human);
     else return this.getValueB(profession, human);

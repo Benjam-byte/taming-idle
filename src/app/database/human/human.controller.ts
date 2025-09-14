@@ -13,6 +13,7 @@ const defaultHuman = {
   travellingSpeed: 1000,
   fightingSpeed: 1000,
   searchingSpeed: 1000,
+  unlockChestBonusChancePercentage: 0,
 };
 
 @Injectable({ providedIn: 'root' })

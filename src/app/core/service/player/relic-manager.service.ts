@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { RelicsController } from 'src/app/database/relics/relics.controller';
 import { Relics } from 'src/app/database/relics/relics.type';
 import { BehaviorSubject, map, of } from 'rxjs';
+import { HumanManagerService } from './human-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +39,7 @@ export class RelicService {
     return activatedDamageRelic[0].effet.value;
   }
 
-  addOneRelicByName(relicName: string, entityId: string) {
+  addOneRelicByName(relicName: string, entityId: string | null) {
     const relicToUpdate = this.relicList.find(
       (relic) => relic.name === relicName
     );
@@ -49,5 +50,22 @@ export class RelicService {
         entityId,
       })
       .subscribe((relicList) => this._relicList$.next(relicList));
+  }
+
+  useOneRelicByName(relicName: string, entityId: string | null) {
+    const relicToUpdate = this.relicList.find(
+      (relic) => relic.name === relicName
+    );
+    if (!relicToUpdate) return;
+    this.relicController
+      .updateOne(relicToUpdate.id, {
+        entityId,
+      })
+      .subscribe((relicList) => this._relicList$.next(relicList));
+  }
+
+  getOneRelicRandomByRank(rank: number) {
+    const rankRelicList = this.relicList.filter((relic) => relic.rank === 1);
+    return rankRelicList[Math.floor(Math.random() * rankRelicList.length)];
   }
 }

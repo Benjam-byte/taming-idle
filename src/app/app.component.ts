@@ -16,7 +16,7 @@ import { BestiaryController } from './database/bestiary/bestiary.controller';
 import { RelicsController } from './database/relics/relics.controller';
 import { RelicService } from './core/service/player/relic-manager.service';
 
-const VERSION = 1;
+const VERSION = 2;
 
 @Component({
   selector: 'app-root',

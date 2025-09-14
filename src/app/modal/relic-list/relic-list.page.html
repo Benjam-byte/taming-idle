@@ -14,9 +14,12 @@
         class="relic-card"
         [class.unknown]="relic.quantity < 0"
         [class.selected]="selectedId() === relic.id"
-        (click)="select(relic.id)"
+        (click)="select(relic)"
       >
-        <img src="assets/relics/tissus.webp" alt="relic" />
+        <img
+          [src]="relic.quantity === 0 ? 'assets/icon/question.png' : relic.imagePath"
+          alt="relic"
+        />
         <div class="badge">{{relic.quantity}}</div>
       </div>
       }
@@ -25,13 +28,20 @@
   } @if(getSelectedRelic(relicList); as selectedRelic) {
   <div class="relic-info">
     <h3>{{selectedRelic.name}}</h3>
+    <p class="rank">Rank : {{selectedRelic.rank}}</p>
     <p class="relic-description">{{selectedRelic.description}}</p>
     <div class="stat-info">
       <div class="line">
         <img src="assets/icon/stat/damage.png" alt="damage" />
         <p>+ {{selectedRelic.effet.value}}</p>
       </div>
-      <p>Rank : {{selectedRelic.rank}}</p>
+      <button
+        [disabled]="isUsed(selectedRelic)"
+        class="btn"
+        (click)="use(selectedRelic)"
+      >
+        use
+      </button>
     </div>
   </div>
   } }

@@ -37,7 +37,10 @@ export function rollCompoundChance(
   baseChance: number,
   bonusChance: number
 ): boolean {
+  console.log(baseChance);
+  console.log(bonusChance);
   const combinedChance = 1 - (1 - baseChance) * (1 - bonusChance);
   const roll = Math.random();
+  console.log(combinedChance, 'and', roll);
   return roll < combinedChance;
 }

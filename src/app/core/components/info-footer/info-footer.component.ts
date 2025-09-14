@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { GameEngineService } from '../../service/game-engine.service';
 import { ActionGaugeComponent } from './action-gauge/action-gauge.component';
 import { CommonModule } from '@angular/common';
@@ -17,7 +12,6 @@ type InformationMode = 'fight' | 'loot' | 'world' | 'monster';
   imports: [ActionGaugeComponent, CommonModule],
   templateUrl: './info-footer.component.html',
   styleUrl: './info-footer.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InfoFooterComponent {
   gameEngineService = inject(GameEngineService);

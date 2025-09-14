@@ -5,6 +5,7 @@ export type Human = {
   tacle: number;
   armorPen: number;
   criticalChancePercentage: number;
+  unlockChestBonusChancePercentage: number;
   distanceTravelled: number;
   travellingSpeed: number;
   fightingSpeed: number;

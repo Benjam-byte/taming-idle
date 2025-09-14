@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { WorldController } from 'src/app/database/world/world.controller';
-import { BehaviorSubject, map, of } from 'rxjs';
+import { BehaviorSubject, concatWith, map, of } from 'rxjs';
 import { World } from 'src/app/database/world/world.type';
 import { RegionService } from './region.service';
 import { HumanManagerService } from '../player/human-manager.service';
@@ -52,11 +52,15 @@ export class WorldService {
         this.broadcastMessageService.displayMessage({
           message: 'Word is evolving, monster are born',
         });
-        this.regionService.updateSelectedRegionMonsterSpawnRate(2 / 50);
-        this.relicManagerService.addOneRelicByName(
-          'tissus puissant',
-          this.humanManagerService.human.id
-        );
+        this.regionService
+          .updateSelectedRegionMonsterSpawnRate$(2 / 50)
+          .pipe(
+            concatWith(
+              this.regionService.updateSelectedRegionChestSpawnRate$(1)
+            )
+          )
+          .subscribe();
+
         break;
       case 3:
         this.enableSkillTree();

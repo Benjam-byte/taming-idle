@@ -1,5 +1,10 @@
 import { rollCompoundChance } from '../helpers/proba-rolls';
 
+const lootDict = {
+  relicRank1: 0.1,
+  glitchedStone: 0.9,
+};
+
 export default class Chest {
   crochetageSuccesProbability: number;
   loot: number;
@@ -13,6 +18,25 @@ export default class Chest {
 
   getCrocheted(proba: number) {
     this.try++;
+    console.log('croch proba', this.crochetageSuccesProbability);
     return rollCompoundChance(this.crochetageSuccesProbability, proba);
+  }
+
+  openChest() {
+    return this.getRandomObject();
+  }
+
+  private getRandomObject(): string {
+    const rand = Math.random();
+    let cumulative = 0;
+
+    for (const [key, prob] of Object.entries(lootDict)) {
+      cumulative += prob;
+      if (rand < cumulative) {
+        return key;
+      }
+    }
+
+    return 'glitchedStone';
   }
 }

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { RelicService } from 'src/app/core/service/player/relic-manager.service';
 import { Relics } from 'src/app/database/relics/relics.type';
+import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 
 @Component({
   selector: 'app-relic-list',
@@ -15,6 +16,7 @@ import { Relics } from 'src/app/database/relics/relics.type';
 export class RelicListPage {
   modalCtrl = inject(ModalController);
   relicManagerService = inject(RelicService);
+  humanManagerService = inject(HumanManagerService);
 
   readonly selectedId = signal<string | undefined>(undefined);
 
@@ -22,12 +24,13 @@ export class RelicListPage {
     this.modalCtrl.dismiss();
   }
 
-  select(newId: string) {
-    if (newId === this.selectedId()) {
+  select(relic: Relics) {
+    if (relic.quantity === 0) return;
+    if (relic.id === this.selectedId()) {
       this.selectedId.set(undefined);
       return;
     }
-    this.selectedId.set(newId);
+    this.selectedId.set(relic.id);
   }
 
   groupRelicsByStat(relics: Relics[]): Map<string, Relics[]> {
@@ -42,5 +45,13 @@ export class RelicListPage {
 
   getSelectedRelic(relicList: Relics[]) {
     return relicList.find((relic) => relic.id === this.selectedId());
+  }
+
+  use(relic: Relics) {
+    this.humanManagerService.useOneRelic(relic.name);
+  }
+
+  isUsed(relic: Relics) {
+    return relic.entityId !== null;
   }
 }

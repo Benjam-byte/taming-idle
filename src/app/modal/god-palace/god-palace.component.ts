@@ -173,9 +173,9 @@ export class GodPalaceComponent {
     this.lootService
       .paidSlimeSoul$(selectedGod.offering.price)
       ?.subscribe(() => {
-        this.regionService.updateSelectedRegionMonsterSpawnRate(
-          selectedGod.offering.statGain
-        );
+        this.regionService
+          .updateSelectedRegionMonsterSpawnRate$(selectedGod.offering.statGain)
+          .subscribe();
         this.godPalaceService.updateGodLevel(selectedGod);
         this.broadcastService.displayMessage({
           message: 'Les monstres se reproduisent plus vite',

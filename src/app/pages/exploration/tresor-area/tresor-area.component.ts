@@ -5,6 +5,9 @@ import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import Chest from 'src/app/core/value-object/chest';
 import { FloatingMessagesComponent } from 'src/app/core/components/floating-messages/floating-messages.component';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
+import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
+import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
+import { WorldService } from 'src/app/core/service/location/world.service';
 
 @Component({
   selector: 'app-tresor-area',
@@ -13,10 +16,13 @@ import { HumanManagerService } from 'src/app/core/service/player/human-manager.s
   imports: [FloatingMessagesComponent],
 })
 export class TresorAreaComponent implements OnDestroy {
+  @ViewChild('msgDisplay') msgDisplay!: FloatingMessagesComponent;
   gameEngineService = inject(GameEngineService);
   humanManagerService = inject(HumanManagerService);
+  lootManagerService = inject(LootManagerService);
+  worldManagerService = inject(WorldService);
   clickEffectService = inject(ClickEffectService);
-  @ViewChild('msgDisplay') msgDisplay!: FloatingMessagesComponent;
+  broadcastService = inject(BroadcastService);
   chest = new Chest();
 
   private loop: Subscription | undefined;
@@ -43,8 +49,12 @@ export class TresorAreaComponent implements OnDestroy {
 
   crochetage(now: number) {
     if (!this.humanManagerService.search(now)) return;
-    if (this.chest.getCrocheted(0)) {
-      this.gameEngineService.submitEventByType('travel');
+    if (
+      this.chest.getCrocheted(
+        this.humanManagerService.human.unlockChestBonusChancePercentage
+      )
+    ) {
+      this.lootChest();
     } else {
       this.msgDisplay.showMessage(
         'Failure, try again !' + ' ' + this.chest.try,
@@ -52,5 +62,17 @@ export class TresorAreaComponent implements OnDestroy {
         300
       );
     }
+  }
+
+  lootChest() {
+    let loot = '';
+    if (this.worldManagerService.world.metaGodAvailable) {
+      loot = this.chest.openChest();
+    } else {
+      loot = 'relicRank1';
+    }
+    this.lootManagerService.lootChest(loot);
+    this.broadcastService.displayMessage({ message: `Vous obtenez ${loot}` });
+    this.gameEngineService.submitEventByType('travel');
   }
 }

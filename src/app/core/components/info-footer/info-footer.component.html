@@ -32,7 +32,7 @@
     </div>
     <div class="line">
       <img src="assets/icon/stat/clover.png" alt="damage" />
-      <p>{{ human.criticalChancePercentage }}% Critical</p>
+      <p>{{ human.criticalChancePercentage * 100 }}% Critical</p>
     </div>
   </div>
   <div class="text-col">
@@ -64,27 +64,29 @@
 
   <div class="text-col">
     <div class="line">
-      <p>{{ region.monsterSpawnRate }} monster %</p>
+      <p>{{ region.monsterSpawnRate * 100 }}% monster</p>
     </div>
     <div class="line">
-      <p>{{ region.shinyMonsterSpawnRate }} shiny monster (sp) %</p>
+      <p>{{ region.shinyMonsterSpawnRate * 100 }}% shiny monster (sp)</p>
     </div>
     <div class="line">
-      <p>{{ region.monsterEggDropPercentage }} monster egg (sp) %</p>
+      <p>{{ region.monsterEggDropPercentage * 100 }}% monster egg (sp)</p>
     </div>
   </div>
   <div class="text-col">
     <div class="line">
-      <p>{{ region.lootDropPercentage }} loot drop %</p>
+      <p>{{ region.lootDropPercentage * 100 }}% loot drop</p>
     </div>
     <div class="line">
-      <p>{{ region.shinyLootDropPercentage }} shiny loot drop %</p>
+      <p>{{ region.shinyLootDropPercentage * 100 }}% shiny loot drop</p>
     </div>
     <div class="line">
-      <p>{{ region.monsterWithTresorDropPercentage }} monster tresor (sp) %</p>
+      <p>
+        {{ region.monsterWithTresorDropPercentage * 100 }}% monster tresor (sp)
+      </p>
     </div>
     <div class="line">
-      <p>{{ region.tresorMapSpawnRate }} tresor map (sp) %</p>
+      <p>{{ region.tresorMapSpawnRate * 100 }}% tresor map (sp)</p>
     </div>
   </div>
   } } @if(infoMode === 'monster') {

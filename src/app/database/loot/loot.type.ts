@@ -4,4 +4,5 @@ export type Loot = {
   enchantedWheatQuantity: number;
   slimeSoul: number;
   enchantedSlimeSoul: number;
+  openedChest: number;
 };

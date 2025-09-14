@@ -1,6 +1,6 @@
 [
   {
-    "name": "tissus puissant",
+    "name": "Un tissu puissant",
     "description": "un bout de tissu qui semble contenir de la puissance divine",
     "imagePath": "assets/relics/tissus.webp",
     "effet": { "stat": "damage", "value": 2 },

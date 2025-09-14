@@ -7,12 +7,16 @@ import { RegionService } from '../location/region.service';
 import { rateLinear } from '../../helpers/rate-function';
 import { stochasticRound } from '../../helpers/rounding-function';
 import { rollWithBonus } from '../../helpers/proba-rolls';
+import { RelicService } from './relic-manager.service';
+import { WorldService } from '../location/world.service';
 
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
   lootControllerService = inject(LootController);
+  relicManagerService = inject(RelicService);
   professionManagerService = inject(ProfessionManagerService);
-  regionService = inject(RegionService);
+  worldManagerService = inject(WorldService);
+  regionManagerService = inject(RegionService);
 
   private _loot$!: BehaviorSubject<Loot>;
 
@@ -34,7 +38,7 @@ export class LootManagerService {
 
   getLootValue() {
     return stochasticRound(
-      rateLinear(1, this.regionService.region.lootDropPercentage)
+      rateLinear(1, this.regionManagerService.region.lootDropPercentage)
     );
   }
 
@@ -134,5 +138,35 @@ export class LootManagerService {
           this._loot$.next(loot);
         })
       );
+  }
+
+  updateChestCount() {
+    this.lootControllerService
+      .update(this.loot.id, {
+        openedChest: this.loot.openedChest + 1,
+      })
+      .subscribe((loot) => {
+        this._loot$.next(loot);
+      });
+  }
+
+  lootChest(loot: string): string {
+    if (!this.worldManagerService.world.metaGodAvailable) loot = 'relicRank1';
+    if (this.loot.openedChest === 0) this.firstOpenedChest();
+    this.updateChestCount();
+    switch (loot) {
+      case 'relicRank1': {
+        const newRelic = this.relicManagerService.getOneRelicRandomByRank(1);
+        this.relicManagerService.addOneRelicByName(newRelic.name, null);
+        return newRelic.name;
+      }
+      case 'glitchedStone':
+        return '1 glitched stone';
+    }
+    return 'une erreur avec ce coffre';
+  }
+
+  private firstOpenedChest() {
+    this.regionManagerService.updateSelectedRegionChestSpawnRate$(0.1);
   }
 }
