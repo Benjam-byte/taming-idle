@@ -8,12 +8,12 @@ import { InfoBarComponent } from 'src/app/core/components/info-bar/info-bar.comp
 import { CommonModule } from '@angular/common';
 import { WorldMapComponent } from 'src/app/modal/world-map/world-map.component';
 import { GodPalaceComponent } from 'src/app/modal/god-palace/god-palace.component';
-import { SkillTreeComponent } from 'src/app/modal/skill-tree/skill-tree.component';
 import { InfoFooterComponent } from 'src/app/core/components/info-footer/info-footer.component';
 import { MapManagerService } from 'src/app/core/service/location/map.service';
 import { WorldManagerService } from 'src/app/core/service/location/world.service';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { RelicListPage } from 'src/app/modal/relic-list/relic-list.page';
+import { ProfessionComponent } from 'src/app/modal/profession/profession.component';
 
 @Component({
     selector: 'app-exploration',
@@ -113,9 +113,9 @@ export class ExplorationPage {
         modal.present();
     }
 
-    async openSkillTreeModal() {
+    async openProfessionModal() {
         const modal = await this.modalCtrl.create({
-            component: SkillTreeComponent,
+            component: ProfessionComponent,
             cssClass: 'full-screen-modal',
             backdropDismiss: true,
             showBackdrop: true,

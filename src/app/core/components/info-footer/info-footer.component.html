@@ -19,34 +19,37 @@
     @if(infoMode === 'fight') {
     <div class="text-col" *ngIf="humanManagerService.human$ | async as human">
         <div class="line">
-            <img src="assets/icon/stat/damage.png" alt="damage" />
+            <img [src]="statIconDict['damage']" alt="damage" />
             <p>{{ humanManagerService.damage }} Damage</p>
         </div>
         <div class="line">
-            <img src="assets/icon/stat/precision.png" alt="damage" />
+            <img [src]="statIconDict['precision']" alt="damage" />
             <p>{{ human.precison }} precision</p>
         </div>
         <div class="line">
-            <img src="assets/icon/stat/piercing.png" alt="damage" />
+            <img [src]="statIconDict['armorPen']" alt="damage" />
             <p>{{ human.armorPen }} Armor pen</p>
         </div>
         <div class="line">
-            <img src="assets/icon/stat/clover.png" alt="damage" />
+            <img
+                [src]="statIconDict['criticalChancePercentage']"
+                alt="damage"
+            />
             <p>{{ human.criticalChancePercentage * 100 }}% Critical</p>
         </div>
     </div>
     <div class="text-col">
         <div *ngIf="humanManagerService.human$ | async as human">
             <div class="line">
-                <img src="assets/icon/footsteps.png" alt="footsteps" />
+                <img [src]="statIconDict['travellingSpeed']" alt="footsteps" />
                 <p>{{ human.travellingSpeed }} ms Move speed</p>
             </div>
             <div class="line">
-                <img src="assets/icon/sword.png" alt="damage" />
+                <img [src]="statIconDict['fightingSpeed']" alt="damage" />
                 <p>{{ human.fightingSpeed }} ms Attack speed</p>
             </div>
             <div class="line">
-                <img src="assets/icon/loupe.png" alt="damage" />
+                <img [src]="statIconDict['searchingSpeed']" alt="damage" />
                 <p>{{ human.searchingSpeed }} ms Search speed</p>
             </div>
         </div>

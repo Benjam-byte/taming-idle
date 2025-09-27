@@ -4,29 +4,32 @@ import { ActionGaugeComponent } from './action-gauge/action-gauge.component';
 import { CommonModule } from '@angular/common';
 import { HumanManagerService } from '../../service/player/human-manager.service';
 import { RegionManagerService } from '../../service/location/region.service';
+import { statIconDict } from '../../json/statIconDict';
 
 type InformationMode = 'fight' | 'loot' | 'world' | 'monster';
 
 @Component({
-  selector: 'app-info-footer',
-  imports: [ActionGaugeComponent, CommonModule],
-  templateUrl: './info-footer.component.html',
-  styleUrl: './info-footer.component.scss',
+    selector: 'app-info-footer',
+    imports: [ActionGaugeComponent, CommonModule],
+    templateUrl: './info-footer.component.html',
+    styleUrl: './info-footer.component.scss',
 })
 export class InfoFooterComponent {
-  gameEngineService = inject(GameEngineService);
-  humanManagerService = inject(HumanManagerService);
-  regionService = inject(RegionManagerService);
+    gameEngineService = inject(GameEngineService);
+    humanManagerService = inject(HumanManagerService);
+    regionService = inject(RegionManagerService);
 
-  travelDuration = input<number>();
-  fightingDuration = input<number>();
+    travelDuration = input<number>();
+    fightingDuration = input<number>();
 
-  travelCountDown$ = this.gameEngineService.getTravelCountDown$();
-  fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
+    statIconDict = statIconDict;
 
-  infoMode: InformationMode = 'fight';
+    travelCountDown$ = this.gameEngineService.getTravelCountDown$();
+    fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
 
-  updateInfoMode(mode: InformationMode) {
-    this.infoMode = mode;
-  }
+    infoMode: InformationMode = 'fight';
+
+    updateInfoMode(mode: InformationMode) {
+        this.infoMode = mode;
+    }
 }

@@ -1,58 +1,58 @@
 <ion-content [fullscreen]="true">
-  <app-info-bar />
-  <button class="icon-button" (click)="openWorldMapModal()">
-    <img src="assets/icon/earth.png" alt="earth" />
-  </button>
-  <button class="relic-button" (click)="openRelicListModal()">
-    <img src="assets/icon/relic.png" alt="earth" />
-  </button>
-  @if(worldService.world$ | async; as world) { @if(world.skillTreeAvailable) {
-  <button class="skill-button" (click)="openSkillTreeModal()">
-    <img src="assets/icon/skilltree.png" alt="earth" />
-  </button>
-  } @if(world.offrandeAvailable) {
-  <button class="stall-button" (click)="openGodPalaceModal()">
-    <img src="assets/icon/hands.png" alt="earth" />
-  </button>
-  } }
+    <app-info-bar />
+    <button class="icon-button" (click)="openWorldMapModal()">
+        <img src="assets/icon/earth.png" alt="earth" />
+    </button>
+    <button class="relic-button" (click)="openRelicListModal()">
+        <img src="assets/icon/relic.png" alt="earth" />
+    </button>
+    @if(worldService.world$ | async; as world) { @if(world.skillTreeAvailable) {
+    <button class="skill-button" (click)="openProfessionModal()">
+        <img src="assets/icon/skilltree.png" alt="earth" />
+    </button>
+    } @if(world.offrandeAvailable) {
+    <button class="stall-button" (click)="openGodPalaceModal()">
+        <img src="assets/icon/hands.png" alt="earth" />
+    </button>
+    } }
 
-  <div class="background-wrapper">
-    <div
-      class="background-image"
-      *ngIf="previousImageUrl"
-      [ngStyle]="{'background-image': 'url(' + previousImageUrl + ')'}"
-    ></div>
-    <div
-      class="background-image new"
-      [class.loaded]="imageLoaded"
-      [ngStyle]="{'background-image': 'url(' + imageUrl + ')'}"
-      (load)="onImageLoad()"
-    ></div>
-  </div>
+    <div class="background-wrapper">
+        <div
+            class="background-image"
+            *ngIf="previousImageUrl"
+            [ngStyle]="{'background-image': 'url(' + previousImageUrl + ')'}"
+        ></div>
+        <div
+            class="background-image new"
+            [class.loaded]="imageLoaded"
+            [ngStyle]="{'background-image': 'url(' + imageUrl + ')'}"
+            (load)="onImageLoad()"
+        ></div>
+    </div>
 
-  <div class="page-container">
-    @if (currentMap()) {
-    <div class="area-wrapper">
-      @switch (currentMap()) { @case ('empty') {
-      <app-empty-area /> } @case ('tresor') { <app-tresor-area />
-      <button class="special-button" (click)="emitEvent('skip')">
-        <p>Skip</p>
-      </button>
-      } @case('monster') { <app-monster-area />
-      <button class="special-button" (click)="emitEvent('flee')">
-        <p>Fuir</p></button
-      >} @default { } }
+    <div class="page-container">
+        @if (currentMap()) {
+        <div class="area-wrapper">
+            @switch (currentMap()) { @case ('empty') {
+            <app-empty-area /> } @case ('tresor') { <app-tresor-area />
+            <button class="special-button" (click)="emitEvent('skip')">
+                <p>Skip</p>
+            </button>
+            } @case('monster') { <app-monster-area />
+            <button class="special-button" (click)="emitEvent('flee')">
+                <p>Fuir</p></button
+            >} @default { } }
+        </div>
+        }
+    </div>
+
+    @if(humanManagerService.human$ | async; as human) {
+
+    <div class="footer">
+        <app-info-footer
+            [fightingDuration]="human.fightingSpeed"
+            [travelDuration]="human.travellingSpeed"
+        />
     </div>
     }
-  </div>
-
-  @if(humanManagerService.human$ | async; as human) {
-
-  <div class="footer">
-    <app-info-footer
-      [fightingDuration]="human.fightingSpeed"
-      [travelDuration]="human.travellingSpeed"
-    />
-  </div>
-  }
 </ion-content>

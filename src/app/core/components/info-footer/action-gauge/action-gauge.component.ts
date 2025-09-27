@@ -16,9 +16,7 @@ export class ActionGaugeComponent {
     intervalId!: any | null;
 
     progressUpdate = effect(() => {
-        console.log(this.initValue());
         if (this.initValue() === 950) {
-            console.log('set interval', this.intervalId);
             if (!this.intervalId) {
                 this.intervalId = setInterval(() => {
                     this.valuebar.update((v) => v + this.durationMs() / 100);
