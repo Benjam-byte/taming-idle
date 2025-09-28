@@ -107,4 +107,16 @@ export class WorldManagerService {
             })
             .subscribe((world) => this._world$.next(world));
     }
+
+    firstRelicOpened() {
+        if (this.world.firstRelicDroppped) return;
+        this.regionService
+            .updateSelectedRegionChestSpawnRate$(-0.9)
+            .subscribe();
+        this.worldControllerService
+            .update(this.world.id, {
+                firstRelicDroppped: true,
+            })
+            .subscribe((world) => this._world$.next(world));
+    }
 }

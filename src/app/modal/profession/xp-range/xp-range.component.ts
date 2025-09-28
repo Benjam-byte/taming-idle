@@ -4,10 +4,11 @@ import {
     computed,
     input,
 } from '@angular/core';
+import { RoundToPipe } from '../../../core/pipe/roundTo.pipe';
 
 @Component({
     selector: 'app-xp-range',
-    imports: [],
+    imports: [RoundToPipe],
     templateUrl: './xp-range.component.html',
     styleUrl: './xp-range.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,10 +16,6 @@ import {
 export class XpRangeComponent {
     currentXp = input.required<number>();
     maxXp = input.required<number>();
-
-    currentFormatedXp = computed(
-        () => Math.round((this.currentXp() + Number.EPSILON) * 10) / 10
-    );
 
     progress = computed(() => {
         const value = (this.currentXp() / this.maxXp()) * 100;

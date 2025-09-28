@@ -8,12 +8,13 @@ import {
 import { XpRangeComponent } from '../xp-range/xp-range.component';
 import { Profession } from 'src/app/database/profession/profession.type';
 import { statIconDict, StatKey } from 'src/app/core/json/statIconDict';
+import { RoundToPipe } from '../../../core/pipe/roundTo.pipe';
 
 type Tier = 10 | 20 | 30;
 
 @Component({
     selector: 'app-profession-card',
-    imports: [XpRangeComponent],
+    imports: [XpRangeComponent, RoundToPipe],
     templateUrl: './profession-card.component.html',
     styleUrl: './profession-card.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,8 +33,8 @@ export class ProfessionCardComponent {
     });
 
     professionStatGain = computed(() => {
-        if (this.profession().level === 1) return 0;
-        const value = this.profession().value.value * this.profession().level;
+        const level = this.profession().level - 1;
+        const value = this.profession().value.value * level;
         if (value < 0) return value;
         return '+' + value;
     });

@@ -13,7 +13,7 @@
         />
     </div>
     <div class="line">
-        <p>{{ professionStatGain() }}</p>
+        <p>{{ +professionStatGain() | roundTo : 10 }}</p>
         <img [src]="statIcon()" alt="damage" />
     </div>
     <app-xp-range

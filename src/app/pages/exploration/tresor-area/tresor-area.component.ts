@@ -8,6 +8,7 @@ import { HumanManagerService } from 'src/app/core/service/player/human-manager.s
 import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 import { WorldManagerService } from 'src/app/core/service/location/world.service';
+import { ProfessionManagerService } from 'src/app/core/service/player/profession-manager.service';
 
 @Component({
     selector: 'app-tresor-area',
@@ -23,6 +24,7 @@ export class TresorAreaComponent implements OnDestroy {
     worldManagerService = inject(WorldManagerService);
     clickEffectService = inject(ClickEffectService);
     broadcastService = inject(BroadcastService);
+    professionManagerService = inject(ProfessionManagerService);
     chest = new Chest();
 
     private loop: Subscription | undefined;
@@ -49,6 +51,7 @@ export class TresorAreaComponent implements OnDestroy {
 
     crochetage(now: number) {
         if (!this.humanManagerService.search(now)) return;
+        this.professionManagerService.updateByProfessionName('Voleur');
         if (
             this.chest.getCrocheted(
                 this.humanManagerService.human.unlockChestBonusChancePercentage
@@ -65,13 +68,8 @@ export class TresorAreaComponent implements OnDestroy {
     }
 
     lootChest() {
-        let loot = '';
-        if (this.worldManagerService.world.metaGodAvailable) {
-            loot = this.chest.openChest();
-        } else {
-            loot = 'relicRank1';
-        }
-        this.lootManagerService.lootChest(loot);
+        let loot = this.chest.openChest();
+        loot = this.lootManagerService.lootChest(loot);
         this.broadcastService.displayMessage({
             message: `Vous obtenez ${loot}`,
         });
