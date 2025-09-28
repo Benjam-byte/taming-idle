@@ -1,47 +1,49 @@
 <ion-content [fullscreen]="true">
     <div class="background"></div>
     <h1>Liste des reliques</h1>
-    @if(relicManagerService.relicList$ |async; as relicList) { @for(entry of
-    groupRelicsByStat(relicList) | keyvalue; track entry.key) {
-    <div class="relic-category-container">
-        <h2>{{entry.key}}</h2>
-        <div class="relic-list-container">
-            @for (relic of entry.value; track relic.id) {
-            <div
-                class="relic-card"
-                [class.unknown]="relic.quantity < 0"
-                [class.selected]="selectedId() === relic.id"
-                (click)="select(relic)"
-            >
-                <img
-                    [src]="relic.quantity === 0 ? 'assets/icon/question.png' : relic.imagePath"
-                    alt="relic"
-                />
-                <div class="badge">{{relic.quantity}}</div>
+    <main>
+        @if(relicManagerService.relicList$ |async; as relicList) { @for(entry of
+        groupRelicsByRank(relicList) | keyvalue; track entry.key) {
+        <div class="relic-category-container">
+            <h2>{{entry.key}}</h2>
+            <div class="relic-list-container">
+                @for (relic of entry.value; track relic.id) {
+                <div
+                    class="relic-card"
+                    [class.unknown]="relic.quantity < 0"
+                    [class.selected]="selectedId() === relic.id"
+                    (click)="select(relic)"
+                >
+                    <img
+                        [src]="relic.quantity !== 0 ? 'assets/icon/question.png' : relic.imagePath"
+                        alt="relic"
+                    />
+                    <div class="badge">{{relic.quantity}}</div>
+                </div>
+                }
             </div>
-            }
         </div>
-    </div>
-    } @if(getSelectedRelic(relicList); as selectedRelic) {
-    <div class="relic-info">
-        <h3>{{selectedRelic.name}}</h3>
-        <p class="rank">Rank : {{selectedRelic.rank}}</p>
-        <p class="relic-description">{{selectedRelic.description}}</p>
-        <div class="stat-info">
-            <div class="line">
-                <img src="assets/icon/stat/damage.png" alt="damage" />
-                <p>+ {{selectedRelic.effet.value}}</p>
+        } @if(getSelectedRelic(relicList); as selectedRelic) {
+        <div class="relic-info">
+            <h3>{{selectedRelic.name}}</h3>
+            <p class="rank">Rank : {{selectedRelic.rank}}</p>
+            <p class="relic-description">{{selectedRelic.description}}</p>
+            <div class="stat-info">
+                <div class="line">
+                    <img src="assets/icon/stat/damage.png" alt="damage" />
+                    <p>+ {{selectedRelic.effet.value}}</p>
+                </div>
+                <button
+                    [disabled]="isUsed(selectedRelic)"
+                    class="btn"
+                    (click)="use(selectedRelic)"
+                >
+                    use
+                </button>
             </div>
-            <button
-                [disabled]="isUsed(selectedRelic)"
-                class="btn"
-                (click)="use(selectedRelic)"
-            >
-                use
-            </button>
         </div>
-    </div>
-    } }
+        } }
+    </main>
     <div class="footer">
         <img
             class="button"

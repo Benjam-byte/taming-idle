@@ -10,6 +10,12 @@
     background-repeat: no-repeat;
 }
 
+main {
+    overflow-y: scroll;
+    max-height: calc(100dvh - 80px);
+    padding: 0px 0px 220px 0px;
+}
+
 h1 {
     margin-right: 10px;
     margin-left: 10px;
@@ -41,7 +47,7 @@ h3 {
 
 h2 {
     font-size: 16px;
-    margin: 50px 10px 5px;
+    margin: 20px 10px 5px;
     color: white;
 }
 
@@ -71,7 +77,8 @@ h2 {
 }
 
 .relic-info {
-    position: relative;
+    position: absolute;
+    bottom: 80px;
     margin-right: 10px;
     margin-left: 10px;
     background-color: brown;
