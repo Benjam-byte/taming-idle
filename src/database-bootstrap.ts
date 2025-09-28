@@ -28,7 +28,7 @@ import { HumanManagerService } from './app/core/service/player/human-manager.ser
 import { LootManagerService } from './app/core/service/player/loot-manager.service';
 import { ProfessionManagerService } from './app/core/service/player/profession-manager.service';
 
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const DB_KEY = 'db';
 
 @Injectable({ providedIn: 'root' })
