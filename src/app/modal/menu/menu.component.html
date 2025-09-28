@@ -1,0 +1,66 @@
+<ion-content class="ion-padding custom-modal-content">
+    <section>
+        <h1>Lieux</h1>
+        <main>
+            <app-menu-button
+                name="Tower"
+                path="assets/icon/tower.png"
+                (isClicked)="openCombatTowerModal()"
+            />
+            <app-menu-button
+                name="Olympus"
+                path="assets/icon/hands.png"
+                (isClicked)="openGodPalaceModal()"
+                [isActive]="worldService.world.offrandeAvailable"
+            />
+            <app-menu-button
+                name="Map"
+                path="assets/icon/pin.png"
+                (isClicked)="openWorldMapModal()"
+            />
+        </main>
+    </section>
+
+    <section>
+        <h1>Statistique</h1>
+        <main>
+            <app-menu-button
+                name="Player"
+                path="assets/icon/helmet.png"
+                (isClicked)="openPlayerStat()"
+            />
+
+            <app-menu-button
+                name="Region"
+                path="assets/icon/world-level.png"
+                (isClicked)="openRegionStat()"
+            />
+
+            <app-menu-button
+                name="Metier"
+                path="assets/icon/skilltree.png"
+                (isClicked)="openProfessionModal()"
+                [isActive]="worldService.world.skillTreeAvailable"
+            />
+        </main>
+    </section>
+
+    <section>
+        <h1>Loot</h1>
+        <main>
+            <app-menu-button
+                name="Relic"
+                path="assets/icon/relic.png"
+                (isClicked)="openRelicListModal()"
+            />
+        </main>
+    </section>
+    <div class="footer">
+        <img
+            class="button"
+            src="assets/icon/main-menu.png"
+            (click)="closeMenuModal()"
+            alt="menu"
+        />
+    </div>
+</ion-content>

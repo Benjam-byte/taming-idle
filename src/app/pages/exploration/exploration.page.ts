@@ -14,6 +14,7 @@ import { WorldManagerService } from 'src/app/core/service/location/world.service
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { RelicListPage } from 'src/app/modal/relic-list/relic-list.page';
 import { ProfessionComponent } from 'src/app/modal/profession/profession.component';
+import { ActionGaugeComponent } from 'src/app/core/components/action-gauge/action-gauge.component';
 
 @Component({
     selector: 'app-exploration',
@@ -27,6 +28,7 @@ import { ProfessionComponent } from 'src/app/modal/profession/profession.compone
         MonsterAreaComponent,
         InfoBarComponent,
         InfoFooterComponent,
+        ActionGaugeComponent,
     ],
 })
 export class ExplorationPage {

@@ -8,46 +8,47 @@ import { BestiaryManagerService } from 'src/app/core/service/monster/bestiary-ma
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 
 @Component({
-  selector: 'app-monster-area',
-  templateUrl: './monster-area.component.html',
-  styleUrls: ['./monster-area.component.scss'],
-  imports: [MonsterSpriteComponent],
+    selector: 'app-monster-area',
+    templateUrl: './monster-area.component.html',
+    styleUrls: ['./monster-area.component.scss'],
+    imports: [MonsterSpriteComponent],
 })
 export class MonsterAreaComponent {
-  gameEngineService = inject(GameEngineService);
-  professionManagerService = inject(ProfessionManagerService);
-  humanManagerService = inject(HumanManagerService);
-  lootManagerService = inject(LootManagerService);
-  bestiaryManagerService = inject(BestiaryManagerService);
-  clickEffectService = inject(ClickEffectService);
-  monster = this.bestiaryManagerService.monster;
+    gameEngineService = inject(GameEngineService);
+    professionManagerService = inject(ProfessionManagerService);
+    humanManagerService = inject(HumanManagerService);
+    lootManagerService = inject(LootManagerService);
+    bestiaryManagerService = inject(BestiaryManagerService);
+    clickEffectService = inject(ClickEffectService);
+    monster = this.bestiaryManagerService.monster;
 
-  constructor() {}
+    constructor() {}
 
-  onClick(event: MouseEvent) {
-    if (this.monster.isAlive) return;
-    this.clickEffectService.spawnClickEffect(event);
-    this.gameEngineService.submitEventByType('travel');
-  }
-
-  fight(event: MouseEvent) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    this.clickEffectService.damageClickEffect(event);
-    this.gameEngineService.submitEventByType('fight', () => {
-      if (!this.monster.isAlive) return;
-      this.monster.getHit(this.humanManagerService.damage);
-      this.professionManagerService.updateByProfessionName('Guerrier');
-      this.monsterKilled();
-    });
-  }
-
-  private monsterKilled() {
-    if (!this.monster.isAlive) {
-      this.lootManagerService.addLootFromMonsterKilled(
-        this.monster.type,
-        this.monster.lootPercentage
-      );
+    onClick(event: MouseEvent) {
+        if (this.monster.isAlive) return;
+        this.clickEffectService.spawnClickEffect(event);
+        this.gameEngineService.submitEventByType('travel');
     }
-  }
+
+    fight(event: MouseEvent) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        this.clickEffectService.damageClickEffect(event);
+        this.gameEngineService.submitEventByType('fight', () => {
+            if (!this.monster.isAlive) return;
+            this.monster.getHit(this.humanManagerService.damage);
+            this.professionManagerService.updateByProfessionName('Guerrier');
+            this.monsterKilled();
+        });
+    }
+
+    private monsterKilled() {
+        if (!this.monster.isAlive) {
+            this.lootManagerService.addLootFromMonsterKilled(
+                this.monster.type,
+                this.monster.lootPercentage
+            );
+            this.gameEngineService.submitEventByType('travel');
+        }
+    }
 }

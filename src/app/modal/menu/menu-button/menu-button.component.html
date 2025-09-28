@@ -1,0 +1,8 @@
+<div class="button-container">
+    <button class="icon-button" (click)="click()">
+        <img [src]="imagePath()" [alt]="name()" />
+    </button>
+    @if(isActive()) {
+    <p>{{ name() }}</p>
+    }
+</div>

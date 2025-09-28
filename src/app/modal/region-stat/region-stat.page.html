@@ -1,0 +1,43 @@
+<ion-content [fullscreen]="true">
+    <div class="background"></div>
+    <h1>Plaine Information</h1>
+    @if(regionService.region$ | async; as region ){
+
+    <div class="text-col">
+        <div class="line">
+            <p>{{ region.monsterSpawnRate * 100 }}% monster</p>
+        </div>
+        <div class="line">
+            <p>{{ region.shinyMonsterSpawnRate * 100 }}% shiny monster (sp)</p>
+        </div>
+        <div class="line">
+            <p>{{ region.monsterEggDropPercentage * 100 }}% monster egg (sp)</p>
+        </div>
+    </div>
+    <div class="text-col">
+        <div class="line">
+            <p>{{ region.lootDropPercentage * 100 }}% loot drop</p>
+        </div>
+        <div class="line">
+            <p>{{ region.shinyLootDropPercentage * 100 }}% shiny loot drop</p>
+        </div>
+        <div class="line">
+            <p>
+                {{ region.monsterWithTresorDropPercentage * 100 }}% monster
+                tresor (sp)
+            </p>
+        </div>
+        <div class="line">
+            <p>{{ region.tresorMapSpawnRate * 100 }}% tresor map (sp)</p>
+        </div>
+    </div>
+    }
+    <div class="footer">
+        <img
+            class="button"
+            src="assets/icon/main-menu.png"
+            (click)="close()"
+            alt="menu"
+        />
+    </div>
+</ion-content>

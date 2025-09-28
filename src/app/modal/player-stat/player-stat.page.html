@@ -1,0 +1,52 @@
+<ion-content [fullscreen]="true">
+    <div class="background"></div>
+    <h1>Player information</h1>
+    <main>
+        @if(humanManagerService.human$ | async; as human) {
+        <div class="text-col">
+            <div class="line">
+                <img [src]="statIconDict['damage']" alt="damage" />
+                <p>{{ humanManagerService.damage }} Damage</p>
+            </div>
+            <div class="line">
+                <img [src]="statIconDict['precision']" alt="damage" />
+                <p>{{ human.precison }} precision</p>
+            </div>
+            <div class="line">
+                <img [src]="statIconDict['armorPen']" alt="damage" />
+                <p>{{ human.armorPen }} Armor pen</p>
+            </div>
+            <div class="line">
+                <img
+                    [src]="statIconDict['criticalChancePercentage']"
+                    alt="damage"
+                />
+                <p>{{ human.criticalChancePercentage * 100 }}% Critical</p>
+            </div>
+        </div>
+
+        <div class="text-col">
+            <div class="line">
+                <img [src]="statIconDict['travellingSpeed']" alt="footsteps" />
+                <p>{{ human.travellingSpeed }} ms Move speed</p>
+            </div>
+            <div class="line">
+                <img [src]="statIconDict['fightingSpeed']" alt="damage" />
+                <p>{{ human.fightingSpeed }} ms Attack speed</p>
+            </div>
+            <div class="line">
+                <img [src]="statIconDict['searchingSpeed']" alt="damage" />
+                <p>{{ human.searchingSpeed }} ms Search speed</p>
+            </div>
+        </div>
+        }
+    </main>
+    <div class="footer">
+        <img
+            class="button"
+            src="assets/icon/main-menu.png"
+            (click)="close()"
+            alt="menu"
+        />
+    </div>
+</ion-content>

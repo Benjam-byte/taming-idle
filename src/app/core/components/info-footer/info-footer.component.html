@@ -1,21 +1,6 @@
-<section class="gauge">
-    <div class="icon-gauge">
-        <img src="assets/icon/footsteps.png" alt="foostep" />
-        <app-action-gauge
-            [durationMs]="travelDuration() ?? 0"
-            [initValue]="(travelCountDown$ | async) ?? 0"
-        />
-    </div>
-    <div class="icon-gauge">
-        <img class="sword" src="assets/icon/sword.png" alt="sword" />
-        <app-action-gauge
-            [durationMs]="fightingDuration() ?? 0"
-            [initValue]="(fightingCountDown$ | async) ?? 0"
-            [isGreen]="true"
-        />
-    </div>
-</section>
-<section class="value">
+<img class="button" src="assets/icon/main-menu.png" (click)="openMenuModal()" />
+
+<!-- <section class="value">
     @if(infoMode === 'fight') {
     <div class="text-col" *ngIf="humanManagerService.human$ | async as human">
         <div class="line">
@@ -123,4 +108,4 @@
             (click)="updateInfoMode('fight')"
         />
     </div>
-</section>
+</section> -->
