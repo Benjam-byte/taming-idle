@@ -6,12 +6,14 @@ import { HumanManagerService } from 'src/app/core/service/player/human-manager.s
 import { ProfessionManagerService } from 'src/app/core/service/player/profession-manager.service';
 import { BestiaryManagerService } from 'src/app/core/service/monster/bestiary-manager.service';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
+import { ActionGaugeComponent } from 'src/app/core/components/action-gauge/action-gauge.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-monster-area',
     templateUrl: './monster-area.component.html',
     styleUrls: ['./monster-area.component.scss'],
-    imports: [MonsterSpriteComponent],
+    imports: [MonsterSpriteComponent, ActionGaugeComponent, CommonModule],
 })
 export class MonsterAreaComponent {
     gameEngineService = inject(GameEngineService);
@@ -22,12 +24,14 @@ export class MonsterAreaComponent {
     clickEffectService = inject(ClickEffectService);
     monster = this.bestiaryManagerService.monster;
 
+    fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
+
     constructor() {}
 
     onClick(event: MouseEvent) {
         if (this.monster.isAlive) return;
         this.clickEffectService.spawnClickEffect(event);
-        this.gameEngineService.submitEventByType('travel');
+        this.gameEngineService.submitEventByType('skip');
     }
 
     fight(event: MouseEvent) {
@@ -48,7 +52,7 @@ export class MonsterAreaComponent {
                 this.monster.type,
                 this.monster.lootPercentage
             );
-            this.gameEngineService.submitEventByType('travel');
+            this.gameEngineService.submitEventByType('skip');
         }
     }
 }

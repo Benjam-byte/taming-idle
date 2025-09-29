@@ -56,7 +56,7 @@ export class WorldManagerService {
                     .updateSelectedRegionMonsterSpawnRate$(2 / 50)
                     .pipe(
                         concatWith(
-                            this.regionService.updateSelectedRegionChestSpawnRate$(
+                            this.regionService.updateSelectedRegionMonsterChestSpawnRate$(
                                 1
                             )
                         )
@@ -71,6 +71,7 @@ export class WorldManagerService {
                 });
                 break;
             case 4:
+                this.regionService.updateSelectedRegionChestSpawnRate$(0.1);
                 this.broadcastMessageService.displayMessage({
                     message: 'keep the good work, world power is growing',
                 });
@@ -111,7 +112,7 @@ export class WorldManagerService {
     firstRelicOpened() {
         if (this.world.firstRelicDroppped) return;
         this.regionService
-            .updateSelectedRegionChestSpawnRate$(-0.9)
+            .updateSelectedRegionMonsterChestSpawnRate$(-0.9)
             .subscribe();
         this.worldControllerService
             .update(this.world.id, {

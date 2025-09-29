@@ -1,10 +1,44 @@
 <section class="full centered" (click)="onClick($event)">
-  @if(lootQuantity !== 0){
-  <img
-    (click)="collect($event)"
-    src="assets/object/Wheat.webp"
-    [style]="{ left: position.left, top: position.top }"
-    alt="wheat"
-  />
-  }
+    @if(lootQuantity !== 0){
+    <img
+        (click)="collect($event)"
+        src="assets/object/Wheat.webp"
+        [style]="{ left: position.left, top: position.top }"
+        alt="wheat"
+    />
+    }
 </section>
+<div class="left" [class]="{ bounce: isActive() }" (click)="travel('left')">
+    <div class="arrow-wrapper">
+        <img
+            class="arrow"
+            src="assets/arrow/arrow_left.webp"
+            alt="arrow"
+            [class.success]="showLeftSucces()"
+        />
+        <div class="mask" [class]="{ fade: isFadingLeft() }"></div>
+    </div>
+</div>
+<div class="right" [class]="{ bounce: isActive() }" (click)="travel('right')">
+    <div class="arrow-wrapper">
+        <img
+            class="arrow"
+            src="assets/arrow/arrow_right.webp"
+            alt="arrow"
+            [class.success]="showRightSucces()"
+        />
+        <div class="mask rotate" [class]="{ fade: isFadingRight() }"></div>
+    </div>
+</div>
+
+<div class="top" [class]="{ bounce: isActive() }" (click)="travel('top')">
+    <div class="arrow-wrapper">
+        <img
+            class="arrow"
+            src="assets/arrow/arrow_top.webp"
+            alt="arrow"
+            [class.success]="showTopSucces()"
+        />
+        <div class="mask half-rotate" [class]="{ fade: isFadingTop() }"></div>
+    </div>
+</div>

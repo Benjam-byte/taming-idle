@@ -14,7 +14,6 @@ import { WorldManagerService } from 'src/app/core/service/location/world.service
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { RelicListPage } from 'src/app/modal/relic-list/relic-list.page';
 import { ProfessionComponent } from 'src/app/modal/profession/profession.component';
-import { ActionGaugeComponent } from 'src/app/core/components/action-gauge/action-gauge.component';
 
 @Component({
     selector: 'app-exploration',
@@ -28,7 +27,6 @@ import { ActionGaugeComponent } from 'src/app/core/components/action-gauge/actio
         MonsterAreaComponent,
         InfoBarComponent,
         InfoFooterComponent,
-        ActionGaugeComponent,
     ],
 })
 export class ExplorationPage {
@@ -37,7 +35,7 @@ export class ExplorationPage {
     mapService = inject(MapManagerService);
     modalCtrl = inject(ModalController);
     worldService = inject(WorldManagerService);
-    currentMap = computed(() => this.mapService.map().content());
+    currentMap = this.mapService.map;
 
     travelCountDown$ = this.gameEngineService.getTravelCountDown$();
     fightingCountDown$ = this.gameEngineService.getFightingCountDown$();

@@ -28,8 +28,8 @@
 .page-container {
     position: absolute;
     z-index: 0;
-    top: 58px;
-    height: calc(100% - 158px);
+    top: 75px;
+    height: calc(100% - 130px);
     width: 100%;
 }
 
@@ -67,37 +67,4 @@ app-info-bar {
     z-index: 5;
     width: 100%;
     top: 0;
-}
-
-.gauge-container {
-    position: absolute;
-    left: 4px;
-    bottom: 60px;
-    height: 100px;
-}
-
-.sword {
-    padding: 2px;
-}
-
-.icon-gauge {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    gap: 1px;
-}
-
-.gauge {
-    padding: 6px;
-    height: 100px;
-    display: flex;
-    flex-direction: row;
-    gap: 6px;
-}
-
-.gauge-img {
-    width: 20px;
 }

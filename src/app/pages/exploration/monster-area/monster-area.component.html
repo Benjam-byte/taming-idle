@@ -1,9 +1,21 @@
 <section class="full centered" (click)="onClick($event)">
-  @if(monster.isAlive){
-  <app-monster-sprite
-    (click)="fight($event)"
-    spritePath="assets/monster/sprite/slime/SpriteSheet_Slime_Sauvage.webp"
-    class="no-select"
-  />
-  }
+    @if(monster.isAlive){
+    <app-monster-sprite
+        (click)="fight($event)"
+        spritePath="assets/monster/sprite/slime/SpriteSheet_Slime_Sauvage.webp"
+        class="no-select"
+    />
+    }
 </section>
+<div class="gauge-container">
+    @if(humanManagerService.human$ | async; as human) {
+    <div class="icon-gauge">
+        <img class="sword gauge-img" src="assets/icon/sword.png" alt="sword" />
+        <app-action-gauge
+            [durationMs]="human.fightingSpeed"
+            [isGreen]="true"
+            [initValue]="(fightingCountDown$ | async) ?? 0"
+        />
+    </div>
+    }
+</div>

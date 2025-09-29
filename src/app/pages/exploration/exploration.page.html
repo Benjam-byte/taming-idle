@@ -16,9 +16,9 @@
     </div>
 
     <div class="page-container">
-        @if (currentMap()) {
+        @if (currentMap().map) {
         <div class="area-wrapper">
-            @switch (currentMap()) { @case ('empty') {
+            @switch (currentMap().map) { @case ('empty') {
             <app-empty-area /> } @case ('tresor') { <app-tresor-area />
             <button class="special-button" (click)="emitEvent('skip')">
                 <p>Skip</p>
@@ -26,42 +26,11 @@
             } @case('monster') { <app-monster-area />
             <button class="special-button" (click)="emitEvent('flee')">
                 <p>Fuir</p></button
-            >} @default { } }
+            >} }
         </div>
         }
     </div>
 
-    @if(humanManagerService.human$ | async; as human) {
-    <div class="gauge-container">
-        @if(currentMap() ==='empty') {
-        <div class="icon-gauge">
-            <img
-                class="gauge-img"
-                src="assets/icon/footsteps.png"
-                alt="foostep"
-            />
-            <app-action-gauge
-                [durationMs]="human.travellingSpeed"
-                [initValue]="(travelCountDown$ | async) ?? 0"
-            />
-        </div>
-
-        } @if(currentMap() === 'monster') {
-        <div class="icon-gauge">
-            <img
-                class="sword gauge-img"
-                src="assets/icon/sword.png"
-                alt="sword"
-            />
-            <app-action-gauge
-                [durationMs]="human.fightingSpeed"
-                [isGreen]="true"
-                [initValue]="(fightingCountDown$ | async) ?? 0"
-            />
-        </div>
-        }
-    </div>
-    }
     <div class="footer">
         <app-info-footer />
     </div>
