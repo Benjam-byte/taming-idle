@@ -17,6 +17,7 @@
                 name="Map"
                 path="assets/icon/pin.png"
                 (isClicked)="openWorldMapModal()"
+                [isActive]="worldService.world.worldMapAvailable"
             />
         </main>
     </section>

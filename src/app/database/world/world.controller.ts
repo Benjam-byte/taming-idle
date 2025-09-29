@@ -12,6 +12,7 @@ const defaultWorld: {
     metaGodAvailable: boolean;
     geometricLootRatio: number;
     firstRelicDroppped: boolean;
+    worldMapAvailable: boolean;
 } = {
     regionUnlocked: ['plaine'],
     region: 'plaine',
@@ -21,6 +22,7 @@ const defaultWorld: {
     monsterAvailable: false,
     metaGodAvailable: false,
     firstRelicDroppped: false,
+    worldMapAvailable: false,
 };
 
 @Injectable({ providedIn: 'root' })

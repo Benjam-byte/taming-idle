@@ -82,6 +82,12 @@ export class WorldManagerService {
                     message: 'Gods want to talk with you',
                 });
                 break;
+            case 6:
+                this.enableWorldMap();
+                this.broadcastMessageService.displayMessage({
+                    message: 'The world is bigger than you think',
+                });
+                break;
         }
     }
 
@@ -105,6 +111,14 @@ export class WorldManagerService {
         this.worldControllerService
             .update(this.world.id, {
                 offrandeAvailable: true,
+            })
+            .subscribe((world) => this._world$.next(world));
+    }
+
+    enableWorldMap() {
+        this.worldControllerService
+            .update(this.world.id, {
+                worldMapAvailable: true,
             })
             .subscribe((world) => this._world$.next(world));
     }

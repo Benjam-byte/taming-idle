@@ -16,4 +16,5 @@ export type World = {
     metaGodAvailable: boolean;
     geometricLootRatio: number;
     firstRelicDroppped: boolean;
+    worldMapAvailable: boolean;
 };
