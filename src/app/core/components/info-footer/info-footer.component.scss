@@ -1,108 +1,30 @@
 :host {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background-color: brown;
-  border-top: 3px solid rgb(37, 19, 2);
-  height: 55px;
-  padding-bottom: 20px;
-  position: relative;
-}
-
-.icon-button {
-  height: 40px;
-  width: 40px;
-  padding: 2px;
-  background-color: brown;
-  border-radius: 5px;
-}
-
-
-
-img {
-  width: 20px;
-}
-
-.sword {
-  padding: 2px;
-}
-
-.icon-gauge {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  position: relative;
-  gap: 1px;
-}
-
-.gauge {
-  padding: 6px;
-  height: 100px;
-  display: flex;
-  flex-direction: row;
-  gap: 6px;
-}
-
-.value {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-p {
-  font-size: 12px;
-  margin: 0;
-}
-
-.line {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 2px;
-}
-
-.line img {
-  width: 18px;
-}
-
-.button-bar {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  display: flex;
-  gap: 4px;
-  flex-direction: row;
-}
-
-.button-bar img {
-  width: 24px;
-  padding: 2px;
-  border: 2px solid rgb(37, 19, 2);
-  border-top: 0px;
-}
-
-.button-bar img.selected {
-  background-color: rgb(204, 119, 7);
-}
-
-
-.text-col {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 3px;
-  justify-content: end;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: brown;
+    border-top: 3px solid rgb(37, 19, 2);
+    height: 55px;
+    padding-bottom: 20px;
+    position: relative;
 }
 
 .button {
-  height: 24px;
-  width: 24px;
-  padding: 2px;
-  background-color: rgb(99, 33, 7);
-  outline: 2px solid rgb(37, 19, 2);
-  border-radius: 5px;
+    margin-top: 5px;
+    height: 24px;
+    width: 24px;
+    padding: 2px;
+    background-color: rgb(99, 33, 7);
+    outline: 2px solid rgb(37, 19, 2);
+    border-radius: 5px;
+}
+
+.center {
+    grid-column-start: 2;
+    justify-self: center;
+}
+
+.end {
+    grid-column-start: 3;
+    justify-self: end;
+    margin-right: 15px;
 }

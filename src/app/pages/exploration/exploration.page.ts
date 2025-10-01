@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { EmptyAreaComponent } from './empty-area/empty-area.component';
 import { TresorAreaComponent } from './tresor-area/tresor-area.component';
@@ -14,6 +14,8 @@ import { WorldManagerService } from 'src/app/core/service/location/world.service
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { RelicListPage } from 'src/app/modal/relic-list/relic-list.page';
 import { ProfessionComponent } from 'src/app/modal/profession/profession.component';
+import { RessourcePanelComponent } from './ressource-panel/ressource-panel.component';
+import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 
 @Component({
     selector: 'app-exploration',
@@ -27,6 +29,7 @@ import { ProfessionComponent } from 'src/app/modal/profession/profession.compone
         MonsterAreaComponent,
         InfoBarComponent,
         InfoFooterComponent,
+        RessourcePanelComponent,
     ],
 })
 export class ExplorationPage {
@@ -35,6 +38,7 @@ export class ExplorationPage {
     mapService = inject(MapManagerService);
     modalCtrl = inject(ModalController);
     worldService = inject(WorldManagerService);
+    lootManagerService = inject(LootManagerService);
     currentMap = this.mapService.map;
 
     travelCountDown$ = this.gameEngineService.getTravelCountDown$();
@@ -53,6 +57,8 @@ export class ExplorationPage {
     imageUrl = '';
     previousImageUrl: string | null = null;
     imageLoaded = false;
+
+    isRessourceVisible = signal(false);
 
     constructor() {
         effect(() => {
@@ -126,5 +132,9 @@ export class ExplorationPage {
 
     emitEvent(event: string) {
         this.gameEngineService.submitEventByType(event);
+    }
+
+    setRessource(isVisible: boolean) {
+        this.isRessourceVisible.set(isVisible);
     }
 }

@@ -1,4 +1,11 @@
-import { Component, inject, input } from '@angular/core';
+import {
+    Component,
+    effect,
+    inject,
+    input,
+    output,
+    signal,
+} from '@angular/core';
 import { GameEngineService } from '../../service/game-engine.service';
 import { CommonModule } from '@angular/common';
 import { HumanManagerService } from '../../service/player/human-manager.service';
@@ -16,23 +23,22 @@ type InformationMode = 'fight' | 'loot' | 'world' | 'monster';
     styleUrl: './info-footer.component.scss',
 })
 export class InfoFooterComponent {
-    gameEngineService = inject(GameEngineService);
-    humanManagerService = inject(HumanManagerService);
-    regionService = inject(RegionManagerService);
+    ressourceVisible = output<boolean>();
     modalCtrl = inject(ModalController);
 
-    travelDuration = input<number>();
-    fightingDuration = input<number>();
+    isRessourceTouched = signal(false);
 
-    statIconDict = statIconDict;
+    constructor() {
+        effect(() => this.ressourceVisible.emit(this.isRessourceTouched()));
+    }
 
-    travelCountDown$ = this.gameEngineService.getTravelCountDown$();
-    fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
+    ressourceTouched() {
+        console.log('ouin');
+        this.isRessourceTouched.set(true);
+    }
 
-    infoMode: InformationMode = 'fight';
-
-    updateInfoMode(mode: InformationMode) {
-        this.infoMode = mode;
+    ressourceUnTouched() {
+        this.isRessourceTouched.set(false);
     }
 
     async openMenuModal() {

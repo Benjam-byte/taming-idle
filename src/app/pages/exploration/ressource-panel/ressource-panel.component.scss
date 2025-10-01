@@ -1,0 +1,26 @@
+:host {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 40px;
+    align-items: center;
+    background-color: brown;
+    padding: 20px;
+}
+
+p {
+    padding: 2px;
+    margin: 0;
+    font-size: 12px;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+
+}
+
+.icon-container img {
+    width: 10px;
+    transform: scale(2) translateY(-1px);
+}

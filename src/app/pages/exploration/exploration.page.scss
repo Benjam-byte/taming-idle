@@ -68,3 +68,13 @@ app-info-bar {
     width: 100%;
     top: 0;
 }
+
+
+.panel-wrapper {
+    position: absolute;
+    z-index: 40;
+    top: 150px;
+    width: 100dvw;
+    display: flex;
+    justify-content: center;
+}

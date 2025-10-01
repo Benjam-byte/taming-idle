@@ -1,6 +1,10 @@
 <ion-content [fullscreen]="true">
     <app-info-bar />
-
+    @if(isRessourceVisible()){
+    <div class="panel-wrapper">
+        <app-ressource-panel [loot]="lootManagerService.loot$ | async" />
+    </div>
+    }
     <div class="background-wrapper">
         <div
             class="background-image"
@@ -32,6 +36,6 @@
     </div>
 
     <div class="footer">
-        <app-info-footer />
+        <app-info-footer (ressourceVisible)="setRessource($event)" />
     </div>
 </ion-content>

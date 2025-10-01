@@ -1,111 +1,12 @@
-<img class="button" src="assets/icon/main-menu.png" (click)="openMenuModal()" />
-
-<!-- <section class="value">
-    @if(infoMode === 'fight') {
-    <div class="text-col" *ngIf="humanManagerService.human$ | async as human">
-        <div class="line">
-            <img [src]="statIconDict['damage']" alt="damage" />
-            <p>{{ humanManagerService.damage }} Damage</p>
-        </div>
-        <div class="line">
-            <img [src]="statIconDict['precision']" alt="damage" />
-            <p>{{ human.precison }} precision</p>
-        </div>
-        <div class="line">
-            <img [src]="statIconDict['armorPen']" alt="damage" />
-            <p>{{ human.armorPen }} Armor pen</p>
-        </div>
-        <div class="line">
-            <img
-                [src]="statIconDict['criticalChancePercentage']"
-                alt="damage"
-            />
-            <p>{{ human.criticalChancePercentage * 100 }}% Critical</p>
-        </div>
-    </div>
-    <div class="text-col">
-        <div *ngIf="humanManagerService.human$ | async as human">
-            <div class="line">
-                <img [src]="statIconDict['travellingSpeed']" alt="footsteps" />
-                <p>{{ human.travellingSpeed }} ms Move speed</p>
-            </div>
-            <div class="line">
-                <img [src]="statIconDict['fightingSpeed']" alt="damage" />
-                <p>{{ human.fightingSpeed }} ms Attack speed</p>
-            </div>
-            <div class="line">
-                <img [src]="statIconDict['searchingSpeed']" alt="damage" />
-                <p>{{ human.searchingSpeed }} ms Search speed</p>
-            </div>
-        </div>
-    </div>
-    } @if(infoMode === 'loot') {
-    <div class="text-col">
-        <div class="line">
-            <p>blé</p>
-        </div>
-    </div>
-    <div class="text-col">
-        <div class="line"></div>
-    </div>
-    } @if(infoMode === 'world') { @if(regionService.region$ | async; as region
-    ){
-
-    <div class="text-col">
-        <div class="line">
-            <p>{{ region.monsterSpawnRate * 100 }}% monster</p>
-        </div>
-        <div class="line">
-            <p>{{ region.shinyMonsterSpawnRate * 100 }}% shiny monster (sp)</p>
-        </div>
-        <div class="line">
-            <p>{{ region.monsterEggDropPercentage * 100 }}% monster egg (sp)</p>
-        </div>
-    </div>
-    <div class="text-col">
-        <div class="line">
-            <p>{{ region.lootDropPercentage * 100 }}% loot drop</p>
-        </div>
-        <div class="line">
-            <p>{{ region.shinyLootDropPercentage * 100 }}% shiny loot drop</p>
-        </div>
-        <div class="line">
-            <p>
-                {{ region.monsterWithTresorDropPercentage * 100 }}% monster
-                tresor (sp)
-            </p>
-        </div>
-        <div class="line">
-            <p>{{ region.tresorMapSpawnRate * 100 }}% tresor map (sp)</p>
-        </div>
-    </div>
-    } } @if(infoMode === 'monster') {
-    <div class="text-col">
-        <div class="line"></div>
-    </div>
-    <div class="text-col">
-        <div class="line"></div>
-    </div>
-    }
-
-    <div class="button-bar">
-        <img
-            [class]="infoMode === 'monster' ? 'selected' : ''"
-            src="assets/icon/stat/cthulhu.png"
-            alt="cthulhu"
-            (click)="updateInfoMode('monster')"
-        />
-        <img
-            [class]="infoMode === 'world' ? 'selected' : ''"
-            src="assets/icon/stat/forest.png"
-            alt="forest"
-            (click)="updateInfoMode('world')"
-        />
-        <img
-            [class]="infoMode === 'fight' ? 'selected' : ''"
-            src="assets/icon/stat/user.png"
-            alt="user"
-            (click)="updateInfoMode('fight')"
-        />
-    </div>
-</section> -->
+<img
+    class="button center"
+    src="assets/icon/main-menu.png"
+    (click)="openMenuModal()"
+/>
+<img
+    class="button end"
+    src="assets/icon/treasure.png"
+    (pointerdown)="ressourceTouched()"
+    (pointerup)="ressourceUnTouched()"
+    (pointercancel)="ressourceUnTouched()"
+/>
