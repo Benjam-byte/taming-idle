@@ -61,8 +61,6 @@ export class DatabaseBootstrapService {
     );
     private readonly relicManagerService = inject(RelicManagerService);
 
-    readonly ready = signal(false);
-
     private initDatabase$() {
         return forkJoin([
             this.humanControllerService.init(),
@@ -139,7 +137,6 @@ export class DatabaseBootstrapService {
             this.safeSetNumber(DB_KEY, DB_VERSION);
         } catch (err) {
             console.error('[DB bootstrap] failed', err);
-            this.ready.set(true);
         }
     }
 
