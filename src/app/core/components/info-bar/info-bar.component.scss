@@ -1,28 +1,42 @@
 :host {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background-color: brown;
-  padding: 6px;
-  padding-top: 20px;
-  border-bottom: 3px solid rgb(37, 19, 2);
-  height: 75px;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    background-color: brown;
+    gap: 4px;
+    padding: 6px;
+    padding-top: 20px;
+    border-bottom: 3px solid rgb(37, 19, 2);
+    height: 80px;
+}
+
+img {
+    transform: scale(1.5) translateY(3px);
 }
 
 p {
-  padding: 2px;
-  margin: 0;
-  font-size: 12px;
+    padding: 0px;
+    margin: 0px;
 }
 
-.icon-container {
-  display: flex;
-  align-items: center;
-
+.perso-icon {
+    position: relative;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+    padding: 4px;
+    width: 45px;
 }
 
-.icon-container img {
-  width: 10px;
-  transform: scale(2) translateY(-1px);
+
+.badge {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    font-size: 10px;
+    outline: 1px solid rgb(37, 19, 2);
+    background-color: rgba(15, 197, 33, 0.664);
+    border-radius: 100%;
+    padding: 4px 6px;
+    width: fit-content;
 }
