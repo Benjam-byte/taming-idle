@@ -1,31 +1,33 @@
 import { inject, Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { TimersService } from './timer.service';
+
+const UPDATE_TIME = 50;
 
 @Injectable({ providedIn: 'root' })
 export class GameLoopService {
-  private running = false;
-  zone = inject(NgZone);
-  private readonly tickSubject = new BehaviorSubject<number>(Date.now());
+    timerService = inject(TimersService);
+    private intervalId: number | null = null;
+    zone = inject(NgZone);
+    private readonly tickSubject = new BehaviorSubject<number>(Date.now());
 
-  tick$: Observable<number> = this.tickSubject.asObservable();
+    tick$: Observable<number> = this.tickSubject.asObservable();
 
-  constructor() {}
+    constructor() {}
 
-  start() {
-    if (this.running) return;
-    this.running = true;
+    start() {
+        if (this.intervalId !== null) return;
 
-    this.zone.runOutsideAngular(() => {
-      requestAnimationFrame(this.tick);
-    });
-  }
+        this.zone.runOutsideAngular(() => {
+            this.intervalId = this.timerService.setInterval(() => {
+                this.tickSubject.next(this.tickSubject.value + UPDATE_TIME);
+            }, UPDATE_TIME);
+        });
+    }
 
-  private readonly tick = () => {
-    if (!this.running) return;
-
-    const now = Date.now();
-    this.tickSubject.next(now);
-
-    requestAnimationFrame(this.tick);
-  };
+    stop(): void {
+        if (this.intervalId === null) return;
+        this.timerService.clearInterval(this.intervalId);
+        this.intervalId = null;
+    }
 }

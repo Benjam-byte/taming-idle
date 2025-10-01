@@ -58,6 +58,13 @@
   /* empêche le glisser sur Safari/Chrome */
 }
 
+.info-button {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(37, 19, 2);
+  border-radius: 100%;
+}
+
 .centered {
   display: flex;
   justify-content: center;
@@ -178,7 +185,7 @@ ion-modal.full-screen-modal::part(content) {
 }
 
 
-// ---------------------------------- Index.html
+// ---------------------------------- Index.html ---------------------------------------------------------------------
 
 html,
 body {
@@ -227,4 +234,4 @@ body {
   }
 }
 
-// ------------------------------------------------ Index.html
+// ------------------------------------------------ Index.html-------------------------------------------------------------------------

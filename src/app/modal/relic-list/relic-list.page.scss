@@ -4,23 +4,16 @@
     height: 100%;
     width: 100%;
     top: 0;
-    background-image: url('../../../assets/background/brown.webp');
+    background-image: url("../../../assets/background/brown.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-.icon-button {
-    position: absolute;
-    z-index: 500;
-    top: 100px;
-    right: 7px;
-    height: 40px;
-    width: 40px;
-    padding: 2px;
-    background-color: brown;
-    outline: 3px solid rgb(37, 19, 2);
-    border-radius: 5px;
+main {
+    overflow-y: scroll;
+    max-height: calc(100dvh - 80px);
+    padding: 0px 0px 220px 0px;
 }
 
 h1 {
@@ -54,7 +47,7 @@ h3 {
 
 h2 {
     font-size: 16px;
-    margin: 50px 10px 5px;
+    margin: 20px 10px 5px;
     color: white;
 }
 
@@ -84,7 +77,8 @@ h2 {
 }
 
 .relic-info {
-    position: relative;
+    position: absolute;
+    bottom: 80px;
     margin-right: 10px;
     margin-left: 10px;
     background-color: brown;
@@ -98,13 +92,11 @@ h2 {
     margin: 0;
 }
 
-
 .stat-info {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-
 
 .line {
     display: flex;
@@ -124,7 +116,7 @@ h2 {
 }
 
 .btn {
-    background-color: #8B1E1E;
+    background-color: #8b1e1e;
     /* Rouge sombre assorti au panneau */
     color: white;
     border: 2px solid #fff;
@@ -137,14 +129,14 @@ h2 {
 }
 
 .btn:hover {
-    background-color: #A52A2A;
+    background-color: #a52a2a;
     /* Un rouge un peu plus clair au survol */
     transform: scale(1.05);
 }
 
 .btn:active {
     transform: scale(0.95);
-    background-color: #7A1717;
+    background-color: #7a1717;
 }
 
 .btn:disabled {
@@ -159,4 +151,33 @@ h2 {
 .btn:disabled:active {
     background-color: #555;
     transform: none;
+}
+
+.footer {
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: center;
+    background-color: brown;
+    border-top: 3px solid rgb(37, 19, 2);
+}
+
+.footer img {
+    width: 20px;
+}
+
+.footer .button {
+    margin-top: 4px;
+    height: 24px;
+    width: 24px;
+    padding: 2px;
+    background-color: rgb(99, 33, 7);
+    outline: 2px solid rgb(37, 19, 2);
+    border-radius: 5px;
 }

@@ -1,5 +1,5 @@
 section {
-    gap: 2px
+    gap: 2px;
 }
 
 .full {
@@ -9,4 +9,37 @@ section {
 
 app-monster-sprite {
     z-index: 50;
+}
+
+.gauge-container {
+    position: absolute;
+    left: 4px;
+    bottom: 10px;
+    height: 100px;
+}
+
+.sword {
+    padding: 2px;
+}
+
+.icon-gauge {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    gap: 1px;
+}
+
+.gauge {
+    padding: 6px;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+}
+
+.gauge-img {
+    width: 20px;
 }

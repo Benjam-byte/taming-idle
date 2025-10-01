@@ -1,121 +1,111 @@
-<section class="gauge">
-  <div class="icon-gauge">
-    <img src="assets/icon/footsteps.png" alt="foostep" />
-    <app-action-gauge
-      [durationMs]="travelDuration() ?? 0"
-      [progress]="(travelCountDown$ | async) ?? 0"
-    />
-  </div>
-  <div class="icon-gauge">
-    <img class="sword" src="assets/icon/sword.png" alt="sword" />
-    <app-action-gauge
-      [durationMs]="fightingDuration() ?? 0"
-      [progress]="(fightingCountDown$ | async) ?? 0"
-      [isGreen]="true"
-    />
-  </div>
-</section>
-<section class="value">
-  @if(infoMode === 'fight') {
-  <div class="text-col" *ngIf="humanManagerService.human$ | async as human">
-    <div class="line">
-      <img src="assets/icon/stat/damage.png" alt="damage" />
-      <p>{{ humanManagerService.damage }} Damage</p>
-    </div>
-    <div class="line">
-      <img src="assets/icon/stat/precision.png" alt="damage" />
-      <p>{{ human.precison }} precision</p>
-    </div>
-    <div class="line">
-      <img src="assets/icon/stat/piercing.png" alt="damage" />
-      <p>{{ human.armorPen }} Armor pen</p>
-    </div>
-    <div class="line">
-      <img src="assets/icon/stat/clover.png" alt="damage" />
-      <p>{{ human.criticalChancePercentage * 100 }}% Critical</p>
-    </div>
-  </div>
-  <div class="text-col">
-    <div *ngIf="humanManagerService.human$ | async as human">
-      <div class="line">
-        <img src="assets/icon/footsteps.png" alt="footsteps" />
-        <p>{{ human.travellingSpeed }} ms Move speed</p>
-      </div>
-      <div class="line">
-        <img src="assets/icon/sword.png" alt="damage" />
-        <p>{{ human.fightingSpeed }} ms Attack speed</p>
-      </div>
-      <div class="line">
-        <img src="assets/icon/loupe.png" alt="damage" />
-        <p>{{ human.searchingSpeed }} ms Search speed</p>
-      </div>
-    </div>
-  </div>
-  } @if(infoMode === 'loot') {
-  <div class="text-col">
-    <div class="line">
-      <p>blé</p>
-    </div>
-  </div>
-  <div class="text-col">
-    <div class="line"></div>
-  </div>
-  } @if(infoMode === 'world') { @if(regionService.region$ | async; as region ){
+<img class="button" src="assets/icon/main-menu.png" (click)="openMenuModal()" />
 
-  <div class="text-col">
-    <div class="line">
-      <p>{{ region.monsterSpawnRate * 100 }}% monster</p>
+<!-- <section class="value">
+    @if(infoMode === 'fight') {
+    <div class="text-col" *ngIf="humanManagerService.human$ | async as human">
+        <div class="line">
+            <img [src]="statIconDict['damage']" alt="damage" />
+            <p>{{ humanManagerService.damage }} Damage</p>
+        </div>
+        <div class="line">
+            <img [src]="statIconDict['precision']" alt="damage" />
+            <p>{{ human.precison }} precision</p>
+        </div>
+        <div class="line">
+            <img [src]="statIconDict['armorPen']" alt="damage" />
+            <p>{{ human.armorPen }} Armor pen</p>
+        </div>
+        <div class="line">
+            <img
+                [src]="statIconDict['criticalChancePercentage']"
+                alt="damage"
+            />
+            <p>{{ human.criticalChancePercentage * 100 }}% Critical</p>
+        </div>
     </div>
-    <div class="line">
-      <p>{{ region.shinyMonsterSpawnRate * 100 }}% shiny monster (sp)</p>
+    <div class="text-col">
+        <div *ngIf="humanManagerService.human$ | async as human">
+            <div class="line">
+                <img [src]="statIconDict['travellingSpeed']" alt="footsteps" />
+                <p>{{ human.travellingSpeed }} ms Move speed</p>
+            </div>
+            <div class="line">
+                <img [src]="statIconDict['fightingSpeed']" alt="damage" />
+                <p>{{ human.fightingSpeed }} ms Attack speed</p>
+            </div>
+            <div class="line">
+                <img [src]="statIconDict['searchingSpeed']" alt="damage" />
+                <p>{{ human.searchingSpeed }} ms Search speed</p>
+            </div>
+        </div>
     </div>
-    <div class="line">
-      <p>{{ region.monsterEggDropPercentage * 100 }}% monster egg (sp)</p>
+    } @if(infoMode === 'loot') {
+    <div class="text-col">
+        <div class="line">
+            <p>blé</p>
+        </div>
     </div>
-  </div>
-  <div class="text-col">
-    <div class="line">
-      <p>{{ region.lootDropPercentage * 100 }}% loot drop</p>
+    <div class="text-col">
+        <div class="line"></div>
     </div>
-    <div class="line">
-      <p>{{ region.shinyLootDropPercentage * 100 }}% shiny loot drop</p>
-    </div>
-    <div class="line">
-      <p>
-        {{ region.monsterWithTresorDropPercentage * 100 }}% monster tresor (sp)
-      </p>
-    </div>
-    <div class="line">
-      <p>{{ region.tresorMapSpawnRate * 100 }}% tresor map (sp)</p>
-    </div>
-  </div>
-  } } @if(infoMode === 'monster') {
-  <div class="text-col">
-    <div class="line"></div>
-  </div>
-  <div class="text-col">
-    <div class="line"></div>
-  </div>
-  }
+    } @if(infoMode === 'world') { @if(regionService.region$ | async; as region
+    ){
 
-  <div class="button-bar">
-    <img
-      [class]="infoMode === 'monster' ? 'selected' : ''"
-      src="assets/icon/stat/cthulhu.png"
-      alt="cthulhu"
-      (click)="updateInfoMode('monster')"
-    />
-    <img
-      [class]="infoMode === 'world' ? 'selected' : ''"
-      src="assets/icon/stat/forest.png"
-      alt="forest"
-      (click)="updateInfoMode('world')"
-    />
-    <img
-      [class]="infoMode === 'fight' ? 'selected' : ''"
-      src="assets/icon/stat/user.png"
-      alt="user"
-      (click)="updateInfoMode('fight')"
-    />
-  </div>
-</section>
+    <div class="text-col">
+        <div class="line">
+            <p>{{ region.monsterSpawnRate * 100 }}% monster</p>
+        </div>
+        <div class="line">
+            <p>{{ region.shinyMonsterSpawnRate * 100 }}% shiny monster (sp)</p>
+        </div>
+        <div class="line">
+            <p>{{ region.monsterEggDropPercentage * 100 }}% monster egg (sp)</p>
+        </div>
+    </div>
+    <div class="text-col">
+        <div class="line">
+            <p>{{ region.lootDropPercentage * 100 }}% loot drop</p>
+        </div>
+        <div class="line">
+            <p>{{ region.shinyLootDropPercentage * 100 }}% shiny loot drop</p>
+        </div>
+        <div class="line">
+            <p>
+                {{ region.monsterWithTresorDropPercentage * 100 }}% monster
+                tresor (sp)
+            </p>
+        </div>
+        <div class="line">
+            <p>{{ region.tresorMapSpawnRate * 100 }}% tresor map (sp)</p>
+        </div>
+    </div>
+    } } @if(infoMode === 'monster') {
+    <div class="text-col">
+        <div class="line"></div>
+    </div>
+    <div class="text-col">
+        <div class="line"></div>
+    </div>
+    }
+
+    <div class="button-bar">
+        <img
+            [class]="infoMode === 'monster' ? 'selected' : ''"
+            src="assets/icon/stat/cthulhu.png"
+            alt="cthulhu"
+            (click)="updateInfoMode('monster')"
+        />
+        <img
+            [class]="infoMode === 'world' ? 'selected' : ''"
+            src="assets/icon/stat/forest.png"
+            alt="forest"
+            (click)="updateInfoMode('world')"
+        />
+        <img
+            [class]="infoMode === 'fight' ? 'selected' : ''"
+            src="assets/icon/stat/user.png"
+            alt="user"
+            (click)="updateInfoMode('fight')"
+        />
+    </div>
+</section> -->

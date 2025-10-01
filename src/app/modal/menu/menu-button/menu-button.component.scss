@@ -1,0 +1,25 @@
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 52px;
+  gap: 2px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+
+  & p {
+    margin: 0;
+  }
+}
+
+
+.icon-button {
+  height: 40px;
+  width: 40px;
+  padding: 2px;
+  background-color: brown;
+  outline: 3px solid rgb(37, 19, 2);
+  border-radius: 5px;
+}

@@ -75,17 +75,17 @@ export class GameEngineService {
             case 'travel':
                 if (this.humanManagerService.advance(now)) {
                     this.professionManager.updateByProfessionName('Voyageur');
-                    this.mapService.changeMap();
+                    this.mapService.travelWhere(event.payload.direction);
                 }
                 break;
             case 'fight':
                 if (this.humanManagerService.fight(now)) event.payload();
                 break;
             case 'flee':
-                this.mapService.changeMap();
+                this.mapService.travelRandom();
                 break;
             case 'skip':
-                this.mapService.changeMap();
+                this.mapService.travelRandom();
                 break;
         }
     }

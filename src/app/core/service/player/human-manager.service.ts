@@ -89,24 +89,10 @@ export class HumanManagerService {
     }
 
     private updateStat(profession: Profession, human: Human) {
-        if (profession.level % 2 === 0)
-            return this.getValueA(profession, human);
-        else return this.getValueB(profession, human);
-    }
-
-    private getValueA(profession: Profession, human: Human) {
         return {
-            [profession.valueA.stat]:
-                profession.valueA.value +
-                +human[profession.valueA.stat as keyof typeof human],
-        };
-    }
-
-    private getValueB(profession: Profession, human: Human) {
-        return {
-            [profession.valueB.stat]:
-                profession.valueB.value +
-                +human[profession.valueB.stat as keyof typeof human],
+            [profession.value.stat]:
+                profession.value.value +
+                +human[profession.value.stat as keyof typeof human],
         };
     }
 }

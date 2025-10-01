@@ -1,0 +1,74 @@
+.background {
+    z-index: -1;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-image: url("../../../assets/background/brown.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+h1 {
+    margin-right: 10px;
+    margin-left: 10px;
+    text-align: center;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+    padding: 4px;
+}
+
+.text-col {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+    justify-content: end;
+}
+
+p {
+    font-size: 12px;
+    margin: 0;
+}
+
+.line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+}
+
+.line img {
+    width: 18px;
+}
+
+.footer {
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: center;
+    background-color: brown;
+    border-top: 3px solid rgb(37, 19, 2);
+}
+
+.footer img {
+    width: 20px;
+}
+
+.footer .button {
+    margin-top: 4px;
+    height: 24px;
+    width: 24px;
+    padding: 2px;
+    background-color: rgb(99, 33, 7);
+    outline: 2px solid rgb(37, 19, 2);
+    border-radius: 5px;
+}

@@ -56,7 +56,7 @@ export class WorldManagerService {
                     .updateSelectedRegionMonsterSpawnRate$(2 / 50)
                     .pipe(
                         concatWith(
-                            this.regionService.updateSelectedRegionChestSpawnRate$(
+                            this.regionService.updateSelectedRegionMonsterChestSpawnRate$(
                                 1
                             )
                         )
@@ -71,6 +71,7 @@ export class WorldManagerService {
                 });
                 break;
             case 4:
+                this.regionService.updateSelectedRegionChestSpawnRate$(0.1);
                 this.broadcastMessageService.displayMessage({
                     message: 'keep the good work, world power is growing',
                 });
@@ -79,6 +80,12 @@ export class WorldManagerService {
                 this.enableOffrande();
                 this.broadcastMessageService.displayMessage({
                     message: 'Gods want to talk with you',
+                });
+                break;
+            case 6:
+                this.enableWorldMap();
+                this.broadcastMessageService.displayMessage({
+                    message: 'The world is bigger than you think',
                 });
                 break;
         }
@@ -104,6 +111,26 @@ export class WorldManagerService {
         this.worldControllerService
             .update(this.world.id, {
                 offrandeAvailable: true,
+            })
+            .subscribe((world) => this._world$.next(world));
+    }
+
+    enableWorldMap() {
+        this.worldControllerService
+            .update(this.world.id, {
+                worldMapAvailable: true,
+            })
+            .subscribe((world) => this._world$.next(world));
+    }
+
+    firstRelicOpened() {
+        if (this.world.firstRelicDroppped) return;
+        this.regionService
+            .updateSelectedRegionMonsterChestSpawnRate$(-0.9)
+            .subscribe();
+        this.worldControllerService
+            .update(this.world.id, {
+                firstRelicDroppped: true,
             })
             .subscribe((world) => this._world$.next(world));
     }

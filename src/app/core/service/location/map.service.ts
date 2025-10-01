@@ -1,25 +1,48 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Map } from '../../value-object/map';
 import { RegionManagerService } from './region.service';
 
 type MapKey = 'tresor' | 'monster' | 'empty';
+type Direction = 'top' | 'right' | 'left';
 
 @Injectable({
     providedIn: 'root',
 })
 export class MapManagerService {
     regionService = inject(RegionManagerService);
-    map = signal<Map>(new Map());
+    map = signal<{ count: number; map: MapKey }>({ count: 0, map: 'empty' });
+    availableMap: Record<Direction, MapKey> = {
+        right: 'empty',
+        top: 'empty',
+        left: 'empty',
+    };
 
     constructor() {}
 
-    changeMap() {
-        const oldMap = this.map().content();
-        this.map().setContent(undefined);
-        const map = this.getRandomMap(oldMap === ('monster' as any));
-        setTimeout(() => {
-            this.map().setContent(map);
-        }, 100);
+    travelRandom() {
+        const map = this.availableMap[this.getRandomDirection()];
+        const count = this.map().count + 1;
+        this.map.set({ count, map });
+        this.updateAvailableMap();
+    }
+
+    travelWhere(direction: Direction) {
+        const map = this.availableMap[direction];
+        const count = this.map().count + 1;
+        this.map.set({ count, map });
+        this.updateAvailableMap();
+    }
+
+    updateAvailableMap() {
+        const wasMonster = this.map().map === 'monster';
+        this.availableMap.right = this.getRandomMap(wasMonster);
+        this.availableMap.left = this.getRandomMap(wasMonster);
+        this.availableMap.top = this.getRandomMap(wasMonster);
+    }
+
+    getRandomDirection() {
+        const directionList: Direction[] = ['top', 'right', 'left'];
+        const randomIndex = Math.floor(Math.random() * directionList.length);
+        return directionList[randomIndex];
     }
 
     private getRandomMap(wasMonster: boolean): MapKey {

@@ -156,22 +156,18 @@ export class LootManagerService {
     lootChest(loot: string): string {
         if (!this.worldManagerService.world.metaGodAvailable)
             loot = 'relicRank1';
-        if (this.loot.openedChest === 0) this.firstOpenedChest();
         this.updateChestCount();
         switch (loot) {
             case 'relicRank1': {
                 const newRelic =
                     this.relicManagerService.getOneRelicRandomByRank(1);
                 this.relicManagerService.addOneRelicByName(newRelic.name, null);
+                this.worldManagerService.firstRelicOpened();
                 return newRelic.name;
             }
             case 'glitchedStone':
                 return '1 glitched stone';
         }
         return 'une erreur avec ce coffre';
-    }
-
-    private firstOpenedChest() {
-        this.regionManagerService.updateSelectedRegionChestSpawnRate$(0.1);
     }
 }

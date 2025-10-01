@@ -32,15 +32,18 @@ export class RegionManagerService {
 
     getChestMapDict(): Record<string, number> {
         return {
-            tresor: this.region.tresorMapSpawnRate,
+            tresor: this.region.monsterWithTresorDropPercentage,
             empty: 1 - this.region.monsterSpawnRate,
         };
     }
 
     getSelectedRegionMapDict(): Record<string, number> {
         return {
+            tresor: this.region.tresorMapSpawnRate,
             monster: this.region.monsterSpawnRate,
-            empty: 1 - this.region.monsterSpawnRate,
+            empty:
+                1 -
+                (this.region.monsterSpawnRate + this.region.tresorMapSpawnRate),
         };
     }
 
@@ -48,6 +51,15 @@ export class RegionManagerService {
         return this.regionControllerService
             .updateOne(this.region.id, {
                 tresorMapSpawnRate: this.region.tresorMapSpawnRate + value,
+            })
+            .pipe(tap((region) => this._region$.next(region)));
+    }
+
+    updateSelectedRegionMonsterChestSpawnRate$(value: number) {
+        return this.regionControllerService
+            .updateOne(this.region.id, {
+                monsterWithTresorDropPercentage:
+                    this.region.monsterWithTresorDropPercentage + value,
             })
             .pipe(tap((region) => this._region$.next(region)));
     }
