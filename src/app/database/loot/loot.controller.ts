@@ -4,34 +4,35 @@ import { LootService } from './loot.service';
 import { Loot } from './loot.type';
 
 const defaultLoot = {
-  wheatQuantity: 0,
-  enchantedWheatQuantity: 0,
-  slimeSoul: 0,
-  enchantedSlimeSoul: 0,
-  openedChest: 0,
+    wheatQuantity: 0,
+    enchantedWheatQuantity: 0,
+    slimeSoul: 0,
+    enchantedSlimeSoul: 0,
+    openedChest: 0,
+    glitchedStone: 0,
 };
 
 @Injectable({ providedIn: 'root' })
 export class LootController {
-  service = inject(LootService);
+    service = inject(LootService);
 
-  init() {
-    return this.service.create(defaultLoot);
-  }
+    init() {
+        return this.service.create(defaultLoot);
+    }
 
-  create(loot: Omit<Loot, 'id'>): Observable<Loot> {
-    return this.service.create(loot);
-  }
+    create(loot: Omit<Loot, 'id'>): Observable<Loot> {
+        return this.service.create(loot);
+    }
 
-  get(): Observable<Loot> {
-    return this.service.get();
-  }
+    get(): Observable<Loot> {
+        return this.service.get();
+    }
 
-  update(id: string, loot: Partial<Omit<Loot, 'id'>>): Observable<Loot> {
-    return this.service.update(id, loot);
-  }
+    update(id: string, loot: Partial<Omit<Loot, 'id'>>): Observable<Loot> {
+        return this.service.update(id, loot);
+    }
 
-  dropTable(): Observable<void> {
-    return this.service.dropTable();
-  }
+    dropTable(): Observable<void> {
+        return this.service.dropTable();
+    }
 }

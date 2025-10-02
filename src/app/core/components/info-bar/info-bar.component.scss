@@ -40,3 +40,42 @@ p {
     padding: 4px 6px;
     width: fit-content;
 }
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+    width: fit-content;
+    padding: 0px 4px;
+    min-width: 60px;
+}
+
+.icon-container img {
+    width: 10px;
+    transform: scale(2) translateY(-1px);
+}
+
+.text-info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.major-ressource {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-left: 10px;
+    margin-bottom: 3px;
+}
+
+.scaled {
+    transform: scale(3) !important;
+}
+
+.not-scaled {
+    transform: scale(1.5) !important;
+}

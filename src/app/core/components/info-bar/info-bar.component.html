@@ -2,4 +2,34 @@
     <img src="assets/monster/terra_larva/terra_larva.webp" alt="perso" />
     <div class="badge">{{ 1 }}</div>
 </div>
-<p>Terra Larva (Vous)</p>
+<div class="text-info">
+    <p>Terra Larva (Vous)</p>
+    @if(lootManagerService.loot$ | async ; as loot){
+    <div class="major-ressource">
+        <div class="icon-container">
+            <p>{{ loot.wheatQuantity }}</p>
+            <img src="assets/object/Wheat.webp" alt="blé" />
+        </div>
+        <div class="icon-container">
+            <p>{{ loot.slimeSoul }}</p>
+            <img src="assets/object/Soul_Slime.webp" alt="blé" />
+        </div>
+        <div class="icon-container">
+            <p>{{ (combatTowerManagerService.combatTower$ | async)?.level }}</p>
+            <img
+                class="not-scaled"
+                src="assets/icon/tower.png"
+                alt="Glitched_Stone"
+            />
+        </div>
+        <div class="icon-container">
+            <p>{{ loot.glitchedStone }}</p>
+            <img
+                class="scaled"
+                src="assets/object/Glitched_Stone.webp"
+                alt="Glitched_Stone"
+            />
+        </div>
+    </div>
+    }
+</div>
