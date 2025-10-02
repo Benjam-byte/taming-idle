@@ -4,35 +4,36 @@ import { HumanService } from './human.service';
 import { Human } from './human.type';
 
 const defaultHuman = {
-  damage: 1,
-  precison: 1,
-  tacle: 1,
-  armorPen: 1,
-  criticalChancePercentage: 0,
-  distanceTravelled: 0,
-  travellingSpeed: 1000,
-  fightingSpeed: 1000,
-  searchingSpeed: 1000,
-  unlockChestBonusChancePercentage: 0,
+    damage: 1,
+    precison: 1,
+    tacle: 1,
+    armorPen: 1,
+    criticalChancePercentage: 0,
+    distanceTravelled: 0,
+    travellingSpeed: 1000,
+    fightingSpeed: 1000,
+    searchingSpeed: 1000,
+    unlockChestBonusChancePercentage: 0,
+    findingPercentage: 0,
 };
 
 @Injectable({ providedIn: 'root' })
 export class HumanController {
-  service = inject(HumanService);
+    service = inject(HumanService);
 
-  init() {
-    return this.service.create(defaultHuman);
-  }
+    init() {
+        return this.service.create(defaultHuman);
+    }
 
-  get(): Observable<Human> {
-    return this.service.get();
-  }
+    get(): Observable<Human> {
+        return this.service.get();
+    }
 
-  update(id: string, human: Partial<Omit<Human, 'id'>>): Observable<Human> {
-    return this.service.update(id, human);
-  }
+    update(id: string, human: Partial<Omit<Human, 'id'>>): Observable<Human> {
+        return this.service.update(id, human);
+    }
 
-  dropTable(): Observable<void> {
-    return this.service.dropTable();
-  }
+    dropTable(): Observable<void> {
+        return this.service.dropTable();
+    }
 }

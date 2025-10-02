@@ -51,21 +51,45 @@
             </div>
         </div>
 
-        <div class="text-col">
+        <div class="combat-wrapper">
             <h2>Action</h2>
-            <div class="line">
-                <img [src]="statIconDict['travellingSpeed']" alt="footsteps" />
-                <p>{{ human.travellingSpeed }} ms le deplacement</p>
-            </div>
-            <div class="line">
-                <img [src]="statIconDict['fightingSpeed']" alt="damage" />
-                <p>{{ human.fightingSpeed }} ms l'attaque</p>
-            </div>
-            <div class="line">
-                <img [src]="statIconDict['searchingSpeed']" alt="damage" />
-                <p>{{ human.searchingSpeed }} ms le crochetage</p>
+            <div class="text-combat">
+                <div class="stat-group">
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['travellingSpeed']"
+                            alt="footsteps"
+                        />
+                        <p>{{ human.travellingSpeed }}ms le deplacement</p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['fightingSpeed']"
+                            alt="damage"
+                        />
+                        <p>{{ human.fightingSpeed }}ms l'attaque</p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['searchingSpeed']"
+                            alt="damage"
+                        />
+                        <p>{{ human.searchingSpeed }}ms le crochetage</p>
+                    </div>
+                </div>
+
+                <div class="stat-group">
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['findingPercentage']"
+                            alt="findingPercentage"
+                        />
+                        <p>{{ human.findingPercentage }}% de pister</p>
+                    </div>
+                </div>
             </div>
         </div>
+
         }
     </main>
     <div class="footer">

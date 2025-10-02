@@ -7,6 +7,7 @@ export const statIconDict = {
     travellingSpeed: 'assets/icon/footsteps.png',
     fightingSpeed: 'assets/icon/sword.png',
     searchingSpeed: 'assets/icon/loupe.png',
+    findingPercentage: 'assets/icon/loupe.png',
 };
 
 export type StatKey =
