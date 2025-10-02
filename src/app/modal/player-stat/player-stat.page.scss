@@ -20,12 +20,42 @@ h1 {
     padding: 4px;
 }
 
+h2 {
+    margin: 0px;
+}
+
 .text-col {
+    margin: 8px;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 3px;
+    gap: 10px;
+    padding: 10px;
     justify-content: end;
+    padding-bottom: 10px;
+}
+
+.stat-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.combat-wrapper {
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    padding: 10px;
+    margin: 10px;
+}
+
+.text-combat {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 p {
@@ -37,7 +67,7 @@ p {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 2px;
+    gap: 8px;
 }
 
 .line img {
@@ -71,4 +101,31 @@ p {
     background-color: rgb(99, 33, 7);
     outline: 2px solid rgb(37, 19, 2);
     border-radius: 5px;
+}
+
+
+.perso-img {
+    transform: scale(1.4);
+}
+
+.image-wrapper {
+    background-color: rgb(99, 33, 7);
+    outline: 2px solid rgb(37, 19, 2);
+    border-radius: 5px;
+}
+
+.info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+}
+
+.xp-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 20px 0px;
 }

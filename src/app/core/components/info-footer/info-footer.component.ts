@@ -1,16 +1,5 @@
-import {
-    Component,
-    effect,
-    inject,
-    input,
-    output,
-    signal,
-} from '@angular/core';
-import { GameEngineService } from '../../service/game-engine.service';
+import { Component, effect, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HumanManagerService } from '../../service/player/human-manager.service';
-import { RegionManagerService } from '../../service/location/region.service';
-import { statIconDict } from '../../json/statIconDict';
 import { ModalController } from '@ionic/angular/standalone';
 import { MenuComponent } from 'src/app/modal/menu/menu.component';
 
