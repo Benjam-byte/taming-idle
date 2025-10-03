@@ -13,7 +13,26 @@ export class DebugService {
         );
         if (cheatOn) {
             this.moreDamage();
-            this.moreMonster();
+            //   this.moreMonster();
+            this.moreFinding();
+            //     this.moreTresorChestMap();
+            this.deactivateCheat();
+        }
+    }
+
+    moreTresorChestMap() {
+        const addTresorMap = localStorage.getItem('tresorMap');
+        if (addTresorMap) {
+            this.regionManagerService
+                .updateSelectedRegionChestSpawnRate$(+addTresorMap)
+                .subscribe();
+        }
+    }
+
+    moreFinding() {
+        const addFinding = localStorage.getItem('finding');
+        if (addFinding) {
+            this.humanManagerService.updateFinding(+addFinding);
         }
     }
 
@@ -31,6 +50,10 @@ export class DebugService {
                 .updateSelectedRegionMonsterSpawnRate$(+addMonsterSpanwRate)
                 .subscribe();
         }
+    }
+
+    deactivateCheat() {
+        localStorage.setItem('cheat', 'false');
     }
 
     private getBooleanFromStorage(

@@ -4,7 +4,6 @@ import {
     effect,
     ElementRef,
     inject,
-    OnInit,
     signal,
 } from '@angular/core';
 import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
@@ -13,6 +12,7 @@ import { LootManagerService } from 'src/app/core/service/player/loot-manager.ser
 import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MapManagerService } from 'src/app/core/service/location/map.service';
+import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 
 @Component({
     selector: 'app-empty-area',
@@ -26,6 +26,7 @@ export class EmptyAreaComponent {
     clickEffectService = inject(ClickEffectService);
     broadcastMessageService = inject(BroadcastService);
     mapManagerService = inject(MapManagerService);
+    humanManagerService = inject(HumanManagerService);
 
     host = inject(ElementRef<HTMLElement>);
     position!: { top: string; left: string };
@@ -49,6 +50,25 @@ export class EmptyAreaComponent {
     isFadingTop = computed(() => {
         if (this.showTopSucces()) return false;
         return this.isActive();
+    });
+
+    rightArrowImage = computed(() => {
+        const map = this.humanManagerService.trackDirection(
+            this.mapManagerService.availableMap().right
+        );
+        return this.getArrowPath('right', map);
+    });
+    leftArrowImage = computed(() => {
+        const map = this.humanManagerService.trackDirection(
+            this.mapManagerService.availableMap().left
+        );
+        return this.getArrowPath('left', map);
+    });
+    topArrowImage = computed(() => {
+        const map = this.humanManagerService.trackDirection(
+            this.mapManagerService.availableMap().top
+        );
+        return this.getArrowPath('top', map);
     });
 
     constructor() {
@@ -117,5 +137,12 @@ export class EmptyAreaComponent {
             this.showTopSucces.set(true);
             setTimeout(() => this.showTopSucces.set(false), 200);
         }
+    }
+
+    private getArrowPath(direction: string, map: string) {
+        let content = '';
+        if (map === 'tresor') content = '_chest';
+        if (map === 'monster') content = '_monster';
+        return `assets/arrow/arrow_${direction}${content}.webp`;
     }
 }

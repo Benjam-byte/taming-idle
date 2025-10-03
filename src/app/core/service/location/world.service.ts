@@ -71,7 +71,9 @@ export class WorldManagerService {
                 });
                 break;
             case 4:
-                this.regionService.updateSelectedRegionChestSpawnRate$(0.1);
+                this.regionService
+                    .updateSelectedRegionChestSpawnRate$(0.1)
+                    .subscribe();
                 this.broadcastMessageService.displayMessage({
                     message: 'keep the good work, world power is growing',
                 });

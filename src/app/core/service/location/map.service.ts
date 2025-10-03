@@ -1,5 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { RegionManagerService } from './region.service';
+import { ProfessionManagerService } from '../player/profession-manager.service';
 
 type MapKey = 'tresor' | 'monster' | 'empty';
 type Direction = 'top' | 'right' | 'left';
@@ -8,25 +9,27 @@ type Direction = 'top' | 'right' | 'left';
     providedIn: 'root',
 })
 export class MapManagerService {
-    regionService = inject(RegionManagerService);
+    regionManagerService = inject(RegionManagerService);
+    professionManagerService = inject(ProfessionManagerService);
     map = signal<{ count: number; map: MapKey }>({ count: 0, map: 'empty' });
-    availableMap: Record<Direction, MapKey> = {
+    availableMap = signal<Record<Direction, MapKey>>({
         right: 'empty',
         top: 'empty',
         left: 'empty',
-    };
+    });
 
     constructor() {}
 
     travelRandom() {
-        const map = this.availableMap[this.getRandomDirection()];
+        const map = this.availableMap()[this.getRandomDirection()];
         const count = this.map().count + 1;
         this.map.set({ count, map });
         this.updateAvailableMap();
     }
 
     travelWhere(direction: Direction) {
-        const map = this.availableMap[direction];
+        const map = this.availableMap()[direction];
+        this.updatePisteur(map);
         const count = this.map().count + 1;
         this.map.set({ count, map });
         this.updateAvailableMap();
@@ -34,9 +37,12 @@ export class MapManagerService {
 
     updateAvailableMap() {
         const wasMonster = this.map().map === 'monster';
-        this.availableMap.right = this.getRandomMap(wasMonster);
-        this.availableMap.left = this.getRandomMap(wasMonster);
-        this.availableMap.top = this.getRandomMap(wasMonster);
+        this.availableMap.set({
+            right: this.getRandomMap(wasMonster),
+            left: this.getRandomMap(wasMonster),
+            top: this.getRandomMap(wasMonster),
+        });
+        console.log(this.availableMap());
     }
 
     getRandomDirection() {
@@ -60,7 +66,12 @@ export class MapManagerService {
     }
 
     private getMapDict(wasMonster: boolean) {
-        if (wasMonster) return this.regionService.getChestMapDict();
-        return this.regionService.getSelectedRegionMapDict();
+        if (wasMonster) return this.regionManagerService.getChestMapDict();
+        return this.regionManagerService.getSelectedRegionMapDict();
+    }
+
+    private updatePisteur(map: MapKey) {
+        if (map === 'empty') return;
+        this.professionManagerService.updateByProfessionName('Pisteur');
     }
 }

@@ -4,6 +4,7 @@ import { HumanController } from 'src/app/database/human/human.controller';
 import { BehaviorSubject, map, of, tap } from 'rxjs';
 import { Profession } from 'src/app/database/profession/profession.type';
 import { RelicManagerService } from './relic-manager.service';
+import { rollCompoundChance } from '../../helpers/proba-rolls';
 
 @Injectable({ providedIn: 'root' })
 export class HumanManagerService {
@@ -71,9 +72,26 @@ export class HumanManagerService {
         return true;
     }
 
+    trackDirection(map: string) {
+        if (map === 'empty') return map;
+        const r = rollCompoundChance(this.human.findingPercentage, 0)
+            ? map
+            : 'empty';
+        console.log(map, r);
+        return r;
+    }
+
     updateDamage(damage: number) {
         this.humanControllerService
             .update(this.human.id, { damage: damage + this.human.damage })
+            .subscribe((human) => this._human$.next(human));
+    }
+
+    updateFinding(finding: number) {
+        this.humanControllerService
+            .update(this.human.id, {
+                findingPercentage: finding + this.human.findingPercentage,
+            })
             .subscribe((human) => this._human$.next(human));
     }
 

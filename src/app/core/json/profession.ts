@@ -51,7 +51,7 @@ export const professionList = [
             "Trouver des monstres ou des tresors sur la carte vous donnera de l'xp",
         color: '#ffff00',
         bonus: "+2% de chance d'indication",
-        value: { stat: 'findingPercentage', value: 0.2 },
+        value: { stat: 'findingPercentage', value: 0.05 },
         image: {
             '10': 'assets/profession/detective_I.png',
             '20': 'assets/profession/detective_I_II.png',

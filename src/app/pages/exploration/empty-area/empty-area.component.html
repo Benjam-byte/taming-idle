@@ -12,7 +12,7 @@
     <div class="arrow-wrapper">
         <img
             class="arrow"
-            src="assets/arrow/arrow_left.webp"
+            [src]="leftArrowImage()"
             alt="arrow"
             [class.success]="showLeftSucces()"
         />
@@ -23,7 +23,7 @@
     <div class="arrow-wrapper">
         <img
             class="arrow"
-            src="assets/arrow/arrow_right.webp"
+            [src]="rightArrowImage()"
             alt="arrow"
             [class.success]="showRightSucces()"
         />
@@ -35,7 +35,7 @@
     <div class="arrow-wrapper">
         <img
             class="arrow"
-            src="assets/arrow/arrow_top.webp"
+            [src]="topArrowImage()"
             alt="arrow"
             [class.success]="showTopSucces()"
         />

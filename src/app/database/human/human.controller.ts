@@ -14,7 +14,7 @@ const defaultHuman = {
     fightingSpeed: 1000,
     searchingSpeed: 1000,
     unlockChestBonusChancePercentage: 0,
-    findingPercentage: 0,
+    findingPercentage: 0.05,
 };
 
 @Injectable({ providedIn: 'root' })
