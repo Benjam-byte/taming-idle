@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HumanService } from './human.service';
 import { Human } from './human.type';
+import { relicList } from 'src/app/core/json/relics';
 
 const defaultHuman = {
     damage: 1,
@@ -15,6 +16,7 @@ const defaultHuman = {
     searchingSpeed: 1000,
     unlockChestBonusChancePercentage: 0,
     findingPercentage: 0.05,
+    relicId: '',
 };
 
 @Injectable({ providedIn: 'root' })

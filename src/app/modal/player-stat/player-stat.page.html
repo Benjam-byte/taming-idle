@@ -90,6 +90,38 @@
             </div>
         </div>
 
+        <div class="relic-container">
+            <div class="relic-header">
+                <h2>Relic</h2>
+                <p (click)="dissociate()">X</p>
+            </div>
+            <div class="relic-info">
+                <div
+                    class="relic-card"
+                    [class.unknown]="!relic()"
+                    (click)="select()"
+                >
+                    <img
+                        [src]="!relic() ? 'assets/icon/question.png' : relic()?.imagePath"
+                        alt="relic"
+                    />
+                </div>
+                <div>
+                    @if(relic(); as relic){
+                    <h3>{{relic.name}}</h3>
+                    <p class="rank">Rank : {{relic.rank}}</p>
+                    <p class="relic-description">{{relic.description}}</p>
+                    }
+                </div>
+            </div>
+            <div class="bonus-container">
+                <div class="line">
+                    <img [src]="relicBonusImagePath()" alt="damage" />
+                    <p>{{ relic()?.effet?.value }} {{relic()?.effet?.stat}}</p>
+                </div>
+            </div>
+        </div>
+
         }
     </main>
     <div class="footer">

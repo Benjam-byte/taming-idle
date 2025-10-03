@@ -4,6 +4,7 @@ export type Human = {
     precison: number;
     tacle: number;
     armorPen: number;
+    relicId: string;
     criticalChancePercentage: number;
     unlockChestBonusChancePercentage: number;
     distanceTravelled: number;

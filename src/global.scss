@@ -38,150 +38,157 @@
 
 
 :root {
-  -webkit-user-select: none;
-  /* Safari */
-  -ms-user-select: none;
-  /* IE 10 and IE 11 */
-  user-select: none;
-  /* Standard syntax */
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
 }
 
 .no-click {
-  pointer-events: none;
-  /* désactive les clics */
+    pointer-events: none;
+    /* désactive les clics */
 }
 
 .no-select {
-  user-select: none;
-  /* empêche la sélection */
-  -webkit-user-drag: none;
-  /* empêche le glisser sur Safari/Chrome */
+    user-select: none;
+    /* empêche la sélection */
+    -webkit-user-drag: none;
+    /* empêche le glisser sur Safari/Chrome */
 }
 
 .info-button {
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgb(37, 19, 2);
-  border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgb(37, 19, 2);
+    border-radius: 100%;
 }
 
 .centered {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .justify {
-  text-align: justify;
+    text-align: justify;
 }
 
 .small-modal {
-  --width: 300px;
-  --height: 200px;
-  --border-radius: 12px;
-  --box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    --width: 300px;
+    --height: 200px;
+    --border-radius: 12px;
+    --box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.fit-modal {
+    --width: 300px;
+    --height: fit-content;
+    --border-radius: 12px;
+    --box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .full-screen-modal {
-  --width: 100%;
-  --height: 100%;
-  --border-radius: 2px;
-  --box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    --width: 100%;
+    --height: 100%;
+    --border-radius: 2px;
+    --box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 ion-modal.full-screen-modal::part(content) {
-  background: transparent;
+    background: transparent;
 }
 
 .click-circle {
-  display: block;
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background: rgba(0, 123, 255, 0.4);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  animation: pop-and-fade 0.6s ease-out forwards;
-  pointer-events: none;
-  z-index: 9999;
+    display: block;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 123, 255, 0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    animation: pop-and-fade 0.6s ease-out forwards;
+    pointer-events: none;
+    z-index: 9999;
 }
 
 @keyframes pop-and-fade {
-  to {
-    transform: translate(-50%, -50%) scale(4);
-    opacity: 0;
-  }
+    to {
+        transform: translate(-50%, -50%) scale(4);
+        opacity: 0;
+    }
 }
 
 .damage-text {
-  position: absolute;
-  font-size: 18px;
-  font-weight: bold;
-  color: red;
-  user-select: none;
-  transform: translate(-50%, -50%);
-  animation: damage-pop 600ms ease-out forwards;
-  pointer-events: none;
+    position: absolute;
+    font-size: 18px;
+    font-weight: bold;
+    color: red;
+    user-select: none;
+    transform: translate(-50%, -50%);
+    animation: damage-pop 600ms ease-out forwards;
+    pointer-events: none;
 }
 
 @keyframes damage-pop {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -100%) scale(1.3);
-  }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -100%) scale(1.3);
+    }
 }
 
 .pickup-text {
-  position: fixed;
-  transform: translate(-50%, -50%);
-  font-weight: bold;
-  color: #ffd54f;
-  pointer-events: none;
-  user-select: none;
-  animation: pickup-float 600ms ease-out forwards;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: #ffd54f;
+    pointer-events: none;
+    user-select: none;
+    animation: pickup-float 600ms ease-out forwards;
 }
 
 @keyframes pickup-float {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -120%) scale(1.2);
-  }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -120%) scale(1.2);
+    }
 }
 
 .broadcast-message {
-  position: absolute;
-  font-size: 18px;
-  font-weight: bold;
-  width: 100dvw;
-  text-align: center;
-  top: 100px;
-  color: white;
-  background-color: rgba(29, 29, 29, 0.6);
-  user-select: none;
-  transform: translate(0, -50%);
-  animation: damage-pop 1500ms ease-out forwards;
-  pointer-events: none;
-  z-index: 200;
+    position: absolute;
+    font-size: 18px;
+    font-weight: bold;
+    width: 100dvw;
+    text-align: center;
+    top: 100px;
+    color: white;
+    background-color: rgba(29, 29, 29, 0.6);
+    user-select: none;
+    transform: translate(0, -50%);
+    animation: damage-pop 1500ms ease-out forwards;
+    pointer-events: none;
+    z-index: 200;
 }
 
 @keyframes damage-pop {
-  0% {
-    transform: translate(0, 100px);
-  }
+    0% {
+        transform: translate(0, 100px);
+    }
 
-  100% {
-    transform: translate(0, 50px);
-  }
+    100% {
+        transform: translate(0, 50px);
+    }
 }
 
 
@@ -189,49 +196,49 @@ ion-modal.full-screen-modal::part(content) {
 
 html,
 body {
-  margin: 0;
-  height: 100%;
-  background: #000;
-  /* fond noir */
-  font-family: Arial, sans-serif;
+    margin: 0;
+    height: 100%;
+    background: #000;
+    /* fond noir */
+    font-family: Arial, sans-serif;
 }
 
 /* Container centré */
 #splash-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #fff;
 }
 
 /* Logo */
 #splash-screen img {
-  width: 200px;
-  height: auto;
-  margin-bottom: 1.5rem;
-  animation: bounce 2s infinite;
+    width: 200px;
+    height: auto;
+    margin-bottom: 1.5rem;
+    animation: bounce 2s infinite;
 }
 
 /* Texte "Chargement..." */
 #splash-screen p {
-  font-size: 1.2rem;
-  letter-spacing: 2px;
-  color: #f9d71c;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: #f9d71c;
 }
 
 /* Animation du logo */
 @keyframes bounce {
 
-  0%,
-  100% {
-    transform: translateY(0);
-  }
+    0%,
+    100% {
+        transform: translateY(0);
+    }
 
-  50% {
-    transform: translateY(-15px);
-  }
+    50% {
+        transform: translateY(-15px);
+    }
 }
 
 // ------------------------------------------------ Index.html-------------------------------------------------------------------------

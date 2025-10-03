@@ -55,12 +55,4 @@ export class RelicListPage {
     getSelectedRelic(relicList: Relics[]) {
         return relicList.find((relic) => relic.id === this.selectedId());
     }
-
-    use(relic: Relics) {
-        this.humanManagerService.useOneRelic(relic.name);
-    }
-
-    isUsed(relic: Relics) {
-        return relic.entityId !== null;
-    }
 }

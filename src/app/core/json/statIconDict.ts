@@ -1,4 +1,4 @@
-export const statIconDict = {
+export const statIconDict: Record<StatKey, string> = {
     damage: 'assets/icon/stat/damage.png',
     precision: 'assets/icon/stat/precision.png',
     armorPen: 'assets/icon/stat/piercing.png',
@@ -14,7 +14,9 @@ export type StatKey =
     | 'damage'
     | 'precision'
     | 'armorPen'
+    | 'loot'
     | 'criticalChancePercentage'
     | 'travellingSpeed'
     | 'fightingSpeed'
-    | 'searchingSpeed';
+    | 'searchingSpeed'
+    | 'findingPercentage';

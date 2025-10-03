@@ -20,12 +20,14 @@ export class RelicManagerService {
         return this._relicList$.asObservable();
     }
 
-    get damageFromRelic() {
-        const activatedDamageRelic = this.relicList
-            .filter((relic) => relic.effet.stat === 'damage')
-            .filter((relic) => relic.entityId !== null);
-        if (!activatedDamageRelic[0]) return 0;
-        return activatedDamageRelic[0].effet.value;
+    getDamageFromRelicById(id: string) {
+        return (
+            this.relicList.find((relic) => relic.id === id)?.effet.value ?? 0
+        );
+    }
+
+    getRelicById(id: string) {
+        return this.relicList.find((relic) => relic.id === id);
     }
 
     init$() {
@@ -46,19 +48,6 @@ export class RelicManagerService {
         this.relicController
             .updateOne(relicToUpdate.id, {
                 quantity: relicToUpdate.quantity + 1,
-                entityId,
-            })
-            .subscribe((relicList) => this._relicList$.next(relicList));
-    }
-
-    useOneRelicByName(relicName: string, entityId: string | null) {
-        const relicToUpdate = this.relicList.find(
-            (relic) => relic.name === relicName
-        );
-        if (!relicToUpdate) return;
-        this.relicController
-            .updateOne(relicToUpdate.id, {
-                entityId,
             })
             .subscribe((relicList) => this._relicList$.next(relicList));
     }

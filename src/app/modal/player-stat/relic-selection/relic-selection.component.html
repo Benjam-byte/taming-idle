@@ -1,0 +1,29 @@
+<div class="header">
+    <h2>Relic Disponible</h2>
+    <p (click)="close()">X</p>
+</div>
+<div class="relic-list-container">
+    @for(relic of relicList; track relic.name){
+    <div
+        class="relic-card"
+        [class.selected]="selectedId() === relic.id"
+        (click)="select(relic.id)"
+    >
+        <img
+            [src]="
+                relic.quantity === 0
+                    ? 'assets/icon/question.png'
+                    : relic.imagePath
+            "
+            alt="relic"
+        />
+    </div>
+    }
+</div>
+<button
+    class="btn"
+    [disabled]="!selectedId()"
+    (click)="associate(selectedId())"
+>
+    Confirmer
+</button>

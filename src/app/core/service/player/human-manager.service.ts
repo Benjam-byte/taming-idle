@@ -26,7 +26,16 @@ export class HumanManagerService {
     }
 
     get damage() {
-        return this.human.damage + this.relicManagerService.damageFromRelic;
+        return (
+            this.human.damage +
+            this.relicManagerService.getDamageFromRelicById(this.human.relicId)
+        );
+    }
+
+    get relic$() {
+        return this._human$.pipe(
+            map((human) => this.relicManagerService.getRelicById(human.relicId))
+        );
     }
 
     init$() {
@@ -98,12 +107,16 @@ export class HumanManagerService {
     updateFromProfession(profession: Profession) {
         const human = this._human$.value;
         this.humanControllerService
-            .update(human.id, this.updateStat(profession, human))
+            .update(this.human.id, this.updateStat(profession, human))
             .subscribe((human) => this._human$.next(human));
     }
 
-    useOneRelic(relicName: string) {
-        this.relicManagerService.useOneRelicByName(relicName, this.human.id);
+    associateRelic(relicId: string) {
+        this.humanControllerService
+            .update(this.human.id, {
+                relicId,
+            })
+            .subscribe((human) => this._human$.next(human));
     }
 
     private updateStat(profession: Profession, human: Human) {
