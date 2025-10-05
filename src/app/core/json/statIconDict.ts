@@ -8,6 +8,7 @@ export const statIconDict: Record<StatKey, string> = {
     fightingSpeed: 'assets/icon/sword.png',
     searchingSpeed: 'assets/icon/loupe.png',
     findingPercentage: 'assets/icon/loupe.png',
+    unlockChestBonusChancePercentage: 'assets/icon/stat/lock.png',
 };
 
 export type StatKey =
@@ -19,4 +20,5 @@ export type StatKey =
     | 'travellingSpeed'
     | 'fightingSpeed'
     | 'searchingSpeed'
-    | 'findingPercentage';
+    | 'findingPercentage'
+    | 'unlockChestBonusChancePercentage';

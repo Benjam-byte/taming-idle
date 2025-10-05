@@ -7,7 +7,7 @@ export const professionList = [
             'Crocheter un coffre, commettre un mefait pourrez vous donnez un éclair de génie',
         color: '#ffff00',
         bonus: '+2% de chance de crocheter',
-        value: { stat: 'fightingSpeed', value: 0.2 },
+        value: { stat: 'unlockChestBonusChancePercentage', value: 0.02 },
         image: {
             '10': 'assets/profession/Voleur_I.avif',
             '20': 'assets/profession/Voleur_II.avif',
