@@ -36,11 +36,10 @@ export class MapManagerService {
     }
 
     updateAvailableMap() {
-        const wasMonster = this.map().map !== 'empty';
         this.availableMap.set({
-            right: this.getRandomMap(wasMonster),
-            left: this.getRandomMap(wasMonster),
-            top: this.getRandomMap(wasMonster),
+            right: this.getRandomMap(this.map().map),
+            left: this.getRandomMap(this.map().map),
+            top: this.getRandomMap(this.map().map),
         });
         console.log(this.availableMap());
     }
@@ -51,11 +50,11 @@ export class MapManagerService {
         return directionList[randomIndex];
     }
 
-    private getRandomMap(wasMonster: boolean): MapKey {
+    private getRandomMap(map: string): MapKey {
         const rand = Math.random();
         let cumulative = 0;
 
-        for (const [key, prob] of Object.entries(this.getMapDict(wasMonster))) {
+        for (const [key, prob] of Object.entries(this.getMapDict(map))) {
             cumulative += prob;
             if (rand < cumulative) {
                 return key as MapKey;
@@ -65,8 +64,10 @@ export class MapManagerService {
         return 'empty';
     }
 
-    private getMapDict(wasMonster: boolean) {
-        if (wasMonster) return this.regionManagerService.getChestMapDict();
+    private getMapDict(map: string) {
+        if (map === 'monster')
+            return this.regionManagerService.getChestMapDict();
+        if (map === 'tresor') return 'empty';
         return this.regionManagerService.getSelectedRegionMapDict();
     }
 

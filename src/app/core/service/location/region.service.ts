@@ -32,8 +32,9 @@ export class RegionManagerService {
 
     getChestMapDict(): Record<string, number> {
         return {
+            monster: 0,
             tresor: this.region.monsterWithTresorDropPercentage,
-            empty: 1 - this.region.monsterSpawnRate,
+            empty: 1 - this.region.monsterWithTresorDropPercentage,
         };
     }
 
