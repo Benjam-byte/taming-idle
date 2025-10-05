@@ -36,7 +36,7 @@ export class MapManagerService {
     }
 
     updateAvailableMap() {
-        const wasMonster = this.map().map === 'monster';
+        const wasMonster = this.map().map !== 'empty';
         this.availableMap.set({
             right: this.getRandomMap(wasMonster),
             left: this.getRandomMap(wasMonster),
