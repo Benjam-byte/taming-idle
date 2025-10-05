@@ -20,10 +20,12 @@
     </div>
     }
 </div>
-<button
-    class="btn"
-    [disabled]="!selectedId()"
-    (click)="associate(selectedId())"
->
-    Confirmer
-</button>
+<div class="centered">
+    <button
+        class="btn"
+        [disabled]="!selectedId()"
+        (click)="associate(selectedId())"
+    >
+        Confirmer
+    </button>
+</div>
