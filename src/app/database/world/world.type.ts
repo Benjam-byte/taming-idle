@@ -17,4 +17,7 @@ export type World = {
     geometricLootRatio: number;
     firstRelicDroppped: boolean;
     worldMapAvailable: boolean;
+    bestiaryAvailable: boolean;
+    regionAvailable: boolean;
+    relicAvailable: boolean;
 };

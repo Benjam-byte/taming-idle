@@ -74,7 +74,7 @@ export class ProfessionManagerService {
             this.broadcastMessageService.displayMessage({
                 message: `${profession.name} has leveled up`,
             });
-            this.humanService.updateFromProfession(profession);
+            this.humanService.updateFromProfession$(profession).subscribe();
         }
         return { level: newLevel, xp: newXp };
     }

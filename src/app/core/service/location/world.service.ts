@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { WorldController } from 'src/app/database/world/world.controller';
-import { BehaviorSubject, concatWith, map, of, tap } from 'rxjs';
+import { BehaviorSubject, concat, concatWith, map, of, tap } from 'rxjs';
 import { World } from 'src/app/database/world/world.type';
 import { RegionManagerService } from './region.service';
 import { HumanManagerService } from '../player/human-manager.service';
@@ -48,7 +48,6 @@ export class WorldManagerService {
     evolve(level: number) {
         switch (level) {
             case 2:
-                this.enableMonster();
                 this.broadcastMessageService.displayMessage({
                     message: 'Word is evolving, monster are born',
                 });
@@ -62,6 +61,7 @@ export class WorldManagerService {
                         )
                     )
                     .subscribe();
+                this.level2();
 
                 break;
             case 3:
@@ -93,14 +93,6 @@ export class WorldManagerService {
         }
     }
 
-    enableMonster() {
-        this.worldControllerService
-            .update(this.world.id, {
-                monsterAvailable: true,
-            })
-            .subscribe((world) => this._world$.next(world));
-    }
-
     enableSkillTree() {
         this.worldControllerService
             .update(this.world.id, {
@@ -121,6 +113,17 @@ export class WorldManagerService {
         this.worldControllerService
             .update(this.world.id, {
                 worldMapAvailable: true,
+            })
+            .subscribe((world) => this._world$.next(world));
+    }
+
+    private level2() {
+        this.worldControllerService
+            .update(this.world.id, {
+                regionAvailable: true,
+                relicAvailable: true,
+                bestiaryAvailable: true,
+                monsterAvailable: true,
             })
             .subscribe((world) => this._world$.next(world));
     }

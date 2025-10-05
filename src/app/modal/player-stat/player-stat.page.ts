@@ -53,11 +53,11 @@ export class PlayerStatPage {
 
         const { data } = await modal.onWillDismiss();
         if (data) {
-            this.humanManagerService.associateRelic(data.id);
+            this.humanManagerService.associateRelic$(data.id).subscribe();
         }
     }
 
     dissociate() {
-        this.humanManagerService.associateRelic('');
+        this.humanManagerService.associateRelic$('').subscribe();
     }
 }

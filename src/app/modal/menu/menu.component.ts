@@ -9,10 +9,12 @@ import { FightTowerComponent } from '../fight-tower/fight-tower.component';
 import { PlayerStatPage } from '../player-stat/player-stat.page';
 import { RegionStatPage } from '../region-stat/region-stat.page';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
+import { BestiaryComponent } from '../bestiary/bestiary.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-menu',
-    imports: [IonContent, MenuButtonComponent],
+    imports: [IonContent, MenuButtonComponent, CommonModule],
     templateUrl: './menu.component.html',
     styleUrl: './menu.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -101,6 +103,18 @@ export class MenuComponent {
         this.modalCtrl.dismiss();
         const modal = await this.modalCtrl.create({
             component: ProfessionComponent,
+            cssClass: 'full-screen-modal',
+            backdropDismiss: true,
+            showBackdrop: true,
+        });
+
+        modal.present();
+    }
+
+    async openBestiaryModal() {
+        this.modalCtrl.dismiss();
+        const modal = await this.modalCtrl.create({
+            component: BestiaryComponent,
             cssClass: 'full-screen-modal',
             backdropDismiss: true,
             showBackdrop: true,

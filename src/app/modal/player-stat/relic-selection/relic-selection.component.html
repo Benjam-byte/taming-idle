@@ -3,7 +3,9 @@
     <p (click)="close()">X</p>
 </div>
 <div class="relic-list-container">
-    @for(relic of relicList; track relic.name){
+    @if(relicList.length === 0){
+    <p>Aucune relic disponible</p>
+    } @for(relic of relicList; track relic.name){
     <div
         class="relic-card"
         [class.selected]="selectedId() === relic.id"

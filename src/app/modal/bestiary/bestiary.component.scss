@@ -1,0 +1,110 @@
+:host {
+    display: block;
+}
+
+.background {
+    z-index: -1;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-image: url("../../../assets/background/brown.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+.header {
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    text-align: center;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+h1 {
+    margin: 0;
+}
+
+.header p {
+    font-size: 24px;
+    position: absolute;
+    top: -18px;
+    right: 10px;
+}
+
+.card {
+    position: relative;
+    border-radius: 5px;
+    padding: 4px;
+    height: 125px;
+}
+
+.card img {
+    position: absolute;
+    width: 100px;
+    bottom: -10px;
+    right: 0px;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 5px;
+    margin-top: 20px;
+    max-height: calc(100dvh - 80px);
+    overflow-y: scroll;
+}
+
+
+.normal {
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+}
+
+.fire {
+    background-color: rgb(164, 11, 11);
+    outline: 3px solid rgb(64, 2, 2);
+}
+
+.earth {
+    background-color: rgb(67, 64, 64);
+    outline: 3px solid rgb(82, 40, 1);
+}
+
+.wind {
+    background-color: rgb(77, 147, 66);
+    outline: 3px solid rgb(17, 77, 34);
+}
+
+.water {
+    background-color: rgb(32, 22, 161);
+    outline: 3px solid rgb(5, 2, 37);
+}
+
+.badge {
+    width: fit-content;
+    padding: 2px 4px;
+    border-radius: 5px;
+}
+
+.unknown {
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.unknown img {
+    width: 75px;
+    position: inherit !important;
+}

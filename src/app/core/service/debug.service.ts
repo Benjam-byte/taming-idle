@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HumanManagerService } from './player/human-manager.service';
 import { RegionManagerService } from './location/region.service';
+import { concat, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DebugService {
@@ -12,48 +13,47 @@ export class DebugService {
             localStorage.getItem('cheat')
         );
         if (cheatOn) {
-            this.moreDamage();
-            //   this.moreMonster();
-            this.moreFinding();
-            //     this.moreTresorChestMap();
-            this.deactivateCheat();
+            const cheatArray = [
+                this.moreDamage$(),
+                this.moreMonster$(),
+                this.moreFinding$(),
+                this.moreTresorChestMap$(),
+                this.deactivateCheat(),
+            ];
+            concat(...cheatArray).subscribe(() => console.log('cheat done'));
         }
     }
 
-    moreTresorChestMap() {
+    moreTresorChestMap$() {
         const addTresorMap = localStorage.getItem('tresorMap');
-        if (addTresorMap) {
-            this.regionManagerService
-                .updateSelectedRegionChestSpawnRate$(+addTresorMap)
-                .subscribe();
-        }
+        if (!addTresorMap) return of(null);
+        return this.regionManagerService.updateSelectedRegionChestSpawnRate$(
+            +addTresorMap
+        );
     }
 
-    moreFinding() {
+    moreFinding$() {
         const addFinding = localStorage.getItem('finding');
-        if (addFinding) {
-            this.humanManagerService.updateFinding(+addFinding);
-        }
+        if (!addFinding) return of(null);
+        return this.humanManagerService.updateFinding$(+addFinding);
     }
 
-    moreDamage() {
+    moreDamage$() {
         const addDamage = localStorage.getItem('damage');
-        if (addDamage) {
-            this.humanManagerService.updateDamage(+addDamage);
-        }
+        if (!addDamage) return of(null);
+        return this.humanManagerService.updateDamage$(+addDamage);
     }
 
-    moreMonster() {
+    moreMonster$() {
         const addMonsterSpanwRate = localStorage.getItem('monster');
-        if (addMonsterSpanwRate) {
-            this.regionManagerService
-                .updateSelectedRegionMonsterSpawnRate$(+addMonsterSpanwRate)
-                .subscribe();
-        }
+        if (!addMonsterSpanwRate) return of(null);
+        return this.regionManagerService.updateSelectedRegionMonsterSpawnRate$(
+            +addMonsterSpanwRate
+        );
     }
 
     deactivateCheat() {
-        localStorage.setItem('cheat', 'false');
+        return of(localStorage.setItem('cheat', 'false'));
     }
 
     private getBooleanFromStorage(

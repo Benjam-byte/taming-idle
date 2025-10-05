@@ -86,37 +86,36 @@ export class HumanManagerService {
         const r = rollCompoundChance(this.human.findingPercentage, 0)
             ? map
             : 'empty';
-        console.log(map, r);
         return r;
     }
 
-    updateDamage(damage: number) {
-        this.humanControllerService
+    updateDamage$(damage: number) {
+        return this.humanControllerService
             .update(this.human.id, { damage: damage + this.human.damage })
-            .subscribe((human) => this._human$.next(human));
+            .pipe(map((human) => this._human$.next(human)));
     }
 
-    updateFinding(finding: number) {
-        this.humanControllerService
+    updateFinding$(finding: number) {
+        return this.humanControllerService
             .update(this.human.id, {
                 findingPercentage: finding + this.human.findingPercentage,
             })
-            .subscribe((human) => this._human$.next(human));
+            .pipe(map((human) => this._human$.next(human)));
     }
 
-    updateFromProfession(profession: Profession) {
+    updateFromProfession$(profession: Profession) {
         const human = this._human$.value;
-        this.humanControllerService
+        return this.humanControllerService
             .update(this.human.id, this.updateStat(profession, human))
-            .subscribe((human) => this._human$.next(human));
+            .pipe(map((human) => this._human$.next(human)));
     }
 
-    associateRelic(relicId: string) {
-        this.humanControllerService
+    associateRelic$(relicId: string) {
+        return this.humanControllerService
             .update(this.human.id, {
                 relicId,
             })
-            .subscribe((human) => this._human$.next(human));
+            .pipe(map((human) => this._human$.next(human)));
     }
 
     private updateStat(profession: Profession, human: Human) {

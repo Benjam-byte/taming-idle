@@ -4,6 +4,7 @@ import { MonsterProfile } from 'src/app/database/bestiary/bestiary.type';
 import { BehaviorSubject, map, of, tap } from 'rxjs';
 import Monster from '../../value-object/monster';
 import { RegionManagerService } from '../location/region.service';
+import { BroadcastService } from '../Ui/broadcast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -11,6 +12,7 @@ import { RegionManagerService } from '../location/region.service';
 export class BestiaryManagerService {
     bestiaryController = inject(BestiaryController);
     regionManagerService = inject(RegionManagerService);
+    broadcastService = inject(BroadcastService);
 
     private _bestiaryList$!: BehaviorSubject<MonsterProfile[]>;
 
@@ -20,7 +22,9 @@ export class BestiaryManagerService {
 
     get bestiaryList$() {
         if (!this._bestiaryList$) return of(null);
-        return this._bestiaryList$.asObservable();
+        return this._bestiaryList$
+            .asObservable()
+            .pipe(map((list) => [...list].sort((a, b) => a.index - b.index)));
     }
 
     get monster() {
@@ -29,6 +33,9 @@ export class BestiaryManagerService {
         );
         const monster = this.getMonsterToInvokeFromMonsterList(monsterList);
         if (!monster) throw new Error('monster introuvable');
+        if (!monster?.seen) {
+            this.seeMonster(monster.id);
+        }
         return new Monster(monster);
     }
 
@@ -64,5 +71,16 @@ export class BestiaryManagerService {
         return this.bestiaryList.filter((monster) =>
             existingMonsterType.includes(monster.name)
         );
+    }
+
+    private seeMonster(id: string) {
+        this.bestiaryController
+            .updateOne(id, { seen: true })
+            .subscribe((bestiaryList) => {
+                this._bestiaryList$.next(bestiaryList);
+                this.broadcastService.displayMessage({
+                    message: 'Bestiaire mis à jour',
+                });
+            });
     }
 }

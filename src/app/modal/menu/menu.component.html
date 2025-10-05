@@ -11,13 +11,17 @@
                 name="Olympus"
                 path="assets/icon/hands.png"
                 (isClicked)="openGodPalaceModal()"
-                [isActive]="worldService.world.offrandeAvailable"
+                [isActive]="
+                    (worldService.world$ | async)?.offrandeAvailable ?? false
+                "
             />
             <app-menu-button
                 name="Map"
                 path="assets/icon/pin.png"
                 (isClicked)="openWorldMapModal()"
-                [isActive]="worldService.world.worldMapAvailable"
+                [isActive]="
+                    (worldService.world$ | async)?.worldMapAvailable ?? false
+                "
             />
         </main>
     </section>
@@ -35,13 +39,26 @@
                 name="Region"
                 path="assets/icon/world-level.png"
                 (isClicked)="openRegionStat()"
+                [isActive]="
+                    (worldService.world$ | async)?.regionAvailable ?? false
+                "
+            />
+            <app-menu-button
+                name="Bestiaire"
+                path="assets/icon/bestiary.png"
+                (isClicked)="openBestiaryModal()"
+                [isActive]="
+                    (worldService.world$ | async)?.bestiaryAvailable ?? false
+                "
             />
 
             <app-menu-button
                 name="Metier"
                 path="assets/icon/skilltree.png"
                 (isClicked)="openProfessionModal()"
-                [isActive]="worldService.world.skillTreeAvailable"
+                [isActive]="
+                    (worldService.world$ | async)?.skillTreeAvailable ?? false
+                "
             />
         </main>
     </section>
@@ -53,9 +70,13 @@
                 name="Relic"
                 path="assets/icon/relic.png"
                 (isClicked)="openRelicListModal()"
+                [isActive]="
+                    (worldService.world$ | async)?.relicAvailable ?? false
+                "
             />
         </main>
     </section>
+
     <div class="footer">
         <img
             class="button"
