@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ModalController } from '@ionic/angular/standalone';
 import { PlayerStatPage } from 'src/app/modal/player-stat/player-stat.page';
 import { CombatTowerManagerService } from '../../service/location/combat-tower.service';
+import { HumanManagerService } from '../../service/player/human-manager.service';
 
 @Component({
     selector: 'app-info-bar',
@@ -14,6 +15,7 @@ import { CombatTowerManagerService } from '../../service/location/combat-tower.s
 export class InfoBarComponent {
     modalCtrl = inject(ModalController);
     lootManagerService = inject(LootManagerService);
+    humanManagerService = inject(HumanManagerService);
     combatTowerManagerService = inject(CombatTowerManagerService);
 
     async openPlayerModal() {

@@ -101,7 +101,10 @@ export class HumanManagerService {
     updateFromProfession$(profession: Profession) {
         const human = this._human$.value;
         return this.humanControllerService
-            .update(this.human.id, this.updateStat(profession, human))
+            .update(
+                this.human.id,
+                this.updateStatFromProfession(profession, human)
+            )
             .pipe(map((human) => this._human$.next(human)));
     }
 
@@ -113,7 +116,80 @@ export class HumanManagerService {
             .pipe(map((human) => this._human$.next(human)));
     }
 
-    private updateStat(profession: Profession, human: Human) {
+    levelUp$() {
+        return this.humanControllerService
+            .update(this.human.id, {
+                level: this.human.level + 1,
+                ...this.getStatUpdateFromMonsterLevel(),
+            })
+            .pipe(map((human) => this._human$.next(human)));
+    }
+
+    private getStatUpdateFromMonsterLevel() {
+        const stats = [
+            'damage',
+            'damageSpecial',
+            'defense',
+            'defenseSpecial',
+            'precision',
+            'criticalChance',
+        ] as const;
+
+        const statPoints = 6;
+        const distribution: Record<(typeof stats)[number], number> = {
+            damage: 0,
+            damageSpecial: 0,
+            defense: 0,
+            defenseSpecial: 0,
+            precision: 0,
+            criticalChance: 0,
+        };
+
+        const currentStats = {
+            damage: this.human.damage,
+            damageSpecial: this.human.damageSpecial,
+            defense: this.human.defense,
+            defenseSpecial: this.human.defenseSpecial,
+            precision: this.human.precision,
+            criticalChance: this.human.criticalChance,
+        };
+
+        let pointsLeft = statPoints;
+        while (pointsLeft > 0) {
+            // Liste des stats encore augmentables
+            const availableStats = stats.filter(
+                (stat) =>
+                    currentStats[stat] + distribution[stat] <
+                    this.human.statCap[stat]
+            );
+
+            // Si plus aucune stat n’est augmentable → on arrête (cap global atteint)
+            if (availableStats.length === 0) break;
+
+            // Choix aléatoire parmi les stats disponibles
+            const randomStat =
+                availableStats[
+                    Math.floor(Math.random() * availableStats.length)
+                ];
+
+            distribution[randomStat]++;
+            pointsLeft--;
+        }
+
+        return {
+            damage: currentStats.damage + distribution.damage,
+            damageSpecial:
+                currentStats.damageSpecial + distribution.damageSpecial,
+            defense: currentStats.defense + distribution.defense,
+            defenseSpecial:
+                currentStats.defenseSpecial + distribution.defenseSpecial,
+            precision: currentStats.precision + distribution.precision,
+            criticalChance:
+                currentStats.criticalChance + distribution.criticalChance,
+        };
+    }
+
+    private updateStatFromProfession(profession: Profession, human: Human) {
         return {
             [profession.value.stat]:
                 profession.value.value +

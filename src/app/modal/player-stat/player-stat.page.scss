@@ -103,7 +103,6 @@ p {
     border-radius: 5px;
 }
 
-
 .perso-img {
     transform: scale(1.4);
 }
@@ -182,4 +181,9 @@ h3 {
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
+}
+
+main {
+    overflow-y: scroll;
+    max-height: 480px;
 }

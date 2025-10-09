@@ -1,6 +1,6 @@
 <div class="perso-icon" (click)="openPlayerModal()">
     <img src="assets/monster/terra_larva/terra_larva.webp" alt="perso" />
-    <div class="badge">{{ 1 }}</div>
+    <div class="badge">{{ (humanManagerService.human$ | async)?.level }}</div>
 </div>
 <div class="text-info">
     <p>Terra Larva (Vous)</p>

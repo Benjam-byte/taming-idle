@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ProfessionController } from 'src/app/database/profession/profession.controller';
-import { BehaviorSubject, map, of, take, tap } from 'rxjs';
+import { BehaviorSubject, map, mergeMap, of, take, tap } from 'rxjs';
 import { Profession } from 'src/app/database/profession/profession.type';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { HumanManagerService } from './human-manager.service';
@@ -76,7 +76,10 @@ export class ProfessionManagerService {
             this.broadcastMessageService.displayMessage({
                 message: `${profession.name} has leveled up`,
             });
-            this.humanService.updateFromProfession$(profession).subscribe();
+            this.humanService
+                .updateFromProfession$(profession)
+                .pipe(mergeMap(() => this.humanService.levelUp$()))
+                .subscribe();
         }
         return { level: newLevel, xp: newXp };
     }

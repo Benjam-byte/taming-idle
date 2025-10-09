@@ -1,6 +1,6 @@
 export type Human = {
     id: string;
-    damage: number;
+    level: number;
     relicId: string;
     travellingSpeed: number;
     fightingSpeed: number;
@@ -10,4 +10,11 @@ export type Human = {
     lootNormalBonus: number;
     lootEnchantedBonus: number;
     findingPercentage: number;
+    damage: number;
+    damageSpecial: number;
+    defense: number;
+    defenseSpecial: number;
+    precision: number;
+    criticalChance: number;
+    statCap: Record<string, number>;
 };

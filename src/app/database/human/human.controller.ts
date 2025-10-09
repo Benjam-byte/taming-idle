@@ -4,7 +4,6 @@ import { HumanService } from './human.service';
 import { Human } from './human.type';
 
 const defaultHuman = {
-    damage: 1,
     travellingSpeed: 2000,
     fightingSpeed: 2000,
     lockPickingSpeed: 1000,
@@ -14,6 +13,21 @@ const defaultHuman = {
     lootEnchantedBonus: 0.5,
     findingPercentage: 0.05,
     relicId: '',
+    level: 1,
+    damage: 1,
+    damageSpecial: 1,
+    defense: 1,
+    defenseSpecial: 1,
+    precision: 1,
+    criticalChance: 1,
+    statCap: {
+        damage: 90,
+        damageSpecial: 90,
+        defense: 90,
+        defenseSpecial: 90,
+        precision: 90,
+        criticalChance: 90,
+    },
 };
 
 @Injectable({ providedIn: 'root' })
