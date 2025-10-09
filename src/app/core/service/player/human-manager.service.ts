@@ -60,11 +60,6 @@ export class HumanManagerService {
 
     advance(now: number): boolean {
         if (now < this.nextTravelTime) return false;
-        this.humanControllerService
-            .update(this._human$.value.id, {
-                distanceTravelled: this._human$.value.distanceTravelled + 1,
-            })
-            .subscribe((human) => this._human$.next(human));
         this.nextTravelTime = now + this._human$.value.travellingSpeed;
         return true;
     }
@@ -77,7 +72,7 @@ export class HumanManagerService {
 
     search(now: number): boolean {
         if (now < this.nextSearchTime) return false;
-        this.nextSearchTime = now + this._human$.value.searchingSpeed;
+        this.nextSearchTime = now + this._human$.value.lockPickingSpeed;
         return true;
     }
 

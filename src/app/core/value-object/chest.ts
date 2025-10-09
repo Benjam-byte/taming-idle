@@ -1,4 +1,4 @@
-import { rollCompoundChance } from '../helpers/proba-rolls';
+import { roll, rollCompoundChance } from '../helpers/proba-rolls';
 
 const lootDict = {
     relicRank1: 0.1,
@@ -16,9 +16,9 @@ export default class Chest {
         this.try = 0;
     }
 
-    getCrocheted(proba: number) {
+    getCrocheted() {
         this.try++;
-        return rollCompoundChance(this.crochetageSuccesProbability, proba);
+        return roll(this.crochetageSuccesProbability);
     }
 
     openChest() {

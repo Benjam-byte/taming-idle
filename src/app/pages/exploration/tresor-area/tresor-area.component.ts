@@ -36,7 +36,7 @@ export class TresorAreaComponent implements OnDestroy {
     startLoop() {
         this.loop = this.gameEngineService
             .getTick$()
-            .pipe(sampleTime(this.humanManagerService.human.searchingSpeed))
+            .pipe(sampleTime(this.humanManagerService.human.lockPickingSpeed))
             .subscribe((now) => {
                 this.crochetage(now);
             });
@@ -52,11 +52,7 @@ export class TresorAreaComponent implements OnDestroy {
     crochetage(now: number) {
         if (!this.humanManagerService.search(now)) return;
         this.professionManagerService.updateByProfessionName('Voleur');
-        if (
-            this.chest.getCrocheted(
-                this.humanManagerService.human.unlockChestBonusChancePercentage
-            )
-        ) {
+        if (this.chest.getCrocheted()) {
             this.lootChest();
         } else {
             this.msgDisplay.showMessage(

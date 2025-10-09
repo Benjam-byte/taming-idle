@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { BestiaryController } from 'src/app/database/bestiary/bestiary.controller';
 import { MonsterProfile } from 'src/app/database/bestiary/bestiary.type';
 import { BehaviorSubject, map, of, tap } from 'rxjs';
-import { RegionManagerService } from '../location/region.service';
 import { BroadcastService } from '../Ui/broadcast.service';
 
 @Injectable({
@@ -10,7 +9,6 @@ import { BroadcastService } from '../Ui/broadcast.service';
 })
 export class BestiaryManagerService {
     bestiaryController = inject(BestiaryController);
-    regionManagerService = inject(RegionManagerService);
     broadcastService = inject(BroadcastService);
 
     private _bestiaryList$!: BehaviorSubject<MonsterProfile[]>;

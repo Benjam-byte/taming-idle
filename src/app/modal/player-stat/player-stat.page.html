@@ -27,26 +27,6 @@
                         <img [src]="statIconDict['damage']" alt="damage" />
                         <p>{{ humanManagerService.damage }} Damage</p>
                     </div>
-                    <div class="line">
-                        <img [src]="statIconDict['precision']" alt="damage" />
-                        <p>{{ human.precison }} precision</p>
-                    </div>
-                </div>
-
-                <div class="stat-group">
-                    <div class="line">
-                        <img [src]="statIconDict['armorPen']" alt="damage" />
-                        <p>{{ human.armorPen }} Armor pen</p>
-                    </div>
-                    <div class="line">
-                        <img
-                            [src]="statIconDict['criticalChancePercentage']"
-                            alt="damage"
-                        />
-                        <p>
-                            {{ human.criticalChancePercentage * 100 }}% Critical
-                        </p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -74,7 +54,7 @@
                             [src]="statIconDict['searchingSpeed']"
                             alt="damage"
                         />
-                        <p>{{ human.searchingSpeed }}ms le crochetage</p>
+                        <p>{{ human.lockPickingSpeed }}ms le crochetage</p>
                     </div>
                 </div>
 
@@ -88,12 +68,35 @@
                     </div>
                     <div class="line">
                         <img
-                            [src]="statIconDict['unlockChestBonusChancePercentage']"
-                            alt="unlockChestBonusChancePercentage"
+                            [src]="statIconDict['findingPercentage']"
+                            alt="findingPercentage"
+                        />
+                        <p>{{ human.gatherNormalBonus * 100 }}% de recolter</p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['findingPercentage']"
+                            alt="findingPercentage"
                         />
                         <p>
-                            {{ human.unlockChestBonusChancePercentage * 100 }}%
-                            de trouver plus
+                            {{ human.gatherEnchantedBonus * 100 }}% de resource
+                            enchanté
+                        </p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['findingPercentage']"
+                            alt="findingPercentage"
+                        />
+                        <p>{{ human.lootNormalBonus * 100 }}% d'ame recolté</p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['findingPercentage']"
+                            alt="findingPercentage"
+                        />
+                        <p>
+                            {{ human.lootEnchantedBonus * 100 }}% d'ame enchanté
                         </p>
                     </div>
                 </div>

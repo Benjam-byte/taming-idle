@@ -85,7 +85,7 @@ export class FightTowerComponent {
         if (this.isFighting) return;
         this.isFighting = true;
 
-        const duration = 10000;
+        const duration = 20000;
         const interval = 100;
         const start = Date.now();
 

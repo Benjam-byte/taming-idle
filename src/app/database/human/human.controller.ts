@@ -2,19 +2,16 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HumanService } from './human.service';
 import { Human } from './human.type';
-import { relicList } from 'src/app/core/json/relics';
 
 const defaultHuman = {
     damage: 1,
-    precison: 1,
-    tacle: 1,
-    armorPen: 1,
-    criticalChancePercentage: 0,
-    distanceTravelled: 0,
-    travellingSpeed: 1000,
-    fightingSpeed: 1000,
-    searchingSpeed: 1000,
-    unlockChestBonusChancePercentage: 0,
+    travellingSpeed: 2000,
+    fightingSpeed: 2000,
+    lockPickingSpeed: 1000,
+    gatherNormalBonus: 1,
+    gatherEnchantedBonus: 0.5,
+    lootNormalBonus: 1,
+    lootEnchantedBonus: 0.5,
     findingPercentage: 0.05,
     relicId: '',
 };
