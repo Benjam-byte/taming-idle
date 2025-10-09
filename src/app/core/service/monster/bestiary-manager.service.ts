@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { BestiaryController } from 'src/app/database/bestiary/bestiary.controller';
 import { MonsterProfile } from 'src/app/database/bestiary/bestiary.type';
 import { BehaviorSubject, map, of, tap } from 'rxjs';
-import Monster from '../../value-object/monster';
 import { RegionManagerService } from '../location/region.service';
 import { BroadcastService } from '../Ui/broadcast.service';
 
@@ -27,18 +26,6 @@ export class BestiaryManagerService {
             .pipe(map((list) => [...list].sort((a, b) => a.index - b.index)));
     }
 
-    get monster() {
-        const monsterList = this.getMonsterFromExistingList(
-            this.regionManagerService.region.existingMonsterType
-        );
-        const monster = this.getMonsterToInvokeFromMonsterList(monsterList);
-        if (!monster) throw new Error('monster introuvable');
-        if (!monster?.seen) {
-            this.seeMonster(monster.id);
-        }
-        return new Monster(monster);
-    }
-
     init$() {
         return this.bestiaryController.getAll().pipe(
             tap(
@@ -49,22 +36,8 @@ export class BestiaryManagerService {
         );
     }
 
-    getMonsterToInvokeFromMonsterList(
-        monsterList: MonsterProfile[]
-    ): MonsterProfile | null {
-        if (monsterList.length === 0) return null;
-        const totalWeight = monsterList.reduce(
-            (sum, e) => sum + e.apparitionProbability,
-            0
-        );
-        if (totalWeight === 0) return null;
-        const r = Math.random() * totalWeight;
-        let cumulative = 0;
-        for (const monster of monsterList) {
-            cumulative += monster.apparitionProbability;
-            if (r < cumulative) return monster;
-        }
-        return monsterList[monsterList.length - 1];
+    getMonsterByName(name: string) {
+        return this.bestiaryList.find((monster) => monster.name === name);
     }
 
     getMonsterFromExistingList(existingMonsterType: string[]) {
@@ -73,7 +46,7 @@ export class BestiaryManagerService {
         );
     }
 
-    private seeMonster(id: string) {
+    seeMonster(id: string) {
         this.bestiaryController
             .updateOne(id, { seen: true })
             .subscribe((bestiaryList) => {

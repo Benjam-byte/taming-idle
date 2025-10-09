@@ -1,14 +1,5 @@
-import { Injectable, inject, signal } from '@angular/core';
-import {
-    firstValueFrom,
-    forkJoin,
-    of,
-    concat,
-    defer,
-    tap,
-    catchError,
-    lastValueFrom,
-} from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { forkJoin, of, concat, defer, catchError, lastValueFrom } from 'rxjs';
 import { HumanController } from './app/database/human/human.controller';
 import { CombatTowerController } from './app/database/combatTower/combatTower.controller';
 import { LootController } from './app/database/loot/loot.controller';

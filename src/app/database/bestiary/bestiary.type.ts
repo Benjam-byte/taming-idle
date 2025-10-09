@@ -3,10 +3,9 @@ export type MonsterProfile = {
     name: string;
     image: string;
     type: string;
+    trait: string;
+    professionAvailable: string[];
     index: number;
-    maxLife: number;
-    apparitionProbability: number;
-    lootPercentage: Record<string, number>;
     seen: boolean;
 };
 

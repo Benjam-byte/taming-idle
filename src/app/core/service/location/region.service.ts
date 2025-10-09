@@ -2,12 +2,15 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, filter, map, of, tap } from 'rxjs';
 import { RegionController } from 'src/app/database/region/region.controller';
 import { Region } from 'src/app/database/region/region.type';
+import { BestiaryManagerService } from '../monster/bestiary-manager.service';
+import Monster from '../../value-object/monster';
 
 @Injectable({
     providedIn: 'root',
 })
 export class RegionManagerService {
     regionControllerService = inject(RegionController);
+    bestiaryManagerService = inject(BestiaryManagerService);
 
     private _region$!: BehaviorSubject<Region>;
 
@@ -18,6 +21,19 @@ export class RegionManagerService {
     get region$() {
         if (!this._region$) return of(null);
         return this._region$.asObservable();
+    }
+
+    get monster() {
+        const monsterName = this.pickMonsterWeightedByIndex(
+            this.region.existingMonsterType
+        );
+        const monster =
+            this.bestiaryManagerService.getMonsterByName(monsterName);
+        if (!monster) throw new Error('monster introuvable');
+        if (!monster?.seen) {
+            this.bestiaryManagerService.seeMonster(monster.id);
+        }
+        return new Monster(monster);
     }
 
     init$() {
@@ -76,7 +92,8 @@ export class RegionManagerService {
     updateSelectedRegionLootDropPercentage(value: number) {
         this.regionControllerService
             .updateOne(this.region.id, {
-                lootDropPercentage: this.region.lootDropPercentage + value,
+                monsterResourceQuantity:
+                    this.region.monsterResourceQuantity + value,
             })
             .subscribe((region) => this._region$.next(region));
     }
@@ -84,9 +101,21 @@ export class RegionManagerService {
     updateSelectedRegionShinyLootDropPercentage(value: number) {
         this.regionControllerService
             .updateOne(this.region.id, {
-                shinyLootDropPercentage:
-                    this.region.shinyLootDropPercentage + value,
+                enchantedMonsterResource:
+                    this.region.enchantedMonsterResource + value,
             })
             .subscribe((region) => this._region$.next(region));
+    }
+
+    pickMonsterWeightedByIndex(monsterList: string[]): string {
+        const weights = monsterList.map((_, i) => 1 / (i + 1));
+        const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+        const rand = Math.random() * totalWeight;
+        let cumulative = 0;
+        for (let i = 0; i < monsterList.length; i++) {
+            cumulative += weights[i];
+            if (rand <= cumulative) return monsterList[i];
+        }
+        return monsterList[monsterList.length - 1];
     }
 }

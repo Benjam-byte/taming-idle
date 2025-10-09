@@ -6,7 +6,6 @@ import { Loot } from 'src/app/database/loot/loot.type';
 import { RegionManagerService } from '../location/region.service';
 import { rateLinear } from '../../helpers/rate-function';
 import { stochasticRound } from '../../helpers/rounding-function';
-import { rollWithBonus } from '../../helpers/proba-rolls';
 import { RelicManagerService } from './relic-manager.service';
 import { WorldManagerService } from '../location/world.service';
 
@@ -38,7 +37,10 @@ export class LootManagerService {
 
     getLootValue() {
         return stochasticRound(
-            rateLinear(1, this.regionManagerService.region.lootDropPercentage)
+            rateLinear(
+                1,
+                this.regionManagerService.region.monsterResourceQuantity
+            )
         );
     }
 
@@ -64,13 +66,8 @@ export class LootManagerService {
             case 'slime':
                 this.lootControllerService
                     .update(this.loot.id, {
-                        slimeSoul:
-                            rollWithBonus(lootObject['slimeSoulPercentage']) +
-                            this.loot.slimeSoul,
-                        enchantedSlimeSoul:
-                            rollWithBonus(
-                                lootObject['shinySlimeSoulPercentage']
-                            ) + this.loot.enchantedSlimeSoul,
+                        slimeSoul: 1 + this.loot.slimeSoul,
+                        enchantedSlimeSoul: 1 + this.loot.enchantedSlimeSoul,
                     })
                     .subscribe((loot) => {
                         this._loot$.next(loot);

@@ -1,15 +1,20 @@
 export type MapKey = 'tresor' | 'monster' | 'empty';
 
 export type Region = {
-  id: string;
-  name: string;
-  isSelected: boolean;
-  lootDropPercentage: number;
-  shinyLootDropPercentage: number;
-  monsterWithTresorDropPercentage: number;
-  monsterSpawnRate: number;
-  shinyMonsterSpawnRate: number;
-  monsterEggDropPercentage: number;
-  tresorMapSpawnRate: number;
-  existingMonsterType: string[];
+    id: string;
+    name: string;
+    isSelected: boolean;
+    savageMonsterLevel: number;
+    monsterSpawnRate: number;
+    enchantedMonsterRate: number;
+    existingMonsterType: string[];
+    monsterWithTresorDropPercentage: number;
+    tresorMapSpawnRate: number;
+    highQualityChest: number;
+    resourceQuantity: number;
+    enchantedResource: number;
+    monsterResourceQuantity: number;
+    enchantedMonsterResource: number;
+    EggSpawnRate: number;
+    monsterEggProbability: { 1: number; 2: number; 3: number };
 };

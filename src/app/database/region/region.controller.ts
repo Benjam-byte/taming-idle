@@ -22,14 +22,19 @@ export class RegionController {
                 this.create({
                     name: regionName,
                     isSelected: regionName === 'plaine',
-                    lootDropPercentage: 0,
-                    shinyLootDropPercentage: 0,
-                    monsterWithTresorDropPercentage: 0,
+                    savageMonsterLevel: 1,
                     monsterSpawnRate: 0,
-                    shinyMonsterSpawnRate: 0,
-                    monsterEggDropPercentage: 0,
-                    tresorMapSpawnRate: 0,
+                    enchantedMonsterRate: 0,
                     existingMonsterType: ['Slime'],
+                    monsterWithTresorDropPercentage: 0.05,
+                    tresorMapSpawnRate: 0.05,
+                    highQualityChest: 0,
+                    resourceQuantity: 1,
+                    enchantedResource: 0,
+                    monsterResourceQuantity: 1,
+                    enchantedMonsterResource: 0,
+                    EggSpawnRate: 0,
+                    monsterEggProbability: { 1: 1, 2: 0, 3: 0 },
                 })
             )
         );

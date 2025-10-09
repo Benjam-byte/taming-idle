@@ -4,10 +4,10 @@ import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import { MonsterSpriteComponent } from 'src/app/core/components/monster-sprite/monster-sprite.component';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { ProfessionManagerService } from 'src/app/core/service/player/profession-manager.service';
-import { BestiaryManagerService } from 'src/app/core/service/monster/bestiary-manager.service';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 import { ActionGaugeComponent } from 'src/app/core/components/action-gauge/action-gauge.component';
 import { CommonModule } from '@angular/common';
+import { RegionManagerService } from 'src/app/core/service/location/region.service';
 
 @Component({
     selector: 'app-monster-area',
@@ -20,9 +20,10 @@ export class MonsterAreaComponent {
     professionManagerService = inject(ProfessionManagerService);
     humanManagerService = inject(HumanManagerService);
     lootManagerService = inject(LootManagerService);
-    bestiaryManagerService = inject(BestiaryManagerService);
+    regionManagerService = inject(RegionManagerService);
     clickEffectService = inject(ClickEffectService);
-    monster = this.bestiaryManagerService.monster;
+
+    monster = this.regionManagerService.monster;
 
     fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
 
@@ -50,7 +51,7 @@ export class MonsterAreaComponent {
         if (!this.monster.isAlive) {
             this.lootManagerService.addLootFromMonsterKilled(
                 this.monster.type,
-                this.monster.lootPercentage
+                {}
             );
             this.gameEngineService.submitEventByType('skip');
         }

@@ -8,18 +8,26 @@
             <p>{{ region.monsterSpawnRate * 100 }}% monster</p>
         </div>
         <div class="line">
-            <p>{{ region.shinyMonsterSpawnRate * 100 }}% shiny monster (sp)</p>
+            <p>
+                {{ region.enchantedMonsterRate * 100 }}% enchanted monster (sp)
+            </p>
         </div>
         <div class="line">
-            <p>{{ region.monsterEggDropPercentage * 100 }}% monster egg (sp)</p>
+            <p>{{ region.EggSpawnRate * 100 }}% monster egg (sp)</p>
+        </div>
+        <div class="line">
+            <p>{{ region.resourceQuantity * 100 }}% resource quantity (sp)</p>
+        </div>
+        <div class="line">
+            <p>{{ region.enchantedResource * 100 }}% enchanted resource (sp)</p>
         </div>
     </div>
     <div class="text-col">
         <div class="line">
-            <p>{{ region.lootDropPercentage * 100 }}% loot drop</p>
+            <p>{{ region.monsterResourceQuantity * 100 }}% loot drop</p>
         </div>
         <div class="line">
-            <p>{{ region.shinyLootDropPercentage * 100 }}% shiny loot drop</p>
+            <p>{{ region.enchantedMonsterResource * 100 }}% shiny loot drop</p>
         </div>
         <div class="line">
             <p>
@@ -29,6 +37,9 @@
         </div>
         <div class="line">
             <p>{{ region.tresorMapSpawnRate * 100 }}% tresor map (sp)</p>
+        </div>
+        <div class="line">
+            <p>{{ region.highQualityChest * 100 }}% high quality tresor (sp)</p>
         </div>
     </div>
     }
