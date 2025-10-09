@@ -6,7 +6,7 @@
     <div class="background"></div>
     <div class="profession-list">
         @for(profession of (professionManager.professionList$ | async); track
-        profession.name){
+        profession.index){
         <app-profession-card [profession]="profession" />
         }
     </div>

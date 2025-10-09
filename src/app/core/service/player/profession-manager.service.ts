@@ -23,7 +23,9 @@ export class ProfessionManagerService {
 
     get professionList$() {
         if (!this._professionlist$) return of(null);
-        return this._professionlist$.asObservable();
+        return this._professionlist$
+            .asObservable()
+            .pipe(map((list) => [...list].sort((a, b) => a.index - b.index)));
     }
 
     init$() {

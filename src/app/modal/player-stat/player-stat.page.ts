@@ -26,7 +26,7 @@ export class PlayerStatPage {
 
     relicBonusImagePath = computed(() => {
         const stat = this.relic()?.effet.stat as StatKey;
-        if (!stat) return this.statIconDict['loot'];
+        if (!stat) return this.statIconDict['lootNormalBonus'];
         return this.statIconDict[stat];
     });
 
