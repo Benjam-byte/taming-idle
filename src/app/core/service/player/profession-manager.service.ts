@@ -5,8 +5,10 @@ import { Profession } from 'src/app/database/profession/profession.type';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { HumanManagerService } from './human-manager.service';
 import { WorldManagerService } from '../location/world.service';
+import { Function } from '../../models/functionType';
+import { calculateMathFunction } from '../../helpers/function/function';
 
-const XP_STEP = 0.1;
+const XP_STEP = 1;
 
 @Injectable({ providedIn: 'root' })
 export class ProfessionManagerService {
@@ -66,8 +68,12 @@ export class ProfessionManagerService {
             .subscribe();
     }
 
+    getXpCap(currentLevel: number, func: Function) {
+        return calculateMathFunction(func, currentLevel);
+    }
+
     private progress(profession: Profession) {
-        const xpCap = 1 * profession.level;
+        const xpCap = this.getXpCap(profession.level, profession.function);
         let newXp = profession.xp + XP_STEP;
         let newLevel = profession.level;
         if (newXp >= xpCap) {

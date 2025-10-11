@@ -12,7 +12,6 @@
 export function roll(baseChance: number): number {
     const totalChance = Math.min(1, baseChance);
     const roll = Math.random();
-    console.log(roll, totalChance, roll < totalChance);
     return roll < totalChance ? 1 : 0;
 }
 

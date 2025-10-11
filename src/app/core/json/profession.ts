@@ -1,8 +1,10 @@
+import { Expo } from '../models/functionType';
+
 export const professionList = [
     {
         name: 'Voyageur',
-        index: 1,
-        level: 0,
+        index: 0,
+        level: 1,
         xp: 0,
         description:
             'Se promener, se deplacer dans les dimensions pourrez vous donnez un éclair de génie',
@@ -12,6 +14,14 @@ export const professionList = [
             '20': 'assets/profession/Traveler_II.avif',
             '30': 'assets/profession/Traveler_III.avif',
         },
+        function: {
+            name: 'exp',
+            parameter: {
+                a: 1,
+                b: 2,
+                c: 8,
+            },
+        } as Expo,
     },
     {
         name: 'Guerrier',
@@ -26,6 +36,14 @@ export const professionList = [
             '20': 'assets/profession/Guerrier_II.avif',
             '30': 'assets/profession/Guerrier_III.avif',
         },
+        function: {
+            name: 'exp',
+            parameter: {
+                a: 1,
+                b: 2,
+                c: 8,
+            },
+        } as Expo,
     },
     {
         name: 'Fermier',
@@ -40,6 +58,14 @@ export const professionList = [
             '20': 'assets/profession/Paysan_II.avif',
             '30': 'assets/profession/Paysan_III.avif',
         },
+        function: {
+            name: 'exp',
+            parameter: {
+                a: 1,
+                b: 2,
+                c: 8,
+            },
+        } as Expo,
     },
     {
         name: 'Voleur',
@@ -54,6 +80,14 @@ export const professionList = [
             '20': 'assets/profession/Voleur_II.avif',
             '30': 'assets/profession/Voleur_III.avif',
         },
+        function: {
+            name: 'exp',
+            parameter: {
+                a: 1,
+                b: 2,
+                c: 8,
+            },
+        } as Expo,
     },
     {
         name: 'Botaniste',
@@ -67,6 +101,14 @@ export const professionList = [
             '20': 'assets/profession/Botaniste_II.avif',
             '30': 'assets/profession/Botaniste_III.avif',
         },
+        function: {
+            name: 'exp',
+            parameter: {
+                a: 1,
+                b: 2,
+                c: 8,
+            },
+        } as Expo,
     },
     {
         name: 'Alchimiste',
@@ -81,6 +123,14 @@ export const professionList = [
             '20': 'assets/profession/Alchimie_II.png',
             '30': 'assets/profession/Alchimie_II.png',
         },
+        function: {
+            name: 'exp',
+            parameter: {
+                a: 1,
+                b: 2,
+                c: 8,
+            },
+        } as Expo,
     },
     {
         name: 'Necromancien',
@@ -95,6 +145,14 @@ export const professionList = [
             '20': 'assets/profession/Necromancien_II.png',
             '30': 'assets/profession/Necromancien_II.png',
         },
+        function: {
+            name: 'exp',
+            parameter: {
+                a: 1,
+                b: 2,
+                c: 8,
+            },
+        } as Expo,
     },
     {
         name: 'Pisteur',
@@ -110,5 +168,13 @@ export const professionList = [
             '20': 'assets/profession/detective_I_II.png',
             '30': 'assets/profession/detective_I_III.png',
         },
+        function: {
+            name: 'exp',
+            parameter: {
+                a: 1,
+                b: 2,
+                c: 8,
+            },
+        } as Expo,
     },
 ];

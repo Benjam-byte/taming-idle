@@ -1,3 +1,5 @@
+import { Function } from 'src/app/core/models/functionType';
+
 export type Profession = {
     id: string;
     index: number;
@@ -7,4 +9,5 @@ export type Profession = {
     description: string;
     value: { stat: string; value: number };
     image: { 10: string; 20: string; 30: string };
+    function: Function;
 };

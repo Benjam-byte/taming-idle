@@ -9,6 +9,7 @@ import { XpRangeComponent } from '../xp-range/xp-range.component';
 import { Profession } from 'src/app/database/profession/profession.type';
 import { statIconDict, StatKey } from 'src/app/core/json/statIconDict';
 import { RoundToPipe } from '../../../core/pipe/roundTo.pipe';
+import { calculateMathFunction } from 'src/app/core/helpers/function/function';
 
 type Tier = 10 | 20 | 30;
 
@@ -25,7 +26,10 @@ export class ProfessionCardComponent {
 
     descriptionIsVisible = signal<boolean>(false);
 
-    professionCap = computed(() => 1 * this.profession().level);
+    professionCap = computed(() => {
+        const profession = this.profession();
+        return calculateMathFunction(profession.function, profession.level);
+    });
 
     professionImage = computed(() => {
         const imageIndex = this.mapNumber(this.profession().level);

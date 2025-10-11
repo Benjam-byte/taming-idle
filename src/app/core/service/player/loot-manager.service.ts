@@ -4,7 +4,7 @@ import { LootController } from 'src/app/database/loot/loot.controller';
 import { BehaviorSubject, map, of, tap } from 'rxjs';
 import { Loot } from 'src/app/database/loot/loot.type';
 import { RegionManagerService } from '../location/region.service';
-import { rateLinear } from '../../helpers/rate-function';
+import { rateLinear } from '../../helpers/percentage';
 import { stochasticRound } from '../../helpers/rounding-function';
 import { RelicManagerService } from './relic-manager.service';
 import { WorldManagerService } from '../location/world.service';
