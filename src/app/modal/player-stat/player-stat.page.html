@@ -131,7 +131,9 @@
         <div class="relic-container">
             <div class="relic-header">
                 <h2>Relic</h2>
+                @if(relic()){
                 <p (click)="dissociate()">X</p>
+                }
             </div>
             <div class="relic-info">
                 <div
