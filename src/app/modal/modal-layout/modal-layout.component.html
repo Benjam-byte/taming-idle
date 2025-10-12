@@ -1,20 +1,18 @@
-<ion-content [fullscreen]="true">
-    <div class="background"></div>
-    <div class="layout">
-        <header>
-            <h1>{{ title() }}</h1>
-            <p (click)="close()">X</p>
-        </header>
-        <main>
-            <ng-content></ng-content>
-        </main>
-        <footer>
-            <img
-                class="button"
-                src="assets/icon/main-menu.png"
-                (click)="goToMenu()"
-                alt="menu"
-            />
-        </footer>
-    </div>
-</ion-content>
+<div class="background"></div>
+<div class="layout">
+    <header>
+        <h1>{{ title() }}</h1>
+        <p (click)="close()">X</p>
+    </header>
+    <main>
+        <ng-content></ng-content>
+    </main>
+    <footer>
+        <img
+            class="button"
+            src="assets/icon/main-menu.png"
+            (click)="goToMenu()"
+            alt="menu"
+        />
+    </footer>
+</div>

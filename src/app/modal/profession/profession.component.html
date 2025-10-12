@@ -1,21 +1,8 @@
-<ion-content [fullscreen]="true">
-    <div class="header">
-        <h1>Liste des metiers</h1>
-        <p (click)="close()">X</p>
-    </div>
-    <div class="background"></div>
+<app-modal-layout title="Liste des metiers">
     <div class="profession-list">
         @for(profession of (professionManager.professionList$ | async); track
         profession.index){
         <app-profession-card [profession]="profession" />
         }
     </div>
-    <div class="footer">
-        <img
-            class="button"
-            src="assets/icon/main-menu.png"
-            (click)="close()"
-            alt="menu"
-        />
-    </div>
-</ion-content>
+</app-modal-layout>
