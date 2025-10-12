@@ -14,10 +14,10 @@ export type World = {
     offrandeAvailable: boolean;
     monsterAvailable: boolean;
     metaGodAvailable: boolean;
-    geometricLootRatio: number;
     firstRelicDroppped: boolean;
     worldMapAvailable: boolean;
     bestiaryAvailable: boolean;
     regionAvailable: boolean;
+    incubateurAvailable: boolean;
     relicAvailable: boolean;
 };

@@ -1,63 +1,67 @@
 <ion-content class="ion-padding custom-modal-content">
-  <div
-    class="background-image"
-    [ngStyle]="{ 'background-image': 'url(assets/map/God_Hotel.webp)' }"
-  ></div>
-  <div class="content">
-    <button class="icon-button" (click)="openWorldMapModal()">
-      <img src="assets/icon/earth.png" alt="earth" />
-    </button>
-    <button class="special-button" (click)="close()">
-      <img src="assets/icon/back.png" alt="back" />
-    </button>
-    <button class="next-button" (click)="next()">
-      <img src="assets/icon/back.png" alt="back" />
-    </button>
-    @if(selectedGod(); as selectedGod) {
+    <div
+        class="background-image"
+        [ngStyle]="{ 'background-image': 'url(assets/map/God_Hotel.webp)' }"
+    ></div>
+    <div class="content">
+        <button class="icon-button" (click)="openWorldMapModal()">
+            <img src="assets/icon/earth.png" alt="earth" />
+        </button>
+        <button class="special-button" (click)="close()">
+            <img src="assets/icon/back.png" alt="back" />
+        </button>
+        <button class="next-button" (click)="next()">
+            <img src="assets/icon/back.png" alt="back" />
+        </button>
+        @if(selectedGod(); as selectedGod) {
 
-    <div class="altar-container">
-      <div class="title">
-        <p>{{ selectedGod.name }}</p>
-      </div>
-      <img
-        class="altar"
-        [src]="selectedGod.imagePath"
-        alt="altar"
-        (click)="goToMetaPalace()"
-      />
-      @if(selectedGod.description !== "") {
-      <div class="altar-description">
-        <h3>Offrande</h3>
-        <p class="justify">
-          {{ selectedGod.description }}
-        </p>
-        <div class="value-container">
-          <img
-            class="icon"
-            [src]="`assets/object/${selectedGod.offering.ressource}.webp`"
-          />
-          <p>
-            <span
-              [ngClass]="lootValue() >= getPrice(selectedGod) ? 'green' : 'red'"
-              >{{ lootValue() }}</span
-            >
-            /
-            {{ getPrice(selectedGod) }}
-          </p>
-        </div>
+        <div class="altar-container">
+            <div class="title">
+                <p>{{ selectedGod.name }}</p>
+            </div>
+            <img
+                class="altar"
+                [src]="selectedGod.imagePath"
+                alt="altar"
+                (click)="goToMetaPalace()"
+            />
+            @if(selectedGod.description !== "") {
+            <div class="altar-description">
+                <h3>Offrande</h3>
+                <p class="justify">
+                    {{ selectedGod.description }}
+                </p>
+                <div class="value-container">
+                    <img
+                        class="icon"
+                        [src]="`assets/object/${selectedGod.cost.resource}.webp`"
+                    />
+                    <p>
+                        <span
+                            [ngClass]="
+                                lootValue() >= getPrice(selectedGod)
+                                    ? 'green'
+                                    : 'red'
+                            "
+                            >{{ lootValue() }}</span
+                        >
+                        /
+                        {{ getPrice(selectedGod) }}
+                    </p>
+                </div>
 
-        <div class="centered">
-          <button
-            class="bouton-offrande"
-            (click)="offer(selectedGod)"
-            [disabled]="lootValue() < getPrice(selectedGod)"
-          >
-            Offrir
-          </button>
+                <div class="centered">
+                    <button
+                        class="bouton-offrande"
+                        (click)="offer(selectedGod)"
+                        [disabled]="lootValue() < getPrice(selectedGod)"
+                    >
+                        Offrir
+                    </button>
+                </div>
+            </div>
+            }
         </div>
-      </div>
-      }
+        }
     </div>
-    }
-  </div>
 </ion-content>

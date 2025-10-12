@@ -13,7 +13,7 @@ import { RegionManagerService } from './app/core/service/location/region.service
 import { RelicManagerService } from './app/core/service/player/relic-manager.service';
 import { BestiaryManagerService } from './app/core/service/monster/bestiary-manager.service';
 import { CombatTowerManagerService } from './app/core/service/location/combat-tower.service';
-import { GodPalaceManagerService } from './app/core/service/location/god-palace.service';
+import { GodManagerService } from './app/core/service/location/god-palace.service';
 import { WorldManagerService } from './app/core/service/location/world.service';
 import { HumanManagerService } from './app/core/service/player/human-manager.service';
 import { LootManagerService } from './app/core/service/player/loot-manager.service';
@@ -46,7 +46,7 @@ export class DatabaseBootstrapService {
 
     // MANAGERS (loaded after DB is ready)
     private readonly combatTowerService = inject(CombatTowerManagerService);
-    private readonly godPalaceService = inject(GodPalaceManagerService);
+    private readonly godPalaceService = inject(GodManagerService);
     private readonly regionManagerService = inject(RegionManagerService);
     private readonly worldManagerService = inject(WorldManagerService);
 

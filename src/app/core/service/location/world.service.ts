@@ -55,7 +55,7 @@ export class WorldManagerService {
                     .updateSelectedRegionMonsterSpawnRate$(2 / 50)
                     .pipe(
                         concatWith(
-                            this.regionService.updateSelectedRegionMonsterChestSpawnRate$(
+                            this.regionService.updateSelectedRegionMonsterChestRate$(
                                 1
                             )
                         )
@@ -131,7 +131,7 @@ export class WorldManagerService {
     firstRelicOpened() {
         if (this.world.firstRelicDroppped) return;
         this.regionService
-            .updateSelectedRegionMonsterChestSpawnRate$(-0.9)
+            .updateSelectedRegionMonsterChestRate$(-0.9)
             .subscribe();
         this.worldControllerService
             .update(this.world.id, {

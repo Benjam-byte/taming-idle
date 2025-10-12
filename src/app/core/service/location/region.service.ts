@@ -72,7 +72,7 @@ export class RegionManagerService {
             .pipe(tap((region) => this._region$.next(region)));
     }
 
-    updateSelectedRegionMonsterChestSpawnRate$(value: number) {
+    updateSelectedRegionMonsterChestRate$(value: number) {
         return this.regionControllerService
             .updateOne(this.region.id, {
                 monsterWithTresorDropPercentage:
@@ -89,25 +89,52 @@ export class RegionManagerService {
             .pipe(tap((region) => this._region$.next(region)));
     }
 
-    updateSelectedRegionLootDropPercentage(value: number) {
-        this.regionControllerService
+    updateSelectedRegionEnchantedMonsterRate$(value: number) {
+        return this.regionControllerService
+            .updateOne(this.region.id, {
+                enchantedMonsterRate: this.region.enchantedMonsterRate + value,
+            })
+            .pipe(tap((region) => this._region$.next(region)));
+    }
+
+    updateSelectedRegionMonsterDropPercentage$(value: number) {
+        return this.regionControllerService
             .updateOne(this.region.id, {
                 monsterResourceQuantity:
                     this.region.monsterResourceQuantity + value,
             })
-            .subscribe((region) => this._region$.next(region));
+            .pipe(tap((region) => this._region$.next(region)));
     }
 
-    updateSelectedRegionShinyLootDropPercentage(value: number) {
-        this.regionControllerService
+    updateSelectedRegionEnchantedMonsterDropPercentage$(value: number) {
+        return this.regionControllerService
             .updateOne(this.region.id, {
                 enchantedMonsterResource:
                     this.region.enchantedMonsterResource + value,
             })
-            .subscribe((region) => this._region$.next(region));
+            .pipe(tap((region) => this._region$.next(region)));
     }
 
-    pickMonsterWeightedByIndex(monsterList: string[]): string {
+    updateSelectedRegionWheatDropPercentage$(value: number) {
+        return this.regionControllerService
+            .updateOne(this.region.id, {
+                resourceQuantity: this.region.resourceQuantity + value,
+            })
+            .pipe(tap((region) => this._region$.next(region)));
+    }
+
+    updateExistingMonsterType$(value: string) {
+        return this.regionControllerService
+            .updateOne(this.region.id, {
+                existingMonsterType: [
+                    ...this.region.existingMonsterType,
+                    value,
+                ],
+            })
+            .pipe(tap((region) => this._region$.next(region)));
+    }
+
+    private pickMonsterWeightedByIndex(monsterList: string[]): string {
         const weights = monsterList.map((_, i) => 1 / (i + 1));
         const totalWeight = weights.reduce((sum, w) => sum + w, 0);
         const rand = Math.random() * totalWeight;

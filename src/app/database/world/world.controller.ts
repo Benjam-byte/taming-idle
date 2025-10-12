@@ -10,18 +10,17 @@ const defaultWorld: {
     offrandeAvailable: boolean;
     monsterAvailable: boolean;
     metaGodAvailable: boolean;
-    geometricLootRatio: number;
     firstRelicDroppped: boolean;
     worldMapAvailable: boolean;
     bestiaryAvailable: boolean;
     regionAvailable: boolean;
     relicAvailable: boolean;
+    incubateurAvailable: boolean;
 } = {
     regionUnlocked: ['plaine'],
     region: 'plaine',
     skillTreeAvailable: false,
     offrandeAvailable: false,
-    geometricLootRatio: 1.15,
     monsterAvailable: false,
     metaGodAvailable: false,
     firstRelicDroppped: false,
@@ -29,6 +28,7 @@ const defaultWorld: {
     bestiaryAvailable: false,
     regionAvailable: false,
     relicAvailable: false,
+    incubateurAvailable: false,
 };
 
 @Injectable({ providedIn: 'root' })

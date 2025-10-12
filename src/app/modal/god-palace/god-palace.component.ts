@@ -9,16 +9,16 @@ import {
 import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { WorldMapComponent } from '../world-map/world-map.component';
 import { MetaGodPalaceComponent } from '../meta-god-palace/meta-god-palace.component';
-import { GodPalaceManagerService } from 'src/app/core/service/location/god-palace.service';
+import { GodManagerService } from 'src/app/core/service/location/god-palace.service';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 import { God } from 'src/app/database/god/god.type';
 import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
 import { RegionManagerService } from 'src/app/core/service/location/region.service';
 import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
-import { costGeomInt } from 'src/app/core/helpers/cost-function';
 import { WorldManagerService } from 'src/app/core/service/location/world.service';
-import { of, switchMap, tap } from 'rxjs';
+import { concatMap, of, switchMap, tap } from 'rxjs';
+import { calculateMathFunction } from 'src/app/core/helpers/function/function';
 
 @Component({
     selector: 'app-god-palace',
@@ -29,14 +29,14 @@ import { of, switchMap, tap } from 'rxjs';
 })
 export class GodPalaceComponent {
     modalCtrl = inject(ModalController);
-    godPalaceService = inject(GodPalaceManagerService);
+    godManagerService = inject(GodManagerService);
     lootService = inject(LootManagerService);
     worldService = inject(WorldManagerService);
     broadcastService = inject(BroadcastService);
     regionService = inject(RegionManagerService);
     clickEffectService = inject(ClickEffectService);
 
-    readonly godList = toSignal(this.godPalaceService.godList$, {
+    readonly godList = toSignal(this.godManagerService.godList$, {
         initialValue: [],
     });
     readonly selectedIndex = signal(0);
@@ -52,7 +52,7 @@ export class GodPalaceComponent {
             switchMap((selectedGod) => {
                 if (!selectedGod) return of(0);
                 return this.lootService.getCorrectValueFromRessource$(
-                    selectedGod.offering.ressource
+                    selectedGod.cost.resource
                 );
             })
         ),
@@ -65,7 +65,7 @@ export class GodPalaceComponent {
 
     next(): void {
         const current = this.selectedIndex();
-        const total = this.godPalaceService.godList.length;
+        const total = this.godManagerService.godList.length;
         this.selectedIndex.update(() => (current + 1) % total);
     }
 
@@ -107,10 +107,9 @@ export class GodPalaceComponent {
     }
 
     getPrice(selectedGod: God) {
-        return costGeomInt(
-            selectedGod.level,
-            selectedGod.offering.price,
-            this.worldService.world.geometricLootRatio
+        return calculateMathFunction(
+            selectedGod.cost.function,
+            selectedGod.level
         );
     }
 
@@ -122,66 +121,61 @@ export class GodPalaceComponent {
             case 'Dieu du combat':
                 this.offerToFighterGod(selectedGod);
                 break;
-            case 'Dieu de la malice':
-                this.offerToMaliceGod(selectedGod);
-                break;
-            case 'Dieu de la récolte':
-                this.offerToGatheringGod(selectedGod);
+            case 'Dieu des champs':
+                this.offerToFieldGod(selectedGod);
         }
     }
 
     offerToTravelerGod(selectedGod: God) {
         this.lootService
-            .paidWheat$(this.getPrice(selectedGod))
-            ?.subscribe(() => {
-                this.regionService.updateSelectedRegionLootDropPercentage(
-                    selectedGod.offering.statGain
-                );
-                this.godPalaceService.updateGodLevel(selectedGod);
+            .paidEnchantedWheat$(this.getPrice(selectedGod))
+            ?.pipe(
+                concatMap(() =>
+                    this.regionService.updateExistingMonsterType$(
+                        (selectedGod.gain.value as string[])[selectedGod.level]
+                    )
+                )
+            )
+            .subscribe(() => {
+                this.godManagerService.updateGodLevel(selectedGod);
                 this.broadcastService.displayMessage({
-                    message: 'Les champs sont maintenant plus fertile',
+                    message: 'Plus de monstre enchantés',
                 });
             });
     }
 
-    offerToGatheringGod(selectedGod: God) {
+    offerToFieldGod(selectedGod: God) {
         this.lootService
-            .paidEnchantedWheat$(selectedGod.offering.price)
-            ?.subscribe(() => {
-                this.regionService.updateSelectedRegionShinyLootDropPercentage(
-                    selectedGod.offering.statGain
-                );
-                this.godPalaceService.updateGodLevel(selectedGod);
+            .paidSoul$(this.getPrice(selectedGod))
+            ?.pipe(
+                concatMap(() =>
+                    this.regionService.updateSelectedRegionWheatDropPercentage$(
+                        selectedGod.gain.value as number
+                    )
+                )
+            )
+            .subscribe(() => {
+                this.godManagerService.updateGodLevel(selectedGod);
                 this.broadcastService.displayMessage({
-                    message: 'Les champs sont maintenant plus fertile',
-                });
-            });
-    }
-
-    offerToMaliceGod(selectedGod: God) {
-        this.lootService
-            .paidEnchantedSlimeSoul$(selectedGod.offering.price)
-            ?.subscribe(() => {
-                this.worldService.addNextRegion$();
-                this.godPalaceService.updateGodLevel(selectedGod);
-                this.broadcastService.displayMessage({
-                    message: 'Un nouveau continent est disponible',
+                    message: 'Plus de blé dans les champs',
                 });
             });
     }
 
     offerToFighterGod(selectedGod: God) {
         this.lootService
-            .paidSlimeSoul$(selectedGod.offering.price)
-            ?.subscribe(() => {
-                this.regionService
-                    .updateSelectedRegionMonsterSpawnRate$(
-                        selectedGod.offering.statGain
+            .paidWheat$(this.getPrice(selectedGod))
+            ?.pipe(
+                concatMap(() =>
+                    this.regionService.updateSelectedRegionEnchantedMonsterRate$(
+                        selectedGod.gain.value as number
                     )
-                    .subscribe();
-                this.godPalaceService.updateGodLevel(selectedGod);
+                )
+            )
+            .subscribe(() => {
+                this.godManagerService.updateGodLevel(selectedGod);
                 this.broadcastService.displayMessage({
-                    message: 'Les monstres se reproduisent plus vite',
+                    message: 'Plus de monstre enchantés',
                 });
             });
     }

@@ -6,7 +6,7 @@ import { BehaviorSubject, map, of, tap } from 'rxjs';
 @Injectable({
     providedIn: 'root',
 })
-export class GodPalaceManagerService {
+export class GodManagerService {
     godController = inject(GodController);
 
     private _godList$!: BehaviorSubject<God[]>;

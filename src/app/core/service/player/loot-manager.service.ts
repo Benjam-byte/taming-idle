@@ -8,6 +8,7 @@ import { rateLinear } from '../../helpers/percentage';
 import { stochasticRound } from '../../helpers/rounding-function';
 import { RelicManagerService } from './relic-manager.service';
 import { WorldManagerService } from '../location/world.service';
+import { ResourceType } from '../../enum/resource.enum';
 
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
@@ -46,16 +47,16 @@ export class LootManagerService {
 
     getCorrectValueFromRessource$(ressource: string) {
         switch (ressource) {
-            case 'Wheat':
+            case ResourceType.Wheat:
                 return this._loot$.pipe(map((loot) => loot.wheatQuantity));
-            case 'Wheat_Shinny':
+            case ResourceType.EnchantedWheat:
                 return this._loot$.pipe(
                     map((loot) => loot.enchantedWheatQuantity)
                 );
-            case 'Soul_Slime':
-                return this._loot$.pipe(map((loot) => loot.slimeSoul));
-            case 'Soul_Slime_Shinny':
-                return this._loot$.pipe(map((loot) => loot.enchantedSlimeSoul));
+            case ResourceType.Soul:
+                return this._loot$.pipe(map((loot) => loot.soul));
+            case ResourceType.EnchantedSoul:
+                return this._loot$.pipe(map((loot) => loot.enchantedSoul));
             default:
                 return this._loot$.pipe(map((loot) => loot.wheatQuantity));
         }
@@ -66,8 +67,8 @@ export class LootManagerService {
             case 'slime':
                 this.lootControllerService
                     .update(this.loot.id, {
-                        slimeSoul: 1 + this.loot.slimeSoul,
-                        enchantedSlimeSoul: 1 + this.loot.enchantedSlimeSoul,
+                        soul: 1 + this.loot.soul,
+                        enchantedSoul: 1 + this.loot.enchantedSoul,
                     })
                     .subscribe((loot) => {
                         this._loot$.next(loot);
@@ -114,11 +115,11 @@ export class LootManagerService {
             );
     }
 
-    paidEnchantedSlimeSoul$(shinnySoul: number) {
-        if (this.loot.enchantedSlimeSoul - shinnySoul < 0) return;
+    paidEnchantedSoul$(shinnySoul: number) {
+        if (this.loot.enchantedSoul - shinnySoul < 0) return;
         return this.lootControllerService
             .update(this.loot.id, {
-                enchantedSlimeSoul: this.loot.enchantedSlimeSoul - shinnySoul,
+                enchantedSoul: this.loot.enchantedSoul - shinnySoul,
             })
             .pipe(
                 tap((loot) => {
@@ -127,11 +128,11 @@ export class LootManagerService {
             );
     }
 
-    paidSlimeSoul$(soul: number) {
-        if (this.loot.slimeSoul - soul < 0) return;
+    paidSoul$(soul: number) {
+        if (this.loot.soul - soul < 0) return;
         return this.lootControllerService
             .update(this.loot.id, {
-                slimeSoul: this.loot.slimeSoul - soul,
+                soul: this.loot.soul - soul,
             })
             .pipe(
                 tap((loot) => {

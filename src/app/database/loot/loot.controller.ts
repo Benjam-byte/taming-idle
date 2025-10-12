@@ -6,8 +6,8 @@ import { Loot } from './loot.type';
 const defaultLoot = {
     wheatQuantity: 0,
     enchantedWheatQuantity: 0,
-    slimeSoul: 0,
-    enchantedSlimeSoul: 0,
+    soul: 0,
+    enchantedSoul: 0,
     openedChest: 0,
     glitchedStone: 0,
 };

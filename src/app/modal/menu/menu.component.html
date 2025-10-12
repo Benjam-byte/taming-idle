@@ -27,6 +27,9 @@
                 name="incubateur"
                 path="assets/icon/creature.png"
                 (isClicked)="openIncubateurModal()"
+                [isActive]="
+                    (worldService.world$ | async)?.incubateurAvailable ?? false
+                "
             />
         </main>
     </section>
