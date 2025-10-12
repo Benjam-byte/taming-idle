@@ -11,6 +11,7 @@ import { RegionStatPage } from '../region-stat/region-stat.page';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { BestiaryComponent } from '../bestiary/bestiary.component';
 import { CommonModule } from '@angular/common';
+import { IncubateurPage } from '../incubateur/incubateur.page';
 
 @Component({
     selector: 'app-menu',
@@ -25,6 +26,18 @@ export class MenuComponent {
 
     closeMenuModal() {
         this.modalCtrl.dismiss();
+    }
+
+    async openIncubateurModal() {
+        this.modalCtrl.dismiss();
+        const modal = await this.modalCtrl.create({
+            component: IncubateurPage,
+            cssClass: 'full-screen-modal',
+            backdropDismiss: true,
+            showBackdrop: true,
+        });
+
+        modal.present();
     }
 
     async openWorldMapModal() {

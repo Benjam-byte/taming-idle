@@ -23,6 +23,11 @@
                     (worldService.world$ | async)?.worldMapAvailable ?? false
                 "
             />
+            <app-menu-button
+                name="incubateur"
+                path="assets/icon/creature.png"
+                (isClicked)="openIncubateurModal()"
+            />
         </main>
     </section>
 

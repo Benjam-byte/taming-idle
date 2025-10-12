@@ -1,0 +1,55 @@
+<ion-content [fullscreen]="true">
+    <div class="background"></div>
+    <h1>Incubateur</h1>
+    <main>
+        <div class="incubateur">
+            <div
+                class="egg-incubateur-card"
+                [class.unknown]="true"
+                [class.selected]="false"
+            >
+                <img [src]="'assets/icon/question.png'" alt="egg" />
+            </div>
+        </div>
+        <div class="incubateur middle">
+            <div
+                class="egg-incubateur-card"
+                [class.unknown]="true"
+                [class.selected]="false"
+            >
+                <img [src]="'assets/icon/question.png'" alt="egg" />
+            </div>
+        </div>
+        <div class="incubateur">
+            <div
+                class="egg-incubateur-card"
+                [class.unknown]="true"
+                [class.selected]="false"
+            >
+                <img [src]="'assets/icon/question.png'" alt="egg" />
+            </div>
+        </div>
+    </main>
+    <section>
+        <h2>Vos oeufs</h2>
+        <div class="card-container">
+            @for(egg of formattedEggList(); track $index) {
+            <div class="egg-card">
+                @if(egg){
+                <img [src]="egg.image" alt="egg" />
+                <div class="badge">{{egg.hatchingTime | formatDuration}}</div>
+                }
+            </div>
+            }
+        </div>
+    </section>
+
+    <div class="footer">
+        <img
+            class="button"
+            src="assets/icon/main-menu.png"
+            (click)="close()"
+            alt="menu"
+        />
+    </div>
+</ion-content>

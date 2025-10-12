@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { concatMap, from, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { TamedMonsterService } from './tamed-monster.service';
 import { TamedMonster } from './tamed-monster.type';
 
@@ -8,9 +8,7 @@ export class TamedMonsterController {
     service = inject(TamedMonsterService);
 
     init() {
-        return from([]).pipe(
-            concatMap((tamedMonster) => this.create(tamedMonster))
-        );
+        return of([]);
     }
 
     create(monster: Omit<TamedMonster, 'id'>): Observable<TamedMonster> {

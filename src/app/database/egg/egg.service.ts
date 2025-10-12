@@ -1,42 +1,32 @@
 import { map, Observable, of, switchMap, throwError } from 'rxjs';
-import { MonsterProfile } from './bestiary.type';
+import { Egg } from './egg.type';
 import { inject, Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
 
-const COLLECTION_KEY = 'bestiarys';
+const COLLECTION_KEY = 'eggs';
 
 @Injectable({ providedIn: 'root' })
-export class BestiaryService {
+export class EggService {
     db = inject(DatabaseService);
 
     /** Liste complète */
-    list(): Observable<MonsterProfile[]> {
+    list(): Observable<Egg[]> {
         return this.readAll$();
     }
 
     /** Récupération par id */
-    getById(id: string): Observable<MonsterProfile | undefined> {
+    getById(id: string): Observable<Egg | undefined> {
         return this.readAll$().pipe(
             map((list) => list.find((p) => p.id === id))
         );
     }
 
-    /** Recherche par nom (insensible à la casse) */
-    findByName(name: string): Observable<MonsterProfile | undefined> {
-        const n = name.trim().toLowerCase();
-        return this.readAll$().pipe(
-            map((list) => list.find((p) => p.name.trim().toLowerCase() === n))
-        );
-    }
-
     /** Création (génère un id si manquant) */
-    create(
-        data: Omit<MonsterProfile, 'id'> & Partial<Pick<MonsterProfile, 'id'>>
-    ): Observable<MonsterProfile> {
-        const record: MonsterProfile = {
+    create(data: Omit<Egg, 'id'> & Partial<Pick<Egg, 'id'>>): Observable<Egg> {
+        const record: Egg = {
             id: data.id ?? this.newId(),
             ...data,
-        } as MonsterProfile;
+        } as Egg;
         return this.readAll$().pipe(
             switchMap((list) =>
                 this.writeAll$([record, ...list]).pipe(map(() => record))
@@ -45,18 +35,13 @@ export class BestiaryService {
     }
 
     /** Remplacement complet */
-    replace(
-        id: string,
-        data: Omit<MonsterProfile, 'id'>
-    ): Observable<MonsterProfile> {
+    replace(id: string, data: Omit<Egg, 'id'>): Observable<Egg> {
         return this.readAll$().pipe(
             switchMap((list) => {
                 const idx = list.findIndex((p) => p.id === id);
                 if (idx === -1)
-                    return throwError(
-                        () => new Error('MonsterProfile introuvable')
-                    );
-                const next: MonsterProfile = { id, ...data };
+                    return throwError(() => new Error('Egg introuvable'));
+                const next: Egg = { id, ...data };
                 const updated = [...list];
                 updated[idx] = next;
                 return this.writeAll$(updated).pipe(map(() => next));
@@ -64,16 +49,13 @@ export class BestiaryService {
         );
     }
 
-    update(
-        id: string,
-        patch: Partial<Omit<MonsterProfile, 'id'>>
-    ): Observable<MonsterProfile[]> {
+    update(id: string, patch: Partial<Omit<Egg, 'id'>>): Observable<Egg[]> {
         return this.readAll$().pipe(
             switchMap((list) => {
                 const idx = list.findIndex((p) => p.id === id);
                 if (idx === -1)
-                    return throwError(() => new Error('Bestiary introuvable'));
-                const merged: MonsterProfile = { ...list[idx], ...patch, id };
+                    return throwError(() => new Error('Egg introuvable'));
+                const merged: Egg = { ...list[idx], ...patch, id };
                 const updated = [...list];
                 updated[idx] = merged;
                 return this.writeAll$(updated).pipe(map(() => updated));
@@ -96,14 +78,14 @@ export class BestiaryService {
         return this.db.remove(COLLECTION_KEY);
     }
 
-    private readAll$(): Observable<MonsterProfile[]> {
+    private readAll$(): Observable<Egg[]> {
         return this.db
-            .get<MonsterProfile[]>(COLLECTION_KEY, [])
+            .get<Egg[]>(COLLECTION_KEY, [])
             .pipe(map((v) => (Array.isArray(v) ? v : [])));
     }
 
-    private writeAll$(list: MonsterProfile[]): Observable<void> {
-        return this.db.set<MonsterProfile[]>(COLLECTION_KEY, list);
+    private writeAll$(list: Egg[]): Observable<void> {
+        return this.db.set<Egg[]>(COLLECTION_KEY, list);
     }
 
     private newId(): string {

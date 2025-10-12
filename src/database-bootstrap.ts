@@ -18,6 +18,9 @@ import { WorldManagerService } from './app/core/service/location/world.service';
 import { HumanManagerService } from './app/core/service/player/human-manager.service';
 import { LootManagerService } from './app/core/service/player/loot-manager.service';
 import { ProfessionManagerService } from './app/core/service/player/profession-manager.service';
+import { EggController } from './app/database/egg/egg.controller';
+import { TamedMonsterController } from './app/database/tamedMonster/tamed-monster.controller';
+import { EggManagerService } from './app/core/service/monster/egg-manager.service';
 
 const DB_VERSION = 2;
 const DB_KEY = 'db';
@@ -36,6 +39,10 @@ export class DatabaseBootstrapService {
     private readonly godControllerService = inject(GodController);
     private readonly bestiaryControllerService = inject(BestiaryController);
     private readonly relicControllerService = inject(RelicsController);
+    private readonly eggControllerService = inject(EggController);
+    private readonly tamedMonsterControllerService = inject(
+        TamedMonsterController
+    );
 
     // MANAGERS (loaded after DB is ready)
     private readonly combatTowerService = inject(CombatTowerManagerService);
@@ -44,6 +51,7 @@ export class DatabaseBootstrapService {
     private readonly worldManagerService = inject(WorldManagerService);
 
     private readonly bestiaryManagerService = inject(BestiaryManagerService);
+    private readonly eggManagerService = inject(EggManagerService);
 
     private readonly humanManagerService = inject(HumanManagerService);
     private readonly lootManagerService = inject(LootManagerService);
@@ -63,6 +71,8 @@ export class DatabaseBootstrapService {
             this.godControllerService.init(),
             this.bestiaryControllerService.init(),
             this.relicControllerService.init(),
+            this.eggControllerService.init(),
+            this.tamedMonsterControllerService.init(),
         ]);
     }
 
@@ -78,6 +88,8 @@ export class DatabaseBootstrapService {
             this.godControllerService.dropTable(),
             this.bestiaryControllerService.dropTable(),
             this.relicControllerService.dropTable(),
+            this.eggControllerService.dropTable(),
+            this.tamedMonsterControllerService.dropTable(),
         ]);
     }
 
@@ -92,6 +104,7 @@ export class DatabaseBootstrapService {
             this.humanManagerService.init$(),
             this.lootManagerService.init$(),
             this.professionManagerService.init$(),
+            this.eggManagerService.init$(),
         ]).pipe(
             catchError((err) => {
                 // log and continue – avoid killing the app
