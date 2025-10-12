@@ -4,11 +4,11 @@ import {
     inject,
     input,
 } from '@angular/core';
-import { IonContent, ModalController } from '@ionic/angular/standalone';
+import { ModalController } from '@ionic/angular/standalone';
 import { MenuComponent } from '../menu/menu.component';
 @Component({
     selector: 'app-modal-layout',
-    imports: [IonContent],
+    imports: [],
     templateUrl: './modal-layout.component.html',
     styleUrl: './modal-layout.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,

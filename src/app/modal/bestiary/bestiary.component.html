@@ -1,20 +1,15 @@
-<ion-content [fullscreen]="true">
-    <div class="background"></div>
-    <div class="header">
-        <h1>Liste des monstres</h1>
-        <p (click)="close()">X</p>
-    </div>
+<app-modal-layout title="Liste des monstres">
     <div class="card-container">
         @for(monster of monsterList(); track monster.name){ @if(monster.seen) {
         <div class="card" [class]="monster.type">
             <h2>{{ monster.name }}</h2>
             <p class="badge" [class]="monster.type">{{ monster.type }}</p>
-            <img [src]="monster.image" />
+            <img [src]="monster.image" [alt]="monster.name" />
         </div>
         }@else {
         <div class="card unknown">
-            <img src="assets/icon/question.png" />
+            <img src="assets/icon/question.png" alt="question" />
         </div>
         } }
     </div>
-</ion-content>
+</app-modal-layout>

@@ -2,44 +2,6 @@
     display: block;
 }
 
-.background {
-    z-index: -1;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    background-image: url("../../../assets/background/brown.webp");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-
-.header {
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-top: 10px;
-    text-align: center;
-    background-color: brown;
-    outline: 3px solid rgb(37, 19, 2);
-    border-radius: 5px;
-    padding: 4px;
-    display: flex;
-    justify-content: center;
-    position: relative;
-}
-
-h1 {
-    margin: 0;
-}
-
-.header p {
-    font-size: 24px;
-    position: absolute;
-    top: -18px;
-    right: 10px;
-}
-
 .card {
     position: relative;
     border-radius: 5px;
@@ -63,7 +25,6 @@ h1 {
     max-height: calc(100dvh - 80px);
     overflow-y: scroll;
 }
-
 
 .normal {
     background-color: brown;
