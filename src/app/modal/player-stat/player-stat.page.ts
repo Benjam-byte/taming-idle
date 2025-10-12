@@ -1,20 +1,26 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, ModalController } from '@ionic/angular/standalone';
+import { ModalController } from '@ionic/angular/standalone';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { statIconDict, StatKey } from 'src/app/core/json/statIconDict';
 import { XpRangeComponent } from '../profession/xp-range/xp-range.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RelicSelectionComponent } from './relic-selection/relic-selection.component';
 import { RelicManagerService } from 'src/app/core/service/player/relic-manager.service';
+import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 
 @Component({
     selector: 'app-player-stat',
     templateUrl: './player-stat.page.html',
     styleUrls: ['./player-stat.page.scss'],
     standalone: true,
-    imports: [IonContent, CommonModule, FormsModule, XpRangeComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        XpRangeComponent,
+        ModalLayoutComponent,
+    ],
 })
 export class PlayerStatPage {
     modalCtrl = inject(ModalController);
@@ -30,15 +36,10 @@ export class PlayerStatPage {
         return this.statIconDict[stat];
     });
 
-    close() {
-        this.modalCtrl.dismiss();
-    }
-
     async select() {
         const relicList = this.relicManagerService.relicList.filter(
             (relic) => relic.quantity > 0
         );
-        console.log(relicList);
         const modal = await this.modalCtrl.create({
             component: RelicSelectionComponent,
             cssClass: 'fit-modal',
