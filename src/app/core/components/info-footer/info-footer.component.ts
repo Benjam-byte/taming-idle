@@ -21,13 +21,21 @@ export class InfoFooterComponent {
         effect(() => this.ressourceVisible.emit(this.isRessourceTouched()));
     }
 
-    ressourceTouched() {
-        console.log('ouin');
+    ressourceTouched(ev?: Event) {
+        ev?.preventDefault();
+        ev?.stopPropagation();
         this.isRessourceTouched.set(true);
     }
 
-    ressourceUnTouched() {
+    ressourceUnTouched(ev?: Event) {
+        ev?.preventDefault();
+        ev?.stopPropagation();
         this.isRessourceTouched.set(false);
+    }
+
+    disableContext(event: Event) {
+        event.preventDefault();
+        event.stopPropagation();
     }
 
     async openMenuModal() {

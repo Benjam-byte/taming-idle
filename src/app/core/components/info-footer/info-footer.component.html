@@ -6,7 +6,9 @@
 <img
     class="button end"
     src="assets/icon/treasure.png"
-    (pointerdown)="ressourceTouched()"
-    (pointerup)="ressourceUnTouched()"
-    (pointercancel)="ressourceUnTouched()"
+    draggable="false"
+    (contextmenu)="disableContext($event)"
+    (pointerdown)="ressourceTouched($event)"
+    (pointerup)="ressourceUnTouched($event)"
+    (pointercancel)="ressourceUnTouched($event)"
 />
