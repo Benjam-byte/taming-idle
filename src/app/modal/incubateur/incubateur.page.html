@@ -1,7 +1,5 @@
-<ion-content [fullscreen]="true">
-    <div class="background"></div>
-    <h1>Incubateur</h1>
-    <main>
+<app-modal-layout title="Incubateur">
+    <section class="incubateur-container">
         <div class="incubateur">
             <div
                 class="egg-incubateur-card"
@@ -29,7 +27,7 @@
                 <img [src]="'assets/icon/question.png'" alt="egg" />
             </div>
         </div>
-    </main>
+    </section>
     <section>
         <h2>Vos oeufs</h2>
         <div class="card-container">
@@ -43,13 +41,4 @@
             }
         </div>
     </section>
-
-    <div class="footer">
-        <img
-            class="button"
-            src="assets/icon/main-menu.png"
-            (click)="close()"
-            alt="menu"
-        />
-    </div>
-</ion-content>
+</app-modal-layout>
