@@ -4,6 +4,18 @@
     height: 100vh;
 }
 
+.background {
+    z-index: -1;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-image: url("../../../assets/background/brown.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 main {
     flex: 1;
     overflow-y: auto;
