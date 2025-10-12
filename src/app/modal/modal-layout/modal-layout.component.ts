@@ -5,12 +5,13 @@ import {
     input,
 } from '@angular/core';
 import { ModalController } from '@ionic/angular/standalone';
-import { MenuComponent } from '../menu/menu.component';
+
 @Component({
     selector: 'app-modal-layout',
     imports: [],
     templateUrl: './modal-layout.component.html',
     styleUrl: './modal-layout.component.scss',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalLayoutComponent {
@@ -23,6 +24,7 @@ export class ModalLayoutComponent {
 
     async goToMenu() {
         this.close();
+        const { MenuComponent } = await import('../menu/menu.component');
         const modal = await this.modalCtrl.create({
             component: MenuComponent,
             cssClass: 'full-screen-modal',
