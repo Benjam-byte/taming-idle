@@ -50,7 +50,7 @@ export const godList = [
         name: 'Dieu des richesses',
         description:
             'Le dieu des richesses accepte des ames de monstres enchanté. En échange, il augmente la probability de coffre de meilleur qualité.',
-        imagePath: 'assets/altar/Altar_Malice.webp',
+        imagePath: 'assets/altar/Altar_Tresor.webp',
         index: 3,
         level: 0,
         maxLevel: 5,
@@ -98,7 +98,7 @@ export const godList = [
         name: 'Dieu de la magie',
         description:
             'Le dieu de la magie accepte du blé. En échange, il augmente la probabilité de trouver du blé enchanté.',
-        imagePath: 'assets/altar/Altar_Speed.webp',
+        imagePath: 'assets/altar/Altar_Malice.webp',
         index: 5,
         level: 0,
         maxLevel: 10,
@@ -170,7 +170,7 @@ export const godList = [
         name: 'Dieu de la fécondité',
         description:
             'Le dieu de la fécondité accepte des ames enchantés. En échange, de nouvelles especes apparaissent dans votre monde.',
-        imagePath: 'assets/altar/Altar_Speed.webp',
+        imagePath: 'assets/altar/Altar_Egg.webp',
         index: 8,
         level: 0,
         maxLevel: 2,
