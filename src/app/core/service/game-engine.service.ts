@@ -61,15 +61,6 @@ export class GameEngineService {
         );
     }
 
-    getSearchingCountDown$(): Observable<number> {
-        return combineLatest([this.gameLoopService.tick$]).pipe(
-            map(([now]) =>
-                Math.max(0, this.humanManagerService.nextSearchTime - now)
-            ),
-            distinctUntilChanged()
-        );
-    }
-
     private processEvent(event: GameEvent, now: number) {
         switch (event.type) {
             case 'travel':

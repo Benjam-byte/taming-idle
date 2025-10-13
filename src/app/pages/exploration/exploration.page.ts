@@ -43,7 +43,6 @@ export class ExplorationPage {
 
     travelCountDown$ = this.gameEngineService.getTravelCountDown$();
     fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
-    SearchingCountDown$ = this.gameEngineService.getSearchingCountDown$();
 
     images = [
         'assets/map/plaine/Plaine_1.webp',
