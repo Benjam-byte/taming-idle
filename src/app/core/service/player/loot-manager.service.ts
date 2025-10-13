@@ -9,6 +9,7 @@ import { RelicManagerService } from './relic-manager.service';
 import { WorldManagerService } from '../location/world.service';
 import { ResourceType } from '../../enum/resource.enum';
 import Monster from '../../value-object/monster';
+import { roll } from '../../helpers/proba-rolls';
 
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
@@ -36,10 +37,16 @@ export class LootManagerService {
         );
     }
 
-    getWheatValue() {
-        return stochasticRound(
+    getResource() {
+        const isEnchanted = roll(
+            this.regionManagerService.region.enchantedResource
+        );
+        const quantity = stochasticRound(
             1 * this.regionManagerService.region.resourceQuantity
         );
+        if (isEnchanted)
+            return { resource: 'Enchanted_Wheat', quantity: quantity };
+        else return { resource: 'Wheat', quantity: quantity };
     }
 
     getCorrectValueFromRessource$(ressource: string) {

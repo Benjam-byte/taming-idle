@@ -30,7 +30,7 @@ export class EmptyAreaComponent {
 
     host = inject(ElementRef<HTMLElement>);
     position!: { top: string; left: string };
-    lootQuantity!: number;
+    loot!: { resource: string; quantity: number };
 
     countDown = toSignal(this.gameEngineService.getTravelCountDown$());
     isActive = computed(() => this.countDown() === 0);
@@ -83,7 +83,7 @@ export class EmptyAreaComponent {
             this.host.nativeElement.getBoundingClientRect().width,
             this.host.nativeElement.getBoundingClientRect().height
         );
-        this.lootQuantity = this.lootManagerService.getWheatValue();
+        this.loot = this.lootManagerService.getResource();
     }
 
     travel(value: string) {
@@ -96,9 +96,9 @@ export class EmptyAreaComponent {
     collect(event: MouseEvent) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        if (this.lootQuantity > 0) {
+        if (this.loot.quantity > 0) {
             this.clickEffectService.spawnCollectEffect(event, 1);
-            this.lootQuantity = this.lootQuantity - 1;
+            this.loot.quantity = this.loot.quantity - 1;
             this.lootManagerService.addWheat(1);
         }
     }
