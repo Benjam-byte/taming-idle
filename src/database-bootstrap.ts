@@ -22,7 +22,7 @@ import { EggController } from './app/database/egg/egg.controller';
 import { TamedMonsterController } from './app/database/tamedMonster/tamed-monster.controller';
 import { EggManagerService } from './app/core/service/monster/egg-manager.service';
 
-const DB_VERSION = 4;
+const DB_VERSION = 5;
 const DB_KEY = 'db';
 
 @Injectable({ providedIn: 'root' })
