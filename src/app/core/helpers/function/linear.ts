@@ -7,8 +7,11 @@ export interface LinearCurve {
     /** The slope (increment per level). */
     a: number;
 
-    /** The base offset (starting cost). */
+    /** step multiplier */
     b: number;
+
+    /** The base offset (starting cost). */
+    c: number;
 }
 
 /**
@@ -23,5 +26,5 @@ export interface LinearCurve {
  * const cost = costNextLevelLinear(5, curve); // 2500
  */
 export function LinearCurve(n: number, curve: LinearCurve): number {
-    return curve.a * n + curve.b;
+    return curve.a * (n * curve.b) + curve.c;
 }

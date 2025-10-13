@@ -8,6 +8,7 @@ import { stochasticRound } from '../../helpers/rounding-function';
 import { RelicManagerService } from './relic-manager.service';
 import { WorldManagerService } from '../location/world.service';
 import { ResourceType } from '../../enum/resource.enum';
+import Monster from '../../value-object/monster';
 
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
@@ -58,17 +59,26 @@ export class LootManagerService {
         }
     }
 
-    addLootFromMonsterKilled(type: string) {
-        switch (type) {
+    addLootFromMonsterKilled(monster: Monster) {
+        switch (monster.type) {
             case 'Slime':
-                this.lootControllerService
-                    .update(this.loot.id, {
-                        soul: 1 + this.loot.soul,
-                        enchantedSoul: 1 + this.loot.enchantedSoul,
-                    })
-                    .subscribe((loot) => {
-                        this._loot$.next(loot);
-                    });
+                if (monster.isEnchanted) {
+                    this.lootControllerService
+                        .update(this.loot.id, {
+                            enchantedSoul: 1 + this.loot.enchantedSoul,
+                        })
+                        .subscribe((loot) => {
+                            this._loot$.next(loot);
+                        });
+                } else {
+                    this.lootControllerService
+                        .update(this.loot.id, {
+                            soul: 1 + this.loot.soul,
+                        })
+                        .subscribe((loot) => {
+                            this._loot$.next(loot);
+                        });
+                }
                 break;
         }
     }

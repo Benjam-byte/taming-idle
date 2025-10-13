@@ -4,6 +4,7 @@ import { RegionController } from 'src/app/database/region/region.controller';
 import { Region } from 'src/app/database/region/region.type';
 import { BestiaryManagerService } from '../monster/bestiary-manager.service';
 import Monster from '../../value-object/monster';
+import { roll } from '../../helpers/proba-rolls';
 
 @Injectable({
     providedIn: 'root',
@@ -33,7 +34,8 @@ export class RegionManagerService {
         if (!monster?.seen) {
             this.bestiaryManagerService.seeMonster(monster.id);
         }
-        return new Monster(monster);
+        const isEnchanted = Boolean(roll(this.region.enchantedMonsterRate));
+        return new Monster(monster, isEnchanted);
     }
 
     init$() {

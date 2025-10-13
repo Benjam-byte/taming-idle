@@ -1,7 +1,11 @@
 export type MonsterProfile = {
     id: string;
     name: string;
-    image: string;
+    image: {
+        base: string;
+        sprite: string;
+        enchantedSprite: string;
+    };
     type: string;
     trait: string;
     professionAvailable: string[];

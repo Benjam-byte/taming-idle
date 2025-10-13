@@ -1,7 +1,11 @@
 export const bestiaryList = [
     {
         name: 'Terra larva',
-        image: 'assets/monster/terra_larva/terra_larva.webp',
+        image: {
+            base: 'assets/monster/terra_larva/terra_larva.webp',
+            sprite: '',
+            enchantedSprite: '',
+        },
         type: 'normal',
         trait: 'multiskilled',
         professionAvailable: [
@@ -19,7 +23,12 @@ export const bestiaryList = [
     },
     {
         name: 'Slime',
-        image: 'assets/monster/slime/Slime_Base.webp',
+        image: {
+            base: 'assets/monster/slime/Slime_Base.webp',
+            sprite: 'assets/monster/sprite/slime/SpriteSheet_Slime_Sauvage.webp',
+            enchantedSprite:
+                'assets/monster/sprite/slime/SpriteSheet_Slime_Sauvage_Shinny.webp',
+        },
         type: 'normal',
         trait: 'agile',
         professionAvailable: ['Botaniste', 'Traveler', 'Paysan'],
@@ -28,7 +37,12 @@ export const bestiaryList = [
     },
     {
         name: 'Duck',
-        image: 'assets/monster/duck/Duck.webp',
+        image: {
+            base: 'assets/monster/duck/Duck.webp',
+            sprite: 'assets/monster/sprite/duck/SpriteSheet_Duck_Sauvage.webp',
+            enchantedSprite:
+                'assets/monster/sprite/duck/SpriteSheet_Duck_Sauvage_Shinny.webp',
+        },
         type: 'normal',
         trait: 'agile',
         professionAvailable: ['Botaniste', 'Alchimiste', 'Pisteur'],

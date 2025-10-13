@@ -5,7 +5,7 @@ export const godList = [
     {
         name: "Dieu de l'aventure",
         description:
-            "Le dieu de l'aventure accepte le blé, en échange il augmente la quantité de ressource dans votre monde",
+            "Le dieu de l'aventure accepte le blé enchanté, en échange il ajoute de nouveau monstre dans votre monde",
         imagePath: 'assets/altar/Altar_Adventure.webp',
         index: 1,
         level: 0,
@@ -13,7 +13,7 @@ export const godList = [
         cost: {
             function: {
                 name: 'treshold',
-                tresholdList: [150, 200],
+                tresholdList: [50, 200],
             } as Treshold,
             resource: ResourceType.EnchantedWheat,
         },
@@ -34,8 +34,8 @@ export const godList = [
             function: {
                 name: 'exp',
                 parameter: {
-                    a: 1,
-                    b: 1.5,
+                    a: 1.3,
+                    b: 2,
                     c: 10,
                 },
             } as Expo,
@@ -58,8 +58,8 @@ export const godList = [
             function: {
                 name: 'exp',
                 parameter: {
-                    a: 1,
-                    b: 2,
+                    a: 5,
+                    b: 4,
                     c: 50,
                 },
             } as Expo,
@@ -83,8 +83,8 @@ export const godList = [
                 name: 'exp',
                 parameter: {
                     a: 1,
-                    b: 2,
-                    c: 10,
+                    b: 1.8,
+                    c: 5,
                 },
             } as Expo,
             resource: ResourceType.Soul,
@@ -106,9 +106,9 @@ export const godList = [
             function: {
                 name: 'exp',
                 parameter: {
-                    a: 1,
-                    b: 2,
-                    c: 50,
+                    a: 3,
+                    b: 1.9,
+                    c: 27,
                 },
             } as Expo,
             resource: ResourceType.Wheat,
@@ -130,9 +130,9 @@ export const godList = [
             function: {
                 name: 'exp',
                 parameter: {
-                    a: 1,
-                    b: 2,
-                    c: 50,
+                    a: 3,
+                    b: 1.9,
+                    c: 15,
                 },
             } as Expo,
             resource: ResourceType.Wheat,
@@ -155,8 +155,8 @@ export const godList = [
                 name: 'exp',
                 parameter: {
                     a: 1,
-                    b: 2,
-                    c: 50,
+                    b: 2.8,
+                    c: 37,
                 },
             } as Expo,
             resource: ResourceType.EnchantedWheat,
@@ -177,7 +177,7 @@ export const godList = [
         cost: {
             function: {
                 name: 'treshold',
-                tresholdList: [150, 200],
+                tresholdList: [50, 100],
             } as Treshold,
             resource: ResourceType.EnchantedSoul,
         },

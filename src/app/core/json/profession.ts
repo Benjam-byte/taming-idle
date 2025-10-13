@@ -1,4 +1,4 @@
-import { Expo } from '../models/functionType';
+import { Expo, Linear, Poly2 } from '../models/functionType';
 
 export const professionList = [
     {
@@ -17,9 +17,9 @@ export const professionList = [
         function: {
             name: 'exp',
             parameter: {
-                a: 1,
-                b: 2,
-                c: 8,
+                a: 20,
+                b: 1.4,
+                c: 20,
             },
         } as Expo,
     },
@@ -37,13 +37,13 @@ export const professionList = [
             '30': 'assets/profession/Guerrier_III.avif',
         },
         function: {
-            name: 'exp',
+            name: 'poly2',
             parameter: {
-                a: 1,
-                b: 2,
-                c: 8,
+                a: 0.2,
+                b: 4.8,
+                c: 5,
             },
-        } as Expo,
+        } as Poly2,
     },
     {
         name: 'Fermier',
@@ -61,9 +61,9 @@ export const professionList = [
         function: {
             name: 'exp',
             parameter: {
-                a: 1,
-                b: 2,
-                c: 8,
+                a: 20,
+                b: 1.4,
+                c: 20,
             },
         } as Expo,
     },
@@ -83,9 +83,9 @@ export const professionList = [
         function: {
             name: 'exp',
             parameter: {
-                a: 1,
-                b: 2,
-                c: 8,
+                a: 4.1,
+                b: 1.9,
+                c: 50,
             },
         } as Expo,
     },
@@ -102,13 +102,13 @@ export const professionList = [
             '30': 'assets/profession/Botaniste_III.avif',
         },
         function: {
-            name: 'exp',
+            name: 'poly2',
             parameter: {
-                a: 1,
-                b: 2,
-                c: 8,
+                a: 3.5,
+                b: 1.2,
+                c: 3,
             },
-        } as Expo,
+        } as Poly2,
     },
     {
         name: 'Alchimiste',
@@ -126,9 +126,9 @@ export const professionList = [
         function: {
             name: 'exp',
             parameter: {
-                a: 1,
-                b: 2,
-                c: 8,
+                a: 10,
+                b: 1.4,
+                c: 5,
             },
         } as Expo,
     },
@@ -146,13 +146,13 @@ export const professionList = [
             '30': 'assets/profession/Necromancien_II.png',
         },
         function: {
-            name: 'exp',
+            name: 'poly2',
             parameter: {
-                a: 1,
-                b: 2,
-                c: 8,
+                a: 3.5,
+                b: 1.2,
+                c: 3,
             },
-        } as Expo,
+        } as Poly2,
     },
     {
         name: 'Pisteur',
@@ -169,12 +169,12 @@ export const professionList = [
             '30': 'assets/profession/detective_I_III.png',
         },
         function: {
-            name: 'exp',
+            name: 'linear',
             parameter: {
-                a: 1,
-                b: 2,
-                c: 8,
+                a: 0.1,
+                b: 29,
+                c: 3,
             },
-        } as Expo,
+        } as Linear,
     },
 ];

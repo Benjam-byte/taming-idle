@@ -2,7 +2,7 @@
     @if(monster.isAlive){
     <app-monster-sprite
         (click)="fight($event)"
-        spritePath="assets/monster/sprite/slime/SpriteSheet_Slime_Sauvage.webp"
+        [spritePath]="monster.spriteSheet"
         class="no-select"
     />
     }
