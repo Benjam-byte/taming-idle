@@ -83,7 +83,7 @@ export class EmptyAreaComponent {
             this.host.nativeElement.getBoundingClientRect().width,
             this.host.nativeElement.getBoundingClientRect().height
         );
-        this.lootQuantity = this.lootManagerService.getLootValue();
+        this.lootQuantity = this.lootManagerService.getWheatValue();
     }
 
     travel(value: string) {

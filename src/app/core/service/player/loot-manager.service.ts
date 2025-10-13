@@ -4,7 +4,6 @@ import { LootController } from 'src/app/database/loot/loot.controller';
 import { BehaviorSubject, map, of, tap } from 'rxjs';
 import { Loot } from 'src/app/database/loot/loot.type';
 import { RegionManagerService } from '../location/region.service';
-import { rateLinear } from '../../helpers/percentage';
 import { stochasticRound } from '../../helpers/rounding-function';
 import { RelicManagerService } from './relic-manager.service';
 import { WorldManagerService } from '../location/world.service';
@@ -36,12 +35,9 @@ export class LootManagerService {
         );
     }
 
-    getLootValue() {
+    getWheatValue() {
         return stochasticRound(
-            rateLinear(
-                1,
-                this.regionManagerService.region.monsterResourceQuantity
-            )
+            1 * this.regionManagerService.region.resourceQuantity
         );
     }
 
@@ -62,9 +58,9 @@ export class LootManagerService {
         }
     }
 
-    addLootFromMonsterKilled(type: string, lootObject: Record<string, number>) {
+    addLootFromMonsterKilled(type: string) {
         switch (type) {
-            case 'slime':
+            case 'Slime':
                 this.lootControllerService
                     .update(this.loot.id, {
                         soul: 1 + this.loot.soul,

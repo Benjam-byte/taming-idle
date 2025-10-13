@@ -49,10 +49,7 @@ export class MonsterAreaComponent {
 
     private monsterKilled() {
         if (!this.monster.isAlive) {
-            this.lootManagerService.addLootFromMonsterKilled(
-                this.monster.type,
-                {}
-            );
+            this.lootManagerService.addLootFromMonsterKilled(this.monster.type);
             this.gameEngineService.submitEventByType('skip');
         }
     }
