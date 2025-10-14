@@ -7,11 +7,11 @@
     @if(lootManagerService.loot$ | async ; as loot){
     <div class="major-ressource">
         <div class="icon-container">
-            <p>{{ loot.wheatQuantity }}</p>
+            <p>{{ loot.wheatQuantity | roundTo : 2 }}</p>
             <img src="assets/object/Wheat.webp" alt="blé" />
         </div>
         <div class="icon-container">
-            <p>{{ loot.soul }}</p>
+            <p>{{ loot.soul | roundTo : 2 }}</p>
             <img src="assets/object/Soul.webp" alt="soul" />
         </div>
         <div class="icon-container">

@@ -5,10 +5,11 @@ import { ModalController } from '@ionic/angular/standalone';
 import { PlayerStatPage } from 'src/app/modal/player-stat/player-stat.page';
 import { CombatTowerManagerService } from '../../service/location/combat-tower.service';
 import { HumanManagerService } from '../../service/player/human-manager.service';
+import { RoundToPipe } from '../../pipe/roundTo.pipe';
 
 @Component({
     selector: 'app-info-bar',
-    imports: [CommonModule],
+    imports: [CommonModule, RoundToPipe],
     templateUrl: './info-bar.component.html',
     styleUrl: './info-bar.component.scss',
 })

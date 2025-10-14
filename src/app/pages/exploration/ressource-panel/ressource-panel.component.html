@@ -2,21 +2,21 @@
 <div>
     <div class="icon-container">
         <img src="assets/object/Wheat.webp" alt="blé" />
-        <p>Blé : {{ loot.wheatQuantity }}</p>
+        <p>Blé : {{ loot.wheatQuantity | roundTo : 2 }}</p>
     </div>
     <div class="icon-container">
         <img src="assets/object/Enchanted_Wheat.webp" alt="blé" />
-        <p>Blé enchanté : {{ loot.enchantedWheatQuantity }}</p>
+        <p>Blé enchanté : {{ loot.enchantedWheatQuantity | roundTo : 2 }}</p>
     </div>
 </div>
 <div>
     <div class="icon-container">
         <img src="assets/object/Soul.webp" alt="blé" />
-        <p>Ame : {{ loot.soul }}</p>
+        <p>Ame : {{ loot.soul | roundTo : 2 }}</p>
     </div>
     <div class="icon-container">
         <img src="assets/object/Enchanted_Soul.webp" alt="blé" />
-        <p>Ame enchanté : {{ loot.enchantedSoul }}</p>
+        <p>Ame enchanté : {{ loot.enchantedSoul | roundTo : 2 }}</p>
     </div>
 </div>
 }
