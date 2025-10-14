@@ -4,21 +4,13 @@
         [ngStyle]="{ 'background-image': 'url(assets/map/God_Hotel.webp)' }"
     ></div>
     <div class="content">
-        <button class="icon-button" (click)="openWorldMapModal()">
-            <img src="assets/icon/earth.png" alt="earth" />
-        </button>
-        <button class="special-button" (click)="close()">
-            <img src="assets/icon/back.png" alt="back" />
-        </button>
-        <button class="next-button" (click)="next()">
-            <img src="assets/icon/back.png" alt="back" />
-        </button>
         @if(selectedGod(); as selectedGod) {
 
         <div class="altar-container">
-            <div class="title">
-                <p>{{ selectedGod.name }}</p>
-            </div>
+            <header>
+                <h1>{{ selectedGod.name }}</h1>
+                <p (click)="close()">X</p>
+            </header>
             <img
                 class="altar"
                 [src]="selectedGod.imagePath"
@@ -27,29 +19,41 @@
             />
             @if(selectedGod.description !== "") {
             <div class="altar-description">
-                <h3>Offrande</h3>
+                <div class="description-header">
+                    <img
+                        (click)="next(-1)"
+                        src="assets/icon/back.png"
+                        alt="back"
+                    />
+                    <div class="value-container">
+                        <img
+                            class="icon"
+                            [src]="`assets/object/${selectedGod.cost.resource}.webp`"
+                            alt="ressource"
+                        />
+                        <p>
+                            <span
+                                [ngClass]="
+                                    lootValue() >= getPrice(selectedGod)
+                                        ? 'green'
+                                        : 'red'
+                                "
+                                >{{ lootValue() | roundTo : 2 }}</span
+                            >
+                            /
+                            {{ getPrice(selectedGod) | roundTo : 2 }}
+                        </p>
+                    </div>
+                    <img
+                        (click)="next(1)"
+                        class="reverse"
+                        src="assets/icon/back.png"
+                        alt="back"
+                    />
+                </div>
                 <p class="justify">
                     {{ selectedGod.description }}
                 </p>
-                <div class="value-container">
-                    <img
-                        class="icon"
-                        [src]="`assets/object/${selectedGod.cost.resource}.webp`"
-                    />
-                    <p>
-                        <span
-                            [ngClass]="
-                                lootValue() >= getPrice(selectedGod)
-                                    ? 'green'
-                                    : 'red'
-                            "
-                            >{{ lootValue() }}</span
-                        >
-                        /
-                        {{ getPrice(selectedGod) }}
-                    </p>
-                </div>
-
                 <div class="centered">
                     <button
                         class="bouton-offrande"

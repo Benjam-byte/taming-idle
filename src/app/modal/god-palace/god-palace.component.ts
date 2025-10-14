@@ -19,10 +19,11 @@ import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
 import { WorldManagerService } from 'src/app/core/service/location/world.service';
 import { concatMap, of, switchMap } from 'rxjs';
 import { calculateMathFunction } from 'src/app/core/helpers/function/function';
+import { RoundToPipe } from '../../core/pipe/roundTo.pipe';
 
 @Component({
     selector: 'app-god-palace',
-    imports: [IonContent, CommonModule],
+    imports: [IonContent, CommonModule, RoundToPipe],
     templateUrl: './god-palace.component.html',
     styleUrl: './god-palace.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,6 +41,7 @@ export class GodPalaceComponent {
         initialValue: [],
     });
     readonly selectedIndex = signal(0);
+
     readonly selectedGod = computed(() => {
         const godList = this.godList();
         const selectedIndex = this.selectedIndex();
@@ -63,10 +65,13 @@ export class GodPalaceComponent {
         this.modalCtrl.dismiss();
     }
 
-    next(): void {
-        const current = this.selectedIndex();
+    next(n: number): void {
         const total = this.godManagerService.godList.length;
-        this.selectedIndex.update(() => (current + 1) % total);
+        if (total <= 0) return;
+
+        this.selectedIndex.update(
+            (current) => (((current + n) % total) + total) % total
+        );
     }
 
     openWorldMapModal() {
