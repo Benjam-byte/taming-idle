@@ -87,7 +87,10 @@
                             [src]="statIconDict['findingPercentage']"
                             alt="findingPercentage"
                         />
-                        <p>{{ human.findingPercentage * 100 }}% de pister</p>
+                        <p>
+                            {{ human.findingPercentage * 100 | roundTo : 2}}% de
+                            pister
+                        </p>
                     </div>
                     <div class="line">
                         <img

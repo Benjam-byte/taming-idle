@@ -100,15 +100,51 @@ export class LootManagerService {
         }
     }
 
-    addWheat(wheat: number) {
-        this.lootControllerService
+    addSoul$(value: number): Observable<Loot> {
+        return this.lootControllerService
             .update(this.loot.id, {
-                wheatQuantity: wheat + this.loot.wheatQuantity,
+                soul: value + this.loot.soul,
             })
-            .subscribe((loot) => {
-                this._loot$.next(loot);
-                this.professionManagerService.updateByProfessionName('Fermier');
-            });
+            .pipe(tap((loot) => this._loot$.next(loot)));
+    }
+
+    addEnchantedSoul$(value: number): Observable<Loot> {
+        return this.lootControllerService
+            .update(this.loot.id, {
+                enchantedSoul: value + this.loot.enchantedSoul,
+            })
+            .pipe(tap((loot) => this._loot$.next(loot)));
+    }
+
+    addWheat$(value: number): Observable<Loot> {
+        return this.lootControllerService
+            .update(this.loot.id, {
+                wheatQuantity: value + this.loot.wheatQuantity,
+            })
+            .pipe(
+                tap((loot) => {
+                    this.professionManagerService.updateByProfessionName(
+                        'Fermier'
+                    );
+                    this._loot$.next(loot);
+                })
+            );
+    }
+
+    addEnchantedWheat$(value: number): Observable<Loot> {
+        return this.lootControllerService
+            .update(this.loot.id, {
+                enchantedWheatQuantity:
+                    value + this.loot.enchantedWheatQuantity,
+            })
+            .pipe(
+                tap((loot) => {
+                    this.professionManagerService.updateByProfessionName(
+                        'Fermier'
+                    );
+                    this._loot$.next(loot);
+                })
+            );
     }
 
     paidWheat$(wheat: number): Observable<Loot> {

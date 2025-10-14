@@ -15,6 +15,7 @@ import { MapManagerService } from 'src/app/core/service/location/map.service';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { Egg } from 'src/app/database/egg/egg.type';
 import { EggManagerService } from 'src/app/core/service/monster/egg-manager.service';
+import { ResourceType } from 'src/app/core/enum/resource.enum';
 
 @Component({
     selector: 'app-empty-area',
@@ -108,13 +109,16 @@ export class EmptyAreaComponent {
         });
     }
 
-    collect(event: MouseEvent) {
+    collect(event: MouseEvent, resource: string) {
         event.preventDefault();
         event.stopImmediatePropagation();
         if (this.loot.quantity > 0) {
             this.clickEffectService.spawnCollectEffect(event, 1);
             this.loot.quantity = this.loot.quantity - 1;
-            this.lootManagerService.addWheat(1);
+            if (resource === ResourceType.Wheat)
+                this.lootManagerService.addWheat$(1).subscribe();
+            if (resource === ResourceType.EnchantedWheat)
+                this.lootManagerService.addEnchantedWheat$(1).subscribe();
         }
     }
 

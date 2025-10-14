@@ -1,7 +1,7 @@
 <section class="full centered" (click)="onClick($event)">
     @if(loot.quantity !== 0){
     <img
-        (click)="collect($event)"
+        (click)="collect($event, loot.resource)"
         [src]="`assets/object/${loot.resource}.webp`"
         [style]="{ left: position.left, top: position.top }"
         alt="wheat"

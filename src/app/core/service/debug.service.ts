@@ -2,11 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { HumanManagerService } from './player/human-manager.service';
 import { RegionManagerService } from './location/region.service';
 import { concat, of } from 'rxjs';
+import { LootManagerService } from './player/loot-manager.service';
 
 @Injectable({ providedIn: 'root' })
 export class DebugService {
     humanManagerService = inject(HumanManagerService);
     regionManagerService = inject(RegionManagerService);
+    lootManagerService = inject(LootManagerService);
 
     constructor() {
         const cheatOn = this.getBooleanFromStorage(
@@ -17,12 +19,50 @@ export class DebugService {
                 this.moreDamage$(),
                 this.moreMonster$(),
                 this.moreFinding$(),
+                this.moreEnchantedWheat$(),
+                this.moreEnchantedMonster$(),
                 this.moreTresorChestMap$(),
                 this.moreEgg$(),
+                this.addWheat$(),
+                this.addEnchantedWheat$(),
+                this.addSoul$(),
+                this.addEnchantedSoul$(),
                 this.deactivateCheat(),
             ];
             concat(...cheatArray).subscribe(() => console.log('cheat done'));
         }
+    }
+
+    addSoul$() {
+        const addSoul = localStorage.getItem('soul');
+        if (!addSoul) return of(null);
+        return this.lootManagerService.addSoul$(+addSoul);
+    }
+
+    addEnchantedSoul$() {
+        const addEnchantedSoul = localStorage.getItem('enchantedSoul');
+        if (!addEnchantedSoul) return of(null);
+        return this.lootManagerService.addEnchantedSoul$(+addEnchantedSoul);
+    }
+
+    addWheat$() {
+        const addWheat = localStorage.getItem('wheat');
+        if (!addWheat) return of(null);
+        return this.lootManagerService.addWheat$(+addWheat);
+    }
+
+    addEnchantedWheat$() {
+        const addEnchantedWheat = localStorage.getItem('enchantedWheat');
+        if (!addEnchantedWheat) return of(null);
+        return this.lootManagerService.addEnchantedWheat$(+addEnchantedWheat);
+    }
+
+    moreEnchantedWheat$() {
+        const moreEnchantedWheat = localStorage.getItem('enchantedWheatRate');
+        if (!moreEnchantedWheat) return of(null);
+        return this.regionManagerService.updateSelectedRegionEnchantedResource$(
+            +moreEnchantedWheat
+        );
     }
 
     moreTresorChestMap$() {
@@ -58,6 +98,15 @@ export class DebugService {
         if (!addMonsterSpanwRate) return of(null);
         return this.regionManagerService.updateSelectedRegionMonsterSpawnRate$(
             +addMonsterSpanwRate
+        );
+    }
+
+    moreEnchantedMonster$() {
+        const addEnchantedMonsterRate =
+            localStorage.getItem('enchantedMonster');
+        if (!addEnchantedMonsterRate) return of(null);
+        return this.regionManagerService.updateSelectedRegionEnchantedMonsterRate$(
+            +addEnchantedMonsterRate
         );
     }
 

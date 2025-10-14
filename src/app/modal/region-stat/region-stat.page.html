@@ -38,22 +38,22 @@
                     <div class="line">
                         <img [src]="statIconDict['damage']" alt="damage" />
                         <p>
-                            {{ (region.resourceQuantity * 100) - 100 }}%
-                            resource quantity (sp)
+                            {{ (region.resourceQuantity * 100) - 100 | roundTo :
+                            2}}% resource quantity
                         </p>
                     </div>
                     <div class="line">
                         <img [src]="statIconDict['damage']" alt="damage" />
                         <p>
                             {{ region.enchantedResource * 100 }}% enchanted
-                            resource (sp)
+                            resource
                         </p>
                     </div>
                     <div class="line">
                         <img [src]="statIconDict['damage']" alt="damage" />
                         <p>
-                            {{ (region.monsterResourceQuantity * 100) - 100 }}%
-                            Soul drop
+                            {{ (region.monsterResourceQuantity * 100) - 100 |
+                            roundTo : 2}}% Soul drop
                         </p>
                     </div>
                     <div class="line">
@@ -77,8 +77,8 @@
                             alt="footsteps"
                         />
                         <p>
-                            {{ region.monsterWithTresorDropPercentage * 100 }}%
-                            monster with tresor
+                            {{ region.monsterWithTresorDropPercentage * 100 |
+                            roundTo : 2}}% monster with tresor
                         </p>
                     </div>
                     <div class="line">
@@ -87,8 +87,8 @@
                             alt="damage"
                         />
                         <p>
-                            {{ region.tresorMapSpawnRate * 100 }}% tresor map
-                            (sp)
+                            {{ region.tresorMapSpawnRate * 100 | roundTo : 2}}%
+                            tresor map
                         </p>
                     </div>
                     <div class="line">
@@ -98,7 +98,7 @@
                         />
                         <p>
                             {{ region.highQualityChest * 100 }}% high quality
-                            tresor (sp)
+                            tresor
                         </p>
                     </div>
                 </div>
