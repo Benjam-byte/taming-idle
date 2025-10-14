@@ -26,9 +26,9 @@ export class LootManagerService {
         (value: any) => Observable<Loot>
     > = {
         Wheat: (value) => this.paidWheat$(value),
-        EnchantedWheat: (value) => this.paidEnchantedWheat$(value),
+        Enchanted_Wheat: (value) => this.paidEnchantedWheat$(value),
         Soul: (value) => this.paidSoul$(value),
-        EnchantedSoul: (value) => this.paidEnchantedSoul$(value),
+        Enchanted_Soul: (value) => this.paidEnchantedSoul$(value),
     };
 
     get loot() {

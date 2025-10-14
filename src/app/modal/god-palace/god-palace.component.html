@@ -58,10 +58,16 @@
                     <button
                         class="bouton-offrande"
                         (click)="offer(selectedGod)"
-                        [disabled]="lootValue() < getPrice(selectedGod)"
+                        [disabled]="
+                            lootValue() < getPrice(selectedGod) ||
+                            selectedGod.level >= selectedGod.maxLevel
+                        "
                     >
                         Offrir
                     </button>
+                    <p class="maxLevel">
+                        {{ selectedGod.level }} / {{ selectedGod.maxLevel }}
+                    </p>
                 </div>
             </div>
             }

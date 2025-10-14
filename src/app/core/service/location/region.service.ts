@@ -215,13 +215,17 @@ export class RegionManagerService {
     }
 
     private pickMonsterWeightedByIndex(monsterList: string[]): string {
+        console.log(monsterList);
         const weights = monsterList.map((_, i) => 1 / (i + 1));
         const totalWeight = weights.reduce((sum, w) => sum + w, 0);
         const rand = Math.random() * totalWeight;
         let cumulative = 0;
         for (let i = 0; i < monsterList.length; i++) {
             cumulative += weights[i];
-            if (rand <= cumulative) return monsterList[i];
+            if (rand <= cumulative) {
+                console.log(i);
+                return monsterList[i];
+            }
         }
         return monsterList[monsterList.length - 1];
     }

@@ -44,6 +44,7 @@ export class GodPalaceComponent {
 
     readonly selectedGod = computed(() => {
         const godList = this.godList();
+        console.log(godList);
         const selectedIndex = this.selectedIndex();
         if (!godList) return;
         return godList[selectedIndex];
@@ -126,7 +127,7 @@ export class GodPalaceComponent {
                 : this.regionService.updateFunctionListByParameter$[
                       selectedGod.gain.stat
                   ](selectedGod.gain.value);
-
+        console.log(selectedGod.cost.resource);
         this.lootService.updatePaidFunctionListByParameter$[
             selectedGod.cost.resource
         ](this.getPrice(selectedGod))

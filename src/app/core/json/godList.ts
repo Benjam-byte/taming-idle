@@ -19,7 +19,7 @@ export const godList = [
             resource: ResourceType.EnchantedWheat,
         },
         gain: {
-            value: ['Canard', 'Mantis'],
+            value: ['Duck', 'Mantis'],
             stat: 'existingMonsterType',
         },
     },

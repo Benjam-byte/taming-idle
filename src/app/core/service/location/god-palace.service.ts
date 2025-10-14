@@ -17,7 +17,9 @@ export class GodManagerService {
 
     get godList$() {
         if (!this._godList$) return of(null);
-        return this._godList$.asObservable();
+        return this._godList$
+            .asObservable()
+            .pipe(map((list) => [...list].sort((a, b) => a.index - b.index)));
     }
 
     init$() {
