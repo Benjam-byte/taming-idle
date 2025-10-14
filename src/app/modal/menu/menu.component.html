@@ -16,19 +16,19 @@
                 "
             />
             <app-menu-button
-                name="Map"
-                path="assets/icon/pin.png"
-                (isClicked)="openWorldMapModal()"
-                [isActive]="
-                    (worldService.world$ | async)?.worldMapAvailable ?? false
-                "
-            />
-            <app-menu-button
                 name="incubateur"
                 path="assets/icon/creature.png"
                 (isClicked)="openIncubateurModal()"
                 [isActive]="
                     (worldService.world$ | async)?.incubateurAvailable ?? false
+                "
+            />
+            <app-menu-button
+                name="Map"
+                path="assets/icon/pin.png"
+                (isClicked)="openWorldMapModal()"
+                [isActive]="
+                    (worldService.world$ | async)?.worldMapAvailable ?? false
                 "
             />
         </main>

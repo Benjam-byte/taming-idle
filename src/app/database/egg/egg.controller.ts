@@ -18,7 +18,7 @@ export class EggController {
         return from([defaultEgg]).pipe(concatMap((egg) => this.create(egg)));
     }
 
-    create(egg: Omit<Egg, 'id'>): Observable<Egg> {
+    create(egg: Omit<Egg, 'id'>): Observable<Egg[]> {
         return this.service.create(egg);
     }
 

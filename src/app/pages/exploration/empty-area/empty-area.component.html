@@ -6,6 +6,14 @@
         [style]="{ left: position.left, top: position.top }"
         alt="wheat"
     />
+    } @if(egg){
+    <img
+        class="egg"
+        (click)="collectEgg($event)"
+        [src]="egg.image"
+        [style]="{ left: eggPosition.left, top: eggPosition.top }"
+        alt="egg"
+    />
     }
 </section>
 <div class="left" [class]="{ bounce: isActive() }" (click)="travel('left')">

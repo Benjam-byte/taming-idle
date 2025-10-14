@@ -18,6 +18,7 @@ export class DebugService {
                 this.moreMonster$(),
                 this.moreFinding$(),
                 this.moreTresorChestMap$(),
+                this.moreEgg$(),
                 this.deactivateCheat(),
             ];
             concat(...cheatArray).subscribe(() => console.log('cheat done'));
@@ -29,6 +30,14 @@ export class DebugService {
         if (!addTresorMap) return of(null);
         return this.regionManagerService.updateSelectedRegionChestSpawnRate$(
             +addTresorMap
+        );
+    }
+
+    moreEgg$() {
+        const addEggRate = localStorage.getItem('egg');
+        if (!addEggRate) return of(null);
+        return this.regionManagerService.updateSelectedRegionEggSpawnRate$(
+            +addEggRate
         );
     }
 

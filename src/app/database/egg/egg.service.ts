@@ -22,14 +22,18 @@ export class EggService {
     }
 
     /** Création (génère un id si manquant) */
-    create(data: Omit<Egg, 'id'> & Partial<Pick<Egg, 'id'>>): Observable<Egg> {
+    create(
+        data: Omit<Egg, 'id'> & Partial<Pick<Egg, 'id'>>
+    ): Observable<Egg[]> {
         const record: Egg = {
             id: data.id ?? this.newId(),
             ...data,
         } as Egg;
         return this.readAll$().pipe(
             switchMap((list) =>
-                this.writeAll$([record, ...list]).pipe(map(() => record))
+                this.writeAll$([record, ...list]).pipe(
+                    map(() => [record, ...list])
+                )
             )
         );
     }

@@ -85,6 +85,12 @@ export class WorldManagerService {
                 });
                 break;
             case 6:
+                this.enableIncubateur();
+                this.broadcastMessageService.displayMessage({
+                    message: 'Getting Egg, you could probably incube them',
+                });
+                break;
+            case 7:
                 this.enableWorldMap();
                 this.broadcastMessageService.displayMessage({
                     message: 'The world is bigger than you think',
@@ -97,6 +103,14 @@ export class WorldManagerService {
         this.worldControllerService
             .update(this.world.id, {
                 skillTreeAvailable: true,
+            })
+            .subscribe((world) => this._world$.next(world));
+    }
+
+    enableIncubateur() {
+        this.worldControllerService
+            .update(this.world.id, {
+                incubateurAvailable: true,
             })
             .subscribe((world) => this._world$.next(world));
     }

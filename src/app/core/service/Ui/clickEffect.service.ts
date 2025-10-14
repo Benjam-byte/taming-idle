@@ -46,6 +46,18 @@ export class ClickEffectService {
         }, 600);
     }
 
+    spawnCollectEggEffect(event: MouseEvent, value: number) {
+        const pickupText = document.createElement('div');
+        pickupText.className = 'egg-text';
+        pickupText.textContent = '+' + value;
+        pickupText.style.left = `${event.clientX}px`;
+        pickupText.style.top = `${event.clientY}px`;
+        document.body.appendChild(pickupText);
+        setTimeout(() => {
+            pickupText.remove();
+        }, 600);
+    }
+
     spawnTravelClickEffect(event: MouseEvent) {
         const circle = document.createElement('div');
         circle.className = 'click-circle';

@@ -34,8 +34,7 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
-
+@import "@ionic/angular/css/palettes/dark.system.css";
 
 :root {
     -webkit-user-select: none;
@@ -153,6 +152,17 @@ ion-modal.full-screen-modal::part(content) {
     animation: pickup-float 600ms ease-out forwards;
 }
 
+.egg-text {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    font-weight: 900;
+    color: #0dad55;
+    pointer-events: none;
+    -webkit-text-stroke: 1px black;
+    user-select: none;
+    animation: pickup-float 2000ms ease-out forwards;
+}
+
 @keyframes pickup-float {
     0% {
         opacity: 1;
@@ -190,7 +200,6 @@ ion-modal.full-screen-modal::part(content) {
         transform: translate(0, 50px);
     }
 }
-
 
 // ---------------------------------- Index.html ---------------------------------------------------------------------
 
@@ -230,7 +239,6 @@ body {
 
 /* Animation du logo */
 @keyframes bounce {
-
     0%,
     100% {
         transform: translateY(0);

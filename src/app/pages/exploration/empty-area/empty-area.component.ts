@@ -13,6 +13,8 @@ import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MapManagerService } from 'src/app/core/service/location/map.service';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
+import { Egg } from 'src/app/database/egg/egg.type';
+import { EggManagerService } from 'src/app/core/service/monster/egg-manager.service';
 
 @Component({
     selector: 'app-empty-area',
@@ -26,6 +28,7 @@ export class EmptyAreaComponent {
     clickEffectService = inject(ClickEffectService);
     broadcastMessageService = inject(BroadcastService);
     mapManagerService = inject(MapManagerService);
+    eggManagerService = inject(EggManagerService);
     humanManagerService = inject(HumanManagerService);
 
     host = inject(ElementRef<HTMLElement>);
@@ -38,6 +41,9 @@ export class EmptyAreaComponent {
     showRightSucces = signal(false);
     showLeftSucces = signal(false);
     showTopSucces = signal(false);
+
+    egg: Omit<Egg, 'id'> | null = null;
+    eggPosition!: { top: string; left: string };
 
     isFadingRight = computed(() => {
         if (this.showRightSucces()) return true;
@@ -75,7 +81,16 @@ export class EmptyAreaComponent {
         effect(() => {
             this.mapManagerService.map();
             this.createWheat();
+            this.createEgg();
         });
+    }
+
+    createEgg() {
+        this.eggPosition = this.getRandomPositionStyle(
+            this.host.nativeElement.getBoundingClientRect().width,
+            this.host.nativeElement.getBoundingClientRect().height
+        );
+        this.egg = this.eggManagerService.rollOneEgg();
     }
 
     createWheat() {
@@ -103,6 +118,17 @@ export class EmptyAreaComponent {
         }
     }
 
+    collectEgg(event: MouseEvent) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (this.egg) {
+            this.clickEffectService.spawnCollectEggEffect(event, 1);
+            this.eggManagerService
+                .addOneEgg$(this.egg)
+                .subscribe(() => (this.egg = null));
+        }
+    }
+
     onClick(event: MouseEvent) {
         this.clickEffectService.spawnClickEffect(event);
     }
@@ -111,14 +137,16 @@ export class EmptyAreaComponent {
         const BOX_W = 120;
         const BOX_H = 120;
 
-        const maxLeft = Math.max(0, viewportW - BOX_W - pad * 2);
-        const maxTop = Math.max(0, viewportH - BOX_H - pad * 2);
+        let maxLeft = Math.max(0, viewportW - BOX_W - pad * 2);
+        let maxTop = Math.max(0, viewportH - BOX_H - pad * 2);
+
+        if (maxLeft === 0) maxLeft = Math.random() * 300;
+        if (maxTop === 0) maxTop = Math.random() * 400;
 
         const left = pad + Math.random() * maxLeft;
         const top = pad + Math.random() * maxTop;
 
         const leftCss = `${left.toFixed(0)}px`;
-
         const topCss = `${top.toFixed(0)}px`;
 
         return { left: leftCss, top: topCss };
