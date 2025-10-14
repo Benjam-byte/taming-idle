@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ProfessionManagerService } from './profession-manager.service';
 import { LootController } from 'src/app/database/loot/loot.controller';
-import { BehaviorSubject, map, of, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
 import { Loot } from 'src/app/database/loot/loot.type';
 import { RegionManagerService } from '../location/region.service';
 import { stochasticRound } from '../../helpers/rounding-function';
@@ -20,6 +20,16 @@ export class LootManagerService {
     regionManagerService = inject(RegionManagerService);
 
     private _loot$!: BehaviorSubject<Loot>;
+
+    updatePaidFunctionListByParameter$: Record<
+        string,
+        (value: any) => Observable<Loot>
+    > = {
+        Wheat: (value) => this.paidWheat$(value),
+        EnchantedWheat: (value) => this.paidEnchantedWheat$(value),
+        Soul: (value) => this.paidSoul$(value),
+        EnchantedSoul: (value) => this.paidEnchantedSoul$(value),
+    };
 
     get loot() {
         return this._loot$.value;
@@ -101,57 +111,44 @@ export class LootManagerService {
             });
     }
 
-    paidWheat$(wheat: number) {
-        if (this.loot.wheatQuantity - wheat < 0) return;
+    paidWheat$(wheat: number): Observable<Loot> {
+        if (this.loot.wheatQuantity - wheat < 0)
+            throw new Error('not enough money');
         return this.lootControllerService
             .update(this.loot.id, {
                 wheatQuantity: this.loot.wheatQuantity - wheat,
             })
-            .pipe(
-                tap((loot) => {
-                    this._loot$.next(loot);
-                })
-            );
+            .pipe(tap((loot) => this._loot$.next(loot)));
     }
 
     paidEnchantedWheat$(wheat: number) {
-        if (this.loot.enchantedWheatQuantity - wheat < 0) return;
+        if (this.loot.enchantedWheatQuantity - wheat < 0)
+            throw new Error('not enough money');
         return this.lootControllerService
             .update(this.loot.id, {
                 enchantedWheatQuantity:
                     this.loot.enchantedWheatQuantity - wheat,
             })
-            .pipe(
-                tap((loot) => {
-                    this._loot$.next(loot);
-                })
-            );
+            .pipe(tap((loot) => this._loot$.next(loot)));
     }
 
     paidEnchantedSoul$(shinnySoul: number) {
-        if (this.loot.enchantedSoul - shinnySoul < 0) return;
+        if (this.loot.enchantedSoul - shinnySoul < 0)
+            throw new Error('not enough money');
         return this.lootControllerService
             .update(this.loot.id, {
                 enchantedSoul: this.loot.enchantedSoul - shinnySoul,
             })
-            .pipe(
-                tap((loot) => {
-                    this._loot$.next(loot);
-                })
-            );
+            .pipe(tap((loot) => this._loot$.next(loot)));
     }
 
     paidSoul$(soul: number) {
-        if (this.loot.soul - soul < 0) return;
+        if (this.loot.soul - soul < 0) throw new Error('not enough money');
         return this.lootControllerService
             .update(this.loot.id, {
                 soul: this.loot.soul - soul,
             })
-            .pipe(
-                tap((loot) => {
-                    this._loot$.next(loot);
-                })
-            );
+            .pipe(tap((loot) => this._loot$.next(loot)));
     }
 
     updateChestCount() {
@@ -159,9 +156,7 @@ export class LootManagerService {
             .update(this.loot.id, {
                 openedChest: this.loot.openedChest + 1,
             })
-            .subscribe((loot) => {
-                this._loot$.next(loot);
-            });
+            .subscribe((loot) => this._loot$.next(loot));
     }
 
     lootChest(loot: string): string {

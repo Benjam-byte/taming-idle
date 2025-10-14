@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, filter, map, of, tap } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, of, tap } from 'rxjs';
 import { RegionController } from 'src/app/database/region/region.controller';
 import { Region } from 'src/app/database/region/region.type';
 import { BestiaryManagerService } from '../monster/bestiary-manager.service';
@@ -14,6 +14,36 @@ export class RegionManagerService {
     bestiaryManagerService = inject(BestiaryManagerService);
 
     private _region$!: BehaviorSubject<Region>;
+
+    updateFunctionListByParameter$: Record<
+        string,
+        (value: any) => Observable<Region>
+    > = {
+        existingMonsterType: (value) => this.updateExistingMonsterType$(value),
+        savageMonsterLevel: (value) =>
+            this.updateSelectedRegionSavageMonsterLevel$(value),
+        monsterSpawnRate: (value) =>
+            this.updateSelectedRegionMonsterSpawnRate$(value),
+        enchantedMonsterRate: (value) =>
+            this.updateSelectedRegionEnchantedMonsterRate$(value),
+        monsterWithTresorDropPercentage: (value) =>
+            this.updateSelectedRegionMonsterChestRate$(value),
+        tresorMapSpawnRate: (value) =>
+            this.updateSelectedRegionChestSpawnRate$(value),
+        highQualityChest: (value) =>
+            this.updateSelectedRegionQualityChest$(value),
+        resourceQuantity: (value) =>
+            this.updateSelectedRegionWheatDropPercentage$(value),
+        enchantedResource: (value) =>
+            this.updateSelectedRegionEnchantedResource$(value),
+        monsterResourceQuantity: (value) =>
+            this.updateSelectedRegionMonsterDropPercentage$(value),
+        enchantedMonsterResource: (value) =>
+            this.updateSelectedRegionEnchantedMonsterDropPercentage$(value),
+        eggSpawnRate: (value) => this.updateSelectedRegionEggSpawnRate$(value),
+        monsterEggProbability: (value) =>
+            this.updateSelectedRegionMonsterEggProbability$(value),
+    };
 
     get region() {
         return this._region$.value;
@@ -64,6 +94,46 @@ export class RegionManagerService {
                 1 -
                 (this.region.monsterSpawnRate + this.region.tresorMapSpawnRate),
         };
+    }
+
+    updateSelectedRegionMonsterEggProbability$(value: {
+        1: number;
+        2: number;
+        3: number;
+    }) {
+        return this.regionControllerService
+            .updateOne(this.region.id, {
+                monsterEggProbability: {
+                    1: this.region.monsterEggProbability[1] + value[1],
+                    2: this.region.monsterEggProbability[2] + value[2],
+                    3: this.region.monsterEggProbability[3] + value[3],
+                },
+            })
+            .pipe(tap((region) => this._region$.next(region)));
+    }
+
+    updateSelectedRegionEggSpawnRate$(value: number) {
+        return this.regionControllerService
+            .updateOne(this.region.id, {
+                eggSpawnRate: this.region.eggSpawnRate + value,
+            })
+            .pipe(tap((region) => this._region$.next(region)));
+    }
+
+    updateSelectedRegionEnchantedResource$(value: number) {
+        return this.regionControllerService
+            .updateOne(this.region.id, {
+                enchantedResource: this.region.enchantedResource + value,
+            })
+            .pipe(tap((region) => this._region$.next(region)));
+    }
+
+    updateSelectedRegionSavageMonsterLevel$(value: number) {
+        return this.regionControllerService
+            .updateOne(this.region.id, {
+                savageMonsterLevel: this.region.savageMonsterLevel + value,
+            })
+            .pipe(tap((region) => this._region$.next(region)));
     }
 
     updateSelectedRegionChestSpawnRate$(value: number) {
@@ -121,6 +191,14 @@ export class RegionManagerService {
         return this.regionControllerService
             .updateOne(this.region.id, {
                 resourceQuantity: this.region.resourceQuantity + value,
+            })
+            .pipe(tap((region) => this._region$.next(region)));
+    }
+
+    updateSelectedRegionQualityChest$(value: number) {
+        return this.regionControllerService
+            .updateOne(this.region.id, {
+                highQualityChest: this.region.highQualityChest + value,
             })
             .pipe(tap((region) => this._region$.next(region)));
     }

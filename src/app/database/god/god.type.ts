@@ -1,3 +1,4 @@
+import { GodNameList } from 'src/app/core/enum/god.enum';
 import { ResourceType } from 'src/app/core/enum/resource.enum';
 import { Function } from 'src/app/core/models/functionType';
 
@@ -12,7 +13,7 @@ export interface GodGain {
 }
 export interface God {
     id: string;
-    name: string;
+    name: GodNameList;
     description: string;
     imagePath: string;
     index: number;
