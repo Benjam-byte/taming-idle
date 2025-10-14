@@ -4,7 +4,7 @@
         <div class="card" [class]="monster.type">
             <h2>{{ monster.name }}</h2>
             <p class="badge" [class]="monster.type">{{ monster.type }}</p>
-            <img [src]="monster.image" [alt]="monster.name" />
+            <img [src]="monster.image.base" [alt]="monster.name" />
         </div>
         }@else {
         <div class="card unknown">

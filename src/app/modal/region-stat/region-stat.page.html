@@ -1,54 +1,109 @@
-<ion-content [fullscreen]="true">
-    <div class="background"></div>
-    <h1>Plaine Information</h1>
-    @if(regionService.region$ | async; as region ){
+<app-modal-layout title="La région">
+    <div class="info">
+        <img class="perso-img" src="assets/region/plaine.png" alt="player" />
+        <div class="xp-wrapper">
+            <h2>La plaine</h2>
+            <div>
+                <p>Niveau</p>
+                <app-xp-range
+                    [currentXp]="(combatTowerManagerService.combatTower$ | async)?.level ?? 0"
+                    [maxXp]="10"
+                />
+            </div>
+        </div>
+    </div>
+    <main>
+        @if(regionService.region$ | async; as region) {
+        <div class="combat-wrapper">
+            <h2>Combat</h2>
+            <div class="text-combat">
+                <div class="stat-group">
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>{{ region.monsterSpawnRate * 100 }}% monster</p>
+                    </div>
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>
+                            {{ region.enchantedMonsterRate * 100 }}% enchanted
+                            monster
+                        </p>
+                    </div>
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>{{ region.eggSpawnRate * 100 }}% monster egg (sp)</p>
+                    </div>
+                </div>
+                <div class="stat-group">
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>
+                            {{ (region.resourceQuantity * 100) - 100 }}%
+                            resource quantity (sp)
+                        </p>
+                    </div>
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>
+                            {{ region.enchantedResource * 100 }}% enchanted
+                            resource (sp)
+                        </p>
+                    </div>
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>
+                            {{ (region.monsterResourceQuantity * 100) - 100 }}%
+                            Soul drop
+                        </p>
+                    </div>
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>
+                            {{ region.enchantedMonsterResource * 100 }}%
+                            Enchanted soul drop
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="text-col">
-        <div class="line">
-            <p>{{ region.monsterSpawnRate * 100 }}% monster</p>
+        <div class="combat-wrapper">
+            <h2>Action</h2>
+            <div class="text-combat">
+                <div class="stat-group">
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['travellingSpeed']"
+                            alt="footsteps"
+                        />
+                        <p>
+                            {{ region.monsterWithTresorDropPercentage * 100 }}%
+                            monster with tresor
+                        </p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['fightingSpeed']"
+                            alt="damage"
+                        />
+                        <p>
+                            {{ region.tresorMapSpawnRate * 100 }}% tresor map
+                            (sp)
+                        </p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['searchingSpeed']"
+                            alt="damage"
+                        />
+                        <p>
+                            {{ region.highQualityChest * 100 }}% high quality
+                            tresor (sp)
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="line">
-            <p>
-                {{ region.enchantedMonsterRate * 100 }}% enchanted monster (sp)
-            </p>
-        </div>
-        <div class="line">
-            <p>{{ region.eggSpawnRate * 100 }}% monster egg (sp)</p>
-        </div>
-        <div class="line">
-            <p>{{ region.resourceQuantity * 100 }}% resource quantity (sp)</p>
-        </div>
-        <div class="line">
-            <p>{{ region.enchantedResource * 100 }}% enchanted resource (sp)</p>
-        </div>
-    </div>
-    <div class="text-col">
-        <div class="line">
-            <p>{{ region.monsterResourceQuantity * 100 }}% loot drop</p>
-        </div>
-        <div class="line">
-            <p>{{ region.enchantedMonsterResource * 100 }}% shiny loot drop</p>
-        </div>
-        <div class="line">
-            <p>
-                {{ region.monsterWithTresorDropPercentage * 100 }}% monster
-                tresor (sp)
-            </p>
-        </div>
-        <div class="line">
-            <p>{{ region.tresorMapSpawnRate * 100 }}% tresor map (sp)</p>
-        </div>
-        <div class="line">
-            <p>{{ region.highQualityChest * 100 }}% high quality tresor (sp)</p>
-        </div>
-    </div>
-    }
-    <div class="footer">
-        <img
-            class="button"
-            src="assets/icon/main-menu.png"
-            (click)="close()"
-            alt="menu"
-        />
-    </div>
-</ion-content>
+        }
+    </main>
+</app-modal-layout>

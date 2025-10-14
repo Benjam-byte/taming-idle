@@ -1,31 +1,39 @@
-.background {
-    z-index: -1;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    background-image: url("../../../assets/background/brown.webp");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-h1 {
-    margin-right: 10px;
-    margin-left: 10px;
-    text-align: center;
-    background-color: brown;
-    outline: 3px solid rgb(37, 19, 2);
-    border-radius: 5px;
-    padding: 4px;
+h2 {
+    margin: 0px;
 }
 
 .text-col {
+    margin: 8px;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 3px;
+    gap: 10px;
+    padding: 10px;
     justify-content: end;
+    padding-bottom: 10px;
+}
+
+.stat-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.combat-wrapper {
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    padding: 10px;
+    margin: 10px;
+}
+
+.text-combat {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 p {
@@ -37,38 +45,32 @@ p {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 2px;
+    gap: 8px;
 }
 
 .line img {
-    width: 18px;
+    width: 18px !important;
 }
 
-.footer {
-    position: absolute;
-    z-index: 5;
-    width: 100%;
-    bottom: 0px;
-    left: 0px;
-    height: 55px;
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-    justify-content: center;
-    background-color: brown;
-    border-top: 3px solid rgb(37, 19, 2);
-}
-
-.footer img {
-    width: 20px;
-}
-
-.footer .button {
-    margin-top: 4px;
-    height: 24px;
-    width: 24px;
-    padding: 2px;
+.perso-img {
     background-color: rgb(99, 33, 7);
     outline: 2px solid rgb(37, 19, 2);
     border-radius: 5px;
+    object-fit: cover;
+}
+
+.info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+}
+
+.xp-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 20px 0px;
 }
