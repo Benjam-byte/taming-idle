@@ -82,6 +82,12 @@
                     (worldService.world$ | async)?.relicAvailable ?? false
                 "
             />
+            <app-menu-button
+                name="Stable"
+                path="assets/icon/stable.png"
+                (isClicked)="openStableModal()"
+                [isActive]="true"
+            />
         </main>
     </section>
 

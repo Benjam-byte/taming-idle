@@ -1,9 +1,11 @@
 <div class="background"></div>
 <div class="layout">
+    @if(title()){
     <header>
         <h1>{{ title() }}</h1>
         <p (click)="close()">X</p>
     </header>
+    }
     <main>
         <ng-content></ng-content>
     </main>

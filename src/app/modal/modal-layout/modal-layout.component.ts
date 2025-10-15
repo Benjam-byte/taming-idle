@@ -16,7 +16,7 @@ import { ModalController } from '@ionic/angular/standalone';
 })
 export class ModalLayoutComponent {
     modalCtrl = inject(ModalController);
-    title = input.required();
+    title = input.required<string | null>();
 
     close() {
         this.modalCtrl.dismiss();

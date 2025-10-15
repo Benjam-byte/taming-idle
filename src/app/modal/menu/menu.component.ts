@@ -12,6 +12,7 @@ import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { BestiaryComponent } from '../bestiary/bestiary.component';
 import { CommonModule } from '@angular/common';
 import { IncubateurPage } from '../incubateur/incubateur.page';
+import { StableComponent } from '../stable/stable.component';
 
 @Component({
     selector: 'app-menu',
@@ -26,6 +27,18 @@ export class MenuComponent {
 
     closeMenuModal() {
         this.modalCtrl.dismiss();
+    }
+
+    async openStableModal() {
+        this.modalCtrl.dismiss();
+        const modal = await this.modalCtrl.create({
+            component: StableComponent,
+            cssClass: 'full-screen-modal',
+            backdropDismiss: true,
+            showBackdrop: true,
+        });
+
+        modal.present();
     }
 
     async openIncubateurModal() {
