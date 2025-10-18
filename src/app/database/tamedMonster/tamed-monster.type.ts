@@ -1,5 +1,6 @@
 export type TamedMonster = {
     id: string;
+    index: number;
     monsterId: string;
     name: string;
     level: number;

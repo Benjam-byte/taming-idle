@@ -32,14 +32,16 @@ export class TamedMonsterService {
     /** Création (génère un id si manquant) */
     create(
         data: Omit<TamedMonster, 'id'> & Partial<Pick<TamedMonster, 'id'>>
-    ): Observable<TamedMonster> {
+    ): Observable<TamedMonster[]> {
         const record: TamedMonster = {
             id: data.id ?? this.newId(),
             ...data,
         } as TamedMonster;
         return this.readAll$().pipe(
             switchMap((list) =>
-                this.writeAll$([record, ...list]).pipe(map(() => record))
+                this.writeAll$([record, ...list]).pipe(
+                    map(() => [record, ...list])
+                )
             )
         );
     }

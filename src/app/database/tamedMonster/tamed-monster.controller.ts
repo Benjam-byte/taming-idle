@@ -11,7 +11,7 @@ export class TamedMonsterController {
         return of([]);
     }
 
-    create(monster: Omit<TamedMonster, 'id'>): Observable<TamedMonster> {
+    create(monster: Omit<TamedMonster, 'id'>): Observable<TamedMonster[]> {
         return this.service.create(monster);
     }
 

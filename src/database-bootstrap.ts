@@ -21,6 +21,7 @@ import { ProfessionManagerService } from './app/core/service/player/profession-m
 import { EggController } from './app/database/egg/egg.controller';
 import { TamedMonsterController } from './app/database/tamedMonster/tamed-monster.controller';
 import { EggManagerService } from './app/core/service/monster/egg-manager.service';
+import { TamedMonsterManagerService } from './app/core/service/monster/tamed-monster-manager.service';
 
 const DB_VERSION = 6;
 const DB_KEY = 'db';
@@ -59,6 +60,9 @@ export class DatabaseBootstrapService {
         ProfessionManagerService
     );
     private readonly relicManagerService = inject(RelicManagerService);
+    private readonly tamedMonsterManagerService = inject(
+        TamedMonsterManagerService
+    );
 
     private initDatabase$() {
         return forkJoin([
@@ -105,6 +109,7 @@ export class DatabaseBootstrapService {
             this.lootManagerService.init$(),
             this.professionManagerService.init$(),
             this.eggManagerService.init$(),
+            this.tamedMonsterManagerService.init$(),
         ]).pipe(
             catchError((err) => {
                 // log and continue – avoid killing the app

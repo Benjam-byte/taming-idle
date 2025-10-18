@@ -23,15 +23,6 @@ main {
     height: 60px;
 }
 
-.monster-panel {
-    background-color: brown;
-    outline: 3px solid rgb(37, 19, 2);
-    border-radius: 5px;
-    flex-shrink: 0;
-    height: 150px;
-    margin: 10px 10px 20px 10px;
-}
-
 .grass-bg {
     z-index: -1;
     position: absolute;
@@ -43,4 +34,69 @@ main {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.bouncy {
+    animation: bounce 5s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.monster-panel {
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+    flex-shrink: 0;
+    height: 150px;
+    margin: 10px 10px 20px 10px;
+}
+
+.profil-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    align-items: center;
+}
+
+.profil {
+    width: 100%;
+}
+
+.stat {
+    display: flex;
+    flex-direction: row;
+}
+
+p {
+    font-size: 12px;
+    margin: 0;
+}
+
+.line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.line img {
+    width: 18px !important;
+}
+
+.profil-header {
+    display: flex;
+    flex-direction: row;
+    gap: 30%;
+    margin: 10px 10px 0px 10px;
+}
+
+h3 {
+    margin: 0;
 }

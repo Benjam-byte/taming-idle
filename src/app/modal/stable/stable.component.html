@@ -2,17 +2,91 @@
     <main>
         <section class="monster-box">
             <div class="grass-bg"></div>
+            @for(monster of tamedMonsterList(); track monster.id){
             <img
                 class="monster"
-                src="assets/monster/terra_larva/terra_larva.webp"
+                [class]="selectedId() === monster.id ? 'bouncy' : ''"
+                [src]="getImage(monster.name).base"
                 alt="toi"
+                (click)="select(monster)"
             />
-            <img
-                class="monster"
-                src="assets/monster/slime/Slime_Base.webp"
-                alt="slime"
-            />
+            }
         </section>
-        <section class="monster-panel"></section>
+        <section class="monster-panel">
+            @if(selectedMonster(); as monster){
+            <div class="profil-header">
+                <h3>{{ monster.name }}</h3>
+                <app-xp-range [currentXp]="monster.level" [maxXp]="90" />
+            </div>
+            <div class="profil-container">
+                <img
+                    class="profil"
+                    [src]="getImage(monster.name).base"
+                    [alt]="monster.name"
+                />
+                <div class="stat">
+                    <div>
+                        <div class="line">
+                            <img [src]="statIconDict['damage']" alt="lol" />
+                            <p>{{ monster.damage }} dégat</p>
+                        </div>
+                        <div class="line">
+                            <img
+                                [src]="statIconDict['findingPercentage']"
+                                alt="findingPercentage"
+                            />
+                            <p>
+                                {{ monster.damageSpecial }}
+                                dégat spé
+                            </p>
+                        </div>
+                        <div class="line">
+                            <img
+                                [src]="statIconDict['damage']"
+                                alt="findingPercentage"
+                            />
+                            <p>
+                                {{ monster.criticalChance }}
+                                critique
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="line">
+                            <img
+                                [src]="statIconDict['findingPercentage']"
+                                alt="findingPercentage"
+                            />
+                            <p>
+                                {{ monster.defense }}
+                                defence
+                            </p>
+                        </div>
+                        <div class="line">
+                            <img
+                                [src]="statIconDict['findingPercentage']"
+                                alt="findingPercentage"
+                            />
+                            <p>
+                                {{ monster.defenseSpecial }}
+                                def spé
+                            </p>
+                        </div>
+                        <div class="line">
+                            <img
+                                [src]="statIconDict['damage']"
+                                alt="findingPercentage"
+                            />
+                            <p>
+                                {{ monster.precision }}
+                                precision
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <button (click)="tame()">tame slime</button>
+            </div>
+            }
+        </section>
     </main>
 </app-modal-layout>

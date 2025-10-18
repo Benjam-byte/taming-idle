@@ -1,3 +1,5 @@
+import { CombatType } from 'src/app/database/bestiary/bestiary.type';
+
 export const bestiaryList = [
     {
         name: 'Terra larva',
@@ -8,6 +10,7 @@ export const bestiaryList = [
         },
         type: 'normal',
         trait: 'multiskilled',
+        combatType: 'combattant' as CombatType,
         professionAvailable: [
             'Voleur',
             'Botaniste',
@@ -31,6 +34,7 @@ export const bestiaryList = [
         },
         type: 'normal',
         trait: 'agile',
+        combatType: 'combattant' as CombatType,
         professionAvailable: ['Botaniste', 'Traveler', 'Paysan'],
         seen: false,
         index: 1,
@@ -45,6 +49,7 @@ export const bestiaryList = [
         },
         type: 'normal',
         trait: 'agile',
+        combatType: 'mage' as CombatType,
         professionAvailable: ['Botaniste', 'Alchimiste', 'Pisteur'],
         seen: false,
         index: 2,

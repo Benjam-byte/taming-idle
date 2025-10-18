@@ -156,17 +156,12 @@ export class HumanManagerService {
 
         let pointsLeft = statPoints;
         while (pointsLeft > 0) {
-            // Liste des stats encore augmentables
             const availableStats = stats.filter(
                 (stat) =>
                     currentStats[stat] + distribution[stat] <
                     this.human.statCap[stat]
             );
-
-            // Si plus aucune stat n’est augmentable → on arrête (cap global atteint)
             if (availableStats.length === 0) break;
-
-            // Choix aléatoire parmi les stats disponibles
             const randomStat =
                 availableStats[
                     Math.floor(Math.random() * availableStats.length)
