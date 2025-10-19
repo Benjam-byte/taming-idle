@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalController } from '@ionic/angular/standalone';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
-import { statIconDict, StatKey } from 'src/app/core/json/statIconDict';
+import { statIconDict, StatKey } from 'src/app/core/config/statIconDict';
 import { XpRangeComponent } from '../profession/xp-range/xp-range.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RelicSelectionComponent } from './relic-selection/relic-selection.component';

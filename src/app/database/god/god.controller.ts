@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { concatMap, from, map, Observable } from 'rxjs';
 import { GodService } from './god.service';
 import { God } from './god.type';
-import { godList } from '../../core/json/godList';
+import { godList } from '../../core/config/godList';
 
 @Injectable({ providedIn: 'root' })
 export class GodController {

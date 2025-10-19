@@ -1,3 +1,4 @@
+import { ProfessionName } from 'src/app/core/enum/profession-name.enum';
 import { Function } from 'src/app/core/models/functionType';
 
 export type Profession = {
@@ -5,7 +6,7 @@ export type Profession = {
     index: number;
     level: number;
     xp: number;
-    name: string;
+    name: ProfessionName;
     description: string;
     value: { stat: string; value: number };
     image: { 10: string; 20: string; 30: string };

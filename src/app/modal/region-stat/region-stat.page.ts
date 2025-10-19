@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular/standalone';
 import { RegionManagerService } from 'src/app/core/service/location/region.service';
 import { XpRangeComponent } from '../profession/xp-range/xp-range.component';
 import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
-import { statIconDict } from 'src/app/core/json/statIconDict';
+import { statIconDict } from 'src/app/core/config/statIconDict';
 import { CombatTowerManagerService } from 'src/app/core/service/location/combat-tower.service';
 import { RoundToPipe } from '../../core/pipe/roundTo.pipe';
 

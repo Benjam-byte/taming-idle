@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { concatMap, from, Observable } from 'rxjs';
 import { RelicsService } from './reclis.service';
 import { Relics } from './relics.type';
-import { relicList } from '../../core/json/relics';
+import { relicList } from '../../core/config/relics';
 
 @Injectable({ providedIn: 'root' })
 export class RelicsController {

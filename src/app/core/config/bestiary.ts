@@ -1,4 +1,6 @@
 import { CombatType } from 'src/app/database/bestiary/bestiary.type';
+import { ProfessionName } from '../enum/profession-name.enum';
+import { TraitName } from '../enum/trait.enum';
 
 export const bestiaryList = [
     {
@@ -9,20 +11,20 @@ export const bestiaryList = [
             enchantedSprite: '',
         },
         type: 'normal',
-        trait: 'multiskilled',
         combatType: 'combattant' as CombatType,
-        professionAvailable: [
-            'Voleur',
-            'Botaniste',
-            'Guerrier',
-            'Traveler',
-            'Paysan',
-            'Alchimiste',
-            'Necromancien',
-            'Pisteur',
-        ],
         seen: true,
         index: 0,
+        trait: TraitName.Multiskilled,
+        availableProfession: [
+            ProfessionName.Alchimiste,
+            ProfessionName.Botaniste,
+            ProfessionName.Fermier,
+            ProfessionName.Guerrier,
+            ProfessionName.Necromancien,
+            ProfessionName.Pisteur,
+            ProfessionName.Voleur,
+            ProfessionName.Voyageur,
+        ],
     },
     {
         name: 'Slime',
@@ -33,11 +35,15 @@ export const bestiaryList = [
                 'assets/monster/sprite/slime/SpriteSheet_Slime_Sauvage_Shinny.webp',
         },
         type: 'normal',
-        trait: 'agile',
+        trait: TraitName.Agile,
         combatType: 'combattant' as CombatType,
-        professionAvailable: ['Botaniste', 'Traveler', 'Paysan'],
         seen: false,
         index: 1,
+        availableProfession: [
+            ProfessionName.Fermier,
+            ProfessionName.Alchimiste,
+            ProfessionName.Voyageur,
+        ],
     },
     {
         name: 'Duck',
@@ -48,11 +54,15 @@ export const bestiaryList = [
                 'assets/monster/sprite/duck/SpriteSheet_Duck_Sauvage_Shinny.webp',
         },
         type: 'normal',
-        trait: 'agile',
+        trait: TraitName.Renifleur,
         combatType: 'mage' as CombatType,
-        professionAvailable: ['Botaniste', 'Alchimiste', 'Pisteur'],
         seen: false,
         index: 2,
+        availableProfession: [
+            ProfessionName.Alchimiste,
+            ProfessionName.Guerrier,
+            ProfessionName.Necromancien,
+        ],
     },
 ];
 

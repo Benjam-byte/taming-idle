@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { XpRangeComponent } from '../xp-range/xp-range.component';
 import { Profession } from 'src/app/database/profession/profession.type';
-import { statIconDict, StatKey } from 'src/app/core/json/statIconDict';
+import { statIconDict, StatKey } from 'src/app/core/config/statIconDict';
 import { RoundToPipe } from '../../../core/pipe/roundTo.pipe';
 import { calculateMathFunction } from 'src/app/core/helpers/function/function';
 

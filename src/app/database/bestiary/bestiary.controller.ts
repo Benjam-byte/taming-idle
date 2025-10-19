@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { concatMap, from, Observable } from 'rxjs';
 import { BestiaryService } from './bestiary.service';
 import { MonsterProfile } from './bestiary.type';
-import { bestiaryList } from '../../core/json/bestiary';
+import { bestiaryList } from '../../core/config/bestiary';
 
 @Injectable({ providedIn: 'root' })
 export class BestiaryController {

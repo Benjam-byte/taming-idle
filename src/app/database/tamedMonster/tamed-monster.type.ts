@@ -1,8 +1,12 @@
+import { ProfessionName } from 'src/app/core/enum/profession-name.enum';
+import { TraitName } from 'src/app/core/enum/trait.enum';
+
 export type TamedMonster = {
     id: string;
     index: number;
     monsterId: string;
     name: string;
+    monsterSpecies: string;
     level: number;
     relicId: string;
     travellingSpeed: number;
@@ -19,5 +23,17 @@ export type TamedMonster = {
     defenseSpecial: number;
     precision: number;
     criticalChance: number;
+    trait: TraitName;
     statCap: Record<string, number>;
+    availableProfession: MonsterProfession[];
+};
+
+export type Trait = {
+    name: string;
+    description: string;
+};
+
+export type MonsterProfession = {
+    name: ProfessionName;
+    level: number;
 };

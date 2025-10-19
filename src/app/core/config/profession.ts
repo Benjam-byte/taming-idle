@@ -1,8 +1,9 @@
+import { ProfessionName } from '../enum/profession-name.enum';
 import { Expo, Linear, Poly2 } from '../models/functionType';
 
 export const professionList = [
     {
-        name: 'Voyageur',
+        name: ProfessionName.Voyageur,
         index: 0,
         level: 1,
         xp: 0,
@@ -24,7 +25,7 @@ export const professionList = [
         } as Expo,
     },
     {
-        name: 'Guerrier',
+        name: ProfessionName.Guerrier,
         index: 1,
         level: 1,
         xp: 0,
@@ -46,7 +47,7 @@ export const professionList = [
         } as Poly2,
     },
     {
-        name: 'Fermier',
+        name: ProfessionName.Fermier,
         index: 2,
         level: 1,
         xp: 0,
@@ -68,7 +69,7 @@ export const professionList = [
         } as Expo,
     },
     {
-        name: 'Voleur',
+        name: ProfessionName.Voleur,
         index: 3,
         level: 1,
         xp: 0,
@@ -90,7 +91,7 @@ export const professionList = [
         } as Expo,
     },
     {
-        name: 'Botaniste',
+        name: ProfessionName.Botaniste,
         index: 4,
         level: 1,
         xp: 0,
@@ -111,7 +112,7 @@ export const professionList = [
         } as Poly2,
     },
     {
-        name: 'Alchimiste',
+        name: ProfessionName.Alchimiste,
         index: 5,
         level: 1,
         xp: 0,
@@ -133,7 +134,7 @@ export const professionList = [
         } as Expo,
     },
     {
-        name: 'Necromancien',
+        name: ProfessionName.Necromancien,
         index: 6,
         level: 1,
         xp: 0,
@@ -155,7 +156,7 @@ export const professionList = [
         } as Poly2,
     },
     {
-        name: 'Pisteur',
+        name: ProfessionName.Pisteur,
         index: 7,
         level: 1,
         xp: 0,

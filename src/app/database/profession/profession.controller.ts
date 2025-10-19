@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { concatMap, from, Observable } from 'rxjs';
 import { ProfessionService } from './profession.service';
 import { Profession } from './profession.type';
-import { professionList } from 'src/app/core/json/profession';
+import { professionList } from 'src/app/core/config/profession';
 
 @Injectable({ providedIn: 'root' })
 export class ProfessionController {

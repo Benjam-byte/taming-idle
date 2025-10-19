@@ -1,3 +1,6 @@
+import { ProfessionName } from 'src/app/core/enum/profession-name.enum';
+import { TraitName } from 'src/app/core/enum/trait.enum';
+
 export type MonsterProfile = {
     id: string;
     name: string;
@@ -7,11 +10,11 @@ export type MonsterProfile = {
         enchantedSprite: string;
     };
     type: string;
-    trait: string;
-    professionAvailable: string[];
+    trait: TraitName;
     index: number;
     seen: boolean;
     combatType: CombatType;
+    availableProfession: ProfessionName[];
 };
 
 export type MonsterType = 'normal' | 'fire' | 'earth' | 'water' | 'wind';

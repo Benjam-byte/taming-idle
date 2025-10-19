@@ -43,10 +43,10 @@ main {
 @keyframes bounce {
     0%,
     100% {
-        transform: translateY(0);
+        transform: translateY(0) scale(1.5);
     }
     50% {
-        transform: translateY(-5px);
+        transform: translateY(-5px) scale(1.5);
     }
 }
 
@@ -72,6 +72,8 @@ main {
 .stat {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    margin-top: 12px;
 }
 
 p {
@@ -84,19 +86,39 @@ p {
     flex-direction: row;
     align-items: center;
     gap: 8px;
+    margin: 2px 10px;
 }
 
 .line img {
     width: 18px !important;
 }
 
-.profil-header {
+.inline {
     display: flex;
     flex-direction: row;
-    gap: 30%;
-    margin: 10px 10px 0px 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.trait {
+    font-weight: bold;
+    padding: 0px 20px;
 }
 
 h3 {
     margin: 0;
+}
+
+.xp {
+    width: 70px;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bottom {
+    border-top: 3px solid rgb(37, 19, 2);
 }

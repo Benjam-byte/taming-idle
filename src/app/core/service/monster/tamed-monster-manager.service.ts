@@ -14,6 +14,7 @@ import {
     CombatStatKey,
     StatCap,
 } from '../../models/monsterData';
+import { ProfessionName } from '../../enum/profession-name.enum';
 
 @Injectable({
     providedIn: 'root',
@@ -68,11 +69,13 @@ export class TamedMonsterManagerService {
             );
     }
 
-    private createTamedMonster(monster: MonsterProfile) {
+    private createTamedMonster(
+        monster: MonsterProfile
+    ): Omit<TamedMonster, 'id'> {
         const tamedMonster = {
             index: this.tamedMonsterList.length,
-            monsterId: monster.id,
-            name: monster.name,
+            monsterSpecies: monster.name,
+            name: monster.name + ' ' + this.tamedMonsterList.length,
             travellingSpeed: 2000,
             fightingSpeed: 2000,
             lockPickingSpeed: 1000,
@@ -90,9 +93,21 @@ export class TamedMonsterManagerService {
             precision: 1,
             criticalChance: 1,
             statCap: this.generateStatCap(monster.combatType),
+            trait: monster.trait,
+            availableProfession: this.generateProfession(
+                monster.availableProfession
+            ),
+            monsterId: monster.id,
         };
         console.log(tamedMonster);
         return tamedMonster;
+    }
+
+    private generateProfession(professionList: ProfessionName[]) {
+        return professionList.map((profession) => ({
+            name: profession,
+            level: 0,
+        }));
     }
 
     private generateStatCap(archetype: CombatType): Record<string, number> {

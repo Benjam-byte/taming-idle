@@ -13,8 +13,10 @@ import {
 import { TamedMonsterManagerService } from 'src/app/core/service/monster/tamed-monster-manager.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
-import { statIconDict } from 'src/app/core/json/statIconDict';
+import { statIconDict } from 'src/app/core/config/statIconDict';
 import { XpRangeComponent } from '../profession/xp-range/xp-range.component';
+import { ProfessionName } from 'src/app/core/enum/profession-name.enum';
+import { TraitName } from 'src/app/core/enum/trait.enum';
 
 @Component({
     selector: 'app-stable',
@@ -45,6 +47,7 @@ export class StableComponent {
     }
 
     getImage(name: string) {
+        console.log(name);
         return this.tamedMonsterManager.getImageFromMonster(name);
     }
 
@@ -59,9 +62,13 @@ export class StableComponent {
                     'assets/monster/sprite/slime/SpriteSheet_Slime_Sauvage_Shinny.webp',
             },
             type: 'normal',
-            trait: 'agile',
+            trait: TraitName.Agile,
             combatType: 'combattant' as CombatType,
-            professionAvailable: ['Botaniste', 'Traveler', 'Paysan'],
+            availableProfession: [
+                ProfessionName.Fermier,
+                ProfessionName.Alchimiste,
+                ProfessionName.Voyageur,
+            ],
             seen: false,
             index: 1,
         };
