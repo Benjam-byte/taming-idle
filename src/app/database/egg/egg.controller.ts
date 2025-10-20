@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { concatMap, from, Observable, of } from 'rxjs';
+import { concatMap, from, Observable } from 'rxjs';
 import { EggService } from './egg.service';
 import { Egg } from './egg.type';
 
@@ -7,7 +7,8 @@ const defaultEgg = {
     image: './assets/egg/slime_egg.png',
     monsterName: 'Slime',
     createdAt: new Date(),
-    hatchingTime: 1000 * 60 * 60 * 1, // 1 hour
+    hatchingTime: 0, // 1 hour
+    incubateur: null,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -34,7 +35,7 @@ export class EggController {
         return this.service.update(id, egg);
     }
 
-    delete(id: string): Observable<boolean> {
+    delete(id: string): Observable<Egg[]> {
         return this.service.remove(id);
     }
 

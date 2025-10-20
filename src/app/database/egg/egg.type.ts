@@ -4,4 +4,8 @@ export type Egg = {
     monsterName: string;
     createdAt: Date;
     hatchingTime: number;
+    incubateur: {
+        index: number;
+        startedAt: number;
+    } | null;
 };

@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { EggController } from 'src/app/database/egg/egg.controller';
 import { Egg } from 'src/app/database/egg/egg.type';
-import { BehaviorSubject, map, of, tap } from 'rxjs';
+import { BehaviorSubject, concatMap, defer, map, of, tap } from 'rxjs';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { RegionManagerService } from '../location/region.service';
 import { roll } from '../../helpers/proba-rolls';
+import { TamedMonsterManagerService } from './tamed-monster-manager.service';
 
 @Injectable({
     providedIn: 'root',
@@ -12,6 +13,7 @@ import { roll } from '../../helpers/proba-rolls';
 export class EggManagerService {
     eggController = inject(EggController);
     regionManagerService = inject(RegionManagerService);
+    tamedMonsterManagerService = inject(TamedMonsterManagerService);
     broadcastService = inject(BroadcastService);
 
     private _eggList$!: BehaviorSubject<Egg[]>;
@@ -49,15 +51,55 @@ export class EggManagerService {
     addOneEgg$(egg: Omit<Egg, 'id'>) {
         return this.eggController
             .create(egg)
-            .pipe(tap((loot) => this._eggList$.next(loot)));
+            .pipe(tap((egg) => this._eggList$.next(egg)));
     }
 
-    createOneEgg(): Omit<Egg, 'id'> {
+    incubeEgg$(egg: Egg) {
+        const availableIndex = this.getFirstIndexIncubateurAvailable();
+        if (availableIndex === -1) throw new Error("Pas d'incubateur dispo");
+        return this.eggController
+            .updateOne(egg.id, {
+                incubateur: {
+                    startedAt: Date.now(),
+                    index: availableIndex,
+                },
+            })
+            .pipe(tap((egg) => this._eggList$.next(egg)));
+    }
+
+    hatch$(egg: Egg) {
+        return this.tamedMonsterManagerService
+            .tameMonsterByMonsterName$(egg.monsterName)
+            .pipe(
+                concatMap(() =>
+                    this.eggController
+                        .delete(egg.id)
+                        .pipe(tap((egg) => this._eggList$.next(egg)))
+                )
+            );
+    }
+
+    private createOneEgg(): Omit<Egg, 'id'> {
         return {
             image: 'assets/egg/slime_egg.png',
             monsterName: 'Slime',
             createdAt: new Date(),
             hatchingTime: 3600 * 6,
+            incubateur: null,
         };
+    }
+
+    private getFirstIndexIncubateurAvailable(): number {
+        const incubedEggList = this.eggList.filter(
+            (egg) => egg.incubateur !== null
+        );
+        if (incubedEggList.length === 0) return 0;
+        const isIncubateurTakenList = [false, false, false];
+        incubedEggList.forEach((egg) => {
+            const incubateur = egg.incubateur;
+            if (!incubateur) return;
+            isIncubateurTakenList[incubateur.index] = true;
+        });
+        return isIncubateurTakenList.findIndex((v) => v === false);
     }
 }

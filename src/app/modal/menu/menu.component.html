@@ -86,7 +86,9 @@
                 name="Stable"
                 path="assets/icon/stable.png"
                 (isClicked)="openStableModal()"
-                [isActive]="true"
+                [isActive]="
+                    (worldService.world$ | async)?.incubateurAvailable ?? false
+                "
             />
         </main>
     </section>

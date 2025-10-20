@@ -3,7 +3,7 @@
     bottom: 2px;
     right: 3px;
     font-size: 10px;
-    color: rgb(41, 9, 185);
+    color: rgb(255, 255, 255);
     font-weight: bold;
     border-radius: 100%;
     padding: 4px 6px;
@@ -29,8 +29,37 @@ h2 {
     outline: 3px solid rgb(37, 19, 2);
     border-radius: 5px;
     padding: 4px;
-    max-width: 80px;
-    min-height: 55px;
+    width: 80px;
+    height: 80px;
+}
+
+.egg {
+    width: 100%;
+    height: 100px;
+    transform: translateY(-16px);
+}
+
+.unknown {
+    height: 100%;
+    padding: 2px;
+}
+
+.activated {
+    outline: 3px solid rgb(37, 19, 2);
+    background-image: url("../../../assets/incubateur/incubateur.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
+    overflow: visible;
+}
+
+.deactivated {
+    outline: 3px solid rgb(37, 19, 2);
+    background-image: url("../../../assets/incubateur/empty.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
+    overflow: visible;
 }
 
 .egg-card {

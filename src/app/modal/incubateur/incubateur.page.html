@@ -1,44 +1,40 @@
 <app-modal-layout title="Incubateur">
     <section class="incubateur-container">
-        <div class="incubateur">
+        <div class="incubateur"></div>
+        <div
+            class="incubateur middle"
+            [class.activated]="incubateurOneContent()"
+            [class.deactivated]="!incubateurOneContent()"
+        >
             <div
                 class="egg-incubateur-card"
-                [class.unknown]="true"
-                [class.selected]="false"
+                (click)="collect(incubateurOneContent())"
             >
-                <img [src]="'assets/icon/question.png'" alt="egg" />
+                @if(incubateurOneContent(); as egg){
+                <img class="egg" [src]="egg.image" alt="egg" />
+                <app-egg-timer [egg]="egg" />
+                }@else {
+                <img
+                    class="unknown"
+                    [src]="'assets/icon/question.png'"
+                    alt="egg"
+                />
+                }
             </div>
         </div>
-        <div class="incubateur middle">
-            <div
-                class="egg-incubateur-card"
-                [class.unknown]="true"
-                [class.selected]="false"
-            >
-                <img [src]="'assets/icon/question.png'" alt="egg" />
-            </div>
-        </div>
-        <div class="incubateur">
-            <div
-                class="egg-incubateur-card"
-                [class.unknown]="true"
-                [class.selected]="false"
-            >
-                <img [src]="'assets/icon/question.png'" alt="egg" />
-            </div>
-        </div>
+        <div class="incubateur"></div>
     </section>
     <section>
         <h2>Vos oeufs</h2>
         <div class="card-container">
-            @for(egg of formattedEggList(); track $index) {
-            <div class="egg-card">
-                @if(egg){
+            @for(egg of formattedEggList(); track $index) { @if(egg){
+            <div class="egg-card" (click)="select(egg)">
                 <img [src]="egg.image" alt="egg" />
                 <div class="badge">{{egg.hatchingTime | formatDuration}}</div>
-                }
             </div>
-            }
+            } @else {
+            <div class="egg-card"></div>
+            } }
         </div>
     </section>
 </app-modal-layout>

@@ -67,13 +67,13 @@ export class EggService {
         );
     }
 
-    remove(id: string): Observable<boolean> {
+    remove(id: string): Observable<Egg[]> {
         return this.readAll$().pipe(
             switchMap((list) => {
                 const updated = list.filter((p) => p.id !== id);
                 const changed = updated.length !== list.length;
-                if (!changed) return of(false);
-                return this.writeAll$(updated).pipe(map(() => true));
+                if (!changed) return of(list);
+                return this.writeAll$(updated).pipe(map(() => updated));
             })
         );
     }

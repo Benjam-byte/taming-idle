@@ -47,31 +47,6 @@ export class StableComponent {
     }
 
     getImage(name: string) {
-        console.log(name);
         return this.tamedMonsterManager.getImageFromMonster(name);
-    }
-
-    tame() {
-        const slime = {
-            id: 'lol',
-            name: 'Slime',
-            image: {
-                base: 'assets/monster/slime/Slime_Base.webp',
-                sprite: 'assets/monster/sprite/slime/SpriteSheet_Slime_Sauvage.webp',
-                enchantedSprite:
-                    'assets/monster/sprite/slime/SpriteSheet_Slime_Sauvage_Shinny.webp',
-            },
-            type: 'normal',
-            trait: TraitName.Agile,
-            combatType: 'combattant' as CombatType,
-            availableProfession: [
-                ProfessionName.Fermier,
-                ProfessionName.Alchimiste,
-                ProfessionName.Voyageur,
-            ],
-            seen: false,
-            index: 1,
-        };
-        this.tamedMonsterManager.tameMonster$(slime).subscribe();
     }
 }

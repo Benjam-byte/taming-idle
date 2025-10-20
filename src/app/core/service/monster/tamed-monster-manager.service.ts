@@ -12,7 +12,6 @@ import {
     ALL_STATS,
     ARCHETYPE_FAV,
     CombatStatKey,
-    StatCap,
 } from '../../models/monsterData';
 import { ProfessionName } from '../../enum/profession-name.enum';
 
@@ -67,6 +66,12 @@ export class TamedMonsterManagerService {
                     this._tamedMonsterList$.next(tamedMonsterList)
                 )
             );
+    }
+
+    tameMonsterByMonsterName$(name: string) {
+        const monster = this.bestiaryManager.getMonsterByName(name);
+        if (!monster) throw new Error('Monster not found');
+        return this.tameMonster$(monster);
     }
 
     private createTamedMonster(
