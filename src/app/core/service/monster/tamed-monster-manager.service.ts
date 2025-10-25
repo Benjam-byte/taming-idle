@@ -104,7 +104,6 @@ export class TamedMonsterManagerService {
             ),
             monsterId: monster.id,
         };
-        console.log(tamedMonster);
         return tamedMonster;
     }
 
@@ -112,6 +111,8 @@ export class TamedMonsterManagerService {
         return professionList.map((profession) => ({
             name: profession,
             level: 0,
+            xp: 0,
+            levelCap: 30,
         }));
     }
 

@@ -1,9 +1,10 @@
+@if(assignedMonster(); as monster){
 <div class="perso-icon" (click)="openPlayerModal()">
-    <img src="assets/monster/terra_larva/terra_larva.webp" alt="perso" />
-    <div class="badge">{{ (humanManagerService.human$ | async)?.level }}</div>
+    <img [src]="getImage(monster.monsterSpecies).base" alt="perso" />
+    <div class="badge">{{ monster.level }}</div>
 </div>
 <div class="text-info">
-    <p>Terra Larva (Vous)</p>
+    <p>{{ monster.name }} (Vous)</p>
     @if(lootManagerService.loot$ | async ; as loot){
     <div class="major-ressource">
         <div class="icon-container">
@@ -33,3 +34,4 @@
     </div>
     }
 </div>
+}

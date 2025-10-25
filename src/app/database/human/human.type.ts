@@ -1,3 +1,5 @@
+import { MonsterProfession } from '../tamedMonster/tamed-monster.type';
+
 export type Human = {
     id: string;
     level: number;
@@ -17,4 +19,5 @@ export type Human = {
     precision: number;
     criticalChance: number;
     statCap: Record<string, number>;
+    availableProfession: MonsterProfession[];
 };

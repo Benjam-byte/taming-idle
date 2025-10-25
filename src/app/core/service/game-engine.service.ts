@@ -10,18 +10,16 @@ import {
 } from 'rxjs';
 import { MapManagerService } from './location/map.service';
 import { WorldManagerService } from './location/world.service';
-import { ProfessionManagerService } from './player/profession-manager.service';
-import { HumanManagerService } from './player/human-manager.service';
+import { AssignedMonsterManagerService } from './player/assigned-monster-manager.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class GameEngineService {
+    assignedMonsterManager = inject(AssignedMonsterManagerService);
     mapService = inject(MapManagerService);
     worldService = inject(WorldManagerService);
-    professionManager = inject(ProfessionManagerService);
     gameLoopService = inject(GameLoopService);
-    humanManagerService = inject(HumanManagerService);
 
     constructor() {
         this.gameLoopService.start();
@@ -46,7 +44,7 @@ export class GameEngineService {
     getTravelCountDown$(): Observable<number> {
         return combineLatest([this.gameLoopService.tick$]).pipe(
             map(([now]) =>
-                Math.max(0, this.humanManagerService.nextTravelTime - now)
+                Math.max(0, this.assignedMonsterManager.nextTravelTime - now)
             ),
             distinctUntilChanged()
         );
@@ -55,7 +53,7 @@ export class GameEngineService {
     getFightingCountDown$(): Observable<number> {
         return combineLatest([this.gameLoopService.tick$]).pipe(
             map(([now]) =>
-                Math.max(0, this.humanManagerService.nextFightTime - now)
+                Math.max(0, this.assignedMonsterManager.nextFightTime - now)
             ),
             distinctUntilChanged()
         );
@@ -64,13 +62,13 @@ export class GameEngineService {
     private processEvent(event: GameEvent, now: number) {
         switch (event.type) {
             case 'travel':
-                if (this.humanManagerService.advance(now)) {
-                    this.professionManager.updateByProfessionName('Voyageur');
+                if (this.assignedMonsterManager.advance(now)) {
+                    this.assignedMonsterManager.xpByProfessionName('Voyageur');
                     this.mapService.travelWhere(event.payload.direction);
                 }
                 break;
             case 'fight':
-                if (this.humanManagerService.fight(now)) event.payload();
+                if (this.assignedMonsterManager.fight(now)) event.payload();
                 break;
             case 'flee':
                 this.mapService.travelRandom();

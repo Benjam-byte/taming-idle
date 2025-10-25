@@ -16,6 +16,7 @@ import { HumanManagerService } from 'src/app/core/service/player/human-manager.s
 import { Egg } from 'src/app/database/egg/egg.type';
 import { EggManagerService } from 'src/app/core/service/monster/egg-manager.service';
 import { ResourceType } from 'src/app/core/enum/resource.enum';
+import { AssignedMonsterManagerService } from 'src/app/core/service/player/assigned-monster-manager.service';
 
 @Component({
     selector: 'app-empty-area',
@@ -24,13 +25,13 @@ import { ResourceType } from 'src/app/core/enum/resource.enum';
     imports: [],
 })
 export class EmptyAreaComponent {
+    lootManager = inject(LootManagerService);
+    eggManagerService = inject(EggManagerService);
+    mapManagerService = inject(MapManagerService);
+    assignedMonsterManager = inject(AssignedMonsterManagerService);
     gameEngineService = inject(GameEngineService);
-    lootManagerService = inject(LootManagerService);
     clickEffectService = inject(ClickEffectService);
     broadcastMessageService = inject(BroadcastService);
-    mapManagerService = inject(MapManagerService);
-    eggManagerService = inject(EggManagerService);
-    humanManagerService = inject(HumanManagerService);
 
     host = inject(ElementRef<HTMLElement>);
     position!: { top: string; left: string };
@@ -60,19 +61,19 @@ export class EmptyAreaComponent {
     });
 
     rightArrowImage = computed(() => {
-        const map = this.humanManagerService.trackDirection(
+        const map = this.assignedMonsterManager.trackDirection(
             this.mapManagerService.availableMap().right
         );
         return this.getArrowPath('right', map);
     });
     leftArrowImage = computed(() => {
-        const map = this.humanManagerService.trackDirection(
+        const map = this.assignedMonsterManager.trackDirection(
             this.mapManagerService.availableMap().left
         );
         return this.getArrowPath('left', map);
     });
     topArrowImage = computed(() => {
-        const map = this.humanManagerService.trackDirection(
+        const map = this.assignedMonsterManager.trackDirection(
             this.mapManagerService.availableMap().top
         );
         return this.getArrowPath('top', map);
@@ -99,7 +100,7 @@ export class EmptyAreaComponent {
             this.host.nativeElement.getBoundingClientRect().width,
             this.host.nativeElement.getBoundingClientRect().height
         );
-        this.loot = this.lootManagerService.getResource();
+        this.loot = this.lootManager.getResource();
     }
 
     travel(value: string) {
@@ -116,9 +117,9 @@ export class EmptyAreaComponent {
             this.clickEffectService.spawnCollectEffect(event, 1);
             this.loot.quantity = this.loot.quantity - 1;
             if (resource === ResourceType.Wheat)
-                this.lootManagerService.addWheat$(1).subscribe();
+                this.lootManager.addWheat$(1).subscribe();
             if (resource === ResourceType.EnchantedWheat)
-                this.lootManagerService.addEnchantedWheat$(1).subscribe();
+                this.lootManager.addEnchantedWheat$(1).subscribe();
         }
     }
 

@@ -6,7 +6,7 @@ export const bestiaryList = [
     {
         name: 'Terra larva',
         image: {
-            base: 'assets/monster/terra_larva/terra_larva.webp',
+            base: 'assets/monster/terra_larva/Terra_larva.webp',
             sprite: '',
             enchantedSprite: '',
         },

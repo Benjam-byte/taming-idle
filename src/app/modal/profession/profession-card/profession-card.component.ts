@@ -22,22 +22,24 @@ type Tier = 10 | 20 | 30;
 })
 export class ProfessionCardComponent {
     profession = input.required<Profession>();
+    level = input.required<number>();
+    xp = input.required<number>();
     statIconDict = statIconDict;
 
     descriptionIsVisible = signal<boolean>(false);
 
     professionCap = computed(() => {
         const profession = this.profession();
-        return calculateMathFunction(profession.function, profession.level);
+        return calculateMathFunction(profession.function, this.level());
     });
 
     professionImage = computed(() => {
-        const imageIndex = this.mapNumber(this.profession().level);
+        const imageIndex = this.mapNumber(this.level());
         return this.profession().image[imageIndex as Tier];
     });
 
     professionStatGain = computed(() => {
-        const level = this.profession().level - 1;
+        const level = this.level() - 1;
         const value = this.profession().value.value * level;
         if (value < 0) return value;
         return '+' + value;

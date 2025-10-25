@@ -4,8 +4,6 @@ import { Function } from 'src/app/core/models/functionType';
 export type Profession = {
     id: string;
     index: number;
-    level: number;
-    xp: number;
     name: ProfessionName;
     description: string;
     value: { stat: string; value: number };

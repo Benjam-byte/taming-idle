@@ -36,4 +36,6 @@ export type Trait = {
 export type MonsterProfession = {
     name: ProfessionName;
     level: number;
+    xp: number;
+    levelCap: number;
 };

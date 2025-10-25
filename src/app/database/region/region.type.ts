@@ -4,6 +4,7 @@ export type Region = {
     id: string;
     name: string;
     isSelected: boolean;
+    assignedMonsterId: string | null;
     savageMonsterLevel: number;
     monsterSpawnRate: number;
     enchantedMonsterRate: number;

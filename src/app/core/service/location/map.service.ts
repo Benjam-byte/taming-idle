@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { RegionManagerService } from './region.service';
-import { ProfessionManagerService } from '../player/profession-manager.service';
+import { AssignedMonsterManagerService } from '../player/assigned-monster-manager.service';
 
 type MapKey = 'tresor' | 'monster' | 'empty';
 type Direction = 'top' | 'right' | 'left';
@@ -10,7 +10,7 @@ type Direction = 'top' | 'right' | 'left';
 })
 export class MapManagerService {
     regionManagerService = inject(RegionManagerService);
-    professionManagerService = inject(ProfessionManagerService);
+    assignedMonsterManager = inject(AssignedMonsterManagerService);
     map = signal<{ count: number; map: MapKey }>({ count: 0, map: 'empty' });
     availableMap = signal<Record<Direction, MapKey>>({
         right: 'empty',
@@ -73,6 +73,6 @@ export class MapManagerService {
 
     private updatePisteur(map: MapKey) {
         if (map === 'empty') return;
-        this.professionManagerService.updateByProfessionName('Pisteur');
+        this.assignedMonsterManager.xpByProfessionName('Pisteur');
     }
 }

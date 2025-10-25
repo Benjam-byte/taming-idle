@@ -1,6 +1,6 @@
 <div class="image-container">
     <img class="profession-img" [src]="professionImage()" alt="profession" />
-    <p>{{ profession().level }}</p>
+    <p>{{ level() }}</p>
 </div>
 <div class="info-container">
     <div class="header">
@@ -16,10 +16,7 @@
         <p>{{ +professionStatGain() | roundTo : 10 }}</p>
         <img [src]="statIcon()" alt="damage" />
     </div>
-    <app-xp-range
-        [currentXp]="profession().xp"
-        [maxXp]="professionCap()"
-    ></app-xp-range>
+    <app-xp-range [currentXp]="xp()" [maxXp]="professionCap()"></app-xp-range>
     @if(descriptionIsVisible()) {
     <p class="description">{{ profession().description }}</p>
     }

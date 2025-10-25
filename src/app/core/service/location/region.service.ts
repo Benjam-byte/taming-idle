@@ -1,10 +1,21 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, filter, map, Observable, of, tap } from 'rxjs';
+import {
+    BehaviorSubject,
+    filter,
+    map,
+    Observable,
+    of,
+    switchMap,
+    tap,
+} from 'rxjs';
 import { RegionController } from 'src/app/database/region/region.controller';
 import { Region } from 'src/app/database/region/region.type';
 import { BestiaryManagerService } from '../monster/bestiary-manager.service';
 import Monster from '../../value-object/monster';
 import { roll } from '../../helpers/proba-rolls';
+import { TamedMonsterManagerService } from '../monster/tamed-monster-manager.service';
+import { HumanManagerService } from '../player/human-manager.service';
+import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
 
 @Injectable({
     providedIn: 'root',
@@ -12,6 +23,8 @@ import { roll } from '../../helpers/proba-rolls';
 export class RegionManagerService {
     regionControllerService = inject(RegionController);
     bestiaryManagerService = inject(BestiaryManagerService);
+    tamedMonsterManagerService = inject(TamedMonsterManagerService);
+    humanManagerService = inject(HumanManagerService);
 
     private _region$!: BehaviorSubject<Region>;
 
@@ -66,6 +79,33 @@ export class RegionManagerService {
         }
         const isEnchanted = Boolean(roll(this.region.enchantedMonsterRate));
         return new Monster(monster, isEnchanted);
+    }
+
+    assignedMonster() {
+        if (this.region.assignedMonsterId) {
+            return this.tamedMonsterManagerService.getMonsterById(
+                this.region.assignedMonsterId
+            ) as TamedMonster;
+        } else {
+            return this.humanManagerService.humanInTamedMonsterFormat;
+        }
+    }
+
+    assignedMonster$() {
+        return this._region$.pipe(
+            switchMap((region) => {
+                const assignedMonsterId = region.assignedMonsterId;
+                if (assignedMonsterId) {
+                    return of(
+                        this.tamedMonsterManagerService.getMonsterById(
+                            assignedMonsterId
+                        ) as TamedMonster
+                    );
+                } else {
+                    return this.humanManagerService.humanInTamedMonsterFormat$;
+                }
+            })
+        );
     }
 
     init$() {
@@ -215,7 +255,6 @@ export class RegionManagerService {
     }
 
     private pickMonsterWeightedByIndex(monsterList: string[]): string {
-        console.log(monsterList);
         const weights = monsterList.map((_, i) => 1 / (i + 1));
         const totalWeight = weights.reduce((sum, w) => sum + w, 0);
         const rand = Math.random() * totalWeight;
@@ -223,7 +262,6 @@ export class RegionManagerService {
         for (let i = 0; i < monsterList.length; i++) {
             cumulative += weights[i];
             if (rand <= cumulative) {
-                console.log(i);
                 return monsterList[i];
             }
         }

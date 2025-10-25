@@ -2,6 +2,58 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HumanService } from './human.service';
 import { Human } from './human.type';
+import { ProfessionName } from 'src/app/core/enum/profession-name.enum';
+
+export const defaultMonsterProfessions = [
+    {
+        name: ProfessionName.Alchimiste,
+        level: 0,
+        xp: 0,
+        levelCap: 10,
+    },
+    {
+        name: ProfessionName.Botaniste,
+        level: 0,
+        xp: 0,
+        levelCap: 10,
+    },
+    {
+        name: ProfessionName.Fermier,
+        level: 0,
+        xp: 0,
+        levelCap: 10,
+    },
+    {
+        name: ProfessionName.Guerrier,
+        level: 0,
+        xp: 0,
+        levelCap: 10,
+    },
+    {
+        name: ProfessionName.Necromancien,
+        level: 0,
+        xp: 0,
+        levelCap: 10,
+    },
+    {
+        name: ProfessionName.Pisteur,
+        level: 0,
+        xp: 0,
+        levelCap: 10,
+    },
+    {
+        name: ProfessionName.Voleur,
+        level: 0,
+        xp: 0,
+        levelCap: 10,
+    },
+    {
+        name: ProfessionName.Voyageur,
+        level: 0,
+        xp: 0,
+        levelCap: 10,
+    },
+];
 
 const defaultHuman = {
     travellingSpeed: 2000,
@@ -20,6 +72,7 @@ const defaultHuman = {
     defenseSpecial: 1,
     precision: 1,
     criticalChance: 1,
+    availableProfession: defaultMonsterProfessions,
     statCap: {
         damage: 90,
         damageSpecial: 90,

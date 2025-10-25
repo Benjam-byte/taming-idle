@@ -22,6 +22,7 @@ export class RegionController {
                 this.create({
                     name: regionName,
                     isSelected: regionName === 'plaine',
+                    assignedMonsterId: null,
                     savageMonsterLevel: 1,
                     monsterSpawnRate: 0,
                     enchantedMonsterRate: 0,

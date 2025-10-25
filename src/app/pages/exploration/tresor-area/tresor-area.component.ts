@@ -4,11 +4,9 @@ import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service'
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import Chest from 'src/app/core/value-object/chest';
 import { FloatingMessagesComponent } from 'src/app/core/components/floating-messages/floating-messages.component';
-import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
-import { WorldManagerService } from 'src/app/core/service/location/world.service';
-import { ProfessionManagerService } from 'src/app/core/service/player/profession-manager.service';
+import { AssignedMonsterManagerService } from 'src/app/core/service/player/assigned-monster-manager.service';
 
 @Component({
     selector: 'app-tresor-area',
@@ -18,13 +16,13 @@ import { ProfessionManagerService } from 'src/app/core/service/player/profession
 })
 export class TresorAreaComponent implements OnDestroy {
     @ViewChild('msgDisplay') msgDisplay!: FloatingMessagesComponent;
+    lootManager = inject(LootManagerService);
+    assignedMonsterManager = inject(AssignedMonsterManagerService);
+
     gameEngineService = inject(GameEngineService);
-    humanManagerService = inject(HumanManagerService);
-    lootManagerService = inject(LootManagerService);
-    worldManagerService = inject(WorldManagerService);
-    clickEffectService = inject(ClickEffectService);
     broadcastService = inject(BroadcastService);
-    professionManagerService = inject(ProfessionManagerService);
+    clickEffectService = inject(ClickEffectService);
+
     chest = new Chest();
 
     private loop: Subscription | undefined;
@@ -36,7 +34,11 @@ export class TresorAreaComponent implements OnDestroy {
     startLoop() {
         this.loop = this.gameEngineService
             .getTick$()
-            .pipe(sampleTime(this.humanManagerService.human.lockPickingSpeed))
+            .pipe(
+                sampleTime(
+                    this.assignedMonsterManager.assignedMonster.lockPickingSpeed
+                )
+            )
             .subscribe((now) => {
                 this.crochetage(now);
             });
@@ -50,8 +52,8 @@ export class TresorAreaComponent implements OnDestroy {
     }
 
     crochetage(now: number) {
-        if (!this.humanManagerService.search(now)) return;
-        this.professionManagerService.updateByProfessionName('Voleur');
+        if (!this.assignedMonsterManager.search(now)) return;
+        this.assignedMonsterManager.xpByProfessionName('Voleur');
         if (this.chest.getCrocheted()) {
             this.lootChest();
         } else {
@@ -65,7 +67,7 @@ export class TresorAreaComponent implements OnDestroy {
 
     lootChest() {
         let loot = this.chest.openChest();
-        loot = this.lootManagerService.lootChest(loot);
+        loot = this.lootManager.lootChest(loot);
         this.broadcastService.displayMessage({
             message: `Vous obtenez ${loot}`,
         });

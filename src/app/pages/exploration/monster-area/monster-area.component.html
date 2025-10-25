@@ -8,11 +8,11 @@
     }
 </section>
 <div class="gauge-container">
-    @if(humanManagerService.human$ | async; as human) {
+    @if(assignedMonsterManager.assignedMonster$ | async; as monster) {
     <div class="icon-gauge">
         <img class="sword gauge-img" src="assets/icon/sword.png" alt="sword" />
         <app-action-gauge
-            [durationMs]="human.fightingSpeed"
+            [durationMs]="monster.fightingSpeed"
             [isGreen]="true"
             [initValue]="(fightingCountDown$ | async) ?? 0"
         />

@@ -2,7 +2,11 @@
     <div class="profession-list">
         @for(profession of (professionManager.professionList$ | async); track
         profession.index){
-        <app-profession-card [profession]="profession" />
+        <app-profession-card
+            [profession]="profession"
+            [level]="levelByProfession(profession.name) ?? 0"
+            [xp]="xpByProfession(profession.name) ?? 0"
+        />
         }
     </div>
 </app-modal-layout>

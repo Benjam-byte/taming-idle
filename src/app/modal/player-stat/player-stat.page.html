@@ -3,7 +3,7 @@
         <div class="image-wrapper">
             <img
                 class="perso-img"
-                src="assets/monster/terra_larva/terra_larva.webp"
+                src="assets/monster/terra_larva/Terra_larva.webp"
                 alt="player"
             />
         </div>
@@ -97,7 +97,10 @@
                             [src]="statIconDict['findingPercentage']"
                             alt="findingPercentage"
                         />
-                        <p>{{ human.gatherNormalBonus * 100 }}% de recolter</p>
+                        <p>
+                            {{ human.gatherNormalBonus * 100 - 100}}% de
+                            recolter
+                        </p>
                     </div>
                     <div class="line">
                         <img
@@ -114,7 +117,10 @@
                             [src]="statIconDict['findingPercentage']"
                             alt="findingPercentage"
                         />
-                        <p>{{ human.lootNormalBonus * 100 }}% d'ame recolté</p>
+                        <p>
+                            {{ human.lootNormalBonus * 100 -100 }}% d'ame
+                            recolté
+                        </p>
                     </div>
                     <div class="line">
                         <img

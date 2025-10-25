@@ -10,14 +10,15 @@ import { WorldManagerService } from '../location/world.service';
 import { ResourceType } from '../../enum/resource.enum';
 import Monster from '../../value-object/monster';
 import { roll } from '../../helpers/proba-rolls';
+import { AssignedMonsterManagerService } from './assigned-monster-manager.service';
 
 @Injectable({ providedIn: 'root' })
 export class LootManagerService {
     lootControllerService = inject(LootController);
     relicManagerService = inject(RelicManagerService);
-    professionManagerService = inject(ProfessionManagerService);
     worldManagerService = inject(WorldManagerService);
     regionManagerService = inject(RegionManagerService);
+    assignedMonsterManagerService = inject(AssignedMonsterManagerService);
 
     private _loot$!: BehaviorSubject<Loot>;
 
@@ -77,26 +78,22 @@ export class LootManagerService {
     }
 
     addLootFromMonsterKilled(monster: Monster) {
-        switch (monster.type) {
-            case 'Slime':
-                if (monster.isEnchanted) {
-                    this.lootControllerService
-                        .update(this.loot.id, {
-                            enchantedSoul: 1 + this.loot.enchantedSoul,
-                        })
-                        .subscribe((loot) => {
-                            this._loot$.next(loot);
-                        });
-                } else {
-                    this.lootControllerService
-                        .update(this.loot.id, {
-                            soul: 1 + this.loot.soul,
-                        })
-                        .subscribe((loot) => {
-                            this._loot$.next(loot);
-                        });
-                }
-                break;
+        if (monster.isEnchanted) {
+            this.lootControllerService
+                .update(this.loot.id, {
+                    enchantedSoul: 1 + this.loot.enchantedSoul,
+                })
+                .subscribe((loot) => {
+                    this._loot$.next(loot);
+                });
+        } else {
+            this.lootControllerService
+                .update(this.loot.id, {
+                    soul: 1 + this.loot.soul,
+                })
+                .subscribe((loot) => {
+                    this._loot$.next(loot);
+                });
         }
     }
 
@@ -123,7 +120,7 @@ export class LootManagerService {
             })
             .pipe(
                 tap((loot) => {
-                    this.professionManagerService.updateByProfessionName(
+                    this.assignedMonsterManagerService.xpByProfessionName(
                         'Fermier'
                     );
                     this._loot$.next(loot);
@@ -139,7 +136,7 @@ export class LootManagerService {
             })
             .pipe(
                 tap((loot) => {
-                    this.professionManagerService.updateByProfessionName(
+                    this.assignedMonsterManagerService.xpByProfessionName(
                         'Fermier'
                     );
                     this._loot$.next(loot);
