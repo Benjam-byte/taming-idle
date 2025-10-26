@@ -40,7 +40,9 @@ export class MonsterAreaComponent {
         this.gameEngineService.submitEventByType('fight', () => {
             if (!this.monster.isAlive) return;
             this.monster.getHit(this.assignedMonsterManager.damage);
-            this.assignedMonsterManager.xpByProfessionName('Guerrier');
+            this.assignedMonsterManager
+                .xpByProfessionName$('Guerrier')
+                .subscribe();
             this.monsterKilled();
         });
     }

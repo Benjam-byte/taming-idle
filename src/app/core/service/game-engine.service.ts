@@ -63,7 +63,9 @@ export class GameEngineService {
         switch (event.type) {
             case 'travel':
                 if (this.assignedMonsterManager.advance(now)) {
-                    this.assignedMonsterManager.xpByProfessionName('Voyageur');
+                    this.assignedMonsterManager
+                        .xpByProfessionName$('Voyageur')
+                        .subscribe();
                     this.mapService.travelWhere(event.payload.direction);
                 }
                 break;

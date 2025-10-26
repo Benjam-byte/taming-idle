@@ -1,0 +1,133 @@
+h2 {
+    margin: 0px;
+}
+
+.text-col {
+    margin: 8px;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    justify-content: end;
+    padding-bottom: 10px;
+}
+
+.stat-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.combat-wrapper {
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    padding: 10px;
+    margin: 10px;
+}
+
+.text-combat {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+p {
+    font-size: 12px;
+    margin: 0;
+}
+
+.line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.line img {
+    width: 18px !important;
+}
+
+.perso-img {
+    transform: scale(1.4);
+}
+
+.image-wrapper {
+    background-color: rgb(99, 33, 7);
+    outline: 2px solid rgb(37, 19, 2);
+    border-radius: 5px;
+}
+
+.info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+}
+
+.xp-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 20px 0px;
+}
+
+.relic-container {
+    display: flex;
+    flex-direction: column;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    padding: 10px;
+    margin: 10px;
+}
+
+.relic-container img {
+    width: 50px;
+}
+
+.relic-card {
+    margin-top: 10px;
+    position: relative;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+    padding: 4px;
+    height: fit-content;
+}
+
+.unknown {
+    background-color: #555;
+    color: #ccc;
+    border-color: #888;
+    transform: none;
+    box-shadow: none;
+}
+
+.bonus-container {
+    display: flex;
+    justify-content: end;
+}
+
+.relic-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+
+h3 {
+    margin: 0px;
+}
+
+.relic-header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}

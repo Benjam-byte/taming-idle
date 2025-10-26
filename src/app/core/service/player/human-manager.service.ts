@@ -8,6 +8,10 @@ import { TraitName } from '../../enum/trait.enum';
 import { ProfessionName } from '../../enum/profession-name.enum';
 import { XpInfo } from '../../models/xpInfo';
 import { ProfessionManagerService } from './profession-manager.service';
+import {
+    getStatUpdateFromMonsterLevel,
+    updateStatFromProfession,
+} from '../../helpers/stat-calculator';
 
 @Injectable({ providedIn: 'root' })
 export class HumanManagerService {
@@ -104,11 +108,18 @@ export class HumanManagerService {
     }
 
     levelUp$(name: string) {
+        const profession =
+            this.professionManagerService.getProfessionByName(name);
         return this.humanControllerService
             .update(this.human.id, {
                 level: this.human.level + 1,
-                ...this.getStatUpdateFromMonsterLevel(),
-                ...this.updateStatFromProfession(name, this.human),
+                ...getStatUpdateFromMonsterLevel(
+                    this.humanInTamedMonsterFormat
+                ),
+                ...updateStatFromProfession(
+                    profession,
+                    this.humanInTamedMonsterFormat
+                ),
             })
             .pipe(tap((human) => this._human$.next(human)));
     }
@@ -155,74 +166,5 @@ export class HumanManagerService {
             ProfessionName.Voleur,
             ProfessionName.Voyageur,
         ].map((name) => ({ name, level: 0, xp: 0, levelCap: 10 }));
-    }
-
-    private getStatUpdateFromMonsterLevel() {
-        const stats = [
-            'damage',
-            'damageSpecial',
-            'defense',
-            'defenseSpecial',
-            'precision',
-            'criticalChance',
-        ] as const;
-
-        const statPoints = 6;
-        const distribution: Record<(typeof stats)[number], number> = {
-            damage: 0,
-            damageSpecial: 0,
-            defense: 0,
-            defenseSpecial: 0,
-            precision: 0,
-            criticalChance: 0,
-        };
-
-        const currentStats = {
-            damage: this.human.damage,
-            damageSpecial: this.human.damageSpecial,
-            defense: this.human.defense,
-            defenseSpecial: this.human.defenseSpecial,
-            precision: this.human.precision,
-            criticalChance: this.human.criticalChance,
-        };
-
-        let pointsLeft = statPoints;
-        while (pointsLeft > 0) {
-            const availableStats = stats.filter(
-                (stat) =>
-                    currentStats[stat] + distribution[stat] <
-                    this.human.statCap[stat]
-            );
-            if (availableStats.length === 0) break;
-            const randomStat =
-                availableStats[
-                    Math.floor(Math.random() * availableStats.length)
-                ];
-
-            distribution[randomStat]++;
-            pointsLeft--;
-        }
-
-        return {
-            damage: currentStats.damage + distribution.damage,
-            damageSpecial:
-                currentStats.damageSpecial + distribution.damageSpecial,
-            defense: currentStats.defense + distribution.defense,
-            defenseSpecial:
-                currentStats.defenseSpecial + distribution.defenseSpecial,
-            precision: currentStats.precision + distribution.precision,
-            criticalChance:
-                currentStats.criticalChance + distribution.criticalChance,
-        };
-    }
-
-    private updateStatFromProfession(professionName: string, human: Human) {
-        const profession =
-            this.professionManagerService.getProfessionByName(professionName);
-        return {
-            [profession.value.stat]:
-                profession.value.value +
-                +human[profession.value.stat as keyof typeof human],
-        };
     }
 }

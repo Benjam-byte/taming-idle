@@ -6,10 +6,10 @@ import { HumanManagerService } from 'src/app/core/service/player/human-manager.s
 import { statIconDict, StatKey } from 'src/app/core/config/statIconDict';
 import { XpRangeComponent } from '../profession/xp-range/xp-range.component';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { RelicSelectionComponent } from './relic-selection/relic-selection.component';
 import { RelicManagerService } from 'src/app/core/service/player/relic-manager.service';
 import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 import { RoundToPipe } from '../../core/pipe/roundTo.pipe';
+import { RelicSelectionComponent } from 'src/app/core/components/relic-selection/relic-selection.component';
 
 @Component({
     selector: 'app-player-stat',

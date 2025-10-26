@@ -46,68 +46,9 @@
                 </div>
             </div>
             <div class="bottom">
-                <div class="stat">
-                    <div>
-                        <div class="line">
-                            <img [src]="statIconDict['damage']" alt="lol" />
-                            <p>{{ monster.damage }} dégat</p>
-                        </div>
-                        <div class="line">
-                            <img
-                                [src]="statIconDict['findingPercentage']"
-                                alt="findingPercentage"
-                            />
-                            <p>
-                                {{ monster.damageSpecial }}
-                                dégat spé
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="line">
-                            <img
-                                [src]="statIconDict['damage']"
-                                alt="findingPercentage"
-                            />
-                            <p>
-                                {{ monster.criticalChance }}
-                                critique
-                            </p>
-                        </div>
-                        <div class="line">
-                            <img
-                                [src]="statIconDict['findingPercentage']"
-                                alt="findingPercentage"
-                            />
-                            <p>
-                                {{ monster.defense }}
-                                defence
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="line">
-                            <img
-                                [src]="statIconDict['findingPercentage']"
-                                alt="findingPercentage"
-                            />
-                            <p>
-                                {{ monster.defenseSpecial }}
-                                def spé
-                            </p>
-                        </div>
-                        <div class="line">
-                            <img
-                                [src]="statIconDict['damage']"
-                                alt="findingPercentage"
-                            />
-                            <p>
-                                {{ monster.precision }}
-                                precision
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <button class="btn" (click)="openMonsterModal()">
+                    Voir plus
+                </button>
             </div>
             }
         </section>

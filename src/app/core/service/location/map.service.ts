@@ -73,6 +73,6 @@ export class MapManagerService {
 
     private updatePisteur(map: MapKey) {
         if (map === 'empty') return;
-        this.assignedMonsterManager.xpByProfessionName('Pisteur');
+        this.assignedMonsterManager.xpByProfessionName$('Pisteur').subscribe();
     }
 }

@@ -3,7 +3,7 @@ import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
 import { RegionManagerService } from '../location/region.service';
 import { TamedMonsterManagerService } from '../monster/tamed-monster-manager.service';
 import { HumanManagerService } from './human-manager.service';
-import { Observable, of, switchMap } from 'rxjs';
+import { map, mapTo, Observable, of, switchMap } from 'rxjs';
 import { Region } from 'src/app/database/region/region.type';
 import { calculateMathFunction } from '../../helpers/function/function';
 import { Function } from '../../models/functionType';
@@ -38,7 +38,7 @@ export class AssignedMonsterManagerService {
         } else {
             return this.tamedMonsterManager.getMonsterById(
                 this.regionManager.region.assignedMonsterId
-            ) as TamedMonster;
+            );
         }
     }
 
@@ -46,15 +46,13 @@ export class AssignedMonsterManagerService {
         return (this.regionManager.region$ as Observable<Region>).pipe(
             switchMap((region) => {
                 const assignedMonsterId = region.assignedMonsterId;
-                console.log(assignedMonsterId);
                 if (assignedMonsterId === PLAYER_ID) {
-                    console.log('assigned');
                     return this.humanManager.humanInTamedMonsterFormat$;
                 } else {
                     return of(
                         this.tamedMonsterManager.getMonsterById(
                             assignedMonsterId
-                        ) as TamedMonster
+                        )
                     );
                 }
             })
@@ -101,11 +99,17 @@ export class AssignedMonsterManagerService {
         return r;
     }
 
-    xpByProfessionName(name: string) {
+    xpByProfessionName$(name: string) {
         const profession = this.professionManager.getProfessionByName(name);
         const xpInfo = this.progress(profession);
-        if (this.assignedMonster.monsterSpecies === 'Terra larva') {
-            this.humanManager.xpProfession$(name, xpInfo).subscribe();
+        if (this.assignedMonster.monsterSpecies === PLAYER_ID) {
+            return this.humanManager
+                .xpProfession$(name, xpInfo)
+                .pipe(map(() => void 0));
+        } else {
+            return this.tamedMonsterManager
+                .xpProfession$(name, this.assignedMonster.id, xpInfo)
+                .pipe(map(() => void 0));
         }
     }
 

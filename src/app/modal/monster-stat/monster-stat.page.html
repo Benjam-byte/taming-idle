@@ -1,0 +1,180 @@
+@if(monster(); as monster){
+<app-modal-layout title="Votre monstre">
+    <div class="info">
+        <div class="image-wrapper">
+            <img class="perso-img" [src]="image()" alt="player" />
+        </div>
+        <div class="xp-wrapper">
+            <h2>{{monster.name}}</h2>
+            <div>
+                <p>Niveau</p>
+                <app-xp-range [currentXp]="monster.level" [maxXp]="90" />
+            </div>
+        </div>
+    </div>
+    <main>
+        <div class="combat-wrapper">
+            <h2>Profession</h2>
+            <div class="text-combat">
+                @for(profession of monster.availableProfession; track
+                profession){
+                <div class="stat-group">
+                    <p>{{profession.name}} lv{{profession.level}}</p>
+                    <app-xp-range
+                        [currentXp]="profession.xp"
+                        [maxXp]="maxXp(profession)"
+                    />
+                </div>
+                }
+            </div>
+        </div>
+        <div class="combat-wrapper">
+            <h2>Combat</h2>
+            <div class="text-combat">
+                <div class="stat-group">
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>{{ damage() }} Damage</p>
+                    </div>
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>{{ monster.damageSpecial }} Damage spé</p>
+                    </div>
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>{{ monster.defense }} Defense</p>
+                    </div>
+                </div>
+                <div class="stat-group">
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>{{ monster.defenseSpecial }} Defense spé</p>
+                    </div>
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>{{ monster.precision }} Précision</p>
+                    </div>
+                    <div class="line">
+                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <p>{{ monster.criticalChance }} Critique chance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="combat-wrapper">
+            <h2>Action</h2>
+            <div class="text-combat">
+                <div class="stat-group">
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['travellingSpeed']"
+                            alt="footsteps"
+                        />
+                        <p>{{ monster.travellingSpeed }}ms le deplacement</p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['fightingSpeed']"
+                            alt="damage"
+                        />
+                        <p>{{ monster.fightingSpeed }}ms l'attaque</p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['searchingSpeed']"
+                            alt="damage"
+                        />
+                        <p>{{ monster.lockPickingSpeed }}ms le crochetage</p>
+                    </div>
+                </div>
+
+                <div class="stat-group">
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['findingPercentage']"
+                            alt="findingPercentage"
+                        />
+                        <p>
+                            {{ monster.findingPercentage * 100 | roundTo : 2}}%
+                            de pister
+                        </p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['findingPercentage']"
+                            alt="findingPercentage"
+                        />
+                        <p>
+                            {{ monster.gatherNormalBonus * 100 - 100}}% de
+                            recolter
+                        </p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['findingPercentage']"
+                            alt="findingPercentage"
+                        />
+                        <p>
+                            {{ monster.gatherEnchantedBonus * 100 }}% de
+                            resource enchanté
+                        </p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['findingPercentage']"
+                            alt="findingPercentage"
+                        />
+                        <p>
+                            {{ monster.lootNormalBonus * 100 -100 }}% d'ame
+                            recolté
+                        </p>
+                    </div>
+                    <div class="line">
+                        <img
+                            [src]="statIconDict['findingPercentage']"
+                            alt="findingPercentage"
+                        />
+                        <p>
+                            {{ monster.lootEnchantedBonus * 100 }}% d'ame
+                            enchanté
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relic-container">
+            <div class="relic-header">
+                <h2>Relic</h2>
+                <p (click)="dissociate()">X</p>
+            </div>
+            <div class="relic-info">
+                <div
+                    class="relic-card"
+                    [class.unknown]="!relic()"
+                    (click)="select()"
+                >
+                    <img
+                        [src]="!relic() ? 'assets/icon/question.png' : relic()?.imagePath"
+                        alt="relic"
+                    />
+                </div>
+                <div>
+                    @if(relic(); as relic){
+                    <h3>{{relic.name}}</h3>
+                    <p class="rank">Rank : {{relic.rank}}</p>
+                    <p class="relic-description">{{relic.description}}</p>
+                    }
+                </div>
+            </div>
+            <div class="bonus-container">
+                <div class="line">
+                    <img [src]="relicBonusImagePath()" alt="damage" />
+                    <p>{{ relic()?.effet?.value }} {{relic()?.effet?.stat}}</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</app-modal-layout>
+}

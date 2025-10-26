@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ProfessionManagerService } from './profession-manager.service';
 import { LootController } from 'src/app/database/loot/loot.controller';
-import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, concatMap, map, Observable, of, tap } from 'rxjs';
 import { Loot } from 'src/app/database/loot/loot.type';
 import { RegionManagerService } from '../location/region.service';
 import { stochasticRound } from '../../helpers/rounding-function';
@@ -113,35 +113,27 @@ export class LootManagerService {
             .pipe(tap((loot) => this._loot$.next(loot)));
     }
 
-    addWheat$(value: number): Observable<Loot> {
+    addWheat$(value: number) {
+        this.assignedMonsterManagerService
+            .xpByProfessionName$('Fermier')
+            .subscribe();
         return this.lootControllerService
             .update(this.loot.id, {
                 wheatQuantity: value + this.loot.wheatQuantity,
             })
-            .pipe(
-                tap((loot) => {
-                    this.assignedMonsterManagerService.xpByProfessionName(
-                        'Fermier'
-                    );
-                    this._loot$.next(loot);
-                })
-            );
+            .pipe(tap((loot) => this._loot$.next(loot)));
     }
 
-    addEnchantedWheat$(value: number): Observable<Loot> {
+    addEnchantedWheat$(value: number) {
+        this.assignedMonsterManagerService
+            .xpByProfessionName$('Fermier')
+            .subscribe();
         return this.lootControllerService
             .update(this.loot.id, {
                 enchantedWheatQuantity:
                     value + this.loot.enchantedWheatQuantity,
             })
-            .pipe(
-                tap((loot) => {
-                    this.assignedMonsterManagerService.xpByProfessionName(
-                        'Fermier'
-                    );
-                    this._loot$.next(loot);
-                })
-            );
+            .pipe(tap((loot) => this._loot$.next(loot)));
     }
 
     paidWheat$(wheat: number): Observable<Loot> {

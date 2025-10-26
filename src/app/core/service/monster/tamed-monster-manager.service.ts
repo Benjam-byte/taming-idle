@@ -1,6 +1,16 @@
 import { inject, Injectable } from '@angular/core';
 import { TamedMonsterController } from 'src/app/database/tamedMonster/tamed-monster.controller';
-import { BehaviorSubject, map, of, tap } from 'rxjs';
+import {
+    BehaviorSubject,
+    map,
+    of,
+    tap,
+    filter,
+    Observable,
+    switchMap,
+    iif,
+    EMPTY,
+} from 'rxjs';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
 import { BestiaryManagerService } from './bestiary-manager.service';
@@ -14,6 +24,12 @@ import {
     CombatStatKey,
 } from '../../models/monsterData';
 import { ProfessionName } from '../../enum/profession-name.enum';
+import { XpInfo } from '../../models/xpInfo';
+import {
+    getStatUpdateFromMonsterLevel,
+    updateStatFromProfession,
+} from '../../helpers/stat-calculator';
+import { ProfessionManagerService } from '../player/profession-manager.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,6 +37,7 @@ import { ProfessionName } from '../../enum/profession-name.enum';
 export class TamedMonsterManagerService {
     tamedMonsterController = inject(TamedMonsterController);
     bestiaryManager = inject(BestiaryManagerService);
+    professionManager = inject(ProfessionManagerService);
     broadcastService = inject(BroadcastService);
 
     private _tamedMonsterList$!: BehaviorSubject<TamedMonster[]>;
@@ -55,7 +72,22 @@ export class TamedMonsterManagerService {
     }
 
     getMonsterById(id: string) {
-        return this.tamedMonsterList.find((monster) => monster.id === id);
+        const monster = this.tamedMonsterList.find(
+            (monster) => monster.id === id
+        );
+        if (!monster) throw new Error('monster not found');
+        return monster;
+    }
+
+    getMonsterById$(id: string): Observable<TamedMonster> {
+        return this._tamedMonsterList$.pipe(
+            filter(
+                (monsterList): monsterList is TamedMonster[] => !!monsterList
+            ),
+            map((monsterList) =>
+                monsterList.find((monster) => monster.id === id)
+            )
+        ) as Observable<TamedMonster>;
     }
 
     tameMonster$(monster: MonsterProfile) {
@@ -72,6 +104,60 @@ export class TamedMonsterManagerService {
         const monster = this.bestiaryManager.getMonsterByName(name);
         if (!monster) throw new Error('Monster not found');
         return this.tameMonster$(monster);
+    }
+
+    associateRelic$(monsterId: string, relicId: string) {
+        return this.tamedMonsterController
+            .updateOne(monsterId, {
+                relicId,
+            })
+            .pipe(
+                tap((monsterList) => this._tamedMonsterList$.next(monsterList))
+            );
+    }
+
+    xpProfession$(professionName: string, monsterId: string, xpInfo: XpInfo) {
+        const monster = this.getMonsterById(monsterId);
+        const next = monster.availableProfession.map((monsterProfession) =>
+            monsterProfession.name === professionName
+                ? {
+                      ...monsterProfession,
+                      xp: xpInfo.newXp,
+                      level: Math.min(
+                          xpInfo.newLevel,
+                          monsterProfession.levelCap
+                      ),
+                  }
+                : monsterProfession
+        );
+        return this.tamedMonsterController
+            .updateOne(monster.id, {
+                availableProfession: next,
+            })
+            .pipe(
+                tap((monsterList) => this._tamedMonsterList$.next(monsterList)),
+                switchMap(() =>
+                    iif(
+                        () => xpInfo.isLevelUp,
+                        this.levelUp$(professionName, monster),
+                        EMPTY
+                    )
+                )
+            );
+    }
+
+    levelUp$(professionName: string, monster: TamedMonster) {
+        const profession =
+            this.professionManager.getProfessionByName(professionName);
+        return this.tamedMonsterController
+            .updateOne(monster.id, {
+                level: monster.level + 1,
+                ...getStatUpdateFromMonsterLevel(monster),
+                ...updateStatFromProfession(profession, monster),
+            })
+            .pipe(
+                tap((monsterList) => this._tamedMonsterList$.next(monsterList))
+            );
     }
 
     private createTamedMonster(

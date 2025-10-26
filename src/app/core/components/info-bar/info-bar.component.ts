@@ -9,6 +9,7 @@ import { RegionManagerService } from '../../service/location/region.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TamedMonsterManagerService } from '../../service/monster/tamed-monster-manager.service';
 import { AssignedMonsterManagerService } from '../../service/player/assigned-monster-manager.service';
+import { MonsterStatPage } from 'src/app/modal/monster-stat/monster-stat.page';
 
 @Component({
     selector: 'app-info-bar',
@@ -28,10 +29,13 @@ export class InfoBarComponent {
 
     async openPlayerModal() {
         const modal = await this.modalCtrl.create({
-            component: PlayerStatPage,
+            component: MonsterStatPage,
             cssClass: 'full-screen-modal',
             backdropDismiss: true,
             showBackdrop: true,
+            componentProps: {
+                monsterId: this.assignedMonsterManager.assignedMonster.id,
+            },
         });
 
         modal.present();
