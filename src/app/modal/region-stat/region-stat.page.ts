@@ -11,6 +11,7 @@ import { AssignedMonsterManagerService } from 'src/app/core/service/player/assig
 import { TamedMonsterManagerService } from 'src/app/core/service/monster/tamed-monster-manager.service';
 import { ActifMonsterSelectionComponent } from './actif-monster-selection/actif-monster-selection.component';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
+import { AutoPilotService } from 'src/app/core/service/auto-pilot';
 @Component({
     selector: 'app-region-stat',
     templateUrl: './region-stat.page.html',
@@ -30,6 +31,7 @@ export class RegionStatPage {
     assignedMonsterManager = inject(AssignedMonsterManagerService);
     tamedMonsterManager = inject(TamedMonsterManagerService);
     humanManager = inject(HumanManagerService);
+    autoPilotService = inject(AutoPilotService);
     statIconDict = statIconDict;
 
     close() {
@@ -57,7 +59,11 @@ export class RegionStatPage {
         if (data) {
             this.regionManager
                 .updateSelectedRegionAssignedMonster$(data)
-                .subscribe();
+                .subscribe(() =>
+                    this.autoPilotService.toggleAutoPilote(
+                        data === 'Terra larva'
+                    )
+                );
         }
     }
 }

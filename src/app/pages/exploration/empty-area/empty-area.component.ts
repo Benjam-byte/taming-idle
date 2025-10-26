@@ -16,12 +16,14 @@ import { Egg } from 'src/app/database/egg/egg.type';
 import { EggManagerService } from 'src/app/core/service/monster/egg-manager.service';
 import { ResourceType } from 'src/app/core/enum/resource.enum';
 import { AssignedMonsterManagerService } from 'src/app/core/service/player/assigned-monster-manager.service';
+import { AutoPilotService } from 'src/app/core/service/auto-pilot';
+import { MonsterSpriteComponent } from 'src/app/core/components/monster-sprite/monster-sprite.component';
 
 @Component({
     selector: 'app-empty-area',
     templateUrl: './empty-area.component.html',
     styleUrls: ['./empty-area.component.scss'],
-    imports: [],
+    imports: [MonsterSpriteComponent],
 })
 export class EmptyAreaComponent {
     lootManager = inject(LootManagerService);
@@ -31,6 +33,7 @@ export class EmptyAreaComponent {
     gameEngineService = inject(GameEngineService);
     clickEffectService = inject(ClickEffectService);
     broadcastMessageService = inject(BroadcastService);
+    autoPilotService = inject(AutoPilotService);
 
     host = inject(ElementRef<HTMLElement>);
     position!: { top: string; left: string };

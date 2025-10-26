@@ -16,6 +16,7 @@
     />
     }
 </section>
+@if(autoPilotService.isActive){
 <div class="left" [class]="{ bounce: isActive() }" (click)="travel('left')">
     <div class="arrow-wrapper">
         <img
@@ -50,3 +51,10 @@
         <div class="mask half-rotate" [class]="{ fade: isFadingTop() }"></div>
     </div>
 </div>
+
+} @else{
+<app-monster-sprite
+    spritePath="assets/monster/sprite/slime/SpriteSheet_Slime_Base_Dos.avif"
+    class="no-click no-select back"
+/>
+}

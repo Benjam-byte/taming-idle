@@ -15,6 +15,7 @@ import { RelicListPage } from 'src/app/modal/relic-list/relic-list.page';
 import { ProfessionComponent } from 'src/app/modal/profession/profession.component';
 import { RessourcePanelComponent } from './ressource-panel/ressource-panel.component';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
+import { AutoPilotService } from 'src/app/core/service/auto-pilot';
 
 @Component({
     selector: 'app-exploration',
@@ -37,6 +38,7 @@ export class ExplorationPage {
     modalCtrl = inject(ModalController);
     worldService = inject(WorldManagerService);
     lootManagerService = inject(LootManagerService);
+    autoPilot = inject(AutoPilotService);
     currentMap = this.mapService.map;
 
     travelCountDown$ = this.gameEngineService.getTravelCountDown$();

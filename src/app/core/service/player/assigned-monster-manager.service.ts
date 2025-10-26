@@ -3,7 +3,7 @@ import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
 import { RegionManagerService } from '../location/region.service';
 import { TamedMonsterManagerService } from '../monster/tamed-monster-manager.service';
 import { HumanManagerService } from './human-manager.service';
-import { map, mapTo, Observable, of, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 import { Region } from 'src/app/database/region/region.type';
 import { calculateMathFunction } from '../../helpers/function/function';
 import { Function } from '../../models/functionType';
@@ -13,6 +13,7 @@ import { ProfessionManagerService } from './profession-manager.service';
 import { XpInfo } from '../../models/xpInfo';
 import { RelicManagerService } from './relic-manager.service';
 import { rollCompoundChance } from '../../helpers/proba-rolls';
+import { ProfessionName } from '../../enum/profession-name.enum';
 
 const XP_STEP = 1;
 const PLAYER_ID = 'Terra larva';
@@ -100,6 +101,12 @@ export class AssignedMonsterManagerService {
     }
 
     xpByProfessionName$(name: string) {
+        if (
+            !this.assignedMonster.availableProfession
+                .map((profession) => profession.name)
+                .includes(name as ProfessionName)
+        )
+            return of();
         const profession = this.professionManager.getProfessionByName(name);
         const xpInfo = this.progress(profession);
         if (this.assignedMonster.monsterSpecies === PLAYER_ID) {
@@ -144,6 +151,8 @@ export class AssignedMonsterManagerService {
         monster: TamedMonster,
         name: string
     ) {
+        console.log(monster);
+        console.log(name);
         const profession = monster.availableProfession.find(
             (profession) => profession.name === name
         );
