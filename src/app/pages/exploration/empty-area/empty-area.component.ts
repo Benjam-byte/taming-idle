@@ -12,7 +12,6 @@ import { LootManagerService } from 'src/app/core/service/player/loot-manager.ser
 import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MapManagerService } from 'src/app/core/service/location/map.service';
-import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { Egg } from 'src/app/database/egg/egg.type';
 import { EggManagerService } from 'src/app/core/service/monster/egg-manager.service';
 import { ResourceType } from 'src/app/core/enum/resource.enum';

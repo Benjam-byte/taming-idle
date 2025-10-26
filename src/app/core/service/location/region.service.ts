@@ -1,21 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import {
-    BehaviorSubject,
-    filter,
-    map,
-    Observable,
-    of,
-    switchMap,
-    tap,
-} from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, of, tap } from 'rxjs';
 import { RegionController } from 'src/app/database/region/region.controller';
 import { Region } from 'src/app/database/region/region.type';
 import { BestiaryManagerService } from '../monster/bestiary-manager.service';
 import Monster from '../../value-object/monster';
 import { roll } from '../../helpers/proba-rolls';
 import { TamedMonsterManagerService } from '../monster/tamed-monster-manager.service';
-import { HumanManagerService } from '../player/human-manager.service';
-import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +14,6 @@ export class RegionManagerService {
     regionControllerService = inject(RegionController);
     bestiaryManagerService = inject(BestiaryManagerService);
     tamedMonsterManagerService = inject(TamedMonsterManagerService);
-    humanManagerService = inject(HumanManagerService);
 
     private _region$!: BehaviorSubject<Region>;
 

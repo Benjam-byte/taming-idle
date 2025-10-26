@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { GameEngineService } from '../game-engine.service';
 import { MapManagerService } from '../location/map.service';
-import { HumanManagerService } from '../player/human-manager.service';
 import { AssignedMonsterManagerService } from '../player/assigned-monster-manager.service';
 
 @Injectable({

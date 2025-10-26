@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RelicManagerService } from 'src/app/core/service/player/relic-manager.service';
 import { Relics } from 'src/app/database/relics/relics.type';
-import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 
 @Component({
@@ -15,7 +14,6 @@ import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 })
 export class RelicListPage {
     relicManagerService = inject(RelicManagerService);
-    humanManagerService = inject(HumanManagerService);
 
     readonly selectedId = signal<string | undefined>(undefined);
 

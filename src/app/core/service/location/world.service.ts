@@ -1,10 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { WorldController } from 'src/app/database/world/world.controller';
-import { BehaviorSubject, concat, concatWith, map, of, tap } from 'rxjs';
+import { BehaviorSubject, concatWith, map, of, tap } from 'rxjs';
 import { World } from 'src/app/database/world/world.type';
 import { RegionManagerService } from './region.service';
-import { HumanManagerService } from '../player/human-manager.service';
 import { RelicManagerService } from '../player/relic-manager.service';
 
 @Injectable({
@@ -13,7 +12,6 @@ import { RelicManagerService } from '../player/relic-manager.service';
 export class WorldManagerService {
     broadcastMessageService = inject(BroadcastService);
     worldControllerService = inject(WorldController);
-    humanManagerService = inject(HumanManagerService);
     relicManagerService = inject(RelicManagerService);
     regionService = inject(RegionManagerService);
 
