@@ -1,0 +1,29 @@
+<div class="header">
+    <h2>monstre Disponible</h2>
+    <p (click)="close()">X</p>
+</div>
+<div class="monster-list-container">
+    @if(tamedMonsterList.length === 0){
+    <p>Aucune monstre disponible</p>
+    } @for(monster of tamedMonsterList; track monster.name){
+    <div
+        class="monster-card"
+        [class.selected]="selectedId() === monster.id"
+        (click)="select(monster.id)"
+    >
+        <img
+            [src]="getImageFromMonster(monster.monsterSpecies)"
+            alt="monster"
+        />
+    </div>
+    }
+</div>
+<div class="centered">
+    <button
+        class="btn"
+        [disabled]="!selectedId()"
+        (click)="associate(selectedId())"
+    >
+        Confirmer
+    </button>
+</div>

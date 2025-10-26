@@ -81,33 +81,6 @@ export class RegionManagerService {
         return new Monster(monster, isEnchanted);
     }
 
-    assignedMonster() {
-        if (this.region.assignedMonsterId) {
-            return this.tamedMonsterManagerService.getMonsterById(
-                this.region.assignedMonsterId
-            ) as TamedMonster;
-        } else {
-            return this.humanManagerService.humanInTamedMonsterFormat;
-        }
-    }
-
-    assignedMonster$() {
-        return this._region$.pipe(
-            switchMap((region) => {
-                const assignedMonsterId = region.assignedMonsterId;
-                if (assignedMonsterId) {
-                    return of(
-                        this.tamedMonsterManagerService.getMonsterById(
-                            assignedMonsterId
-                        ) as TamedMonster
-                    );
-                } else {
-                    return this.humanManagerService.humanInTamedMonsterFormat$;
-                }
-            })
-        );
-    }
-
     init$() {
         return this.regionControllerService
             .getSelected()
@@ -156,6 +129,14 @@ export class RegionManagerService {
         return this.regionControllerService
             .updateOne(this.region.id, {
                 eggSpawnRate: this.region.eggSpawnRate + value,
+            })
+            .pipe(tap((region) => this._region$.next(region)));
+    }
+
+    updateSelectedRegionAssignedMonster$(monsterId: string) {
+        return this.regionControllerService
+            .updateOne(this.region.id, {
+                assignedMonsterId: monsterId,
             })
             .pipe(tap((region) => this._region$.next(region)));
     }

@@ -8,6 +8,7 @@ import { RoundToPipe } from '../../pipe/roundTo.pipe';
 import { RegionManagerService } from '../../service/location/region.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TamedMonsterManagerService } from '../../service/monster/tamed-monster-manager.service';
+import { AssignedMonsterManagerService } from '../../service/player/assigned-monster-manager.service';
 
 @Component({
     selector: 'app-info-bar',
@@ -19,11 +20,11 @@ import { TamedMonsterManagerService } from '../../service/monster/tamed-monster-
 export class InfoBarComponent {
     modalCtrl = inject(ModalController);
     lootManagerService = inject(LootManagerService);
-    regionManagerService = inject(RegionManagerService);
-    tamedMonsterManagerService = inject(TamedMonsterManagerService);
+    assignedMonsterManager = inject(AssignedMonsterManagerService);
+    tamedMonsterManager = inject(TamedMonsterManagerService);
     combatTowerManagerService = inject(CombatTowerManagerService);
 
-    assignedMonster = toSignal(this.regionManagerService.assignedMonster$());
+    assignedMonster = toSignal(this.assignedMonsterManager.assignedMonster$);
 
     async openPlayerModal() {
         const modal = await this.modalCtrl.create({
@@ -37,6 +38,6 @@ export class InfoBarComponent {
     }
 
     getImage(name: string) {
-        return this.tamedMonsterManagerService.getImageFromMonster(name);
+        return this.tamedMonsterManager.getImageFromMonster(name);
     }
 }

@@ -6,14 +6,14 @@
             <div>
                 <p>Niveau</p>
                 <app-xp-range
-                    [currentXp]="(combatTowerManagerService.combatTower$ | async)?.level ?? 0"
+                    [currentXp]="(combatTowerManager.combatTower$ | async)?.level ?? 0"
                     [maxXp]="70"
                 />
             </div>
         </div>
     </div>
     <main>
-        @if(regionService.region$ | async; as region) {
+        @if(regionManager.region$ | async; as region) {
         <div class="combat-wrapper">
             <h2>Combat</h2>
             <div class="text-combat">
@@ -101,6 +101,31 @@
                             tresor
                         </p>
                     </div>
+                </div>
+            </div>
+        </div>
+        } @if(assignedMonsterManager.assignedMonster$ | async; as monster){
+
+        <div class="combat-wrapper">
+            <div class="actif-header">
+                <h2>Actif Monster</h2>
+                <img
+                    class="swap"
+                    src="assets/icon/swap.png"
+                    alt="swp"
+                    (click)="swapActifMonster()"
+                />
+            </div>
+            <div class="row">
+                <div class="image-wrapper">
+                    <img
+                        [src]="tamedMonsterManager.getImageFromMonster(monster.monsterSpecies).base"
+                        alt="monster"
+                    />
+                </div>
+                <div class="column">
+                    <h3>{{monster.name}}</h3>
+                    <app-xp-range [currentXp]="monster.level" [maxXp]="90" />
                 </div>
             </div>
         </div>

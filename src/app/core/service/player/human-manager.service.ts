@@ -115,7 +115,7 @@ export class HumanManagerService {
 
     private toTamedMonsterFormat(human: Human): TamedMonster {
         return {
-            id: '0',
+            id: 'Terra larva',
             index: 0,
             monsterSpecies: 'Terra larva',
             monsterId: 'Terra_larva',

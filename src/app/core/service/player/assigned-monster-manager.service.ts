@@ -15,6 +15,7 @@ import { RelicManagerService } from './relic-manager.service';
 import { rollCompoundChance } from '../../helpers/proba-rolls';
 
 const XP_STEP = 1;
+const PLAYER_ID = 'Terra larva';
 
 @Injectable({
     providedIn: 'root',
@@ -32,12 +33,12 @@ export class AssignedMonsterManagerService {
     nextSearchTime = Date.now();
 
     get assignedMonster() {
-        if (this.regionManager.region.assignedMonsterId) {
+        if (this.regionManager.region.assignedMonsterId === PLAYER_ID) {
+            return this.humanManager.humanInTamedMonsterFormat;
+        } else {
             return this.tamedMonsterManager.getMonsterById(
                 this.regionManager.region.assignedMonsterId
             ) as TamedMonster;
-        } else {
-            return this.humanManager.humanInTamedMonsterFormat;
         }
     }
 
@@ -45,14 +46,16 @@ export class AssignedMonsterManagerService {
         return (this.regionManager.region$ as Observable<Region>).pipe(
             switchMap((region) => {
                 const assignedMonsterId = region.assignedMonsterId;
-                if (assignedMonsterId) {
+                console.log(assignedMonsterId);
+                if (assignedMonsterId === PLAYER_ID) {
+                    console.log('assigned');
+                    return this.humanManager.humanInTamedMonsterFormat$;
+                } else {
                     return of(
                         this.tamedMonsterManager.getMonsterById(
                             assignedMonsterId
                         ) as TamedMonster
                     );
-                } else {
-                    return this.humanManager.humanInTamedMonsterFormat$;
                 }
             })
         );

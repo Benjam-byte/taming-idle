@@ -74,3 +74,33 @@ p {
     height: 100%;
     padding: 20px 0px;
 }
+
+.image-wrapper {
+    background-color: rgb(99, 33, 7);
+    outline: 2px solid rgb(37, 19, 2);
+    border-radius: 5px;
+    max-width: 33%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    width: 100%;
+}
+
+.swap {
+    width: 30px;
+}
+
+.actif-header {
+    display: flex;
+    justify-content: space-between;
+}
