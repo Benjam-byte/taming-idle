@@ -170,11 +170,15 @@ export class TamedMonsterManagerService {
             travellingSpeed: 2000,
             fightingSpeed: 2000,
             lockPickingSpeed: 1000,
-            gatherNormalBonus: 1,
+            gatherNormalBonus: this.canFarm(monster.availableProfession)
+                ? 1
+                : 0,
             gatherEnchantedBonus: 0.5,
-            lootNormalBonus: 1,
+            lootNormalBonus: this.canFight(monster.availableProfession) ? 1 : 0,
             lootEnchantedBonus: 0.5,
-            findingPercentage: 0.05,
+            findingPercentage: this.canPist(monster.availableProfession)
+                ? 0.05
+                : 0,
             relicId: '',
             level: 1,
             damage: 1,
@@ -191,6 +195,18 @@ export class TamedMonsterManagerService {
             monsterId: monster.id,
         };
         return tamedMonster;
+    }
+
+    private canFarm(professionList: ProfessionName[]) {
+        return professionList.includes(ProfessionName.Fermier);
+    }
+
+    private canFight(professionList: ProfessionName[]) {
+        return professionList.includes(ProfessionName.Guerrier);
+    }
+
+    private canPist(professionList: ProfessionName[]) {
+        return professionList.includes(ProfessionName.Pisteur);
     }
 
     private generateProfession(professionList: ProfessionName[]) {
