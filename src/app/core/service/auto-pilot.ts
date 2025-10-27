@@ -2,13 +2,17 @@ import { inject, Injectable } from '@angular/core';
 import { GameEngineService } from './game-engine.service';
 import { sampleTime, Subscription } from 'rxjs';
 import { AssignedMonsterManagerService } from './player/assigned-monster-manager.service';
+import { MapManagerService } from './location/map.service';
+import { GatherFacade } from 'src/app/pages/exploration/empty-area/gather-facade';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AutoPilotService {
     gameEnginService = inject(GameEngineService);
+    mapManager = inject(MapManagerService);
     assignedMonsterManager = inject(AssignedMonsterManagerService);
+    gatherFacade = inject(GatherFacade);
     private autoPilotSub?: Subscription;
     isActive = true;
 
@@ -33,14 +37,30 @@ export class AutoPilotService {
                 )
             )
             .subscribe(() => {
-                this.gameEnginService.submitEventByType('travel', {
-                    direction: 'left',
-                });
+                this.autoMapAction();
             });
     }
 
     deactivateAutoPilote() {
         this.autoPilotSub?.unsubscribe();
         this.autoPilotSub = undefined;
+    }
+
+    private autoMapAction() {
+        const map = this.mapManager.map().map;
+        switch (map) {
+            case 'empty':
+                this.gatherFacade.collectWheatFromAuto();
+                this.gameEnginService.submitEventByType('travel', {
+                    direction: 'left',
+                });
+                break;
+            case 'monster':
+                this.gameEnginService.submitEventByType('flee');
+                break;
+            case 'tresor':
+                this.gameEnginService.submitEventByType('skip');
+                break;
+        }
     }
 }

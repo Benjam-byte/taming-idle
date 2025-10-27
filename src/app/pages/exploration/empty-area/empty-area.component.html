@@ -1,17 +1,17 @@
 <section class="full centered" (click)="onClick($event)">
-    @if(loot.quantity !== 0){
+    @if(loot().quantity !== 0){
     <img
-        (click)="collect($event, loot.resource)"
-        [src]="`assets/object/${loot.resource}.webp`"
-        [style]="{ left: position.left, top: position.top }"
+        (click)="collect($event)"
+        [src]="`assets/object/${loot().resource}.webp`"
+        [style]="{ left: position().left, top: position().top }"
         alt="wheat"
     />
-    } @if(egg){
+    } @if(egg(); as egg){
     <img
         class="egg"
         (click)="collectEgg($event)"
         [src]="egg.image"
-        [style]="{ left: eggPosition.left, top: eggPosition.top }"
+        [style]="{ left: eggPosition().left, top: eggPosition().top }"
         alt="egg"
     />
     }

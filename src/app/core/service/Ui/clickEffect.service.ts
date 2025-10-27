@@ -46,12 +46,39 @@ export class ClickEffectService {
         }, 600);
     }
 
+    spawnCollectEffectFromAuto(event: { x: number; y: number }, value: number) {
+        const pickupText = document.createElement('div');
+        pickupText.className = 'pickup-text';
+        pickupText.textContent = '+' + value;
+        pickupText.style.left = `${event.x}px`;
+        pickupText.style.top = `${event.y}px`;
+        document.body.appendChild(pickupText);
+        setTimeout(() => {
+            pickupText.remove();
+        }, 600);
+    }
+
     spawnCollectEggEffect(event: MouseEvent, value: number) {
         const pickupText = document.createElement('div');
         pickupText.className = 'egg-text';
         pickupText.textContent = '+' + value;
         pickupText.style.left = `${event.clientX}px`;
         pickupText.style.top = `${event.clientY}px`;
+        document.body.appendChild(pickupText);
+        setTimeout(() => {
+            pickupText.remove();
+        }, 600);
+    }
+
+    spawnCollectEggEffectFromAuto(
+        event: { x: number; y: number },
+        value: number
+    ) {
+        const pickupText = document.createElement('div');
+        pickupText.className = 'egg-text';
+        pickupText.textContent = '+' + value;
+        pickupText.style.left = `${event.x}px`;
+        pickupText.style.top = `${event.y}px`;
         document.body.appendChild(pickupText);
         setTimeout(() => {
             pickupText.remove();

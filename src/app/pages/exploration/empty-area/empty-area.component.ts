@@ -8,16 +8,13 @@ import {
 } from '@angular/core';
 import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
-import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MapManagerService } from 'src/app/core/service/location/map.service';
-import { Egg } from 'src/app/database/egg/egg.type';
-import { EggManagerService } from 'src/app/core/service/monster/egg-manager.service';
-import { ResourceType } from 'src/app/core/enum/resource.enum';
 import { AssignedMonsterManagerService } from 'src/app/core/service/player/assigned-monster-manager.service';
 import { AutoPilotService } from 'src/app/core/service/auto-pilot';
 import { MonsterSpriteComponent } from 'src/app/core/components/monster-sprite/monster-sprite.component';
+import { GatherFacade } from './gather-facade';
 
 @Component({
     selector: 'app-empty-area',
@@ -26,18 +23,18 @@ import { MonsterSpriteComponent } from 'src/app/core/components/monster-sprite/m
     imports: [MonsterSpriteComponent],
 })
 export class EmptyAreaComponent {
-    lootManager = inject(LootManagerService);
-    eggManagerService = inject(EggManagerService);
+    gatherFacade = inject(GatherFacade);
     mapManagerService = inject(MapManagerService);
     assignedMonsterManager = inject(AssignedMonsterManagerService);
     gameEngineService = inject(GameEngineService);
     clickEffectService = inject(ClickEffectService);
     broadcastMessageService = inject(BroadcastService);
     autoPilotService = inject(AutoPilotService);
+    hostRef = inject(ElementRef<HTMLElement>);
 
-    host = inject(ElementRef<HTMLElement>);
-    position!: { top: string; left: string };
-    loot!: { resource: string; quantity: number };
+    host = this.gatherFacade.host;
+    position = this.gatherFacade.lootPosition;
+    loot = this.gatherFacade.loot;
 
     countDown = toSignal(this.gameEngineService.getTravelCountDown$());
     isActive = computed(() => this.countDown() === 0);
@@ -46,8 +43,8 @@ export class EmptyAreaComponent {
     showLeftSucces = signal(false);
     showTopSucces = signal(false);
 
-    egg: Omit<Egg, 'id'> | null = null;
-    eggPosition!: { top: string; left: string };
+    egg = this.gatherFacade.egg;
+    eggPosition = this.gatherFacade.eggPosition;
 
     isFadingRight = computed(() => {
         if (this.showRightSucces()) return true;
@@ -82,27 +79,12 @@ export class EmptyAreaComponent {
     });
 
     constructor() {
+        this.gatherFacade.setHost(this.hostRef);
         effect(() => {
             this.mapManagerService.map();
-            this.createWheat();
-            this.createEgg();
+            this.gatherFacade.updateWheat();
+            this.gatherFacade.updateEgg();
         });
-    }
-
-    createEgg() {
-        this.eggPosition = this.getRandomPositionStyle(
-            this.host.nativeElement.getBoundingClientRect().width,
-            this.host.nativeElement.getBoundingClientRect().height
-        );
-        this.egg = this.eggManagerService.rollOneEgg();
-    }
-
-    createWheat() {
-        this.position = this.getRandomPositionStyle(
-            this.host.nativeElement.getBoundingClientRect().width,
-            this.host.nativeElement.getBoundingClientRect().height
-        );
-        this.loot = this.lootManager.getResource();
     }
 
     travel(value: string) {
@@ -112,28 +94,16 @@ export class EmptyAreaComponent {
         });
     }
 
-    collect(event: MouseEvent, resource: string) {
+    collect(event: MouseEvent) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        if (this.loot.quantity > 0) {
-            this.clickEffectService.spawnCollectEffect(event, 1);
-            this.loot.quantity = this.loot.quantity - 1;
-            if (resource === ResourceType.Wheat)
-                this.lootManager.addWheat$(1).subscribe();
-            if (resource === ResourceType.EnchantedWheat)
-                this.lootManager.addEnchantedWheat$(1).subscribe();
-        }
+        this.gatherFacade.collectWheat(event);
     }
 
     collectEgg(event: MouseEvent) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        if (this.egg) {
-            this.clickEffectService.spawnCollectEggEffect(event, 1);
-            this.eggManagerService
-                .addOneEgg$(this.egg)
-                .subscribe(() => (this.egg = null));
-        }
+        this.gatherFacade.collectEgg(event);
     }
 
     onClick(event: MouseEvent) {
