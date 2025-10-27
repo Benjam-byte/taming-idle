@@ -16,7 +16,7 @@
     />
     }
 </section>
-@if(autoPilotService.isActive){
+@if(!autoPilotService.isActive){
 <div class="left" [class]="{ bounce: isActive() }" (click)="travel('left')">
     <div class="arrow-wrapper">
         <img

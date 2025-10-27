@@ -14,21 +14,22 @@ export class AutoPilotService {
     assignedMonsterManager = inject(AssignedMonsterManagerService);
     gatherFacade = inject(GatherFacade);
     private autoPilotSub?: Subscription;
-    isActive = true;
+    isActive!: boolean;
 
     constructor() {
         if (this.assignedMonsterManager.assignedMonster.name === 'Terra larva')
-            this.isActive = false;
-        this.toggleAutoPilote(!this.isActive);
+            this.toggleAutoPilote(false);
+        else this.toggleAutoPilote(true);
     }
 
     toggleAutoPilote(value: boolean) {
         this.isActive = value;
-        this.isActive ? this.deactivateAutoPilote() : this.activateAutoPilote();
+        console.log(this.isActive);
+        this.isActive ? this.activateAutoPilote() : this.deactivateAutoPilote();
     }
 
     activateAutoPilote() {
-        if (this.isActive) return;
+        console.log('wtf');
         this.autoPilotSub = this.gameEnginService
             .getTick$()
             .pipe(

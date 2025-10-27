@@ -57,6 +57,7 @@ export class RegionStatPage {
 
         const { data } = await modal.onWillDismiss();
         if (data) {
+            console.log('fuck');
             this.regionManager
                 .updateSelectedRegionAssignedMonster$(data)
                 .subscribe(() =>
