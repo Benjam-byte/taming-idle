@@ -17,7 +17,10 @@ export class AutoPilotService {
     isActive!: boolean;
 
     constructor() {
-        if (this.assignedMonsterManager.assignedMonster.name === 'Terra larva')
+        if (
+            this.assignedMonsterManager.assignedMonster.monsterSpecies ===
+            'Terra larva'
+        )
             this.toggleAutoPilote(false);
         else this.toggleAutoPilote(true);
     }
@@ -43,6 +46,7 @@ export class AutoPilotService {
     }
 
     deactivateAutoPilote() {
+        console.log('deactivated');
         this.autoPilotSub?.unsubscribe();
         this.autoPilotSub = undefined;
     }

@@ -16,6 +16,7 @@ import { ProfessionComponent } from 'src/app/modal/profession/profession.compone
 import { RessourcePanelComponent } from './ressource-panel/ressource-panel.component';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 import { AutoPilotService } from 'src/app/core/service/auto-pilot';
+import { FlashOverlayComponent } from 'src/app/core/components/flash-overlay/flash-overlay.component';
 
 @Component({
     selector: 'app-exploration',
@@ -30,6 +31,7 @@ import { AutoPilotService } from 'src/app/core/service/auto-pilot';
         InfoBarComponent,
         InfoFooterComponent,
         RessourcePanelComponent,
+        FlashOverlayComponent,
     ],
 })
 export class ExplorationPage {

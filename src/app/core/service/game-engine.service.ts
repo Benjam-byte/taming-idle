@@ -11,6 +11,7 @@ import {
 import { MapManagerService } from './location/map.service';
 import { WorldManagerService } from './location/world.service';
 import { AssignedMonsterManagerService } from './player/assigned-monster-manager.service';
+import { FlashOverlayService } from './Ui/flash-overlay';
 
 @Injectable({
     providedIn: 'root',
@@ -20,6 +21,7 @@ export class GameEngineService {
     mapService = inject(MapManagerService);
     worldService = inject(WorldManagerService);
     gameLoopService = inject(GameLoopService);
+    flashOverlay = inject(FlashOverlayService);
 
     constructor() {
         this.gameLoopService.start();
@@ -66,17 +68,40 @@ export class GameEngineService {
                     this.assignedMonsterManager
                         .xpByProfessionName$('Voyageur')
                         .subscribe();
-                    this.mapService.travelWhere(event.payload.direction);
+                    this.flashOverlay.flash({
+                        duration: 200,
+                        color: 'rgba(0, 0, 0,0.6)',
+                        peakOpacity: 0.4,
+                    });
+                    setTimeout(
+                        () =>
+                            this.mapService.travelWhere(
+                                event.payload.direction
+                            ),
+                        200
+                    );
                 }
                 break;
             case 'fight':
                 if (this.assignedMonsterManager.fight(now)) event.payload();
                 break;
             case 'flee':
-                this.mapService.travelRandom();
+                this.flashOverlay.flash({
+                    duration: 400,
+                    color: 'rgba(255, 0, 0, 1)',
+                    peakOpacity: 0.4,
+                });
+
+                setTimeout(() => this.mapService.travelRandom(), 400);
                 break;
             case 'skip':
-                this.mapService.travelRandom();
+                this.flashOverlay.flash({
+                    duration: 400,
+                    color: 'rgba(255, 174, 0,1)',
+                    peakOpacity: 0.4,
+                });
+
+                setTimeout(() => this.mapService.travelRandom(), 400);
                 break;
         }
     }
