@@ -1,0 +1,29 @@
+<div>
+    <h2>Welcome back</h2>
+    <p class="text">Vous avez été afk pendant {{ ellaspedTime() }}</p>
+    @if(restored(); as restored) {
+    <div>
+        <div class="icon-container">
+            <img src="assets/object/Wheat.webp" alt="blé" />
+            <p>Blé : {{ restored.wheat | roundTo : 2 }}</p>
+        </div>
+        <div class="icon-container">
+            <img src="assets/object/Enchanted_Wheat.webp" alt="blé" />
+            <p>Blé enchanté : {{ restored.enchantedWheat | roundTo : 2 }}</p>
+        </div>
+    </div>
+    <div>
+        <div class="icon-container">
+            <img src="assets/object/Soul.webp" alt="blé" />
+            <p>Ame : {{ restored.soul | roundTo : 2 }}</p>
+        </div>
+        <div class="icon-container">
+            <img src="assets/object/Enchanted_Soul.webp" alt="blé" />
+            <p>Ame enchanté : {{ restored.enchantedSoul | roundTo : 2 }}</p>
+        </div>
+    </div>
+    }
+    <div class="centered">
+        <button class="btn">Collecter</button>
+    </div>
+</div>

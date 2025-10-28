@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { ProfessionManagerService } from './profession-manager.service';
 import { LootController } from 'src/app/database/loot/loot.controller';
-import { BehaviorSubject, concatMap, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
 import { Loot } from 'src/app/database/loot/loot.type';
 import { RegionManagerService } from '../location/region.service';
 import { stochasticRound } from '../../helpers/rounding-function';
@@ -95,6 +94,23 @@ export class LootManagerService {
                     this._loot$.next(loot);
                 });
         }
+    }
+
+    addFromSnap$(value: {
+        wheat: number;
+        enchantedWheat: number;
+        soul: number;
+        enchantedSoul: number;
+    }): Observable<Loot> {
+        return this.lootControllerService
+            .update(this.loot.id, {
+                soul: value.soul + this.loot.soul,
+                enchantedSoul: value.enchantedSoul + this.loot.enchantedSoul,
+                wheatQuantity: value.wheat + this.loot.wheatQuantity,
+                enchantedWheatQuantity:
+                    value.enchantedWheat + this.loot.enchantedWheatQuantity,
+            })
+            .pipe(tap((loot) => this._loot$.next(loot)));
     }
 
     addSoul$(value: number): Observable<Loot> {
