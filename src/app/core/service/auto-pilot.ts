@@ -27,12 +27,10 @@ export class AutoPilotService {
 
     toggleAutoPilote(value: boolean) {
         this.isActive = value;
-        console.log(this.isActive);
         this.isActive ? this.activateAutoPilote() : this.deactivateAutoPilote();
     }
 
     activateAutoPilote() {
-        console.log('wtf');
         this.autoPilotSub = this.gameEnginService
             .getTick$()
             .pipe(
@@ -46,7 +44,6 @@ export class AutoPilotService {
     }
 
     deactivateAutoPilote() {
-        console.log('deactivated');
         this.autoPilotSub?.unsubscribe();
         this.autoPilotSub = undefined;
     }

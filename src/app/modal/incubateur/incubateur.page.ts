@@ -58,7 +58,6 @@ export class IncubateurPage {
 
         const { data } = await modal.onWillDismiss();
         if (data) {
-            console.log(egg);
             this.eggManagerService.incubeEgg$(egg).subscribe();
         }
     }

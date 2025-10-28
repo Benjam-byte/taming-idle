@@ -151,8 +151,6 @@ export class AssignedMonsterManagerService {
         monster: TamedMonster,
         name: string
     ) {
-        console.log(monster);
-        console.log(name);
         const profession = monster.availableProfession.find(
             (profession) => profession.name === name
         );
