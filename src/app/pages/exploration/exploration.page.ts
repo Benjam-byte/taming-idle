@@ -1,4 +1,11 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    effect,
+    inject,
+    OnInit,
+    signal,
+} from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { EmptyAreaComponent } from './empty-area/empty-area.component';
 import { TresorAreaComponent } from './tresor-area/tresor-area.component';
@@ -58,7 +65,6 @@ export class ExplorationPage {
     imageUrl = '';
     previousImageUrl: string | null = null;
     imageLoaded = false;
-
     isRessourceVisible = signal(false);
 
     constructor() {
@@ -85,39 +91,6 @@ export class ExplorationPage {
         setTimeout(() => {
             this.previousImageUrl = null;
         }, 100);
-    }
-
-    async openWorldMapModal() {
-        const modal = await this.modalCtrl.create({
-            component: WorldMapComponent,
-            cssClass: 'full-screen-modal',
-            backdropDismiss: true,
-            showBackdrop: true,
-        });
-
-        modal.present();
-    }
-
-    async openRelicListModal() {
-        const modal = await this.modalCtrl.create({
-            component: RelicListPage,
-            cssClass: 'full-screen-modal',
-            backdropDismiss: true,
-            showBackdrop: true,
-        });
-
-        modal.present();
-    }
-
-    async openGodPalaceModal() {
-        const modal = await this.modalCtrl.create({
-            component: GodPalaceComponent,
-            cssClass: 'full-screen-modal',
-            backdropDismiss: true,
-            showBackdrop: true,
-        });
-
-        modal.present();
     }
 
     async openProfessionModal() {

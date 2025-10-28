@@ -3,4 +3,6 @@ export const enum TraitName {
     Agile = 'agile',
     Renifleur = 'renifleur',
     MainVerte = 'Main verte',
+    Robuste = 'Robuste',
+    Fougueux = 'Fougueux',
 }

@@ -1,3 +1,10 @@
+@if((worldManager.world$ | async)?.regionAvailable){
+<img
+    class="button start"
+    src="assets/icon/world-level.png"
+    (click)="openRegionModal()"
+/>
+}
 <img
     class="button center"
     src="assets/icon/main-menu.png"

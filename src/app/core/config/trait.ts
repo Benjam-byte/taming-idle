@@ -19,4 +19,12 @@ export const traitList: Trait[] = [
         name: TraitName.MainVerte,
         description: "ramasse tous le blé d'un coup",
     },
+    {
+        name: TraitName.Robuste,
+        description: "ramasse tous le blé d'un coup",
+    },
+    {
+        name: TraitName.Fougueux,
+        description: "ramasse tous le blé d'un coup",
+    },
 ];

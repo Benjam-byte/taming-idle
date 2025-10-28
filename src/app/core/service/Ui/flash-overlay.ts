@@ -13,7 +13,7 @@ export type FlashOptions = {
 
 const DEFAULTS: FlashOptions = {
     duration: 380,
-    color: 'rgba(255,0,0,1)',
+    color: 'rgba(255,0,0,0)',
     peakOpacity: 0.35,
 };
 

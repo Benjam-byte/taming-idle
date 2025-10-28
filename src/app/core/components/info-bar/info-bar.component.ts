@@ -27,9 +27,34 @@ export class InfoBarComponent {
 
     assignedMonster = toSignal(this.assignedMonsterManager.assignedMonster$);
 
-    async openPlayerModal() {
+    openInfoModal() {
+        if (
+            this.assignedMonsterManager.assignedMonster.monsterSpecies ===
+            'Terra larva'
+        ) {
+            this.openPlayerModal();
+            return;
+        }
+        this.openMonsterModal();
+    }
+
+    async openMonsterModal() {
         const modal = await this.modalCtrl.create({
             component: MonsterStatPage,
+            cssClass: 'full-screen-modal',
+            backdropDismiss: true,
+            showBackdrop: true,
+            componentProps: {
+                monsterId: this.assignedMonsterManager.assignedMonster.id,
+            },
+        });
+
+        modal.present();
+    }
+
+    async openPlayerModal() {
+        const modal = await this.modalCtrl.create({
+            component: PlayerStatPage,
             cssClass: 'full-screen-modal',
             backdropDismiss: true,
             showBackdrop: true,

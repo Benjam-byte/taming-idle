@@ -68,18 +68,7 @@ export class GameEngineService {
                     this.assignedMonsterManager
                         .xpByProfessionName$('Voyageur')
                         .subscribe();
-                    this.flashOverlay.flash({
-                        duration: 200,
-                        color: 'rgba(0, 0, 0,0.6)',
-                        peakOpacity: 0.4,
-                    });
-                    setTimeout(
-                        () =>
-                            this.mapService.travelWhere(
-                                event.payload.direction
-                            ),
-                        200
-                    );
+                    this.mapService.travelWhere(event.payload.direction);
                 }
                 break;
             case 'fight':

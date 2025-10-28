@@ -2,6 +2,8 @@ import { Component, effect, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalController } from '@ionic/angular/standalone';
 import { MenuComponent } from 'src/app/modal/menu/menu.component';
+import { WorldManagerService } from '../../service/location/world.service';
+import { RegionStatPage } from 'src/app/modal/region-stat/region-stat.page';
 
 type InformationMode = 'fight' | 'loot' | 'world' | 'monster';
 
@@ -13,6 +15,7 @@ type InformationMode = 'fight' | 'loot' | 'world' | 'monster';
 })
 export class InfoFooterComponent {
     ressourceVisible = output<boolean>();
+    worldManager = inject(WorldManagerService);
     modalCtrl = inject(ModalController);
 
     isRessourceTouched = signal(false);
@@ -41,6 +44,17 @@ export class InfoFooterComponent {
     async openMenuModal() {
         const modal = await this.modalCtrl.create({
             component: MenuComponent,
+            cssClass: 'full-screen-modal',
+            backdropDismiss: true,
+            showBackdrop: true,
+        });
+
+        modal.present();
+    }
+
+    async openRegionModal() {
+        const modal = await this.modalCtrl.create({
+            component: RegionStatPage,
             cssClass: 'full-screen-modal',
             backdropDismiss: true,
             showBackdrop: true,
