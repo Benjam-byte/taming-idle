@@ -22,6 +22,13 @@
             <p>Ame enchanté : {{ restored.enchantedSoul | roundTo : 2 }}</p>
         </div>
     </div>
+    <div>
+        @if(isProfessionList()){
+        <h3>Xp collecté</h3>
+        @for(profession of professionList(); track profession.name) {
+        <p>+{{ profession.value }}xp en {{ profession.name }}</p>
+        } }
+    </div>
     }
     <div class="centered">
         <button class="btn" (click)="collect()">Collecter</button>

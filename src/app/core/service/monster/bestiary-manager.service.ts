@@ -35,7 +35,11 @@ export class BestiaryManagerService {
     }
 
     getMonsterByName(name: string) {
-        return this.bestiaryList.find((monster) => monster.name === name);
+        const beast = this.bestiaryList.find(
+            (monster) => monster.name === name
+        );
+        if (!beast) throw new Error('beast not found');
+        return beast;
     }
 
     getMonsterFromExistingList(existingMonsterType: string[]) {

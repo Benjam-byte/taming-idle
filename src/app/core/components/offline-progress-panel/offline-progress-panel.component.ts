@@ -6,6 +6,7 @@ import {
 import { RoundToPipe } from '../../pipe/roundTo.pipe';
 import { formatElapsed } from '../../helpers/time-format';
 import { ModalController } from '@ionic/angular/standalone';
+import { ProfessionName } from '../../enum/profession-name.enum';
 
 @Component({
     selector: 'app-offline-progress-panel',
@@ -23,6 +24,7 @@ export class OfflineProgressPanelComponent implements OnInit {
               soul: number;
               enchantedSoul: number;
               snapshot: OfflineSnapshot;
+              xpObject: Record<ProfessionName, number>;
           }
         | undefined
     >(undefined);
@@ -42,6 +44,18 @@ export class OfflineProgressPanelComponent implements OnInit {
         )}`;
     });
 
+    professionList = computed(() => {
+        const restored = this.restored();
+        if (!restored) return;
+        return this.getActiveProfessions(restored.xpObject);
+    });
+
+    isProfessionList = computed(() => {
+        const restored = this.restored();
+        if (!restored) return;
+        return this.getActiveProfessions(restored.xpObject).length > 0;
+    });
+
     ngOnInit(): void {
         const restored = this.offlineProgressService.restoreFromSnapshot();
         if (restored) this.restored.set(restored);
@@ -49,5 +63,16 @@ export class OfflineProgressPanelComponent implements OnInit {
 
     collect() {
         this.modalCtrl.dismiss(this.restored());
+    }
+
+    private getActiveProfessions(
+        xpObject: Record<ProfessionName, number>
+    ): Array<{ name: ProfessionName; value: number }> {
+        return Object.entries(xpObject)
+            .filter(([, value]) => value > 0)
+            .map(([name, value]) => ({
+                name: name as ProfessionName,
+                value,
+            }));
     }
 }

@@ -41,7 +41,7 @@ export const bestiaryList = [
         index: 1,
         availableProfession: [
             ProfessionName.Fermier,
-            ProfessionName.Alchimiste,
+            ProfessionName.Botaniste,
             ProfessionName.Voyageur,
         ],
     },

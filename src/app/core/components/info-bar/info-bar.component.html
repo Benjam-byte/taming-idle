@@ -1,5 +1,5 @@
 @if(assignedMonster(); as monster){
-<div class="perso-icon" (click)="openPlayerModal()">
+<div class="perso-icon" (click)="openInfoModal()">
     <img [src]="getImage(monster.monsterSpecies).base" alt="perso" />
     <div class="badge">{{ monster.level }}</div>
 </div>

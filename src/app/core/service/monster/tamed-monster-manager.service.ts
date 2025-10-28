@@ -30,6 +30,8 @@ import {
     updateStatFromProfession,
 } from '../../helpers/stat-calculator';
 import { ProfessionManagerService } from '../player/profession-manager.service';
+import { calculateMathFunction } from '../../helpers/function/function';
+import { Function } from '../../models/functionType';
 
 @Injectable({
     providedIn: 'root',
@@ -116,6 +118,64 @@ export class TamedMonsterManagerService {
             );
     }
 
+    xpAllProfessionByXpAmount$(
+        professionXpList: {
+            professionName: ProfessionName;
+            xpAmount: number;
+        }[],
+        monsterId: string
+    ) {
+        const monster = this.getMonsterById(monsterId);
+        if (!monster) throw new Error('Monster not found');
+
+        const gains = new Map<ProfessionName, number>();
+        for (const { professionName, xpAmount } of professionXpList) {
+            if (xpAmount <= 0) continue;
+            gains.set(professionName, xpAmount);
+        }
+        if (gains.size === 0) {
+            return this.tamedMonsterController.updateOne(monster.id, {
+                availableProfession: monster.availableProfession,
+            });
+        }
+
+        const capByProfession = new Map<
+            ProfessionName,
+            (level: number) => number
+        >();
+        for (const name of gains.keys()) {
+            const cfg = this.professionManager.getProfessionByName(name);
+            if (!cfg) throw new Error(`Profession config not found: ${name}`);
+            capByProfession.set(name, (lvl: number) =>
+                this.getXpCap(lvl, cfg.function)
+            );
+        }
+        const next = monster.availableProfession.map((p) => {
+            const gain = gains.get(p.name);
+            if (!gain || gain <= 0) return p;
+
+            const getCap = capByProfession.get(p.name)!;
+            const { level, xp } = this.applyXpGain(
+                p.level,
+                p.xp,
+                gain,
+                p.levelCap,
+                getCap
+            );
+
+            return { ...p, level, xp };
+        });
+
+        console.log(next);
+        return this.tamedMonsterController
+            .updateOne(monster.id, {
+                availableProfession: next,
+            })
+            .pipe(
+                tap((monsterList) => this._tamedMonsterList$.next(monsterList))
+            );
+    }
+
     xpProfession$(professionName: string, monsterId: string, xpInfo: XpInfo) {
         const monster = this.getMonsterById(monsterId);
         const next = monster.availableProfession.map((monsterProfession) =>
@@ -158,6 +218,10 @@ export class TamedMonsterManagerService {
             .pipe(
                 tap((monsterList) => this._tamedMonsterList$.next(monsterList))
             );
+    }
+
+    private getXpCap(currentLevel: number, func: Function) {
+        return calculateMathFunction(func, currentLevel);
     }
 
     private createTamedMonster(
@@ -316,5 +380,33 @@ export class TamedMonsterManagerService {
             if (r <= 0) return items[i];
         }
         return items[items.length - 1] ?? null;
+    }
+
+    private applyXpGain(
+        currentLevel: number,
+        currentXp: number,
+        xpGain: number,
+        maxLevel: number,
+        getCap: (level: number) => number
+    ): { level: number; xp: number } {
+        let level = currentLevel;
+        let xp = currentXp + xpGain;
+
+        // On consomme l'XP en franchissant les caps successifs
+        while (level < maxLevel) {
+            const cap = getCap(level);
+            if (xp < cap) break; // pas assez pour passer
+            xp -= cap; // on consomme le cap du niveau
+            level += 1; // niveau suivant
+        }
+
+        // À max level, on peut soit garder l'XP résiduelle, soit la clamp à 0.
+        // Ici on la remet à 0 pour éviter un "stock" inutile.
+        if (level >= maxLevel) {
+            level = maxLevel;
+            xp = 0;
+        }
+
+        return { level, xp };
     }
 }

@@ -1,15 +1,8 @@
 <app-modal-layout title="La région">
     <div class="info">
         <img class="perso-img" src="assets/region/plaine.png" alt="player" />
-        <div class="xp-wrapper">
+        <div>
             <h2>La plaine</h2>
-            <div>
-                <p>Niveau</p>
-                <app-xp-range
-                    [currentXp]="(combatTowerManager.combatTower$ | async)?.level ?? 0"
-                    [maxXp]="70"
-                />
-            </div>
         </div>
     </div>
     <main>

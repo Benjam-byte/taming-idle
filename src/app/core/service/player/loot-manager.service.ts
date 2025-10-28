@@ -114,6 +114,9 @@ export class LootManagerService {
     }
 
     addSoul$(value: number): Observable<Loot> {
+        this.assignedMonsterManagerService
+            .xpByProfessionName$('Alchimiste')
+            .subscribe();
         return this.lootControllerService
             .update(this.loot.id, {
                 soul: value + this.loot.soul,
@@ -122,6 +125,9 @@ export class LootManagerService {
     }
 
     addEnchantedSoul$(value: number): Observable<Loot> {
+        this.assignedMonsterManagerService
+            .xpByProfessionName$('Necromancien')
+            .subscribe();
         return this.lootControllerService
             .update(this.loot.id, {
                 enchantedSoul: value + this.loot.enchantedSoul,
@@ -142,7 +148,7 @@ export class LootManagerService {
 
     addEnchantedWheat$(value: number) {
         this.assignedMonsterManagerService
-            .xpByProfessionName$('Fermier')
+            .xpByProfessionName$('Botaniste')
             .subscribe();
         return this.lootControllerService
             .update(this.loot.id, {

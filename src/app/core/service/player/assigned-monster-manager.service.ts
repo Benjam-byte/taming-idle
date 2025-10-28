@@ -120,6 +120,18 @@ export class AssignedMonsterManagerService {
         }
     }
 
+    xpOffline$(
+        professionXpList: { professionName: ProfessionName; xpAmount: number }[]
+    ) {
+        if (this.assignedMonster.monsterSpecies !== PLAYER_ID) {
+            return this.tamedMonsterManager.xpAllProfessionByXpAmount$(
+                professionXpList,
+                this.assignedMonster.id
+            );
+        }
+        return of(void 0);
+    }
+
     getXpCap(currentLevel: number, func: Function) {
         return calculateMathFunction(func, currentLevel);
     }

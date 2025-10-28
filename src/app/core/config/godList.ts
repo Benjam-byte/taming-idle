@@ -170,7 +170,7 @@ export const godList = [
     {
         name: GodNameList.Birth,
         description:
-            'Le dieu de la fécondité accepte des ames enchantés. En échange, de nouvelles especes apparaissent dans votre monde.',
+            "Le dieu de la fécondité accepte des ames enchantés. En échange, de nouvelles especes d'oeuf apparaissent dans votre monde.",
         imagePath: 'assets/altar/Altar_Egg.webp',
         index: 8,
         level: 0,
