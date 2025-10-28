@@ -5,10 +5,7 @@ import {
     ModalController,
 } from '@ionic/angular/standalone';
 import { DebugService } from './core/service/debug.service';
-import {
-    OfflineProgress,
-    OfflineSnapshot,
-} from './core/service/offline-progress';
+import { OfflineProgress } from './core/service/offline-progress';
 import { OfflineProgressPanelComponent } from './core/components/offline-progress-panel/offline-progress-panel.component';
 
 @Component({
@@ -23,27 +20,22 @@ export class AppComponent {
 
     constructor() {
         this.openOfflineProgressModal();
-        const restored = this.offileProgressService.restoreFromSnapshot();
-        if (restored) {
-            this.openOfflineProgressModal(restored);
-        }
+
         setInterval(() => this.offileProgressService.saveSnapshot(), 15_000);
     }
 
-    async openOfflineProgressModal(restored: {
-        wheat: number;
-        enchantedWheat: number;
-        soul: number;
-        enchantedSoul: number;
-        snapshot: OfflineSnapshot;
-    }) {
+    async openOfflineProgressModal() {
         const modal = await this.modalCtrl.create({
             component: OfflineProgressPanelComponent,
             cssClass: 'fit-modal',
-            backdropDismiss: true,
+            backdropDismiss: false,
             showBackdrop: true,
         });
 
         modal.present();
+        const { data } = await modal.onWillDismiss();
+        if (data) {
+            this.offileProgressService.addFromSnapShot$(data).subscribe();
+        }
     }
 }

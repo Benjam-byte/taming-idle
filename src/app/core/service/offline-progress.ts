@@ -51,6 +51,14 @@ export class OfflineProgress {
         const maxMs = maxHours * 3600_000;
         if (dtMs > maxMs) dtMs = maxMs;
 
+        if (snap.assignedMonster.monsterSpecies === 'Terra larva')
+            return {
+                wheat: 0,
+                enchantedWheat: 0,
+                soul: 0,
+                enchantedSoul: 0,
+                snapshot: snap,
+            };
         const wheat = this.collectWheat(snap.assignedMonster, dtMs);
         const enchantedWheat = this.collectEnchantedWheat(
             snap.assignedMonster,
@@ -76,7 +84,7 @@ export class OfflineProgress {
         soul: number;
         enchantedSoul: number;
     }) {
-        this.lootManager.addFromSnap$(value).subscribe();
+        return this.lootManager.addFromSnap$(value);
     }
 
     private collectWheat(assignedMonster: TamedMonster, ellapsedTime: number) {

@@ -1,6 +1,6 @@
 <div>
     <h2>Welcome back</h2>
-    <p class="text">Vous avez été afk pendant {{ ellaspedTime() }}</p>
+    <p class="text">{{ message() }} {{ ellaspedTime() }}</p>
     @if(restored(); as restored) {
     <div>
         <div class="icon-container">
@@ -24,6 +24,6 @@
     </div>
     }
     <div class="centered">
-        <button class="btn">Collecter</button>
+        <button class="btn" (click)="collect()">Collecter</button>
     </div>
 </div>

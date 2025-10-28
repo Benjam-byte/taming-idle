@@ -1,18 +1,11 @@
-import {
-    Component,
-    computed,
-    inject,
-    input,
-    OnInit,
-    signal,
-    Signal,
-} from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import {
     OfflineProgress,
     OfflineSnapshot,
 } from '../../service/offline-progress';
 import { RoundToPipe } from '../../pipe/roundTo.pipe';
 import { formatElapsed } from '../../helpers/time-format';
+import { ModalController } from '@ionic/angular/standalone';
 
 @Component({
     selector: 'app-offline-progress-panel',
@@ -21,6 +14,7 @@ import { formatElapsed } from '../../helpers/time-format';
     imports: [RoundToPipe],
 })
 export class OfflineProgressPanelComponent implements OnInit {
+    modalCtrl = inject(ModalController);
     offlineProgressService = inject(OfflineProgress);
     restored = signal<
         | {
@@ -33,10 +27,12 @@ export class OfflineProgressPanelComponent implements OnInit {
         | undefined
     >(undefined);
 
-    ngOnInit(): void {
-        const restored = this.offlineProgressService.restoreFromSnapshot();
-        if (restored) this.restored.set(restored);
-    }
+    message = computed(
+        () =>
+            `Votre ${
+                this.restored()?.snapshot.assignedMonster.monsterSpecies
+            } a récolté pour vous !`
+    );
 
     ellaspedTime = computed(() => {
         const restored = this.restored();
@@ -45,5 +41,13 @@ export class OfflineProgressPanelComponent implements OnInit {
             Date.now() - restored.snapshot.savedAt
         )}`;
     });
-    constructor() {}
+
+    ngOnInit(): void {
+        const restored = this.offlineProgressService.restoreFromSnapshot();
+        if (restored) this.restored.set(restored);
+    }
+
+    collect() {
+        this.modalCtrl.dismiss(this.restored());
+    }
 }
