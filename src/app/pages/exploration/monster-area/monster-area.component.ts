@@ -7,6 +7,7 @@ import { ActionGaugeComponent } from 'src/app/core/components/action-gauge/actio
 import { CommonModule } from '@angular/common';
 import { RegionManagerService } from 'src/app/core/service/location/region.service';
 import { AssignedMonsterManagerService } from 'src/app/core/service/player/assigned-monster-manager.service';
+import { FightFacade } from './fight-facade';
 
 @Component({
     selector: 'app-monster-area',
@@ -16,10 +17,10 @@ import { AssignedMonsterManagerService } from 'src/app/core/service/player/assig
 })
 export class MonsterAreaComponent {
     assignedMonsterManager = inject(AssignedMonsterManagerService);
-    lootManager = inject(LootManagerService);
     regionManager = inject(RegionManagerService);
     gameEngineService = inject(GameEngineService);
     clickEffectService = inject(ClickEffectService);
+    fightFacade = inject(FightFacade);
 
     monster = this.regionManager.monster;
 
@@ -36,21 +37,6 @@ export class MonsterAreaComponent {
     fight(event: MouseEvent) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        this.clickEffectService.damageClickEffect(event);
-        this.gameEngineService.submitEventByType('fight', () => {
-            if (!this.monster.isAlive) return;
-            this.monster.getHit(this.assignedMonsterManager.damage);
-            this.assignedMonsterManager
-                .xpByProfessionName$('Guerrier')
-                .subscribe();
-            this.monsterKilled();
-        });
-    }
-
-    private monsterKilled() {
-        if (!this.monster.isAlive) {
-            this.lootManager.addLootFromMonsterKilled(this.monster);
-            this.gameEngineService.submitEventByType('skip');
-        }
+        this.fightFacade.fight(event);
     }
 }

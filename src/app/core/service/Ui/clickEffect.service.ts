@@ -25,6 +25,15 @@ export class ClickEffectService {
         });
     }
 
+    damageClickEffectFromAuto(event: { x: number; y: number }) {
+        this.gameEngineService.getNextTick$().subscribe((now) => {
+            this.spawnDamageClickEffectFromAuto(
+                event,
+                this.assignedMonsterManager.getClickDamage(now)
+            );
+        });
+    }
+
     damageClickEffect(event: MouseEvent) {
         this.gameEngineService.getNextTick$().subscribe((now) => {
             this.spawnDamageClickEffect(
@@ -120,6 +129,25 @@ export class ClickEffectService {
 
         damageText.style.left = `${event.clientX}px`;
         damageText.style.top = `${event.clientY}px`;
+
+        const container = document.querySelector('.click-effect-layer');
+        container?.appendChild(damageText);
+
+        setTimeout(() => {
+            damageText.remove();
+        }, 600);
+    }
+
+    spawnDamageClickEffectFromAuto(
+        event: { x: number; y: number },
+        damage: number
+    ) {
+        const damageText = document.createElement('div');
+        damageText.className = 'damage-text';
+        damageText.textContent = `–${damage}`;
+
+        damageText.style.left = `${event.x}px`;
+        damageText.style.top = `${event.y}px`;
 
         const container = document.querySelector('.click-effect-layer');
         container?.appendChild(damageText);
