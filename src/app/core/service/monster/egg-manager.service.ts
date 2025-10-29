@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { EggController } from 'src/app/database/egg/egg.controller';
 import { Egg } from 'src/app/database/egg/egg.type';
-import { BehaviorSubject, concatMap, defer, map, of, tap } from 'rxjs';
+import { BehaviorSubject, concatMap, map, of, tap } from 'rxjs';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { RegionManagerService } from '../location/region.service';
 import { roll } from '../../helpers/proba-rolls';
 import { TamedMonsterManagerService } from './tamed-monster-manager.service';
+import { eggList } from '../../config/eggList';
 
 @Injectable({
     providedIn: 'root',
@@ -86,13 +87,11 @@ export class EggManagerService {
     }
 
     private createOneEgg(): Omit<Egg, 'id'> {
-        return {
-            image: 'assets/egg/slime_egg.png',
-            monsterName: 'Slime',
-            createdAt: new Date(),
-            hatchingTime: 3600 * 6,
-            incubateur: null,
-        };
+        return eggList[
+            this.pickEggIndex(
+                this.regionManagerService.region.monsterEggProbability
+            ) - 1
+        ];
     }
 
     private getFirstIndexIncubateurAvailable(): number {
@@ -107,5 +106,21 @@ export class EggManagerService {
             isIncubateurTakenList[incubateur.index] = true;
         });
         return isIncubateurTakenList.findIndex((v) => v === false);
+    }
+
+    private pickEggIndex(prob: { 1: number; 2: number; 3: number }): number {
+        const rand = Math.random();
+        let cumulative = 0;
+
+        for (const key of Object.keys(
+            prob
+        ) as unknown as (keyof typeof prob)[]) {
+            cumulative += prob[key];
+            if (rand < cumulative) {
+                return Number(key);
+            }
+        }
+
+        return 3;
     }
 }

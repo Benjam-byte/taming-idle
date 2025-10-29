@@ -20,9 +20,9 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    padding: 5px;
+    margin: 10px;
     margin-top: 20px;
-    max-height: calc(100dvh - 80px);
+    max-height: calc(100dvh - 155px);
     overflow-y: scroll;
 }
 
