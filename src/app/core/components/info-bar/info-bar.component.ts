@@ -10,6 +10,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { TamedMonsterManagerService } from '../../service/monster/tamed-monster-manager.service';
 import { AssignedMonsterManagerService } from '../../service/player/assigned-monster-manager.service';
 import { MonsterStatPage } from 'src/app/modal/monster-stat/monster-stat.page';
+import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
 
 @Component({
     selector: 'app-info-bar',
@@ -68,5 +69,12 @@ export class InfoBarComponent {
 
     getImage(name: string) {
         return this.tamedMonsterManager.getImageFromMonster(name);
+    }
+
+    getMonsterLevel(monster: TamedMonster) {
+        return monster.availableProfession.reduce(
+            (acc, profession) => acc + profession.level,
+            0
+        );
     }
 }

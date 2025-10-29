@@ -10,6 +10,7 @@ import { RelicManagerService } from 'src/app/core/service/player/relic-manager.s
 import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 import { RoundToPipe } from '../../core/pipe/roundTo.pipe';
 import { RelicSelectionComponent } from 'src/app/core/components/relic-selection/relic-selection.component';
+import { Human } from 'src/app/database/human/human.type';
 
 @Component({
     selector: 'app-player-stat',
@@ -62,5 +63,13 @@ export class PlayerStatPage {
 
     dissociate() {
         this.humanManagerService.associateRelic$('').subscribe();
+    }
+
+    getHumanLevel(human: Human | null) {
+        if (!human) return 0;
+        return human.availableProfession.reduce(
+            (acc, profession) => acc + profession.level,
+            0
+        );
     }
 }

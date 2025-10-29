@@ -12,6 +12,7 @@ import { TamedMonsterManagerService } from 'src/app/core/service/monster/tamed-m
 import { ActifMonsterSelectionComponent } from './actif-monster-selection/actif-monster-selection.component';
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { AutoPilotService } from 'src/app/core/service/auto-pilot';
+import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
 @Component({
     selector: 'app-region-stat',
     templateUrl: './region-stat.page.html',
@@ -65,5 +66,12 @@ export class RegionStatPage {
                     )
                 );
         }
+    }
+
+    getMonsterLevel(monster: TamedMonster) {
+        return monster.availableProfession.reduce(
+            (acc, profession) => acc + profession.level,
+            0
+        );
     }
 }

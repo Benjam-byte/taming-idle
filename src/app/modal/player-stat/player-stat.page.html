@@ -12,7 +12,7 @@
             <div>
                 <p>Niveau</p>
                 <app-xp-range
-                    [currentXp]="(humanManagerService.human$ | async )?.level ?? 1"
+                    [currentXp]="getHumanLevel((humanManagerService.human$ | async ))"
                     [maxXp]="90"
                 />
             </div>

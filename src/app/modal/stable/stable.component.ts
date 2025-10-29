@@ -61,4 +61,11 @@ export class StableComponent {
 
         modal.present();
     }
+
+    getMonsterLevel(monster: TamedMonster) {
+        return monster.availableProfession.reduce(
+            (acc, profession) => acc + profession.level,
+            0
+        );
+    }
 }

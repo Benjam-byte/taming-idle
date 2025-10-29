@@ -211,7 +211,6 @@ export class TamedMonsterManagerService {
             this.professionManager.getProfessionByName(professionName);
         return this.tamedMonsterController
             .updateOne(monster.id, {
-                level: monster.level + 1,
                 ...getStatUpdateFromMonsterLevel(monster),
                 ...updateStatFromProfession(profession, monster),
             })

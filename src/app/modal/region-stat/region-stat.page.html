@@ -118,7 +118,10 @@
                 </div>
                 <div class="column">
                     <h3>{{monster.name}}</h3>
-                    <app-xp-range [currentXp]="monster.level" [maxXp]="90" />
+                    <app-xp-range
+                        [currentXp]="getMonsterLevel(monster)"
+                        [maxXp]="90"
+                    />
                 </div>
             </div>
         </div>

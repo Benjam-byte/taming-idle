@@ -1,7 +1,7 @@
 @if(assignedMonster(); as monster){
 <div class="perso-icon" (click)="openInfoModal()">
     <img [src]="getImage(monster.monsterSpecies).base" alt="perso" />
-    <div class="badge">{{ monster.level }}</div>
+    <div class="badge">{{ getMonsterLevel(monster) }}</div>
 </div>
 <div class="text-info">
     <p>{{ monster.name }} (Vous)</p>

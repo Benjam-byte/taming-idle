@@ -7,7 +7,6 @@ export type TamedMonster = {
     monsterId: string;
     name: string;
     monsterSpecies: string;
-    level: number;
     relicId: string;
     travellingSpeed: number;
     fightingSpeed: number;

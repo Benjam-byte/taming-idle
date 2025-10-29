@@ -133,4 +133,11 @@ export class MonsterStatPage {
             monsterProfession.level
         );
     }
+
+    getMonsterLevel(monster: TamedMonster) {
+        return monster.availableProfession.reduce(
+            (acc, profession) => acc + profession.level,
+            0
+        );
+    }
 }

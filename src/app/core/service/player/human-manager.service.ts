@@ -112,7 +112,6 @@ export class HumanManagerService {
             this.professionManagerService.getProfessionByName(name);
         return this.humanControllerService
             .update(this.human.id, {
-                level: this.human.level + 1,
                 ...getStatUpdateFromMonsterLevel(
                     this.humanInTamedMonsterFormat
                 ),
@@ -140,7 +139,6 @@ export class HumanManagerService {
             lootEnchantedBonus: human.lootEnchantedBonus,
             findingPercentage: human.findingPercentage,
             relicId: human.relicId,
-            level: human.level,
             damage: human.damage,
             damageSpecial: human.damageSpecial,
             defense: human.defense,

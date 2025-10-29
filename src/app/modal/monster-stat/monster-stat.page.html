@@ -8,7 +8,10 @@
             <h2>{{monster.name}}</h2>
             <div>
                 <p>Niveau</p>
-                <app-xp-range [currentXp]="monster.level" [maxXp]="90" />
+                <app-xp-range
+                    [currentXp]="getMonsterLevel(monster)"
+                    [maxXp]="90"
+                />
             </div>
         </div>
     </div>

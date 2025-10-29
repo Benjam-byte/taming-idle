@@ -2,7 +2,6 @@ import { MonsterProfession } from '../tamedMonster/tamed-monster.type';
 
 export type Human = {
     id: string;
-    level: number;
     relicId: string;
     travellingSpeed: number;
     fightingSpeed: number;

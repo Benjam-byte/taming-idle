@@ -65,7 +65,6 @@ const defaultHuman = {
     lootEnchantedBonus: 0.5,
     findingPercentage: 0.05,
     relicId: '',
-    level: 1,
     damage: 1,
     damageSpecial: 1,
     defense: 1,
