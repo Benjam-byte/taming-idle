@@ -28,7 +28,7 @@ export class RegionController {
                     enchantedMonsterRate: 0,
                     existingMonsterType: ['Slime'],
                     monsterWithTresorDropPercentage: 0.05,
-                    tresorMapSpawnRate: 0.04,
+                    tresorMapSpawnRate: 0.01,
                     highQualityChest: 0,
                     resourceQuantity: 1,
                     enchantedResource: 0,

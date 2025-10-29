@@ -25,6 +25,8 @@ export class AppComponent {
     }
 
     async openOfflineProgressModal() {
+        console.log();
+        if (!this.offileProgressService.hasSnapshot()) return;
         const modal = await this.modalCtrl.create({
             component: OfflineProgressPanelComponent,
             cssClass: 'fit-modal',

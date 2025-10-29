@@ -16,6 +16,7 @@ const defaultWorld: {
     regionAvailable: boolean;
     relicAvailable: boolean;
     incubateurAvailable: boolean;
+    monsterLevel: number;
 } = {
     regionUnlocked: ['plaine'],
     region: 'plaine',
@@ -29,6 +30,7 @@ const defaultWorld: {
     regionAvailable: false,
     relicAvailable: false,
     incubateurAvailable: false,
+    monsterLevel: 1,
 };
 
 @Injectable({ providedIn: 'root' })

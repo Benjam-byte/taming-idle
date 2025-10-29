@@ -20,4 +20,5 @@ export type World = {
     regionAvailable: boolean;
     incubateurAvailable: boolean;
     relicAvailable: boolean;
+    monsterLevel: number;
 };

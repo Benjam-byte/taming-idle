@@ -22,6 +22,8 @@ import { EggController } from './app/database/egg/egg.controller';
 import { TamedMonsterController } from './app/database/tamedMonster/tamed-monster.controller';
 import { EggManagerService } from './app/core/service/monster/egg-manager.service';
 import { TamedMonsterManagerService } from './app/core/service/monster/tamed-monster-manager.service';
+import { OfflineProgress } from './app/core/service/offline-progress';
+import { AutoPilotService } from './app/core/service/auto-pilot';
 
 const DB_VERSION = 6;
 const DB_KEY = 'db';
@@ -63,6 +65,9 @@ export class DatabaseBootstrapService {
     private readonly tamedMonsterManagerService = inject(
         TamedMonsterManagerService
     );
+
+    //Helpers using maanger
+    private readonly offlineProgress = inject(OfflineProgress);
 
     private initDatabase$() {
         return forkJoin([
@@ -132,6 +137,7 @@ export class DatabaseBootstrapService {
                             this.loadManagerBlocking$()
                         );
                     } else if (stored !== DB_VERSION) {
+                        this.offlineProgress.cleanSnapshot();
                         return concat(
                             this.dropDatabase$(),
                             this.initDatabase$(),

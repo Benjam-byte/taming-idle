@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { concatMap, from, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { EggService } from './egg.service';
 import { Egg } from './egg.type';
 
@@ -16,7 +16,7 @@ export class EggController {
     service = inject(EggService);
 
     init() {
-        return from([defaultEgg]).pipe(concatMap((egg) => this.create(egg)));
+        return of(void 0);
     }
 
     create(egg: Omit<Egg, 'id'>): Observable<Egg[]> {

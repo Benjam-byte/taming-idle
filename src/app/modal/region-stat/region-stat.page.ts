@@ -13,6 +13,7 @@ import { ActifMonsterSelectionComponent } from './actif-monster-selection/actif-
 import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import { AutoPilotService } from 'src/app/core/service/auto-pilot';
 import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
+import { ToFractionPipe } from '../../core/pipe/toFration.pipe';
 @Component({
     selector: 'app-region-stat',
     templateUrl: './region-stat.page.html',
@@ -23,6 +24,7 @@ import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
         XpRangeComponent,
         ModalLayoutComponent,
         RoundToPipe,
+        ToFractionPipe,
     ],
 })
 export class RegionStatPage {

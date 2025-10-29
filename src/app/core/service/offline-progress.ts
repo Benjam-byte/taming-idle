@@ -27,7 +27,6 @@ export class OfflineProgress {
     constructor() {}
 
     saveSnapshot(): void {
-        console.log('saved');
         const snapshot: OfflineSnapshot = {
             version: 1,
             savedAt: Date.now(),
@@ -35,6 +34,14 @@ export class OfflineProgress {
             selectedRegion: this.regionManager.region,
         };
         localStorage.setItem(LS_KEY, JSON.stringify(snapshot));
+    }
+
+    cleanSnapshot() {
+        localStorage.removeItem(LS_KEY);
+    }
+
+    hasSnapshot() {
+        return localStorage.getItem(LS_KEY) !== null;
     }
 
     restoreFromSnapshot(maxHours = 12):
@@ -81,22 +88,38 @@ export class OfflineProgress {
                     [ProfessionName.Pisteur]: 0,
                 },
             };
-        const wheat = this.collectWheat(snap.assignedMonster, dtMs);
-        const enchantedWheat = this.collectEnchantedWheat(
-            snap.assignedMonster,
-            dtMs,
-            snap.selectedRegion
-        );
-        const soul = this.collectSoul(
-            snap.assignedMonster,
-            dtMs,
-            snap.selectedRegion
-        );
-        const enchantedSoul = this.collectEnchantedSoul(
-            snap.assignedMonster,
-            dtMs,
-            snap.selectedRegion
-        );
+        const availableProfessionNameList =
+            snap.assignedMonster.availableProfession.reduce(
+                (acc, profession) => {
+                    acc.add(profession.name);
+                    return acc;
+                },
+                new Set<ProfessionName>()
+            );
+        const wheat = availableProfessionNameList.has(ProfessionName.Fermier)
+            ? this.collectWheat(snap.assignedMonster, dtMs)
+            : 0;
+        const enchantedWheat = availableProfessionNameList.has(
+            ProfessionName.Botaniste
+        )
+            ? this.collectEnchantedWheat(
+                  snap.assignedMonster,
+                  dtMs,
+                  snap.selectedRegion
+              )
+            : 0;
+        const soul = availableProfessionNameList.has(ProfessionName.Alchimiste)
+            ? this.collectSoul(snap.assignedMonster, dtMs, snap.selectedRegion)
+            : 0;
+        const enchantedSoul = availableProfessionNameList.has(
+            ProfessionName.Necromancien
+        )
+            ? this.collectEnchantedSoul(
+                  snap.assignedMonster,
+                  dtMs,
+                  snap.selectedRegion
+              )
+            : 0;
         const xpObject: Record<ProfessionName, number> = {
             Guerrier: this.xpForGuerrier(snap.assignedMonster, soul),
             Fermier: this.xpForFermier(snap.assignedMonster, wheat),
@@ -117,7 +140,6 @@ export class OfflineProgress {
             Voyageur: this.xpForTraveller(snap.assignedMonster, dtMs),
             Voleur: 0,
         };
-        console.log(xpObject);
         return {
             wheat,
             enchantedWheat,

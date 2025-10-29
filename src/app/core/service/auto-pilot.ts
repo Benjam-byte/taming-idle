@@ -21,12 +21,11 @@ export class AutoPilotService {
     isActive!: boolean;
 
     constructor() {
-        if (
-            this.assignedMonsterManager.assignedMonster.monsterSpecies ===
-            'Terra larva'
-        )
-            this.toggleAutoPilote(false);
-        else this.toggleAutoPilote(true);
+        this.assignedMonsterManager.assignedMonster$.subscribe((monster) => {
+            if (monster.monsterSpecies === 'Terra larva')
+                this.toggleAutoPilote(false);
+            else this.toggleAutoPilote(true);
+        });
     }
 
     toggleAutoPilote(value: boolean) {

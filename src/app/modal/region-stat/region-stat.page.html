@@ -13,7 +13,10 @@
                 <div class="stat-group">
                     <div class="line">
                         <img [src]="statIconDict['damage']" alt="damage" />
-                        <p>{{ region.monsterSpawnRate * 100 }}% monster</p>
+                        <p>
+                            {{ region.monsterSpawnRate * 100 | roundTo : 2}}%
+                            monster apparition
+                        </p>
                     </div>
                     <div class="line">
                         <img [src]="statIconDict['damage']" alt="damage" />
@@ -24,7 +27,9 @@
                     </div>
                     <div class="line">
                         <img [src]="statIconDict['damage']" alt="damage" />
-                        <p>{{ region.eggSpawnRate * 100 }}% monster egg (sp)</p>
+                        <p>
+                            {{ region.eggSpawnRate | toFraction }} monster egg
+                        </p>
                     </div>
                 </div>
                 <div class="stat-group">
@@ -61,7 +66,7 @@
         </div>
 
         <div class="combat-wrapper">
-            <h2>Action</h2>
+            <h2>Trésor</h2>
             <div class="text-combat">
                 <div class="stat-group">
                     <div class="line">
