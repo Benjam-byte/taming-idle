@@ -1,7 +1,29 @@
 <div class="header">
     <h2>Vous obtenez</h2>
-    <p (click)="close()">X</p>
+    <p class="x" (click)="close()">X</p>
 </div>
 <main>
     <img [src]="getImageFromName(name)" alt="monster" />
+    <form>
+        <form [formGroup]="form">
+            <label for="username">Nommez votre monstre</label>
+
+            <input
+                class="input-text"
+                type="text"
+                formControlName="username"
+                placeholder="pseudo..."
+            />
+            <div class="centered">
+                <button
+                    type="submit"
+                    class="btn"
+                    (click)="onSubmit()"
+                    [disabled]="form.invalid"
+                >
+                    Valider
+                </button>
+            </div>
+        </form>
+    </form>
 </main>

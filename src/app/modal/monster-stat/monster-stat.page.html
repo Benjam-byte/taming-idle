@@ -5,7 +5,15 @@
             <img class="perso-img" [src]="image()" alt="player" />
         </div>
         <div class="xp-wrapper">
-            <h2>{{monster.name}}</h2>
+            <div class="row">
+                <h2 class="white">{{monster.name}}</h2>
+                <img
+                    (click)="openRenameModal(monster.id)"
+                    class="editing"
+                    src="assets/icon/editing.png"
+                    alt="editing"
+                />
+            </div>
             <div>
                 <p>Niveau</p>
                 <app-xp-range

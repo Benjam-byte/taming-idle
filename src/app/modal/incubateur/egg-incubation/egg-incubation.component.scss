@@ -1,7 +1,7 @@
 :host {
     background-color: brown;
     height: fit-content;
-    padding: 20px;
+    padding: 8px;
     border-radius: 4px;
 }
 
@@ -10,7 +10,11 @@
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
-    padding: 0px 20px;
+    padding: 0px 5px;
+}
+
+.x {
+    transform: translateY(4px);
 }
 
 p {

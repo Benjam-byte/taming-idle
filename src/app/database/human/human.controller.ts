@@ -58,6 +58,7 @@ export const defaultMonsterProfessions = [
 const defaultHuman = {
     travellingSpeed: 2000,
     fightingSpeed: 2000,
+    pseudo: 'player',
     lockPickingSpeed: 1000,
     gatherNormalBonus: 1,
     gatherEnchantedBonus: 0.5,

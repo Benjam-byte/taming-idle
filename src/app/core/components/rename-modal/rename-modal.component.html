@@ -1,0 +1,27 @@
+<div class="header">
+    <h2>Changer le nom</h2>
+    <p (click)="close()">X</p>
+</div>
+<form [formGroup]="form">
+    <label for="username">Pseudo</label>
+
+    <input
+        class="input-text"
+        type="text"
+        formControlName="username"
+        placeholder="pseudo..."
+    />
+    @if (form.invalid) {
+    <p class="danger">Le pseudo doit contenir au moins 3 caractères.</p>
+    }
+    <div class="centered">
+        <button
+            type="submit"
+            class="btn"
+            (click)="onSubmit()"
+            [disabled]="form.invalid"
+        >
+            Valider
+        </button>
+    </div>
+</form>

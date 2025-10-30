@@ -9,6 +9,7 @@ import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 import { EggIncubationComponent } from './egg-incubation/egg-incubation.component';
 import { EggTimerComponent } from './egg-timer/egg-timer.component';
 import { CollectEggComponent } from './collect-egg/collect-egg.component';
+import { TamedMonsterManagerService } from 'src/app/core/service/monster/tamed-monster-manager.service';
 
 @Component({
     selector: 'app-incubateur',
@@ -25,6 +26,7 @@ import { CollectEggComponent } from './collect-egg/collect-egg.component';
 export class IncubateurPage {
     modalCtrl = inject(ModalController);
     eggManagerService = inject(EggManagerService);
+    tamedMonsterManager = inject(TamedMonsterManagerService);
 
     eggList = toSignal(this.eggManagerService.eggList$);
     formattedEggList = computed<(null | Egg)[]>(() => {
@@ -65,7 +67,6 @@ export class IncubateurPage {
     collect(egg: Egg | undefined) {
         if (!egg) return;
         if (this.isHatched(egg)) {
-            this.eggManagerService.hatch$(egg).subscribe();
             this.openCollectModal(egg);
         }
     }
@@ -82,6 +83,12 @@ export class IncubateurPage {
         });
 
         modal.present();
+        const { data } = await modal.onWillDismiss();
+        if (data) {
+            this.eggManagerService
+                .hatch$(egg, data)
+                .subscribe(() => this.modalCtrl.dismiss());
+        }
     }
 
     private isHatched(egg: Egg) {
@@ -90,6 +97,6 @@ export class IncubateurPage {
             0,
             egg.incubateur.startedAt + egg.hatchingTime - Date.now()
         );
-        return Date.now() >= eggRemain;
+        return eggRemain === 0;
     }
 }

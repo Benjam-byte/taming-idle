@@ -18,6 +18,7 @@ export class RelicListPage {
     readonly selectedId = signal<string | undefined>(undefined);
 
     select(relic: Relics) {
+        if (relic.quantity === 0) return;
         if (relic.id === this.selectedId()) {
             this.selectedId.set(undefined);
             return;

@@ -74,9 +74,9 @@ export class EggManagerService {
             .pipe(tap((egg) => this._eggList$.next(egg)));
     }
 
-    hatch$(egg: Egg) {
+    hatch$(egg: Egg, pseudo: string) {
         return this.tamedMonsterManagerService
-            .tameMonsterByMonsterName$(egg.monsterName)
+            .tameMonsterByMonsterName$(egg.monsterName, pseudo)
             .pipe(
                 concatMap(() =>
                     this.eggController

@@ -2,6 +2,22 @@ h2 {
     margin: 0px;
 }
 
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.white {
+    color: white;
+}
+
+.editing {
+    width: 25px;
+    filter: invert(1);
+}
+
 .text-col {
     margin: 8px;
     background-color: brown;

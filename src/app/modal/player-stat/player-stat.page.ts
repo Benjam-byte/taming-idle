@@ -11,6 +11,7 @@ import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 import { RoundToPipe } from '../../core/pipe/roundTo.pipe';
 import { RelicSelectionComponent } from 'src/app/core/components/relic-selection/relic-selection.component';
 import { Human } from 'src/app/database/human/human.type';
+import { RenameModalComponent } from 'src/app/core/components/rename-modal/rename-modal.component';
 
 @Component({
     selector: 'app-player-stat',
@@ -71,5 +72,24 @@ export class PlayerStatPage {
             (acc, profession) => acc + profession.level,
             0
         );
+    }
+
+    async openRenameModal() {
+        const modal = await this.modalCtrl.create({
+            component: RenameModalComponent,
+            cssClass: 'fit-modal',
+            backdropDismiss: true,
+            showBackdrop: true,
+            componentProps: {
+                oldName: this.humanManagerService.human.pseudo,
+            },
+        });
+
+        modal.present();
+
+        const { data } = await modal.onWillDismiss();
+        if (data) {
+            this.humanManagerService.updatePseudo$(data).subscribe();
+        }
     }
 }

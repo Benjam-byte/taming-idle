@@ -92,9 +92,9 @@ export class TamedMonsterManagerService {
         ) as Observable<TamedMonster>;
     }
 
-    tameMonster$(monster: MonsterProfile) {
+    tameMonster$(monster: MonsterProfile, pseudo: string) {
         return this.tamedMonsterController
-            .create(this.createTamedMonster(monster))
+            .create(this.createTamedMonster(monster, pseudo))
             .pipe(
                 tap((tamedMonsterList) =>
                     this._tamedMonsterList$.next(tamedMonsterList)
@@ -102,10 +102,10 @@ export class TamedMonsterManagerService {
             );
     }
 
-    tameMonsterByMonsterName$(name: string) {
+    tameMonsterByMonsterName$(name: string, pseudo: string) {
         const monster = this.bestiaryManager.getMonsterByName(name);
         if (!monster) throw new Error('Monster not found');
-        return this.tameMonster$(monster);
+        return this.tameMonster$(monster, pseudo);
     }
 
     associateRelic$(monsterId: string, relicId: string) {
@@ -115,6 +115,16 @@ export class TamedMonsterManagerService {
             })
             .pipe(
                 tap((monsterList) => this._tamedMonsterList$.next(monsterList))
+            );
+    }
+
+    updateName$(name: string, id: string) {
+        return this.tamedMonsterController
+            .updateOne(id, { name })
+            .pipe(
+                tap((tamedMonsterList) =>
+                    this._tamedMonsterList$.next(tamedMonsterList)
+                )
             );
     }
 
@@ -166,7 +176,6 @@ export class TamedMonsterManagerService {
             return { ...p, level, xp };
         });
 
-        console.log(next);
         return this.tamedMonsterController
             .updateOne(monster.id, {
                 availableProfession: next,
@@ -224,12 +233,13 @@ export class TamedMonsterManagerService {
     }
 
     private createTamedMonster(
-        monster: MonsterProfile
+        monster: MonsterProfile,
+        pseudo: string
     ): Omit<TamedMonster, 'id'> {
         const tamedMonster = {
             index: this.tamedMonsterList.length,
             monsterSpecies: monster.name,
-            name: monster.name + ' ' + this.tamedMonsterList.length,
+            name: pseudo,
             travellingSpeed: 2000,
             fightingSpeed: 2000,
             lockPickingSpeed: 1000,

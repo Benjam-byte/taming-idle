@@ -1,4 +1,5 @@
-<app-modal-layout title="Vos stats">
+<app-modal-layout title="Vos infos">
+    @if(humanManagerService.human$ | async; as human) {
     <div class="info">
         <div class="image-wrapper">
             <img
@@ -8,18 +9,22 @@
             />
         </div>
         <div class="xp-wrapper">
-            <h2>Vous</h2>
-            <div>
-                <p>Niveau</p>
-                <app-xp-range
-                    [currentXp]="getHumanLevel((humanManagerService.human$ | async ))"
-                    [maxXp]="90"
+            <div class="row">
+                <h2 class="white">{{human.pseudo}}</h2>
+                <img
+                    (click)="openRenameModal()"
+                    class="editing"
+                    src="assets/icon/editing.png"
+                    alt="editing"
                 />
+            </div>
+            <div>
+                <p class="white">Niveau</p>
+                <app-xp-range [currentXp]="getHumanLevel(human)" [maxXp]="90" />
             </div>
         </div>
     </div>
     <main>
-        @if(humanManagerService.human$ | async; as human) {
         <div class="combat-wrapper">
             <h2>Combat</h2>
             <div class="text-combat">
@@ -168,7 +173,6 @@
                 </div>
             </div>
         </div>
-
-        }
     </main>
+    }
 </app-modal-layout>

@@ -35,7 +35,7 @@
     </section>
 
     <section>
-        <h1>Statistique</h1>
+        <h1>Player</h1>
         <main>
             <app-menu-button
                 name="Player"
@@ -52,15 +52,6 @@
                 "
             />
             <app-menu-button
-                name="Bestiaire"
-                path="assets/icon/bestiary.png"
-                (isClicked)="openBestiaryModal()"
-                [isActive]="
-                    (worldService.world$ | async)?.bestiaryAvailable ?? false
-                "
-            />
-
-            <app-menu-button
                 name="Metier"
                 path="assets/icon/skilltree.png"
                 (isClicked)="openProfessionModal()"
@@ -68,11 +59,19 @@
                     (worldService.world$ | async)?.skillTreeAvailable ?? false
                 "
             />
+            <app-menu-button
+                name="Relic"
+                path="assets/icon/relic.png"
+                (isClicked)="openRelicListModal()"
+                [isActive]="
+                    (worldService.world$ | async)?.relicAvailable ?? false
+                "
+            />
         </main>
     </section>
 
     <section>
-        <h1>Loot</h1>
+        <h1>Monster</h1>
         <main>
             <app-menu-button
                 name="Relic"
@@ -80,6 +79,14 @@
                 (isClicked)="openRelicListModal()"
                 [isActive]="
                     (worldService.world$ | async)?.relicAvailable ?? false
+                "
+            />
+            <app-menu-button
+                name="Bestiaire"
+                path="assets/icon/bestiary.png"
+                (isClicked)="openBestiaryModal()"
+                [isActive]="
+                    (worldService.world$ | async)?.bestiaryAvailable ?? false
                 "
             />
             <app-menu-button

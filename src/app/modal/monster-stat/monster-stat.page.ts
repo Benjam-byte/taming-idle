@@ -23,6 +23,7 @@ import {
 } from 'src/app/database/tamedMonster/tamed-monster.type';
 import { calculateMathFunction } from 'src/app/core/helpers/function/function';
 import { ProfessionManagerService } from 'src/app/core/service/player/profession-manager.service';
+import { RenameModalComponent } from 'src/app/core/components/rename-modal/rename-modal.component';
 
 @Component({
     selector: 'app-monster-stat',
@@ -139,5 +140,24 @@ export class MonsterStatPage {
             (acc, profession) => acc + profession.level,
             0
         );
+    }
+
+    async openRenameModal(id: string) {
+        const modal = await this.modalCtrl.create({
+            component: RenameModalComponent,
+            cssClass: 'fit-modal',
+            backdropDismiss: true,
+            showBackdrop: true,
+            componentProps: {
+                oldName: this.monster.name,
+            },
+        });
+
+        modal.present();
+
+        const { data } = await modal.onWillDismiss();
+        if (data) {
+            this.tamedMonsterManager.updateName$(data, id).subscribe();
+        }
     }
 }

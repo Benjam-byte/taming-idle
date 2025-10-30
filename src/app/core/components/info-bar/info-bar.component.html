@@ -4,7 +4,7 @@
     <div class="badge">{{ getMonsterLevel(monster) }}</div>
 </div>
 <div class="text-info">
-    <p>{{ monster.name }} (Vous)</p>
+    <p class="marg">{{ monster.name }}</p>
     @if(lootManagerService.loot$ | async ; as loot){
     <div class="major-ressource">
         <div class="icon-container">

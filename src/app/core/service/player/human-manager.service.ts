@@ -66,6 +66,12 @@ export class HumanManagerService {
             .pipe(tap((human) => this._human$.next(human)));
     }
 
+    updatePseudo$(pseudo: string) {
+        return this.humanControllerService
+            .update(this.human.id, { pseudo: pseudo })
+            .pipe(tap((human) => this._human$.next(human)));
+    }
+
     updateFinding$(finding: number) {
         return this.humanControllerService
             .update(this.human.id, {
@@ -129,7 +135,7 @@ export class HumanManagerService {
             index: 0,
             monsterSpecies: 'Terra larva',
             monsterId: 'Terra_larva',
-            name: 'player',
+            name: human.pseudo,
             travellingSpeed: human.travellingSpeed,
             fightingSpeed: human.fightingSpeed,
             lockPickingSpeed: human.lockPickingSpeed,
