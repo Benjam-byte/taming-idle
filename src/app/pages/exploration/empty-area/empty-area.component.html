@@ -52,9 +52,9 @@
     </div>
 </div>
 
-} @else{
+} @else { @if(assignedMonsterManager.assignedMonster$ | async; as monster){
 <app-monster-sprite
-    spritePath="assets/monster/sprite/slime/SpriteSheet_Slime_Base_Dos.avif"
+    [spritePath]="dicDosPath[monster.monsterSpecies]"
     class="no-click no-select back"
 />
-}
+} }

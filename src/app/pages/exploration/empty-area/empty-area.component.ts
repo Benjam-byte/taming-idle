@@ -15,12 +15,13 @@ import { AssignedMonsterManagerService } from 'src/app/core/service/player/assig
 import { AutoPilotService } from 'src/app/core/service/auto-pilot';
 import { MonsterSpriteComponent } from 'src/app/core/components/monster-sprite/monster-sprite.component';
 import { GatherFacade } from './gather-facade';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-empty-area',
     templateUrl: './empty-area.component.html',
     styleUrls: ['./empty-area.component.scss'],
-    imports: [MonsterSpriteComponent],
+    imports: [MonsterSpriteComponent, CommonModule],
 })
 export class EmptyAreaComponent {
     gatherFacade = inject(GatherFacade);
@@ -77,6 +78,11 @@ export class EmptyAreaComponent {
         );
         return this.getArrowPath('top', map);
     });
+
+    dicDosPath: Record<string, string> = {
+        Slime: 'assets/monster/sprite/slime/SpriteSheet_Slime_Base_Dos.avif',
+        Duck: 'assets/monster/sprite/duck/SpriteSheet_Duck_Base_Dos.avif',
+    };
 
     constructor() {
         this.gatherFacade.setHost(this.hostRef);
