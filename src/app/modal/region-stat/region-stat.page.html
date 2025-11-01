@@ -8,25 +8,28 @@
     <main>
         @if(regionManager.region$ | async; as region) {
         <div class="combat-wrapper">
-            <h2>Combat</h2>
+            <h2>Information</h2>
             <div class="text-combat">
                 <div class="stat-group">
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img [src]="statIconDict['monsterRate']" alt="damage" />
                         <p>
                             {{ region.monsterSpawnRate * 100 | roundTo : 2}}%
                             monster apparition
                         </p>
                     </div>
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img
+                            [src]="statIconDict['enchantedMonsterRate']"
+                            alt="damage"
+                        />
                         <p>
                             {{ region.enchantedMonsterRate * 100 }}% enchanted
                             monster
                         </p>
                     </div>
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img [src]="statIconDict['eggRate']" alt="damage" />
                         <p>
                             {{ region.eggSpawnRate | toFraction }} monster egg
                         </p>
@@ -34,28 +37,40 @@
                 </div>
                 <div class="stat-group">
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img
+                            [src]="statIconDict['gatherNormalBonus']"
+                            alt="damage"
+                        />
                         <p>
                             {{ (region.resourceQuantity * 100) - 100 | roundTo :
                             2}}% resource quantity
                         </p>
                     </div>
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img
+                            [src]="statIconDict['gatherEnchantedBonus']"
+                            alt="damage"
+                        />
                         <p>
                             {{ region.enchantedResource * 100 }}% enchanted
                             resource
                         </p>
                     </div>
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img
+                            [src]="statIconDict['lootNormalBonus']"
+                            alt="damage"
+                        />
                         <p>
                             {{ (region.monsterResourceQuantity * 100) - 100 |
                             roundTo : 2}}% Soul drop
                         </p>
                     </div>
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img
+                            [src]="statIconDict['lootEnchantedBonus']"
+                            alt="damage"
+                        />
                         <p>
                             {{ region.enchantedMonsterResource * 100 }}%
                             Enchanted soul drop

@@ -8,14 +8,13 @@ import {
 import { XpRangeComponent } from '../xp-range/xp-range.component';
 import { Profession } from 'src/app/database/profession/profession.type';
 import { statIconDict, StatKey } from 'src/app/core/config/statIconDict';
-import { RoundToPipe } from '../../../core/pipe/roundTo.pipe';
 import { calculateMathFunction } from 'src/app/core/helpers/function/function';
 
 type Tier = 10 | 20 | 30;
 
 @Component({
     selector: 'app-profession-card',
-    imports: [XpRangeComponent, RoundToPipe],
+    imports: [XpRangeComponent],
     templateUrl: './profession-card.component.html',
     styleUrl: './profession-card.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,

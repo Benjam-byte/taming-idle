@@ -45,28 +45,28 @@
                 <div class="stat-group">
                     <div class="line">
                         <img [src]="statIconDict['damage']" alt="damage" />
-                        <p>{{ damage() }} Damage</p>
+                        <p>{{ monster.damage }} Damage</p>
                     </div>
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img [src]="statIconDict['attackSpe']" alt="damage" />
                         <p>{{ monster.damageSpecial }} Damage spé</p>
                     </div>
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img [src]="statIconDict['defense']" alt="damage" />
                         <p>{{ monster.defense }} Defense</p>
                     </div>
                 </div>
                 <div class="stat-group">
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img [src]="statIconDict['defenseSpe']" alt="damage" />
                         <p>{{ monster.defenseSpecial }} Defense spé</p>
                     </div>
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img [src]="statIconDict['precision']" alt="damage" />
                         <p>{{ monster.precision }} Précision</p>
                     </div>
                     <div class="line">
-                        <img [src]="statIconDict['damage']" alt="damage" />
+                        <img [src]="statIconDict['critique']" alt="damage" />
                         <p>{{ monster.criticalChance }} Critique chance</p>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="line">
                         <img
-                            [src]="statIconDict['searchingSpeed']"
+                            [src]="statIconDict['lockPickingSpeed']"
                             alt="damage"
                         />
                         <p>{{ monster.lockPickingSpeed }}ms le crochetage</p>
@@ -113,7 +113,7 @@
                     </div>
                     <div class="line">
                         <img
-                            [src]="statIconDict['findingPercentage']"
+                            [src]="statIconDict['gatherNormalBonus']"
                             alt="findingPercentage"
                         />
                         <p>
@@ -123,7 +123,7 @@
                     </div>
                     <div class="line">
                         <img
-                            [src]="statIconDict['findingPercentage']"
+                            [src]="statIconDict['gatherEnchantedBonus']"
                             alt="findingPercentage"
                         />
                         <p>
@@ -133,7 +133,7 @@
                     </div>
                     <div class="line">
                         <img
-                            [src]="statIconDict['findingPercentage']"
+                            [src]="statIconDict['lootNormalBonus']"
                             alt="findingPercentage"
                         />
                         <p>
@@ -143,7 +143,7 @@
                     </div>
                     <div class="line">
                         <img
-                            [src]="statIconDict['findingPercentage']"
+                            [src]="statIconDict['lootEnchantedBonus']"
                             alt="findingPercentage"
                         />
                         <p>

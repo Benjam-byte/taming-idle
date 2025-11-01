@@ -9,7 +9,7 @@ export const professionList = [
         xp: 0,
         description:
             'Se promener, se deplacer dans les dimensions pourrez vous donnez un éclair de génie',
-        value: { stat: 'travellingSpeed', value: -50 },
+        value: { stat: 'travellingSpeed', value: -50, description: '-50ms' },
         image: {
             '10': 'assets/profession/Traveler_I.avif',
             '20': 'assets/profession/Traveler_II.avif',
@@ -31,7 +31,7 @@ export const professionList = [
         xp: 0,
         description:
             "Se battre peu importe l'endroit pourrez vous donnez un éclair de génie",
-        value: { stat: 'fightingSpeed', value: -50 },
+        value: { stat: 'fightingSpeed', value: -50, description: '-50ms' },
         image: {
             '10': 'assets/profession/Guerrier_I.avif',
             '20': 'assets/profession/Guerrier_II.avif',
@@ -53,7 +53,7 @@ export const professionList = [
         xp: 0,
         description:
             'Collecter du blé, planter un arbre pourrez vous donnez un éclair de génie',
-        value: { stat: 'gatherNormalBonus', value: 0.5 },
+        value: { stat: 'gatherNormalBonus', value: 0.5, description: '+5%' },
         image: {
             '10': 'assets/profession/Paysan_I.avif',
             '20': 'assets/profession/Paysan_II.avif',
@@ -75,7 +75,7 @@ export const professionList = [
         xp: 0,
         description:
             'Crocheter un coffre, commettre un mefait pourrez vous donnez un éclair de génie',
-        value: { stat: 'lockPickingSpeed', value: -25 },
+        value: { stat: 'lockPickingSpeed', value: -25, description: '-25ms' },
         image: {
             '10': 'assets/profession/Voleur_I.avif',
             '20': 'assets/profession/Voleur_II.avif',
@@ -96,7 +96,11 @@ export const professionList = [
         level: 1,
         xp: 0,
         description: "Ramasser une plante rare c'est vraiment super",
-        value: { stat: 'gatherEnchantedBonus', value: 0.25 },
+        value: {
+            stat: 'gatherEnchantedBonus',
+            value: 0.25,
+            description: '+25%',
+        },
         image: {
             '10': 'assets/profession/Botaniste_I.avif',
             '20': 'assets/profession/Botaniste_II.avif',
@@ -118,7 +122,7 @@ export const professionList = [
         xp: 0,
         description:
             'Collecter les ames des monstres pourrez vous donnez un éclair de génie',
-        value: { stat: 'lootNormalBonus', value: 0.2 },
+        value: { stat: 'lootNormalBonus', value: 0.2, description: '+20%' },
         image: {
             '10': 'assets/profession/Alchimie_I.png',
             '20': 'assets/profession/Alchimie_II.png',
@@ -140,7 +144,7 @@ export const professionList = [
         xp: 0,
         description:
             'Collecter des ames enchanter pourrez vous donnez un éclair de genie',
-        value: { stat: 'lootEnchantedBonus', value: 0.2 },
+        value: { stat: 'lootEnchantedBonus', value: 0.2, description: '+20%' },
         image: {
             '10': 'assets/profession/Necromancien_I.png',
             '20': 'assets/profession/Necromancien_II.png',
@@ -163,7 +167,7 @@ export const professionList = [
         description:
             "Trouver des monstres ou des tresors sur la carte vous donnera de l'xp",
         color: '#ffff00',
-        value: { stat: 'findingPercentage', value: 0.05 },
+        value: { stat: 'findingPercentage', value: 0.05, description: '+5%' },
         image: {
             '10': 'assets/profession/detective_I.png',
             '20': 'assets/profession/detective_I_II.png',
