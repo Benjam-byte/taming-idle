@@ -6,6 +6,7 @@ import { BestiaryManagerService } from '../monster/bestiary-manager.service';
 import Monster from '../../value-object/monster';
 import { roll } from '../../helpers/proba-rolls';
 import { TamedMonsterManagerService } from '../monster/tamed-monster-manager.service';
+import { WorldManagerService } from './world.service';
 
 @Injectable({
     providedIn: 'root',
@@ -56,7 +57,7 @@ export class RegionManagerService {
         return this._region$.asObservable();
     }
 
-    get monster() {
+    CreateMonster() {
         const monsterName = this.pickMonsterWeightedByIndex(
             this.region.existingMonsterType
         );
@@ -67,7 +68,7 @@ export class RegionManagerService {
             this.bestiaryManagerService.seeMonster(monster.id);
         }
         const isEnchanted = Boolean(roll(this.region.enchantedMonsterRate));
-        return new Monster(monster, isEnchanted);
+        return new Monster(monster, isEnchanted, this.region.monsterLevel);
     }
 
     init$() {
@@ -118,6 +119,14 @@ export class RegionManagerService {
         return this.regionControllerService
             .updateOne(this.region.id, {
                 eggSpawnRate: this.region.eggSpawnRate + value,
+            })
+            .pipe(tap((region) => this._region$.next(region)));
+    }
+
+    updateSelectedRegionMonsterLevel$(value: number) {
+        return this.regionControllerService
+            .updateOne(this.region.id, {
+                monsterLevel: this.region.monsterLevel + value,
             })
             .pipe(tap((region) => this._region$.next(region)));
     }

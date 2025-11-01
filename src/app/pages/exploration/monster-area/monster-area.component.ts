@@ -22,7 +22,7 @@ export class MonsterAreaComponent {
     clickEffectService = inject(ClickEffectService);
     fightFacade = inject(FightFacade);
 
-    monster = this.regionManager.monster;
+    monster = this.fightFacade.getMonster();
 
     fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
 

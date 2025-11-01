@@ -54,7 +54,7 @@ export class TresorAreaComponent implements OnDestroy {
     crochetage(now: number) {
         if (!this.assignedMonsterManager.search(now)) return;
         this.assignedMonsterManager.xpByProfessionName$('Voleur').subscribe();
-        if (this.chest.getCrocheted()) {
+        if (this.chest.getCrocheted() === 1) {
             this.lootChest();
         } else {
             this.msgDisplay.showMessage(

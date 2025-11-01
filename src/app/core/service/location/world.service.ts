@@ -1,15 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { WorldController } from 'src/app/database/world/world.controller';
-import {
-    BehaviorSubject,
-    concat,
-    concatMap,
-    concatWith,
-    map,
-    of,
-    tap,
-} from 'rxjs';
+import { BehaviorSubject, concat, concatMap, map, of, tap } from 'rxjs';
 import { World } from 'src/app/database/world/world.type';
 import { RegionManagerService } from './region.service';
 import { RelicManagerService } from '../player/relic-manager.service';
@@ -154,11 +146,7 @@ export class WorldManagerService {
         return concat(
             this.regionService.updateSelectedRegionMonsterSpawnRate$(1 / 40),
             this.regionService.updateSelectedRegionMonsterChestRate$(1 / 100),
-            this.worldControllerService
-                .update(this.world.id, {
-                    monsterLevel: this.world.monsterLevel + 2,
-                })
-                .pipe(tap((world) => this._world$.next(world)))
+            this.regionService.updateSelectedRegionMonsterLevel$(2)
         );
     }
 
@@ -167,21 +155,16 @@ export class WorldManagerService {
             this.regionService.updateSelectedRegionMonsterSpawnRate$(1 / 40),
             this.regionService.updateSelectedRegionMonsterChestRate$(1 / 100),
             this.regionService.updateSelectedRegionEggSpawnRate$(1 / 518400),
-            this.worldControllerService
-                .update(this.world.id, {
-                    monsterLevel: this.world.monsterLevel + 2,
-                })
-                .pipe(tap((world) => this._world$.next(world)))
+            this.regionService.updateSelectedRegionMonsterLevel$(2)
         );
     }
 
     private level2$() {
         return concat(
-            this.regionService.updateSelectedRegionMonsterSpawnRate$(1 / 40),
             this.regionService.updateSelectedRegionMonsterChestRate$(1 / 100),
+            this.regionService.updateSelectedRegionMonsterLevel$(2),
             this.worldControllerService
                 .update(this.world.id, {
-                    monsterLevel: this.world.monsterLevel + 2,
                     regionAvailable: true,
                     relicAvailable: true,
                     bestiaryAvailable: true,

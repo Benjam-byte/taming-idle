@@ -8,8 +8,13 @@ export default class Monster {
     isEnchanted: boolean;
     isAlive: boolean;
 
-    constructor(monsterProfile: MonsterProfile, isEnchanted: boolean) {
-        this.maxLife = 10;
+    constructor(
+        monsterProfile: MonsterProfile,
+        isEnchanted: boolean,
+        monsterLevel: number
+    ) {
+        console.log('monster created');
+        this.maxLife = 10 + monsterLevel * 3;
         this.life = this.maxLife;
         this.type = monsterProfile.name;
         this.isAlive = true;
@@ -20,7 +25,9 @@ export default class Monster {
     }
 
     getHit(damage: number) {
+        console.log(damage);
         this.life = this.life - damage;
+        console.log('life:', this.life);
         if (this.life <= 0) this.isAlive = false;
     }
 }

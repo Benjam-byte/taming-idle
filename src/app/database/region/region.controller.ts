@@ -36,6 +36,7 @@ export class RegionController {
                     enchantedMonsterResource: 0,
                     eggSpawnRate: 0,
                     monsterEggProbability: { 1: 1, 2: 0, 3: 0 },
+                    monsterLevel: 0,
                 })
             )
         );

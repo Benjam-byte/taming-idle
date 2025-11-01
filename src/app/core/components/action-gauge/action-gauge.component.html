@@ -1,9 +1,10 @@
 <div class="gauge-container">
-  <div class="gauge-track">
-    <div
-      class="gauge-fill"
-      [style]="barStyle()"
-      [class]="isGreen() ? 'green' : 'yellow'"
-    ></div>
-  </div>
+    <div class="gauge-track">
+        <div
+            class="gauge-fill"
+            [style.height.%]="barHeight()"
+            [class.green]="isGreen()"
+            [class.yellow]="!isGreen()"
+        ></div>
+    </div>
 </div>

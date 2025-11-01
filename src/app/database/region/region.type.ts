@@ -18,4 +18,5 @@ export type Region = {
     enchantedMonsterResource: number;
     eggSpawnRate: number;
     monsterEggProbability: { 1: number; 2: number; 3: number };
+    monsterLevel: number;
 };

@@ -4,6 +4,7 @@ import { RegionManagerService } from 'src/app/core/service/location/region.servi
 import { AssignedMonsterManagerService } from 'src/app/core/service/player/assigned-monster-manager.service';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
+import Monster from 'src/app/core/value-object/monster';
 
 @Injectable({
     providedIn: 'root',
@@ -15,17 +16,19 @@ export class FightFacade {
     assignedMonsterManager = inject(AssignedMonsterManagerService);
     lootManager = inject(LootManagerService);
 
-    constructor() {}
+    monster: Monster;
+
+    constructor() {
+        this.monster = this.regionManager.CreateMonster();
+    }
 
     fightFromAuto() {
         this.clickEffectService.damageClickEffectFromAuto(
             this.getAdjustedCenterPosition()
         );
         this.gameEngineService.submitEventByType('fight', () => {
-            if (!this.regionManager.monster.isAlive) return;
-            this.regionManager.monster.getHit(
-                this.assignedMonsterManager.damage
-            );
+            if (!this.monster.isAlive) return;
+            this.monster.getHit(this.assignedMonsterManager.damage);
             this.assignedMonsterManager
                 .xpByProfessionName$('Guerrier')
                 .subscribe();
@@ -36,10 +39,10 @@ export class FightFacade {
     fight(event: MouseEvent) {
         this.clickEffectService.damageClickEffect(event);
         this.gameEngineService.submitEventByType('fight', () => {
-            if (!this.regionManager.monster.isAlive) return;
-            this.regionManager.monster.getHit(
-                this.assignedMonsterManager.damage
-            );
+            if (!this.monster.isAlive) return;
+            console.log(this.monster.life);
+            console.log(this.assignedMonsterManager.damage);
+            this.monster.getHit(this.assignedMonsterManager.damage);
             this.assignedMonsterManager
                 .xpByProfessionName$('Guerrier')
                 .subscribe();
@@ -47,11 +50,14 @@ export class FightFacade {
         });
     }
 
+    getMonster() {
+        this.monster = this.regionManager.CreateMonster();
+        return this.monster;
+    }
+
     private monsterKilled() {
-        if (!this.regionManager.monster.isAlive) {
-            this.lootManager.addLootFromMonsterKilled(
-                this.regionManager.monster
-            );
+        if (!this.monster.isAlive) {
+            this.lootManager.addLootFromMonsterKilled(this.monster);
             this.gameEngineService.submitEventByType('skip');
         }
     }

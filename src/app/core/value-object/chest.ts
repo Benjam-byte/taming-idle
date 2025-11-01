@@ -1,4 +1,4 @@
-import { roll, rollCompoundChance } from '../helpers/proba-rolls';
+import { roll } from '../helpers/proba-rolls';
 
 const lootDict = {
     relicRank1: 0.1,
@@ -7,12 +7,10 @@ const lootDict = {
 
 export default class Chest {
     crochetageSuccesProbability: number;
-    loot: number;
     try: number;
 
     constructor() {
-        this.crochetageSuccesProbability = 1 / 25;
-        this.loot = 5;
+        this.crochetageSuccesProbability = 1 / 15;
         this.try = 0;
     }
 
