@@ -15,7 +15,12 @@ import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 export class RelicListPage {
     relicManagerService = inject(RelicManagerService);
 
-    readonly selectedId = signal<string | undefined>(undefined);
+    selectedId = signal<string | undefined>(undefined);
+    isInfoOpen = signal<boolean>(false);
+
+    setIsInfoOpen() {
+        this.isInfoOpen.set(!this.isInfoOpen());
+    }
 
     select(relic: Relics) {
         if (relic.quantity === 0) return;

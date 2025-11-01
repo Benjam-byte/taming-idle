@@ -16,14 +16,6 @@
                 "
             />
             <app-menu-button
-                name="incubateur"
-                path="assets/icon/creature.png"
-                (isClicked)="openIncubateurModal()"
-                [isActive]="
-                    (worldService.world$ | async)?.incubateurAvailable ?? false
-                "
-            />
-            <app-menu-button
                 name="Map"
                 path="assets/icon/pin.png"
                 (isClicked)="openWorldMapModal()"
@@ -74,19 +66,19 @@
         <h1>Monster</h1>
         <main>
             <app-menu-button
-                name="Relic"
-                path="assets/icon/relic.png"
-                (isClicked)="openRelicListModal()"
-                [isActive]="
-                    (worldService.world$ | async)?.relicAvailable ?? false
-                "
-            />
-            <app-menu-button
                 name="Bestiaire"
                 path="assets/icon/bestiary.png"
                 (isClicked)="openBestiaryModal()"
                 [isActive]="
                     (worldService.world$ | async)?.bestiaryAvailable ?? false
+                "
+            />
+            <app-menu-button
+                name="incubateur"
+                path="assets/icon/creature.png"
+                (isClicked)="openIncubateurModal()"
+                [isActive]="
+                    (worldService.world$ | async)?.incubateurAvailable ?? false
                 "
             />
             <app-menu-button

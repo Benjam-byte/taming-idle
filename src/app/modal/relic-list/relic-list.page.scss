@@ -9,6 +9,20 @@ h3 {
     margin: 0px 20px;
 }
 
+.info-container {
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+    padding: 4px;
+    margin: 10px;
+    margin-top: 20px;
+    text-align: justify;
+}
+
+.y-align {
+    align-items: center;
+}
+
 .relic-card {
     position: relative;
     background-color: brown;

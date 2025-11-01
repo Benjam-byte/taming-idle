@@ -33,4 +33,24 @@
         </div>
     </div>
     } }
+    <div class="info-container">
+        <div class="stat-info y-align" (click)="setIsInfoOpen()">
+            <h3>Info</h3>
+            <img
+                class="info-button"
+                src="assets/icon/information.png"
+                alt="info"
+            />
+        </div>
+        @if(isInfoOpen()) {
+        <p>
+            Les reliques sont des objets rares que l’on peut trouver uniquement
+            dans les coffres. Elles peuvent être assignées aux monstres pour
+            leur offrir différents bonus de statistiques, ce qui les rend plus
+            puissants ou spécialisés selon leur rôle. Plus tard dans l’aventure,
+            il sera aussi possible de les forger ou de les fusionner pour
+            obtenir des versions améliorées, encore plus efficaces.
+        </p>
+        }
+    </div>
 </app-modal-layout>
