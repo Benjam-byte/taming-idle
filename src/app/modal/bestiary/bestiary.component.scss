@@ -5,8 +5,8 @@
 .card {
     position: relative;
     border-radius: 5px;
-    padding: 4px;
-    height: 125px;
+    padding: 8px;
+    height: 130px;
 }
 
 .card img {
@@ -20,7 +20,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    margin: 10px;
+    padding: 10px;
     margin-top: 20px;
     max-height: calc(100dvh - 155px);
     overflow-y: scroll;
