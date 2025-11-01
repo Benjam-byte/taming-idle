@@ -14,6 +14,7 @@ import { XpInfo } from '../../models/xpInfo';
 import { RelicManagerService } from './relic-manager.service';
 import { rollCompoundChance } from '../../helpers/proba-rolls';
 import { ProfessionName } from '../../enum/profession-name.enum';
+import { WorldManagerService } from '../location/world.service';
 
 const XP_STEP = 1;
 const PLAYER_ID = 'Terra larva';
@@ -28,6 +29,7 @@ export class AssignedMonsterManagerService {
     professionManager = inject(ProfessionManagerService);
     relicManager = inject(RelicManagerService);
     broadcastMessageService = inject(BroadcastService);
+    worldManager = inject(WorldManagerService);
 
     nextTravelTime = Date.now();
     nextFightTime = Date.now();
@@ -101,6 +103,7 @@ export class AssignedMonsterManagerService {
     }
 
     xpByProfessionName$(name: string) {
+        if (!this.worldManager.world.skillTreeAvailable) return of();
         if (
             !this.assignedMonster.availableProfession
                 .map((profession) => profession.name)

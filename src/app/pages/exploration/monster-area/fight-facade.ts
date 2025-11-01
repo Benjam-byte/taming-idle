@@ -40,8 +40,6 @@ export class FightFacade {
         this.clickEffectService.damageClickEffect(event);
         this.gameEngineService.submitEventByType('fight', () => {
             if (!this.monster.isAlive) return;
-            console.log(this.monster.life);
-            console.log(this.assignedMonsterManager.damage);
             this.monster.getHit(this.assignedMonsterManager.damage);
             this.assignedMonsterManager
                 .xpByProfessionName$('Guerrier')
