@@ -13,7 +13,7 @@ export default class Monster {
         isEnchanted: boolean,
         monsterLevel: number
     ) {
-        this.maxLife = 10 + monsterLevel * 3;
+        this.maxLife = 6 + monsterLevel * 3;
         this.life = this.maxLife;
         this.type = monsterProfile.name;
         this.isAlive = true;
@@ -24,6 +24,8 @@ export default class Monster {
     }
 
     getHit(damage: number) {
+        console.log('life:', this.life);
+        console.log('damage:', damage);
         this.life = this.life - damage;
         if (this.life <= 0) this.isAlive = false;
     }

@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import { MonsterSpriteComponent } from 'src/app/core/components/monster-sprite/monster-sprite.component';
-import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 import { ActionGaugeComponent } from 'src/app/core/components/action-gauge/action-gauge.component';
 import { CommonModule } from '@angular/common';
 import { RegionManagerService } from 'src/app/core/service/location/region.service';

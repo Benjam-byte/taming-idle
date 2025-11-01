@@ -74,6 +74,15 @@ export class GameEngineService {
             case 'fight':
                 if (this.assignedMonsterManager.fight(now)) event.payload();
                 break;
+            case 'end':
+                this.flashOverlay.flash({
+                    duration: 400,
+                    color: 'rgba(47, 212, 13,1)',
+                    peakOpacity: 0.4,
+                });
+
+                setTimeout(() => this.mapService.travelRandom(), 400);
+                break;
             case 'flee':
                 this.flashOverlay.flash({
                     duration: 400,

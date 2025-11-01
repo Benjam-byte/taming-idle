@@ -78,6 +78,9 @@ export class LootManagerService {
 
     addLootFromMonsterKilled(monster: Monster) {
         if (monster.isEnchanted) {
+            this.assignedMonsterManagerService
+                .xpByProfessionName$('Necromancien')
+                .subscribe();
             this.lootControllerService
                 .update(this.loot.id, {
                     enchantedSoul: 1 + this.loot.enchantedSoul,
@@ -86,6 +89,9 @@ export class LootManagerService {
                     this._loot$.next(loot);
                 });
         } else {
+            this.assignedMonsterManagerService
+                .xpByProfessionName$('Alchimiste')
+                .subscribe();
             this.lootControllerService
                 .update(this.loot.id, {
                     soul: 1 + this.loot.soul,

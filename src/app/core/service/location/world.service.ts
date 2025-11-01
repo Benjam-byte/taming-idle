@@ -71,26 +71,19 @@ export class WorldManagerService {
                 });
                 break;
             case 4:
-                this.broadcastMessageService.displayMessage({
-                    message: 'keep the good work, world power is growing',
-                });
-                this.levelUp$().subscribe();
-                break;
-            case 5:
                 this.enableOffrande();
                 this.broadcastMessageService.displayMessage({
                     message: 'Gods want to talk with you',
                 });
                 this.levelUp$().subscribe();
                 break;
-            case 6:
-                this.enableWorldMap();
+            case 5:
                 this.broadcastMessageService.displayMessage({
-                    message: 'The world is bigger than you think',
+                    message: 'More sacriface to Gods & faster',
                 });
-                this.levelUpAfter5$().subscribe();
+                this.levelUp$().subscribe();
                 break;
-            case 7:
+            case 6:
                 this.enableIncubateur();
                 this.broadcastMessageService.displayMessage({
                     message:
@@ -98,11 +91,31 @@ export class WorldManagerService {
                 });
                 this.levelUpAfter5$().subscribe();
                 break;
-            case 8:
+            case 7:
                 this.broadcastMessageService.displayMessage({
-                    message: 'Got one egg look at incubateur',
+                    message: 'Offered one egg look at incubateur',
                 });
                 this.eggManager.addOneRandomEgg$().subscribe();
+                this.levelUpAfter5$().subscribe();
+                break;
+            case 8:
+                this.broadcastMessageService.displayMessage({
+                    message: 'You will probably need a duck',
+                });
+                this.levelUpAfter5$().subscribe();
+                break;
+            case 9:
+                this.broadcastMessageService.displayMessage({
+                    message: 'One last level and your good',
+                });
+                this.levelUpAfter5$().subscribe();
+                break;
+            case 10:
+                this.broadcastMessageService.displayMessage({
+                    message:
+                        'Well done, but the world is bigger than what you think',
+                });
+                this.enableWorldMap();
                 this.levelUpAfter5$().subscribe();
                 break;
             default:
@@ -177,7 +190,7 @@ export class WorldManagerService {
     firstRelicOpened() {
         if (this.world.firstRelicDroppped) return;
         this.regionService
-            .updateSelectedRegionMonsterChestRate$(-0.9)
+            .updateSelectedRegionMonsterChestRate$(-0.95)
             .subscribe();
         this.worldControllerService
             .update(this.world.id, {

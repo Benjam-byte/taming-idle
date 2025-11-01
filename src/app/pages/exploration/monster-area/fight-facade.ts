@@ -16,11 +16,7 @@ export class FightFacade {
     assignedMonsterManager = inject(AssignedMonsterManagerService);
     lootManager = inject(LootManagerService);
 
-    monster: Monster;
-
-    constructor() {
-        this.monster = this.regionManager.CreateMonster();
-    }
+    monster!: Monster;
 
     fightFromAuto() {
         this.clickEffectService.damageClickEffectFromAuto(
@@ -56,7 +52,7 @@ export class FightFacade {
     private monsterKilled() {
         if (!this.monster.isAlive) {
             this.lootManager.addLootFromMonsterKilled(this.monster);
-            this.gameEngineService.submitEventByType('skip');
+            this.gameEngineService.submitEventByType('end');
         }
     }
 

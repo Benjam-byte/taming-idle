@@ -71,6 +71,6 @@ export class TresorAreaComponent implements OnDestroy {
         this.broadcastService.displayMessage({
             message: `Vous obtenez ${loot}`,
         });
-        this.gameEngineService.submitEventByType('skip');
+        this.gameEngineService.submitEventByType('end');
     }
 }
