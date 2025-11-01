@@ -123,6 +123,14 @@ export class WorldManagerService {
         }
     }
 
+    passTuto() {
+        this.worldControllerService
+            .update(this.world.id, {
+                tutoPassed: true,
+            })
+            .subscribe((world) => this._world$.next(world));
+    }
+
     enableSkillTree() {
         this.worldControllerService
             .update(this.world.id, {

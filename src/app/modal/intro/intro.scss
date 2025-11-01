@@ -1,0 +1,23 @@
+:host {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+img {
+    height: 100%;
+    aspect-ratio: 1;
+    width: 100%;
+}
+
+.text {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    right: 14px;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    padding: 10px;
+}

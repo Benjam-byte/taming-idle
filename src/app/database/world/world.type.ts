@@ -21,4 +21,5 @@ export type World = {
     incubateurAvailable: boolean;
     relicAvailable: boolean;
     monsterLevel: number;
+    tutoPassed: boolean;
 };
