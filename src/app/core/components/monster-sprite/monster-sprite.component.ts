@@ -7,6 +7,7 @@ import {
     ElementRef,
     inject,
     input,
+    NgZone,
     signal,
     ViewChild,
 } from '@angular/core';
@@ -34,6 +35,9 @@ export class MonsterSpriteComponent implements AfterViewInit {
     sprite = new Image();
 
     destroyRef = inject(DestroyRef);
+
+    rafId: number | null = null;
+    zone = inject(NgZone);
 
     ngAfterViewInit(): void {
         this.sprite.src = this.spritePath();
@@ -72,18 +76,30 @@ export class MonsterSpriteComponent implements AfterViewInit {
 
     animate(): void {
         const ctx = this.canvasRef.nativeElement.getContext('2d')!;
-        const step = (time: number) => {
+        const loop = (time: number) => {
             const size = this.displaySize();
             if (size > 0 && this.sprite.complete) {
                 if (time - this.lastUpdate >= this.frameDuration) {
-                    this.frameIndex = (this.frameIndex + 1) % this.frameCount;
-                    this.lastUpdate = time;
+                    // rattrapage des frames si l’onglet a été throttlé
+                    while (time - this.lastUpdate >= this.frameDuration) {
+                        this.frameIndex =
+                            (this.frameIndex + 1) % this.frameCount;
+                        this.lastUpdate += this.frameDuration;
+                    }
                     this.drawFrame(ctx, size);
                 }
             }
-            requestAnimationFrame(step);
+            this.rafId = requestAnimationFrame(loop);
         };
-        requestAnimationFrame(step);
+
+        this.zone.runOutsideAngular(() => {
+            this.rafId = requestAnimationFrame(loop);
+        });
+
+        this.destroyRef.onDestroy(() => {
+            if (this.rafId != null) cancelAnimationFrame(this.rafId);
+            this.rafId = null;
+        });
     }
 
     drawFrame(ctx: CanvasRenderingContext2D, size: number): void {
