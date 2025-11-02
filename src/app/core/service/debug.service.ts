@@ -27,10 +27,17 @@ export class DebugService {
                 this.addEnchantedWheat$(),
                 this.addSoul$(),
                 this.addEnchantedSoul$(),
+                this.addGlitchedStone$(),
                 this.deactivateCheat(),
             ];
             concat(...cheatArray).subscribe(() => console.log('cheat done'));
         }
+    }
+
+    addGlitchedStone$() {
+        const addStone = localStorage.getItem('stone');
+        if (!addStone) return of(null);
+        return this.lootManagerService.addGlitchedStone$(+addStone);
     }
 
     addSoul$() {
