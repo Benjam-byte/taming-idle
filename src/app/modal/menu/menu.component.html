@@ -24,6 +24,14 @@
                 "
             />
             <app-menu-button
+                name="Gisement"
+                path="assets/icon/gems.png"
+                (isClicked)="openFontaineModal()"
+                [isActive]="
+                    (worldService.world$ | async)?.metaGodAvailable ?? false
+                "
+            />
+            <app-menu-button
                 name="Map"
                 path="assets/icon/pin.png"
                 (isClicked)="openWorldMapModal()"

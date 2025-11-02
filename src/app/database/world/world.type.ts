@@ -24,4 +24,12 @@ export type World = {
     tutoPassed: boolean;
     offlinePower: number;
     xpBoost: number;
+    gisement: Gisement;
+};
+
+export type Gisement = {
+    life: number;
+    cooldownMs: number;
+    nextAvailableAt: number;
+    lastHarvestAt: number;
 };

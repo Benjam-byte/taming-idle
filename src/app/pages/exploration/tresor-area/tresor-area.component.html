@@ -1,11 +1,15 @@
 <section
-  class="full centered"
-  (mousedown)="startLoop()"
-  (mouseup)="stopLoop()"
-  (mouseleave)="stopLoop()"
-  (touchstart)="startLoop()"
-  (touchend)="stopLoop()"
+    class="full centered"
+    (mousedown)="startLoop()"
+    (mouseup)="stopLoop()"
+    (mouseleave)="stopLoop()"
+    (touchstart)="startLoop()"
+    (touchend)="stopLoop()"
 >
-  <app-floating-messages #msgDisplay></app-floating-messages>
-  <img src="assets/object/chest.webp" class="no-click no-select" />
+    <app-floating-messages #msgDisplay></app-floating-messages>
+    <img
+        src="assets/object/chest.webp"
+        class="no-click no-select"
+        alt="chest"
+    />
 </section>

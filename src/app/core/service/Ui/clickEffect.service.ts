@@ -43,6 +43,18 @@ export class ClickEffectService {
         });
     }
 
+    spawnCollectFontaineEffect(event: MouseEvent, value: number) {
+        const pickupText = document.createElement('div');
+        pickupText.className = 'fontaine-text';
+        pickupText.textContent = '+' + value;
+        pickupText.style.left = `${event.clientX}px`;
+        pickupText.style.top = `${event.clientY}px`;
+        document.body.appendChild(pickupText);
+        setTimeout(() => {
+            pickupText.remove();
+        }, 600);
+    }
+
     spawnCollectEffect(event: MouseEvent, value: number) {
         const pickupText = document.createElement('div');
         pickupText.className = 'pickup-text';

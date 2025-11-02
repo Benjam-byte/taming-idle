@@ -1,0 +1,35 @@
+<app-modal-layout title="Glitched Mine">
+    @if((worldManager.world$ | async)?.gisement ; as gisement){
+    <main>
+        <div class="container">
+            <img
+                (click)="onClick($event, gisement)"
+                class="stone no-select"
+                [class]="isAvailable(gisement) ? '' : 'disabled'"
+                src="assets/object/Gisement_Glitched_Stone.webp"
+                alt="Gisement"
+            />
+        </div>
+        <div class="info-bar">
+            <div class="icon-container">
+                <p>{{ (lootManager.loot$ | async)?.glitchedStone }}</p>
+                <img
+                    class="scaled"
+                    src="assets/object/Glitched_Stone.webp"
+                    alt="Glitched_Stone"
+                />
+            </div>
+            <div class="icon-container">
+                <p>{{ life() }}</p>
+                <img src="assets/icon/heart.png" alt="heart" />
+            </div>
+            <div class="icon-container">
+                <p [class]="isAvailable(gisement) ? 'green' : 'red'">
+                    {{ gisementNextTime(gisement.nextAvailableAt) }}
+                </p>
+                <img src="assets/icon/hourglass.png" alt="time" />
+            </div>
+        </div>
+    </main>
+    }
+</app-modal-layout>

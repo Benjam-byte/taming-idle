@@ -1,84 +1,83 @@
 ion-content.custom-modal-content {
-  --background: rgba(101, 67, 33, 0.3);
-  /* marron + 70% d'opacité */
-  background: rgba(101, 67, 33, 0.3);
-
+    --background: rgba(101, 67, 33, 0.3);
+    /* marron + 70% d'opacité */
+    background: rgba(101, 67, 33, 0.3);
 }
 
 ::ng-deep .modal-wrapper {
-  background: transparent !important;
-  box-shadow: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
 h1 {
-  text-align: center;
-  background-color: brown;
-  outline: 3px solid rgb(37, 19, 2);
-  border-radius: 5px;
-  padding: 4px;
-  margin-bottom: 20px;
+    text-align: center;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+    padding: 4px;
+    margin-bottom: 20px;
 }
 
 .icon-button {
-  height: 40px;
-  width: 40px;
-  padding: 2px;
-  background-color: brown;
-  outline: 3px solid rgb(37, 19, 2);
-  border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    padding: 2px;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
 }
 
 section {
-  margin-top: 40px;
-  margin-bottom: 80px;
+    margin-top: 40px;
+    margin-bottom: 80px;
 }
 
 main {
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    flex-wrap: wrap;
 }
 
 .button-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  color: white;
-  font-weight: bold;
-  font-size: 12px;
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
 
-  & p {
-    margin: 0;
-  }
+    & p {
+        margin: 0;
+    }
 }
 
 .footer {
-  position: absolute;
-  z-index: 5;
-  width: 100%;
-  bottom: 0px;
-  left: 0px;
-  height: 55px;
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  justify-content: center;
-  background-color: brown;
-  border-top: 3px solid rgb(37, 19, 2);
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: center;
+    background-color: brown;
+    border-top: 3px solid rgb(37, 19, 2);
 }
 
 .footer img {
-  width: 20px;
+    width: 20px;
 }
 
 .footer .button {
-  margin-top: 4px;
-  height: 24px;
-  width: 24px;
-  padding: 2px;
-  background-color: rgb(99, 33, 7);
-  outline: 2px solid rgb(37, 19, 2);
-  border-radius: 5px;
+    margin-top: 4px;
+    height: 24px;
+    width: 24px;
+    padding: 2px;
+    background-color: rgb(99, 33, 7);
+    outline: 2px solid rgb(37, 19, 2);
+    border-radius: 5px;
 }

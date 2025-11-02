@@ -119,6 +119,14 @@ export class LootManagerService {
             .pipe(tap((loot) => this._loot$.next(loot)));
     }
 
+    addGlitchedStone$(value: number): Observable<Loot> {
+        return this.lootControllerService
+            .update(this.loot.id, {
+                glitchedStone: value + this.loot.glitchedStone,
+            })
+            .pipe(tap((loot) => this._loot$.next(loot)));
+    }
+
     addSoul$(value: number): Observable<Loot> {
         this.assignedMonsterManagerService
             .xpByProfessionName$('Alchimiste')

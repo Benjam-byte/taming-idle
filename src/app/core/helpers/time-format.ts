@@ -23,3 +23,40 @@ export function formatElapsed(ms: number): string {
         return `${seconds}s`;
     }
 }
+
+export function formatDurationMs(ms: number): string {
+    if (ms <= 0) return 'Disponible';
+
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const pad = (n: number) => n.toString().padStart(2, '0');
+
+    return `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+}
+
+/**
+ * Transforme un timestamp en ms (différence de temps)
+ * en texte lisible : hh:mm:ss
+ * Exemple : 7540000 → "02:05:40"
+ */
+export function formatTimeFromMs(ms: number): string {
+    if (ms < 0) ms = 0; // évite les valeurs négatives
+
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const pad = (n: number) => String(n).padStart(2, '0');
+
+    return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+}
+
+export function timeUntilAvailable(nextAvailableAt: number): string {
+    const now = Date.now();
+    const diff = nextAvailableAt - now;
+    return formatDurationMs(diff);
+}

@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { IncubateurPage } from '../incubateur/incubateur.page';
 import { StableComponent } from '../stable/stable.component';
 import { MetaGodPalaceComponent } from '../meta-god-palace/meta-god-palace.component';
+import { FontaineComponent } from '../fontaine/fontaine.component';
 
 @Component({
     selector: 'app-menu',
@@ -130,6 +131,18 @@ export class MenuComponent {
         this.modalCtrl.dismiss();
         const modal = await this.modalCtrl.create({
             component: MetaGodPalaceComponent,
+            cssClass: 'full-screen-modal',
+            backdropDismiss: true,
+            showBackdrop: true,
+        });
+
+        modal.present();
+    }
+
+    async openFontaineModal() {
+        this.modalCtrl.dismiss();
+        const modal = await this.modalCtrl.create({
+            component: FontaineComponent,
             cssClass: 'full-screen-modal',
             backdropDismiss: true,
             showBackdrop: true,

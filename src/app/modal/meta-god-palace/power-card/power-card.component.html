@@ -7,6 +7,8 @@
         <p>{{ power.description }}</p>
     </div>
     <div class="extra">
+        @if(power.maxLevel !== 0) {
+
         <p>{{ power.level }} / {{ power.maxLevel }}</p>
         <div>
             <div class="value-container">
@@ -31,6 +33,7 @@
                 Buy
             </button>
         </div>
+        }
     </div>
     }
 </div>

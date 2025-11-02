@@ -1,15 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { WorldController } from 'src/app/database/world/world.controller';
-import {
-    BehaviorSubject,
-    concat,
-    concatMap,
-    forkJoin,
-    map,
-    of,
-    tap,
-} from 'rxjs';
+import { BehaviorSubject, concat, concatMap, forkJoin, map, tap } from 'rxjs';
 import { World } from 'src/app/database/world/world.type';
 import { RegionManagerService } from './region.service';
 import { RelicManagerService } from '../player/relic-manager.service';
@@ -34,7 +26,6 @@ export class WorldManagerService {
     }
 
     get world$() {
-        if (!this._world$) return of(null);
         return this._world$.asObservable();
     }
 
@@ -162,6 +153,19 @@ export class WorldManagerService {
         return this.worldControllerService
             .update(this.world.id, {
                 xpBoost: this.world.xpBoost - 0.1,
+            })
+            .pipe(tap((world) => this._world$.next(world)));
+    }
+
+    collectedGisement$() {
+        return this.worldControllerService
+            .update(this.world.id, {
+                gisement: {
+                    ...this.world.gisement,
+                    nextAvailableAt:
+                        Date.now() + this.world.gisement.cooldownMs,
+                    lastHarvestAt: Date.now(),
+                },
             })
             .pipe(tap((world) => this._world$.next(world)));
     }

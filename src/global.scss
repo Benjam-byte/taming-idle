@@ -159,6 +159,16 @@ ion-modal.full-screen-modal::part(content) {
     animation: pickup-float 600ms ease-out forwards;
 }
 
+.fontaine-text {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: #3a0541;
+    pointer-events: none;
+    user-select: none;
+    animation: pickup-float 600ms ease-out forwards;
+}
+
 .egg-text {
     position: fixed;
     transform: translate(-50%, -50%);
