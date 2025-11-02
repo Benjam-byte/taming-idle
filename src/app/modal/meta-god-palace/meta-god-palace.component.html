@@ -1,20 +1,18 @@
-<ion-content class="ion-padding custom-modal-content">
-    <div
-        class="background-image"
-        [ngStyle]="{ 'background-image': 'url(assets/map/MetaGod_Hotel.webp)' }"
-    ></div>
-    <button class="icon-button" (click)="close()">
-        <img src="assets/icon/earth.png" alt="earth" />
-    </button>
-    <div class="content">
-        <img class="altar" src="assets/altar/Altar_MetaGod.webp" alt="altar" />
-        <div class="altar-description">
-            <p class="justify">
-                {{ message() }}
-            </p>
-            <div class="centered">
-                <button class="bouton-offrande">Echanger</button>
-            </div>
+<div
+    class="background-image"
+    [ngStyle]="{ 'background-image': 'url(assets/map/MetaGod_Hotel.webp)' }"
+></div>
+
+<div class="content">
+    <img class="altar" src="assets/altar/Altar_MetaGod.webp" alt="altar" />
+    <div class="altar-description">
+        <p class="justify">
+            {{ message() }}
+        </p>
+        <div class="centered gap">
+            <button class="bouton-offrande" (click)="openEchangeModal()">
+                Echanger</button
+            ><button class="bouton-offrande" (click)="close()">Quitter</button>
         </div>
     </div>
-</ion-content>
+</div>

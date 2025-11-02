@@ -1,0 +1,124 @@
+:host {
+    height: fit-content;
+    background-color: rgba(42, 85, 165, 0.658);
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    max-height: 75dvh;
+    overflow-y: scroll;
+}
+
+.card-container {
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+    padding: 4px;
+    display: grid;
+    grid-template-columns: 2fr 4fr 1fr;
+}
+p,
+h3 {
+    margin: 0;
+}
+
+.extra p {
+    text-align: justify;
+}
+
+img {
+    grid-column-start: 1;
+    align-self: center;
+}
+
+.text {
+    grid-column-start: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.extra {
+    grid-column-start: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.btn {
+    background-color: #8b1e1e;
+    color: white;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    padding: 8px 16px;
+    width: fit-content;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+    background-color: #a52a2a;
+    /* Un rouge un peu plus clair au survol */
+    transform: scale(1.05);
+}
+
+.btn:active {
+    transform: scale(0.95);
+    background-color: #7a1717;
+}
+
+.btn:disabled {
+    background-color: #555;
+    color: #ccc;
+    border-color: #888;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn:disabled:hover,
+.btn:disabled:active {
+    background-color: #555;
+    transform: none;
+}
+
+header {
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    text-align: center;
+    background-color: brown;
+    outline: 3px solid rgb(37, 19, 2);
+    border-radius: 5px;
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+h1 {
+    margin: 0px;
+}
+
+header p {
+    font-size: 24px;
+    position: absolute;
+    right: 10px;
+}
+
+.value-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.value-container img {
+    width: 15px;
+    transform: scale(2);
+}
