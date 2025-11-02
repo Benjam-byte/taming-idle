@@ -18,6 +18,8 @@ const defaultWorld: {
     incubateurAvailable: boolean;
     monsterLevel: number;
     tutoPassed: boolean;
+    offlinePower: number;
+    xpBoost: number;
 } = {
     regionUnlocked: ['plaine'],
     region: 'plaine',
@@ -33,6 +35,8 @@ const defaultWorld: {
     incubateurAvailable: false,
     monsterLevel: 1,
     tutoPassed: false,
+    offlinePower: 0.5,
+    xpBoost: 1,
 };
 
 @Injectable({ providedIn: 'root' })

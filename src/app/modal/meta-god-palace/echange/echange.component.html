@@ -3,120 +3,12 @@
     <p (click)="close()">X</p>
 </header>
 <div class="list-container">
-    <div class="card-container">
-        <img src="assets/icon/meta/stop.png" alt="stop" />
-        <div class="text">
-            <h3>Stop auto-pilot</h3>
-            <p>Vous permet d'activer/desactiver l'auto pilote</p>
-        </div>
-        <div class="extra">
-            <p>0/1</p>
-            <div>
-                <div class="value-container">
-                    <p>0/0</p>
-                    <img
-                        class="icon"
-                        [src]="`assets/object/Glitched_Stone.webp`"
-                        alt="ressource"
-                    />
-                </div>
-                <button class="btn">Buy</button>
-            </div>
-        </div>
-    </div>
-    <div class="card-container">
-        <img src="assets/icon/meta/offline.png" alt="stop" />
-        <div class="text">
-            <h3>Offline boost</h3>
-            <p>Vous permet d'augmenter votre gain offline de 10%</p>
-        </div>
-        <div class="extra">
-            <p>0/10</p>
-            <div>
-                <div class="value-container">
-                    <p>0/0</p>
-                    <img
-                        class="icon"
-                        [src]="`assets/object/Glitched_Stone.webp`"
-                        alt="ressource"
-                    />
-                </div>
-                <button class="btn">Buy</button>
-            </div>
-        </div>
-    </div>
-    <div class="card-container">
-        <img src="assets/icon/meta/xp.png" alt="stop" />
-        <div class="text">
-            <h3>Xp collector</h3>
-            <p>Vous permet d'augmenter votre gain d'xp de 10%</p>
-        </div>
-        <div class="extra">
-            <p>0/5</p>
-            <div>
-                <div class="value-container">
-                    <p>0/0</p>
-                    <img
-                        class="icon"
-                        [src]="`assets/object/Glitched_Stone.webp`"
-                        alt="ressource"
-                    />
-                </div>
-                <button class="btn">Buy</button>
-            </div>
-        </div>
-    </div>
-    <div class="card-container">
-        <img src="assets/icon/meta/chest.png" alt="stop" />
-        <div class="text">
-            <h3>Chest apparition</h3>
-            <p>Vous permet de trouver plus de coffre</p>
-        </div>
-        <div class="extra">
-            <p>0/10</p>
-            <div>
-                <div class="value-container">
-                    <p>0/0</p>
-                    <img
-                        class="icon"
-                        [src]="`assets/object/Glitched_Stone.webp`"
-                        alt="ressource"
-                    />
-                </div>
-                <button class="btn">Buy</button>
-            </div>
-        </div>
-    </div>
-    <div class="card-container">
-        <img src="assets/icon/meta/eggs.png" alt="stop" />
-        <div class="text">
-            <h3>Plus d'oeuf</h3>
-            <p>Vous trouver plus facilement des oeufs</p>
-        </div>
-        <div class="extra">
-            <p>0/5</p>
-            <div>
-                <div class="value-container">
-                    <p>0/0</p>
-                    <img
-                        class="icon"
-                        [src]="`assets/object/Glitched_Stone.webp`"
-                        alt="ressource"
-                    />
-                </div>
-                <button class="btn">Buy</button>
-            </div>
-        </div>
-    </div>
-    <div class="card-container">
-        <img src="assets/icon/meta/incubateur.png" alt="stop" />
-        <div class="text">
-            <h3>Incubateur supp</h3>
-            <p>Non disponible</p>
-        </div>
-        <div class="extra">
-            <p>0/0</p>
-            <button class="btn" [disabled]="true">Buy</button>
-        </div>
-    </div>
+    @for(power of metaGodPowerManager.metaGodPowerList$ | async; track
+    power.name){
+    <app-power-card
+        [metaGodPower]="power"
+        [glitchedStone]="(lootManager.loot$ | async)?.glitchedStone ?? 0"
+        (buy)="buyPower(power)"
+    />
+    }
 </div>

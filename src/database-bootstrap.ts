@@ -23,7 +23,8 @@ import { TamedMonsterController } from './app/database/tamedMonster/tamed-monste
 import { EggManagerService } from './app/core/service/monster/egg-manager.service';
 import { TamedMonsterManagerService } from './app/core/service/monster/tamed-monster-manager.service';
 import { OfflineProgress } from './app/core/service/offline-progress';
-import { AutoPilotService } from './app/core/service/auto-pilot';
+import { MetaGodController } from './app/database/meta-god/meta-god.controller';
+import { MetaGodPowerManagerService } from './app/core/service/location/meta-god-manager.service';
 
 const DB_VERSION = 6;
 const DB_KEY = 'db';
@@ -46,6 +47,7 @@ export class DatabaseBootstrapService {
     private readonly tamedMonsterControllerService = inject(
         TamedMonsterController
     );
+    private readonly MetaGodControllerService = inject(MetaGodController);
 
     // MANAGERS (loaded after DB is ready)
     private readonly combatTowerService = inject(CombatTowerManagerService);
@@ -65,6 +67,7 @@ export class DatabaseBootstrapService {
     private readonly tamedMonsterManagerService = inject(
         TamedMonsterManagerService
     );
+    private readonly metaGodManagerService = inject(MetaGodPowerManagerService);
 
     //Helpers using maanger
     private readonly offlineProgress = inject(OfflineProgress);
@@ -82,6 +85,7 @@ export class DatabaseBootstrapService {
             this.relicControllerService.init(),
             this.eggControllerService.init(),
             this.tamedMonsterControllerService.init(),
+            this.MetaGodControllerService.init(),
         ]);
     }
 
@@ -99,6 +103,7 @@ export class DatabaseBootstrapService {
             this.relicControllerService.dropTable(),
             this.eggControllerService.dropTable(),
             this.tamedMonsterControllerService.dropTable(),
+            this.MetaGodControllerService.dropTable(),
         ]);
     }
 
@@ -115,6 +120,7 @@ export class DatabaseBootstrapService {
             this.professionManagerService.init$(),
             this.eggManagerService.init$(),
             this.tamedMonsterManagerService.init$(),
+            this.metaGodManagerService.init$(),
         ]).pipe(
             catchError((err) => {
                 // log and continue – avoid killing the app

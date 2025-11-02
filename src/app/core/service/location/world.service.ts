@@ -150,6 +150,22 @@ export class WorldManagerService {
             .subscribe((world) => this._world$.next(world));
     }
 
+    updateOfflinePower$() {
+        return this.worldControllerService
+            .update(this.world.id, {
+                offlinePower: this.world.offlinePower - 0.1,
+            })
+            .pipe(tap((world) => this._world$.next(world)));
+    }
+
+    updateXpBoost$() {
+        return this.worldControllerService
+            .update(this.world.id, {
+                xpBoost: this.world.xpBoost + 0.1,
+            })
+            .pipe(tap((world) => this._world$.next(world)));
+    }
+
     enableIncubateur() {
         this.worldControllerService
             .update(this.world.id, {

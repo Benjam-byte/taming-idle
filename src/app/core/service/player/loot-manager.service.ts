@@ -174,6 +174,16 @@ export class LootManagerService {
             .pipe(tap((loot) => this._loot$.next(loot)));
     }
 
+    paidGlitchedStone$(stone: number): Observable<Loot> {
+        if (this.loot.glitchedStone - stone < 0)
+            throw new Error('not enough stone');
+        return this.lootControllerService
+            .update(this.loot.id, {
+                glitchedStone: this.loot.glitchedStone - stone,
+            })
+            .pipe(tap((loot) => this._loot$.next(loot)));
+    }
+
     paidEnchantedWheat$(wheat: number) {
         if (this.loot.enchantedWheatQuantity - wheat < 0)
             throw new Error('not enough money');

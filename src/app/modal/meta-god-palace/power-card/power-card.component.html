@@ -1,0 +1,36 @@
+<div class="card-container">
+    @if(metaGodPower(); as power) {
+
+    <img [src]="power.image" alt="stop" />
+    <div class="text">
+        <h3>{{ power.name }}</h3>
+        <p>{{ power.description }}</p>
+    </div>
+    <div class="extra">
+        <p>{{ power.level }} / {{ power.maxLevel }}</p>
+        <div>
+            <div class="value-container">
+                <span
+                    ><p>{{ glitchedStone() }}/</p>
+                    <p>{{ power.cost[power.level] }}</p></span
+                >
+                <img
+                    class="icon"
+                    [src]="`assets/object/Glitched_Stone.webp`"
+                    alt="ressource"
+                />
+            </div>
+            <button
+                class="btn"
+                [disabled]="
+                    power.level === power.maxLevel ||
+                    glitchedStone() < power.cost[power.level]
+                "
+                (click)="onClick()"
+            >
+                Buy
+            </button>
+        </div>
+    </div>
+    }
+</div>

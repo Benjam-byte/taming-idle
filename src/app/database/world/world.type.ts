@@ -22,4 +22,6 @@ export type World = {
     relicAvailable: boolean;
     monsterLevel: number;
     tutoPassed: boolean;
+    offlinePower: number;
+    xpBoost: number;
 };
