@@ -10,6 +10,9 @@ import {
     switchMap,
     iif,
     EMPTY,
+    range,
+    concatMap,
+    last,
 } from 'rxjs';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
@@ -160,20 +163,26 @@ export class TamedMonsterManagerService {
                 this.getXpCap(lvl, cfg.function)
             );
         }
-        const next = monster.availableProfession.map((p) => {
-            const gain = gains.get(p.name);
-            if (!gain || gain <= 0) return p;
+        const next = monster.availableProfession.map((profession) => {
+            const gain = gains.get(profession.name);
+            if (!gain || gain <= 0) return profession;
 
-            const getCap = capByProfession.get(p.name)!;
-            const { level, xp } = this.applyXpGain(
-                p.level,
-                p.xp,
+            const getCap = capByProfession.get(profession.name)!;
+            const { level, numberOfLevel, xp } = this.applyXpGain(
+                profession.level,
+                profession.xp,
                 gain,
-                p.levelCap,
+                profession.levelCap,
                 getCap
             );
 
-            return { ...p, level, xp };
+            this.levelUpNTimes$(
+                profession.name,
+                monster,
+                numberOfLevel
+            ).subscribe();
+
+            return { ...profession, level, xp };
         });
 
         return this.tamedMonsterController
@@ -226,6 +235,13 @@ export class TamedMonsterManagerService {
             .pipe(
                 tap((monsterList) => this._tamedMonsterList$.next(monsterList))
             );
+    }
+
+    levelUpNTimes$(professionName: string, monster: TamedMonster, n: number) {
+        return range(0, n).pipe(
+            concatMap(() => this.levelUp$(professionName, monster)),
+            last()
+        );
     }
 
     private getXpCap(currentLevel: number, func: Function) {
@@ -397,9 +413,10 @@ export class TamedMonsterManagerService {
         xpGain: number,
         maxLevel: number,
         getCap: (level: number) => number
-    ): { level: number; xp: number } {
+    ): { level: number; numberOfLevel: number; xp: number } {
         let level = currentLevel;
         let xp = currentXp + xpGain;
+        let numberOfLevel = 0;
 
         // On consomme l'XP en franchissant les caps successifs
         while (level < maxLevel) {
@@ -407,6 +424,7 @@ export class TamedMonsterManagerService {
             if (xp < cap) break; // pas assez pour passer
             xp -= cap; // on consomme le cap du niveau
             level += 1; // niveau suivant
+            numberOfLevel += 1;
         }
 
         // À max level, on peut soit garder l'XP résiduelle, soit la clamp à 0.
@@ -416,6 +434,6 @@ export class TamedMonsterManagerService {
             xp = 0;
         }
 
-        return { level, xp };
+        return { level, numberOfLevel, xp };
     }
 }

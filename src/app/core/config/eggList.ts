@@ -17,7 +17,7 @@ export const eggList = [
         image: 'assets/egg/eart_slime.png',
         monsterName: 'Earth Slime',
         createdAt: new Date(),
-        hatchingTime: 3600 * 60 * 24,
+        hatchingTime: 3600 * 60 * 24 * 24,
         incubateur: null,
     },
 ];

@@ -54,3 +54,25 @@ export function rollCompoundChance(
     const roll = Math.random();
     return roll < combinedChance;
 }
+
+/**
+ * Calcule la probabilité qu’un événement soit survenu
+ * au moins une fois dans une durée totale donnée.
+ *
+ * @param duration Temps total d’observation (même unité que interval)
+ * @param interval Temps entre chaque tentative
+ * @param p Probabilité de succès à chaque tentative (entre 0 et 1)
+ * @returns Probabilité qu’au moins un événement ait eu lieu (entre 0 et 1)
+ */
+export function probabilityAtLeastOneEvent(
+    duration: number,
+    interval: number,
+    p: number
+): number {
+    if (interval <= 0 || duration <= 0) return 0;
+    if (p <= 0) return 0;
+    if (p >= 1) return 1;
+
+    const n = Math.floor(duration / interval);
+    return 1 - Math.pow(1 - p, n);
+}

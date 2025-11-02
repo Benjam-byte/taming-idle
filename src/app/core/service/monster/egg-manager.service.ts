@@ -61,6 +61,13 @@ export class EggManagerService {
             .pipe(tap((egg) => this._eggList$.next(egg)));
     }
 
+    addOneEggFromSnap$(number: number) {
+        if (number === 0) return of();
+        return this.eggController
+            .create(this.createOneEgg())
+            .pipe(tap((egg) => this._eggList$.next(egg)));
+    }
+
     incubeEgg$(egg: Egg) {
         const availableIndex = this.getFirstIndexIncubateurAvailable();
         if (availableIndex === -1) throw new Error("Pas d'incubateur dispo");

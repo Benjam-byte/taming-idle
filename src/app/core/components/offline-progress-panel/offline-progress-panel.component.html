@@ -23,6 +23,12 @@
         </div>
     </div>
     <div>
+        <div class="icon-container">
+            <img src="assets/egg/slime_egg.png" alt="egg" />
+            <p>Egg : {{ restored.egg | roundTo : 2 }}</p>
+        </div>
+    </div>
+    <div>
         @if(isProfessionList()){
         <h3>Xp collecté</h3>
         @for(profession of professionList(); track profession.name) {

@@ -6,6 +6,8 @@ import { RegionManagerService } from './location/region.service';
 import { LootManagerService } from './player/loot-manager.service';
 import { ProfessionName } from '../enum/profession-name.enum';
 import { forkJoin, tap } from 'rxjs';
+import { probabilityAtLeastOneEvent } from '../helpers/proba-rolls';
+import { EggManagerService } from './monster/egg-manager.service';
 
 export type OfflineSnapshot = {
     version: 1;
@@ -22,6 +24,7 @@ const LS_KEY = 'offline:snapshot:v1';
 export class OfflineProgress {
     assignedMonsterManager = inject(AssignedMonsterManagerService);
     regionManager = inject(RegionManagerService);
+    eggManager = inject(EggManagerService);
     lootManager = inject(LootManagerService);
 
     constructor() {}
@@ -50,6 +53,7 @@ export class OfflineProgress {
               enchantedWheat: number;
               soul: number;
               enchantedSoul: number;
+              egg: number;
               snapshot: OfflineSnapshot;
               xpObject: Record<ProfessionName, number>;
           }
@@ -76,6 +80,7 @@ export class OfflineProgress {
                 enchantedWheat: 0,
                 soul: 0,
                 enchantedSoul: 0,
+                egg: 0,
                 snapshot: snap,
                 xpObject: {
                     [ProfessionName.Voyageur]: 0,
@@ -120,6 +125,11 @@ export class OfflineProgress {
                   snap.selectedRegion
               )
             : 0;
+        const egg = this.collectEgg(
+            snap.assignedMonster,
+            dtMs,
+            snap.selectedRegion
+        );
         const xpObject: Record<ProfessionName, number> = {
             Guerrier: this.xpForGuerrier(snap.assignedMonster, soul),
             Fermier: this.xpForFermier(snap.assignedMonster, wheat),
@@ -145,6 +155,7 @@ export class OfflineProgress {
             enchantedWheat,
             soul,
             enchantedSoul,
+            egg,
             snapshot: snap,
             xpObject,
         };
@@ -155,6 +166,7 @@ export class OfflineProgress {
         enchantedWheat: number;
         soul: number;
         enchantedSoul: number;
+        egg: number;
         xpObject: Record<ProfessionName, number>;
     }) {
         const professionXpList = Object.entries(value.xpObject)
@@ -165,6 +177,7 @@ export class OfflineProgress {
             }));
         return forkJoin([
             this.lootManager.addFromSnap$(value),
+            this.eggManager.addOneEggFromSnap$(value.egg),
             this.assignedMonsterManager.xpOffline$(professionXpList),
         ]).pipe(tap(() => this.saveSnapshot()));
     }
@@ -194,6 +207,20 @@ export class OfflineProgress {
             (ellapsedTime / (assignedMonster.travellingSpeed * 0.75)) *
                 selectedRegion.monsterSpawnRate
         );
+    }
+
+    private collectEgg(
+        assignedMonster: TamedMonster,
+        ellapsedTime: number,
+        selectedRegion: Region
+    ) {
+        return probabilityAtLeastOneEvent(
+            ellapsedTime,
+            assignedMonster.travellingSpeed,
+            selectedRegion.eggSpawnRate
+        ) >= 0.95
+            ? 1
+            : 0;
     }
 
     private collectEnchantedSoul(

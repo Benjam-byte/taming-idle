@@ -23,6 +23,7 @@ export class OfflineProgressPanelComponent implements OnInit {
               enchantedWheat: number;
               soul: number;
               enchantedSoul: number;
+              egg: number;
               snapshot: OfflineSnapshot;
               xpObject: Record<ProfessionName, number>;
           }
