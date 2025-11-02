@@ -12,12 +12,6 @@ import { God } from 'src/app/database/god/god.type';
 })
 export class MetaGodPalaceComponent {
     modalCtrl = inject(ModalController);
-    metaGod = {
-        level: 100000000,
-        name: '.?xexs?',
-        description: '...',
-        imagePath: 'assets/altar/Altar_MetaGod.webp',
-    };
 
     close() {
         this.modalCtrl.dismiss();

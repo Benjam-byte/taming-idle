@@ -37,8 +37,8 @@ export class FightTowerComponent {
     fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
 
     dicCursedPath: Record<string, string> = {
-        slime: 'assets/monster/sprite/slime/SpriteSheet_Slime_Cursed.avif',
-        duck: 'assets/monster/sprite/duck/SpriteSheet_Duck_Cursed.avif',
+        slime: 'assets/monster/sprite/slime/SpriteSheet_Slime_Cursed.webp',
+        duck: 'assets/monster/sprite/duck/SpriteSheet_Duck_Cursed.webp',
     };
 
     constructor() {

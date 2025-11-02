@@ -190,4 +190,27 @@ export const godList = [
             stat: 'monsterEggProbability',
         },
     },
+    {
+        name: GodNameList.Meta,
+        description: '',
+        imagePath: 'assets/altar/MetaGod_Portal_Closed_Glitch.webp',
+        index: 9,
+        level: 0,
+        maxLevel: 0,
+        cost: {
+            function: {
+                name: 'exp',
+                parameter: {
+                    a: 0,
+                    b: 0,
+                    c: 0,
+                },
+            } as Expo,
+            resource: ResourceType.GlitchedStone,
+        },
+        gain: {
+            value: 0,
+            stat: '',
+        },
+    },
 ];

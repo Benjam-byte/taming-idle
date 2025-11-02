@@ -7,4 +7,5 @@ export const enum GodNameList {
     Death = 'Dieu de la mort',
     Sorcerer = 'Dieu de la sorcellerie',
     Birth = 'Dieu de la fécondité',
+    Meta = '',
 }

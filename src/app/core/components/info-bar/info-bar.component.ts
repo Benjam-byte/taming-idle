@@ -64,7 +64,6 @@ export class InfoBarComponent {
     }
 
     getImage(name: string) {
-        console.log('from info bar');
         return this.tamedMonsterManager.getImageFromMonster(name);
     }
 

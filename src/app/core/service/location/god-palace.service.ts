@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { GodController } from 'src/app/database/god/god.controller';
 import { God } from 'src/app/database/god/god.type';
 import { BehaviorSubject, map, of, tap } from 'rxjs';
+import { GodNameList } from '../../enum/god.enum';
 
 @Injectable({
     providedIn: 'root',
@@ -33,5 +34,16 @@ export class GodManagerService {
         this.godController
             .updateOne(god.id, { level: god.level + 1 })
             .subscribe((godList) => this._godList$.next(godList));
+    }
+
+    updateMetaGodPath$() {
+        const metaGod = this.godList.find(
+            (god) => god.name === GodNameList.Meta
+        ) as God;
+        return this.godController
+            .updateOne(metaGod.id, {
+                imagePath: 'assets/altar/MetaGod_Portal_Glitched.webp',
+            })
+            .pipe(tap((godList) => this._godList$.next(godList)));
     }
 }

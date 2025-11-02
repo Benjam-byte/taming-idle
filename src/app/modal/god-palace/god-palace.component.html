@@ -17,7 +17,6 @@
                 alt="altar"
                 (click)="goToMetaPalace()"
             />
-            @if(selectedGod.description !== "") {
             <div class="altar-description">
                 <div class="description-header">
                     <img
@@ -25,6 +24,8 @@
                         src="assets/icon/back.png"
                         alt="back"
                     />
+                    @if(selectedGod.description != ''){
+
                     <div class="value-container">
                         <img
                             class="icon"
@@ -44,6 +45,7 @@
                             {{ getPrice(selectedGod) | roundTo : 2 }}
                         </p>
                     </div>
+                    }
                     <img
                         (click)="next(1)"
                         class="reverse"
@@ -54,6 +56,7 @@
                 <p class="justify">
                     {{ selectedGod.description }}
                 </p>
+                @if(selectedGod.description != ''){
                 <div class="centered">
                     <button
                         class="bouton-offrande"
@@ -69,8 +72,8 @@
                         {{ selectedGod.level }} / {{ selectedGod.maxLevel }}
                     </p>
                 </div>
+                }
             </div>
-            }
         </div>
         }
     </div>

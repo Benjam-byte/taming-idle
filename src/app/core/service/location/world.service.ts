@@ -1,11 +1,20 @@
 import { inject, Injectable } from '@angular/core';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { WorldController } from 'src/app/database/world/world.controller';
-import { BehaviorSubject, concat, concatMap, map, of, tap } from 'rxjs';
+import {
+    BehaviorSubject,
+    concat,
+    concatMap,
+    forkJoin,
+    map,
+    of,
+    tap,
+} from 'rxjs';
 import { World } from 'src/app/database/world/world.type';
 import { RegionManagerService } from './region.service';
 import { RelicManagerService } from '../player/relic-manager.service';
 import { EggManagerService } from '../monster/egg-manager.service';
+import { GodManagerService } from './god-palace.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,6 +25,7 @@ export class WorldManagerService {
     relicManagerService = inject(RelicManagerService);
     eggManager = inject(EggManagerService);
     regionService = inject(RegionManagerService);
+    godManager = inject(GodManagerService);
 
     private _world$!: BehaviorSubject<World>;
 
@@ -79,8 +89,9 @@ export class WorldManagerService {
                 break;
             case 5:
                 this.broadcastMessageService.displayMessage({
-                    message: 'More sacriface to Gods & faster',
+                    message: 'Plus de sacrifice, plus vite',
                 });
+                this.enableMetaGod();
                 this.levelUp$().subscribe();
                 break;
             case 6:
@@ -153,6 +164,17 @@ export class WorldManagerService {
                 offrandeAvailable: true,
             })
             .subscribe((world) => this._world$.next(world));
+    }
+
+    enableMetaGod() {
+        forkJoin([
+            this.godManager.updateMetaGodPath$(),
+            this.worldControllerService
+                .update(this.world.id, {
+                    metaGodAvailable: true,
+                })
+                .pipe(tap((world) => this._world$.next(world))),
+        ]).subscribe();
     }
 
     enableWorldMap() {

@@ -20,6 +20,7 @@ import { WorldManagerService } from 'src/app/core/service/location/world.service
 import { concatMap, of, switchMap } from 'rxjs';
 import { calculateMathFunction } from 'src/app/core/helpers/function/function';
 import { RoundToPipe } from '../../core/pipe/roundTo.pipe';
+import { GodNameList } from 'src/app/core/enum/god.enum';
 
 @Component({
     selector: 'app-god-palace',
@@ -74,25 +75,9 @@ export class GodPalaceComponent {
         );
     }
 
-    openWorldMapModal() {
-        this.close();
-        this.openWorldModal();
-    }
-
-    async openWorldModal() {
-        const modal = await this.modalCtrl.create({
-            component: WorldMapComponent,
-            cssClass: 'full-screen-modal',
-            backdropDismiss: true,
-            showBackdrop: true,
-        });
-
-        modal.present();
-    }
-
     goToMetaPalace() {
         const selectedGod = this.selectedGod();
-        if (selectedGod) {
+        if (selectedGod?.name === GodNameList.Meta) {
             if (!this.worldService.world.metaGodAvailable) return;
             this.close();
             this.openMetaGodModal();

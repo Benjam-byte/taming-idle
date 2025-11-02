@@ -177,7 +177,6 @@ export class TamedMonsterManagerService {
                 profession.levelCap,
                 getCap
             );
-            console.log('I should levelUpNtimes');
 
             this.levelUpNTimes$(
                 profession.name,
@@ -241,7 +240,6 @@ export class TamedMonsterManagerService {
     }
 
     levelUpNTimes$(professionName: string, monster: TamedMonster, n: number) {
-        console.log(professionName);
         return range(0, n).pipe(
             concatMap(() =>
                 this.getMonsterById$(monster.id).pipe(

@@ -39,13 +39,14 @@
 
 header {
     height: fit-content;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: 4px;
+    margin-left: 4px;
     text-align: center;
     background-color: brown;
     outline: 3px solid rgb(37, 19, 2);
     border-radius: 5px;
     padding: 4px;
+    min-height: 40px;
     display: flex;
     justify-content: center;
     position: relative;

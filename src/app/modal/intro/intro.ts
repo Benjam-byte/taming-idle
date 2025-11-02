@@ -29,7 +29,8 @@ export class IntroPage {
     onClick() {
         if (this.index() === 8) {
             this.modalCtrl.dismiss(true);
+        } else {
+            this.index.update((v) => v + 1);
         }
-        this.index.update((v) => v + 1);
     }
 }

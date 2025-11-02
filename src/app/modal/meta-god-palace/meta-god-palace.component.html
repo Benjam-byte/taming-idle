@@ -1,25 +1,25 @@
 <ion-content class="ion-padding custom-modal-content">
-  <div
-    class="background-image"
-    [ngStyle]="{ 'background-image': 'url(assets/map/MetaGod_Hotel.webp)' }"
-  ></div>
-  <button class="icon-button" (click)="close()">
-    <img src="assets/icon/earth.png" alt="earth" />
-  </button>
-  <div class="content">
-    <div class="altar-container">
-      <img class="altar" [src]="metaGod.imagePath" alt="altar" />
-      @if(metaGod.description !== "") {
-      <div class="altar-description">
-        <h3>Offrande</h3>
-        <p class="justify">
-          {{ metaGod.description }}
-        </p>
-        <div class="centered">
-          <button class="bouton-offrande">Offrir</button>
+    <div
+        class="background-image"
+        [ngStyle]="{ 'background-image': 'url(assets/map/MetaGod_Hotel.webp)' }"
+    ></div>
+    <button class="icon-button" (click)="close()">
+        <img src="assets/icon/earth.png" alt="earth" />
+    </button>
+    <div class="content">
+        <div class="altar-container">
+            <img
+                class="altar"
+                src="assets/altar/Altar_MetaGod.webp"
+                alt="altar"
+            />
+            <div class="altar-description">
+                <h3>Offrande</h3>
+                <p class="justify"></p>
+                <div class="centered">
+                    <button class="bouton-offrande">Offrir</button>
+                </div>
+            </div>
         </div>
-      </div>
-      }
     </div>
-  </div>
 </ion-content>
