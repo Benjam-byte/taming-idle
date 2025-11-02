@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalController } from '@ionic/angular/standalone';
 import { RegionManagerService } from 'src/app/core/service/location/region.service';
@@ -15,11 +15,13 @@ import { AutoPilotService } from 'src/app/core/service/auto-pilot';
 import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
 import { ToFractionPipe } from '../../core/pipe/toFration.pipe';
 import { OfflineProgress } from 'src/app/core/service/offline-progress';
+import { take } from 'rxjs';
 @Component({
     selector: 'app-region-stat',
     templateUrl: './region-stat.page.html',
     styleUrls: ['./region-stat.page.scss'],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         CommonModule,
         XpRangeComponent,

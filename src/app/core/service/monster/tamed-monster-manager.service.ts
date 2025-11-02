@@ -227,11 +227,17 @@ export class TamedMonsterManagerService {
     levelUp$(professionName: string, monster: TamedMonster) {
         const profession =
             this.professionManager.getProfessionByName(professionName);
+        const t = updateStatFromProfession(profession, monster);
+        console.log(t);
+        const b = getStatUpdateFromMonsterLevel(monster);
+        console.log(b);
+        const c = {
+            ...b,
+            ...t,
+        };
+        console.log(c);
         return this.tamedMonsterController
-            .updateOne(monster.id, {
-                ...getStatUpdateFromMonsterLevel(monster),
-                ...updateStatFromProfession(profession, monster),
-            })
+            .updateOne(monster.id, c)
             .pipe(
                 tap((monsterList) => this._tamedMonsterList$.next(monsterList))
             );

@@ -24,8 +24,6 @@ export default class Monster {
     }
 
     getHit(damage: number) {
-        console.log('life:', this.life);
-        console.log('damage:', damage);
         this.life = this.life - damage;
         if (this.life <= 0) this.isAlive = false;
     }

@@ -5,8 +5,6 @@ import { ModalController } from '@ionic/angular/standalone';
 import { PlayerStatPage } from 'src/app/modal/player-stat/player-stat.page';
 import { CombatTowerManagerService } from '../../service/location/combat-tower.service';
 import { RoundToPipe } from '../../pipe/roundTo.pipe';
-import { RegionManagerService } from '../../service/location/region.service';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { TamedMonsterManagerService } from '../../service/monster/tamed-monster-manager.service';
 import { AssignedMonsterManagerService } from '../../service/player/assigned-monster-manager.service';
 import { MonsterStatPage } from 'src/app/modal/monster-stat/monster-stat.page';
@@ -25,8 +23,6 @@ export class InfoBarComponent {
     assignedMonsterManager = inject(AssignedMonsterManagerService);
     tamedMonsterManager = inject(TamedMonsterManagerService);
     combatTowerManagerService = inject(CombatTowerManagerService);
-
-    assignedMonster = toSignal(this.assignedMonsterManager.assignedMonster$);
 
     openInfoModal() {
         if (
@@ -68,6 +64,7 @@ export class InfoBarComponent {
     }
 
     getImage(name: string) {
+        console.log('from info bar');
         return this.tamedMonsterManager.getImageFromMonster(name);
     }
 

@@ -1,11 +1,12 @@
-import { inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { GameEngineService } from './game-engine.service';
-import { sampleTime, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, sampleTime, Subscription } from 'rxjs';
 import { AssignedMonsterManagerService } from './player/assigned-monster-manager.service';
 import { MapManagerService } from './location/map.service';
 import { GatherFacade } from 'src/app/pages/exploration/empty-area/gather-facade';
 import { ProfessionName } from '../enum/profession-name.enum';
 import { FightFacade } from 'src/app/pages/exploration/monster-area/fight-facade';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
     providedIn: 'root',
@@ -16,24 +17,29 @@ export class AutoPilotService {
     assignedMonsterManager = inject(AssignedMonsterManagerService);
     gatherFacade = inject(GatherFacade);
     fightFacade = inject(FightFacade);
+    destroyRef = inject(DestroyRef);
 
     private autoPilotSub?: Subscription;
     isActive!: boolean;
 
     constructor() {
-        this.assignedMonsterManager.assignedMonster$.subscribe((monster) => {
-            if (monster.monsterSpecies === 'Terra larva')
-                this.toggleAutoPilote(false);
-            else this.toggleAutoPilote(true);
-        });
+        this.assignedMonsterManager.assignedMonster$
+            .pipe(
+                map((monster) => monster.monsterSpecies !== 'Terra larva'),
+                distinctUntilChanged(),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe((active) => this.toggleAutoPilote(active));
     }
 
     toggleAutoPilote(value: boolean) {
+        if (value === this.isActive) return;
         this.isActive = value;
         this.isActive ? this.activateAutoPilote() : this.deactivateAutoPilote();
     }
 
     activateAutoPilote() {
+        if (this.autoPilotSub && !this.autoPilotSub.closed) return;
         this.autoPilotSub = this.gameEnginService
             .getTick$()
             .pipe(

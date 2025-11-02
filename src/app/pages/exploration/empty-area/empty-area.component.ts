@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component,
     computed,
     effect,
@@ -22,6 +23,7 @@ import { CommonModule } from '@angular/common';
     templateUrl: './empty-area.component.html',
     styleUrls: ['./empty-area.component.scss'],
     imports: [MonsterSpriteComponent, CommonModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmptyAreaComponent {
     gatherFacade = inject(GatherFacade);

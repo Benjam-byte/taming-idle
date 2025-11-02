@@ -1,12 +1,19 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, filter, map, Observable, of, tap } from 'rxjs';
+import {
+    BehaviorSubject,
+    distinctUntilChanged,
+    filter,
+    map,
+    Observable,
+    of,
+    tap,
+} from 'rxjs';
 import { RegionController } from 'src/app/database/region/region.controller';
 import { Region } from 'src/app/database/region/region.type';
 import { BestiaryManagerService } from '../monster/bestiary-manager.service';
 import Monster from '../../value-object/monster';
 import { roll } from '../../helpers/proba-rolls';
 import { TamedMonsterManagerService } from '../monster/tamed-monster-manager.service';
-import { WorldManagerService } from './world.service';
 
 @Injectable({
     providedIn: 'root',
@@ -54,7 +61,7 @@ export class RegionManagerService {
 
     get region$() {
         if (!this._region$) return of(null);
-        return this._region$.asObservable();
+        return this._region$.asObservable().pipe(distinctUntilChanged());
     }
 
     CreateMonster() {
