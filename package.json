@@ -10,7 +10,8 @@
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "lint": "ng lint",
-        "build:android": "rm -rf android && ionic build && powershell -Command \"(Get-Content www/index.html).Replace('<base href=\\\"/taming-idle/\\\">','<base href=\\\"./\\\">') | Set-Content www/index.html\" && npx cap add android && npx cap sync android && npx cap open android"
+        "build:android": "ionic build -- --base-href=./ && npx cap copy android && npx cap sync android && npx cap open android",
+        "reset:android": "rm -rf android && ionic build && powershell -Command \"(Get-Content www/index.html).Replace('<base href=\\\"/taming-idle/\\\">','<base href=\\\"./\\\">') | Set-Content www/index.html\" && npx cap add android && npx cap sync android && npx cap open android"
     },
     "private": true,
     "dependencies": {
