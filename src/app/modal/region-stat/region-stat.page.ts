@@ -14,6 +14,7 @@ import { HumanManagerService } from 'src/app/core/service/player/human-manager.s
 import { AutoPilotService } from 'src/app/core/service/auto-pilot';
 import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
 import { ToFractionPipe } from '../../core/pipe/toFration.pipe';
+import { OfflineProgress } from 'src/app/core/service/offline-progress';
 @Component({
     selector: 'app-region-stat',
     templateUrl: './region-stat.page.html',
@@ -35,6 +36,7 @@ export class RegionStatPage {
     tamedMonsterManager = inject(TamedMonsterManagerService);
     humanManager = inject(HumanManagerService);
     autoPilotService = inject(AutoPilotService);
+    offlineProgressService = inject(OfflineProgress);
     statIconDict = statIconDict;
 
     close() {
@@ -62,11 +64,12 @@ export class RegionStatPage {
         if (data) {
             this.regionManager
                 .updateSelectedRegionAssignedMonster$(data)
-                .subscribe(() =>
+                .subscribe(() => {
+                    this.offlineProgressService.saveSnapshot();
                     this.autoPilotService.toggleAutoPilote(
                         data !== 'Terra larva'
-                    )
-                );
+                    );
+                });
         }
     }
 
