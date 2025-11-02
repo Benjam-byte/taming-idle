@@ -12,7 +12,8 @@ import {
     EMPTY,
     range,
     concatMap,
-    last,
+    take,
+    defer,
 } from 'rxjs';
 import { BroadcastService } from '../Ui/broadcast.service';
 import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
@@ -86,6 +87,7 @@ export class TamedMonsterManagerService {
 
     getMonsterById$(id: string): Observable<TamedMonster> {
         return this._tamedMonsterList$.pipe(
+            take(1),
             filter(
                 (monsterList): monsterList is TamedMonster[] => !!monsterList
             ),
@@ -175,6 +177,7 @@ export class TamedMonsterManagerService {
                 profession.levelCap,
                 getCap
             );
+            console.log('I should levelUpNtimes');
 
             this.levelUpNTimes$(
                 profession.name,
@@ -217,7 +220,7 @@ export class TamedMonsterManagerService {
                 switchMap(() =>
                     iif(
                         () => xpInfo.isLevelUp,
-                        this.levelUp$(professionName, monster),
+                        defer(() => this.levelUp$(professionName, monster)),
                         EMPTY
                     )
                 )
@@ -227,26 +230,26 @@ export class TamedMonsterManagerService {
     levelUp$(professionName: string, monster: TamedMonster) {
         const profession =
             this.professionManager.getProfessionByName(professionName);
-        const t = updateStatFromProfession(profession, monster);
-        console.log(t);
-        const b = getStatUpdateFromMonsterLevel(monster);
-        console.log(b);
-        const c = {
-            ...b,
-            ...t,
-        };
-        console.log(c);
         return this.tamedMonsterController
-            .updateOne(monster.id, c)
+            .updateOne(monster.id, {
+                ...getStatUpdateFromMonsterLevel(monster),
+                ...updateStatFromProfession(profession, monster),
+            })
             .pipe(
                 tap((monsterList) => this._tamedMonsterList$.next(monsterList))
             );
     }
 
     levelUpNTimes$(professionName: string, monster: TamedMonster, n: number) {
+        console.log(professionName);
         return range(0, n).pipe(
-            concatMap(() => this.levelUp$(professionName, monster)),
-            last()
+            concatMap(() =>
+                this.getMonsterById$(monster.id).pipe(
+                    concatMap((monster) =>
+                        this.levelUp$(professionName, monster)
+                    )
+                )
+            )
         );
     }
 

@@ -30,7 +30,7 @@ export class IncubateurPage {
 
     eggList = toSignal(this.eggManagerService.eggList$);
     formattedEggList = computed<(null | Egg)[]>(() => {
-        const eggList = this.eggList();
+        const eggList = this.eggList()?.slice(0, 24);
         if (!eggList) return Array(24).fill(null);
         const eggListMinusIncubed = eggList.filter(
             (egg) => egg.incubateur === null
