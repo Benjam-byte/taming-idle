@@ -51,7 +51,7 @@ export const godList = [
         name: GodNameList.Money,
         description:
             'Le dieu des richesses accepte des ames de monstres enchanté. En échange, il augmente la probability de coffre de meilleur qualité.',
-        imagePath: 'assets/altar/Altar_Tresor.webp',
+        imagePath: 'assets/altar/Altar_Moula.avif',
         index: 3,
         level: 0,
         maxLevel: 5,
@@ -75,7 +75,7 @@ export const godList = [
         name: GodNameList.Field,
         description:
             'Le dieu des champs accepte des ames de monstres. En échange, il augmente la quantité de blé sur votre terrotoires.',
-        imagePath: 'assets/altar/Altar_Speed.webp',
+        imagePath: 'assets/altar/Altar_Farm.avif',
         index: 4,
         level: 0,
         maxLevel: 20,
@@ -99,7 +99,7 @@ export const godList = [
         name: GodNameList.Magic,
         description:
             'Le dieu de la magie accepte du blé. En échange, il augmente la probabilité de trouver du blé enchanté.',
-        imagePath: 'assets/altar/Altar_Malice.webp',
+        imagePath: 'assets/altar/Altar_Merdlin.avif',
         index: 5,
         level: 0,
         maxLevel: 10,
@@ -123,7 +123,7 @@ export const godList = [
         name: GodNameList.Death,
         description:
             "Le dieu de la mort accepte du blé. En échange, il augmente la quantité de d'ames recoltables.",
-        imagePath: 'assets/altar/Altar_Speed.webp',
+        imagePath: 'assets/altar/Altar_Death.avif',
         index: 6,
         level: 0,
         maxLevel: 10,
@@ -147,7 +147,7 @@ export const godList = [
         name: GodNameList.Sorcerer,
         description:
             "Le dieu de la sorcellerie accepte du blé enchanté. En échange, il augmente la quantité d'ames enchantés.",
-        imagePath: 'assets/altar/Altar_Speed.webp',
+        imagePath: 'assets/altar/Altar_Malice.webp',
         index: 7,
         level: 0,
         maxLevel: 10,
