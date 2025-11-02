@@ -262,9 +262,13 @@ export class TamedMonsterManagerService {
             gatherNormalBonus: this.canFarm(monster.availableProfession)
                 ? 1
                 : 0,
-            gatherEnchantedBonus: 0.5,
+            gatherEnchantedBonus: this.canFarm(monster.availableProfession)
+                ? 0.5
+                : 0,
             lootNormalBonus: this.canFight(monster.availableProfession) ? 1 : 0,
-            lootEnchantedBonus: 0.5,
+            lootEnchantedBonus: this.canFight(monster.availableProfession)
+                ? 0.5
+                : 0,
             findingPercentage: this.canPist(monster.availableProfession)
                 ? 0.05
                 : 0,
