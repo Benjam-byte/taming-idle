@@ -7,7 +7,7 @@ import TowerMonster from '../../value-object/tower-monster';
 
 type Encounter = {
     life: number;
-    type: 'slime';
+    type: 'slime' | 'duck';
     duration: number;
 };
 
@@ -17,11 +17,11 @@ const levelDict: Record<number, Encounter> = {
     3: { life: 50, type: 'slime', duration: 20000 },
     4: { life: 90, type: 'slime', duration: 20000 },
     5: { life: 120, type: 'slime', duration: 20000 },
-    6: { life: 150, type: 'slime', duration: 20000 },
-    7: { life: 200, type: 'slime', duration: 20000 },
-    8: { life: 250, type: 'slime', duration: 20000 },
-    9: { life: 350, type: 'slime', duration: 20000 },
-    10: { life: 500, type: 'slime', duration: 20000 },
+    6: { life: 150, type: 'duck', duration: 20000 },
+    7: { life: 200, type: 'duck', duration: 20000 },
+    8: { life: 250, type: 'duck', duration: 20000 },
+    9: { life: 350, type: 'duck', duration: 20000 },
+    10: { life: 500, type: 'duck', duration: 20000 },
 };
 
 @Injectable({

@@ -18,7 +18,7 @@
                     [current]="boss.life"
                 ></app-health-bar>
                 <app-monster-sprite
-                    spritePath="assets/monster/sprite/slime/SpriteSheet_Slime_Cursed.webp"
+                    [spritePath]="dicCursedPath[boss.type]"
                     class="no-click no-select"
                 />
             </div>

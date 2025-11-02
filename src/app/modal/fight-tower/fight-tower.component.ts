@@ -36,6 +36,11 @@ export class FightTowerComponent {
     timer!: ReturnType<typeof setInterval>;
     fightingCountDown$ = this.gameEngineService.getFightingCountDown$();
 
+    dicCursedPath: Record<string, string> = {
+        slime: 'assets/monster/sprite/slime/SpriteSheet_Slime_Cursed.avif',
+        duck: 'assets/monster/sprite/duck/SpriteSheet_Duck_Cursed.avif',
+    };
+
     constructor() {
         this.boss = this.combatTowerService.getBoss();
     }
