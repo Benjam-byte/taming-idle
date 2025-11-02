@@ -19,9 +19,7 @@
                 name="Meta god"
                 path="assets/icon/metagod.png"
                 (isClicked)="openMetaGodPalaceModal()"
-                [isActive]="
-                    (worldService.world$ | async)?.metaGodAvailable ?? false
-                "
+                [isActive]="(worldService.world$ | async)?.portalFound ?? false"
             />
             <app-menu-button
                 name="Gisement"

@@ -23,6 +23,7 @@ const defaultWorld: {
     offlinePower: number;
     xpBoost: number;
     gisement: Gisement;
+    portalFound: boolean;
 } = {
     regionUnlocked: ['plaine'],
     region: 'plaine',
@@ -38,6 +39,7 @@ const defaultWorld: {
     incubateurAvailable: false,
     monsterLevel: 1,
     tutoPassed: false,
+    portalFound: false,
     offlinePower: 0.5,
     xpBoost: 0.5,
     gisement: {

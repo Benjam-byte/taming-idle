@@ -79,6 +79,8 @@ export class GodPalaceComponent {
         const selectedGod = this.selectedGod();
         if (selectedGod?.name === GodNameList.Meta) {
             if (!this.worldService.world.metaGodAvailable) return;
+            if (!this.worldService.world.portalFound)
+                this.worldService.portalFound();
             this.close();
             this.openMetaGodModal();
         }

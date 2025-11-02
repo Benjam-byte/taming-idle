@@ -22,6 +22,7 @@ export type World = {
     relicAvailable: boolean;
     monsterLevel: number;
     tutoPassed: boolean;
+    portalFound: boolean;
     offlinePower: number;
     xpBoost: number;
     gisement: Gisement;

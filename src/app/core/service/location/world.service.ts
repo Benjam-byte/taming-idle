@@ -133,6 +133,14 @@ export class WorldManagerService {
             .subscribe((world) => this._world$.next(world));
     }
 
+    portalFound() {
+        this.worldControllerService
+            .update(this.world.id, {
+                portalFound: true,
+            })
+            .subscribe((world) => this._world$.next(world));
+    }
+
     enableSkillTree() {
         this.worldControllerService
             .update(this.world.id, {
