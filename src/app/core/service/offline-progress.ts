@@ -8,6 +8,7 @@ import { ProfessionName } from '../enum/profession-name.enum';
 import { forkJoin, tap } from 'rxjs';
 import { probabilityAtLeastOneEvent } from '../helpers/proba-rolls';
 import { EggManagerService } from './monster/egg-manager.service';
+import { WorldManagerService } from './location/world.service';
 
 export type OfflineSnapshot = {
     version: 1;
@@ -26,6 +27,7 @@ export class OfflineProgress {
     regionManager = inject(RegionManagerService);
     eggManager = inject(EggManagerService);
     lootManager = inject(LootManagerService);
+    worldManager = inject(WorldManagerService);
 
     constructor() {}
 
@@ -183,7 +185,10 @@ export class OfflineProgress {
     }
 
     private collectWheat(assignedMonster: TamedMonster, ellapsedTime: number) {
-        return Math.floor(ellapsedTime / assignedMonster.travellingSpeed);
+        return Math.floor(
+            (ellapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
+                this.worldManager.world.offlinePower
+        );
     }
 
     private collectEnchantedWheat(
@@ -192,9 +197,10 @@ export class OfflineProgress {
         selectedRegion: Region
     ) {
         return Math.floor(
-            (ellapsedTime / assignedMonster.travellingSpeed) *
+            (ellapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
                 assignedMonster.gatherEnchantedBonus *
-                selectedRegion.enchantedResource
+                selectedRegion.enchantedResource *
+                this.worldManager.world.offlinePower
         );
     }
 
@@ -204,8 +210,9 @@ export class OfflineProgress {
         selectedRegion: Region
     ) {
         return Math.floor(
-            (ellapsedTime / (assignedMonster.travellingSpeed * 0.75)) *
-                selectedRegion.monsterSpawnRate
+            (ellapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
+                selectedRegion.monsterSpawnRate *
+                this.worldManager.world.offlinePower
         );
     }
 
@@ -216,7 +223,7 @@ export class OfflineProgress {
     ) {
         return probabilityAtLeastOneEvent(
             ellapsedTime,
-            assignedMonster.travellingSpeed,
+            assignedMonster.travellingSpeed * 1.75,
             selectedRegion.eggSpawnRate
         ) >= 0.95
             ? 1
@@ -229,9 +236,10 @@ export class OfflineProgress {
         selectedRegion: Region
     ) {
         return Math.floor(
-            (ellapsedTime / (assignedMonster.travellingSpeed * 0.75)) *
+            (ellapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
                 selectedRegion.monsterSpawnRate *
-                selectedRegion.enchantedMonsterRate
+                selectedRegion.enchantedMonsterRate *
+                this.worldManager.world.offlinePower
         );
     }
 
@@ -240,19 +248,28 @@ export class OfflineProgress {
         ellapsedTime: number
     ) {
         if (this.hasProfession(assignedMonster, ProfessionName.Voyageur))
-            return Math.floor(ellapsedTime / assignedMonster.travellingSpeed);
+            return Math.floor(
+                (ellapsedTime / assignedMonster.travellingSpeed) *
+                    this.worldManager.world.xpBoost
+            );
         return 0;
     }
 
     private xpForGuerrier(assignedMonster: TamedMonster, soul: number) {
         if (this.hasProfession(assignedMonster, ProfessionName.Guerrier))
-            return Math.floor(soul * (10 / assignedMonster.damage));
+            return Math.floor(
+                soul *
+                    (10 / assignedMonster.damage) *
+                    this.worldManager.world.xpBoost
+            );
         return 0;
     }
 
     private xpForFermier(assignedMonster: TamedMonster, wheat: number) {
         if (this.hasProfession(assignedMonster, ProfessionName.Fermier))
-            return Math.floor(wheat * this.getRandomEffect());
+            return Math.floor(
+                wheat * this.getRandomEffect() * this.worldManager.world.xpBoost
+            );
         return 0;
     }
 
@@ -261,13 +278,19 @@ export class OfflineProgress {
         Enchantedwheat: number
     ) {
         if (this.hasProfession(assignedMonster, ProfessionName.Botaniste))
-            return Math.floor(Enchantedwheat * this.getRandomEffect());
+            return Math.floor(
+                Enchantedwheat *
+                    this.getRandomEffect() *
+                    this.worldManager.world.xpBoost
+            );
         return 0;
     }
 
     private xpForAlchimiste(assignedMonster: TamedMonster, soul: number) {
         if (this.hasProfession(assignedMonster, ProfessionName.Alchimiste))
-            return Math.floor(soul * this.getRandomEffect());
+            return Math.floor(
+                soul * this.getRandomEffect() * this.worldManager.world.xpBoost
+            );
         return 0;
     }
 
@@ -276,7 +299,11 @@ export class OfflineProgress {
         Enchantedsoul: number
     ) {
         if (this.hasProfession(assignedMonster, ProfessionName.Necromancien))
-            return Math.floor(Enchantedsoul * this.getRandomEffect());
+            return Math.floor(
+                Enchantedsoul *
+                    this.getRandomEffect() *
+                    this.worldManager.world.xpBoost
+            );
         return 0;
     }
 

@@ -36,7 +36,7 @@ const defaultWorld: {
     monsterLevel: 1,
     tutoPassed: false,
     offlinePower: 0.5,
-    xpBoost: 1,
+    xpBoost: 0.5,
 };
 
 @Injectable({ providedIn: 'root' })

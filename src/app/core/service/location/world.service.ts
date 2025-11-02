@@ -161,7 +161,7 @@ export class WorldManagerService {
     updateXpBoost$() {
         return this.worldControllerService
             .update(this.world.id, {
-                xpBoost: this.world.xpBoost + 0.1,
+                xpBoost: this.world.xpBoost - 0.1,
             })
             .pipe(tap((world) => this._world$.next(world)));
     }
