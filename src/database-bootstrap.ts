@@ -26,7 +26,7 @@ import { OfflineProgress } from './app/core/service/offline-progress';
 import { MetaGodController } from './app/database/meta-god/meta-god.controller';
 import { MetaGodPowerManagerService } from './app/core/service/location/meta-god-manager.service';
 
-const DB_VERSION = 7;
+const DB_VERSION = 8;
 const DB_KEY = 'db';
 
 @Injectable({ providedIn: 'root' })
