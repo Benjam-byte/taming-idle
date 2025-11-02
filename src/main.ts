@@ -21,7 +21,6 @@ import {
 import { DatabaseBootstrapService } from './database-bootstrap';
 import { Capacitor } from '@capacitor/core';
 import { StatusBar } from '@capacitor/status-bar';
-import { NavigationBar } from '@squareetlabs/capacitor-navigation-bar';
 
 bootstrapApplication(AppComponent, {
     providers: [
@@ -30,7 +29,6 @@ bootstrapApplication(AppComponent, {
         provideAppInitializer(() => {
             (async () => {
                 if (Capacitor.isNativePlatform()) {
-                    NavigationBar.hide();
                     await StatusBar.hide();
                 }
             })();
