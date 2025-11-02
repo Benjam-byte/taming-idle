@@ -16,6 +16,14 @@
                 "
             />
             <app-menu-button
+                name="Meta god"
+                path="assets/icon/metagod.png"
+                (isClicked)="openMetaGodPalaceModal()"
+                [isActive]="
+                    (worldService.world$ | async)?.metaGodAvailable ?? false
+                "
+            />
+            <app-menu-button
                 name="Map"
                 path="assets/icon/pin.png"
                 (isClicked)="openWorldMapModal()"
@@ -77,11 +85,17 @@
                 name="incubateur"
                 path="assets/icon/creature.png"
                 (isClicked)="openIncubateurModal()"
+                [isActive]="
+                    (worldService.world$ | async)?.incubateurAvailable ?? false
+                "
             />
             <app-menu-button
                 name="Stable"
                 path="assets/icon/stable.png"
                 (isClicked)="openStableModal()"
+                [isActive]="
+                    (worldService.world$ | async)?.incubateurAvailable ?? false
+                "
             />
         </main>
     </section>

@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    inject,
+    signal,
+} from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
-import { God } from 'src/app/database/god/god.type';
+import { metaGodMessageList } from 'src/app/core/config/metaGodMessage';
 
 @Component({
     selector: 'app-meta-god-palace',
@@ -11,7 +17,14 @@ import { God } from 'src/app/database/god/god.type';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MetaGodPalaceComponent {
+    godMessageList = metaGodMessageList;
     modalCtrl = inject(ModalController);
+
+    randomMessageIndex = signal<number>(
+        Math.floor(Math.random() * (this.godMessageList.length + 1))
+    );
+
+    message = computed(() => this.godMessageList[this.randomMessageIndex()]);
 
     close() {
         this.modalCtrl.dismiss();

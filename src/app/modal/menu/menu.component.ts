@@ -13,6 +13,7 @@ import { BestiaryComponent } from '../bestiary/bestiary.component';
 import { CommonModule } from '@angular/common';
 import { IncubateurPage } from '../incubateur/incubateur.page';
 import { StableComponent } from '../stable/stable.component';
+import { MetaGodPalaceComponent } from '../meta-god-palace/meta-god-palace.component';
 
 @Component({
     selector: 'app-menu',
@@ -117,6 +118,18 @@ export class MenuComponent {
         this.modalCtrl.dismiss();
         const modal = await this.modalCtrl.create({
             component: GodPalaceComponent,
+            cssClass: 'full-screen-modal',
+            backdropDismiss: true,
+            showBackdrop: true,
+        });
+
+        modal.present();
+    }
+
+    async openMetaGodPalaceModal() {
+        this.modalCtrl.dismiss();
+        const modal = await this.modalCtrl.create({
+            component: MetaGodPalaceComponent,
             cssClass: 'full-screen-modal',
             backdropDismiss: true,
             showBackdrop: true,
