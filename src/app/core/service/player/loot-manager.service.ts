@@ -243,7 +243,7 @@ export class LootManagerService {
                 return newRelic.name;
             }
             case 'glitchedStone':
-                return '1 glitched stone';
+                this.addGlitchedStone$(2).subscribe();
         }
         return 'une erreur avec ce coffre';
     }
