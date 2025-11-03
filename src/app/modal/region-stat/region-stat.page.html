@@ -52,8 +52,8 @@
                             alt="damage"
                         />
                         <p>
-                            {{ region.enchantedResource * 100 }}% enchanted
-                            resource
+                            {{ region.enchantedResource * 100 | roundTo: 2}}%
+                            enchanted resource
                         </p>
                     </div>
                     <div class="line">
