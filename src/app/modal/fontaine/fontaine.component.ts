@@ -16,10 +16,11 @@ import {
     formatTimeFromMs,
     timeUntilAvailable,
 } from 'src/app/core/helpers/time-format';
+import { TimerComponent } from './timer/timer.component';
 
 @Component({
     selector: 'app-fontaine',
-    imports: [ModalLayoutComponent, CommonModule],
+    imports: [ModalLayoutComponent, CommonModule, TimerComponent],
     templateUrl: './fontaine.component.html',
     styleUrl: './fontaine.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,

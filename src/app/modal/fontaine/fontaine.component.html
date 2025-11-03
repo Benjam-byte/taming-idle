@@ -25,7 +25,7 @@
             </div>
             <div class="icon-container">
                 <p [class]="isAvailable(gisement) ? 'green' : 'red'">
-                    {{ gisementNextTime(gisement.nextAvailableAt) }}
+                    <app-timer [endTime]="gisement.nextAvailableAt" />
                 </p>
                 <img src="assets/icon/hourglass.png" alt="time" />
             </div>

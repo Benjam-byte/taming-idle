@@ -56,7 +56,5 @@ export function formatTimeFromMs(ms: number): string {
 }
 
 export function timeUntilAvailable(nextAvailableAt: number): string {
-    const now = Date.now();
-    const diff = nextAvailableAt - now;
-    return formatDurationMs(diff);
+    return formatDurationMs(nextAvailableAt);
 }
