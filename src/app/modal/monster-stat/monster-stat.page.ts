@@ -50,23 +50,19 @@ export class MonsterStatPage {
         if (value) this.monsterId$.next(value);
     }
 
-    readonly monster = toSignal(
+    monster = toSignal(
         this.monsterId$.pipe(
-            switchMap(
-                (id) =>
-                    this.tamedMonsterManager.getMonsterById$(
-                        id
-                    ) as Observable<TamedMonster | null>
-            ),
-            filter((m): m is TamedMonster => m != null)
+            switchMap((id) => this.tamedMonsterManager.getMonsterById$(id))
         )
     );
 
     readonly statIconDict = statIconDict;
 
     readonly relic = computed(() => {
-        const m = this.monster();
-        return m ? this.relicManagerService.getRelicById(m.relicId) : null;
+        const monster = this.monster();
+        return monster
+            ? this.relicManagerService.getRelicById(monster.relicId)
+            : null;
     });
 
     readonly damage = computed(() => {
@@ -115,14 +111,16 @@ export class MonsterStatPage {
             if (!monster) throw new Error('not found');
             this.tamedMonsterManager
                 .associateRelic$(monster.id, data.id)
-                .subscribe();
+                .subscribe(() => this.monsterId$.next(monster.id));
         }
     }
 
     dissociate() {
         const monster = this.monster();
         if (!monster) throw new Error('not found');
-        this.tamedMonsterManager.associateRelic$(monster.id, '').subscribe();
+        this.tamedMonsterManager
+            .associateRelic$(monster.id, '')
+            .subscribe(() => this.monsterId$.next(monster.id));
     }
 
     maxXp(monsterProfession: MonsterProfession) {
@@ -157,7 +155,9 @@ export class MonsterStatPage {
 
         const { data } = await modal.onWillDismiss();
         if (data) {
-            this.tamedMonsterManager.updateName$(data, id).subscribe();
+            this.tamedMonsterManager
+                .updateName$(data, id)
+                .subscribe(() => this.monsterId$.next(id));
         }
     }
 }

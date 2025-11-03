@@ -21,20 +21,25 @@ export class AutoPilotService {
 
     private autoPilotSub?: Subscription;
     isActive!: boolean;
+    isStoped = true;
 
     constructor() {
-        this.assignedMonsterManager.assignedMonster$
-            .pipe(
-                map((monster) => monster.monsterSpecies !== 'Terra larva'),
-                distinctUntilChanged(),
-                takeUntilDestroyed(this.destroyRef)
-            )
-            .subscribe((active) => this.toggleAutoPilote(active));
+        if (
+            this.assignedMonsterManager.assignedMonster.monsterSpecies ===
+            'Terra larva'
+        )
+            this.toggleAutoPilote(false);
+        else this.toggleAutoPilote(true);
     }
 
     toggleAutoPilote(value: boolean) {
-        if (value === this.isActive) return;
+        if (
+            this.assignedMonsterManager.assignedMonster.monsterSpecies ===
+            'Terra larva'
+        )
+            value = false;
         this.isActive = value;
+        if (this.isStoped) return;
         this.isActive ? this.activateAutoPilote() : this.deactivateAutoPilote();
     }
 
@@ -55,6 +60,14 @@ export class AutoPilotService {
     deactivateAutoPilote() {
         this.autoPilotSub?.unsubscribe();
         this.autoPilotSub = undefined;
+    }
+
+    start() {
+        this.isStoped = false;
+    }
+
+    stop() {
+        this.isStoped = true;
     }
 
     private autoMapAction() {

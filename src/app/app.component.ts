@@ -9,6 +9,7 @@ import { OfflineProgress } from './core/service/offline-progress';
 import { OfflineProgressPanelComponent } from './core/components/offline-progress-panel/offline-progress-panel.component';
 import { WorldManagerService } from './core/service/location/world.service';
 import { IntroPage } from './modal/intro/intro';
+import { AutoPilotService } from './core/service/auto-pilot';
 
 @Component({
     selector: 'app-root',
@@ -18,6 +19,7 @@ import { IntroPage } from './modal/intro/intro';
 export class AppComponent {
     debugService = inject(DebugService);
     offileProgressService = inject(OfflineProgress);
+    autoPilotService = inject(AutoPilotService);
     worldManager = inject(WorldManagerService);
     modalCtrl = inject(ModalController);
 
@@ -39,7 +41,10 @@ export class AppComponent {
         modal.present();
         const { data } = await modal.onWillDismiss();
         if (data) {
-            this.offileProgressService.addFromSnapShot$(data).subscribe();
+            this.offileProgressService.addFromSnapShot$(data).subscribe(() => {
+                this.autoPilotService.start();
+                this.autoPilotService.toggleAutoPilote(true);
+            });
         }
     }
 
