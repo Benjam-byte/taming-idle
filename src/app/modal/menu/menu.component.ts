@@ -15,6 +15,8 @@ import { IncubateurPage } from '../incubateur/incubateur.page';
 import { StableComponent } from '../stable/stable.component';
 import { MetaGodPalaceComponent } from '../meta-god-palace/meta-god-palace.component';
 import { FontaineComponent } from '../fontaine/fontaine.component';
+import { OfflineProgress } from 'src/app/core/service/offline-progress';
+import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
 
 @Component({
     selector: 'app-menu',
@@ -26,9 +28,16 @@ import { FontaineComponent } from '../fontaine/fontaine.component';
 export class MenuComponent {
     modalCtrl = inject(ModalController);
     worldService = inject(WorldManagerService);
+    offlineProgress = inject(OfflineProgress);
+    broadcastService = inject(BroadcastService);
 
     closeMenuModal() {
         this.modalCtrl.dismiss();
+    }
+
+    save() {
+        this.offlineProgress.saveSnapshot();
+        this.broadcastService.displayMessage({ message: 'Save !' });
     }
 
     async openStableModal() {

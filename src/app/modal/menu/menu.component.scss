@@ -19,6 +19,10 @@ h1 {
 }
 
 .icon-button {
+    position: absolute;
+    z-index: 500;
+    bottom: 60px;
+    right: 7px;
     height: 40px;
     width: 40px;
     padding: 2px;
@@ -26,7 +30,6 @@ h1 {
     outline: 3px solid rgb(37, 19, 2);
     border-radius: 5px;
 }
-
 section {
     margin-top: 40px;
     margin-bottom: 80px;
