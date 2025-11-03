@@ -1,12 +1,11 @@
 import { Component, computed, effect, input, signal } from '@angular/core';
-import { FormatDuration } from '../../../core/pipe/formatDuration.pipe';
 import { timeUntilAvailable } from 'src/app/core/helpers/time-format';
 
 @Component({
     selector: 'app-timer',
     templateUrl: './timer.component.html',
     styleUrls: ['./timer.component.scss'],
-    imports: [FormatDuration],
+    imports: [],
 })
 export class TimerComponent {
     endTime = input.required<number>();
