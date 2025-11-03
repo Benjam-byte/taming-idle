@@ -62,7 +62,7 @@ export class EggManagerService {
     }
 
     addOneEggFromSnap$(number: number) {
-        if (number === 0) return of();
+        if (number === 0) return of(null);
         return this.eggController
             .create(this.createOneEgg())
             .pipe(tap((egg) => this._eggList$.next(egg)));
