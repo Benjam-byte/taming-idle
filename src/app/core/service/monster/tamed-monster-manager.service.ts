@@ -14,9 +14,13 @@ import {
     concatMap,
     take,
     defer,
+    forkJoin,
 } from 'rxjs';
 import { BroadcastService } from '../Ui/broadcast.service';
-import { TamedMonster } from 'src/app/database/tamedMonster/tamed-monster.type';
+import {
+    MonsterProfession,
+    TamedMonster,
+} from 'src/app/database/tamedMonster/tamed-monster.type';
 import { BestiaryManagerService } from './bestiary-manager.service';
 import {
     CombatType,
@@ -167,7 +171,8 @@ export class TamedMonsterManagerService {
         }
         const next = monster.availableProfession.map((profession) => {
             const gain = gains.get(profession.name);
-            if (!gain || gain <= 0) return profession;
+            if (!gain || gain <= 0)
+                return { monsterProfession: profession, numberOfLevel: 0 };
 
             const getCap = capByProfession.get(profession.name)!;
             const { level, numberOfLevel, xp } = this.applyXpGain(
@@ -178,22 +183,39 @@ export class TamedMonsterManagerService {
                 getCap
             );
 
-            this.levelUpNTimes$(
-                profession.name,
-                monster,
-                numberOfLevel
-            ).subscribe();
-
-            return { ...profession, level, xp };
+            return {
+                monsterProfession: {
+                    ...profession,
+                    level,
+                    xp,
+                } as MonsterProfession,
+                numberOfLevel,
+            };
         });
 
-        return this.tamedMonsterController
-            .updateOne(monster.id, {
-                availableProfession: next,
-            })
-            .pipe(
-                tap((monsterList) => this._tamedMonsterList$.next(monsterList))
-            );
+        return forkJoin(
+            next.map((value) =>
+                this.levelUpNTimes$(
+                    value.monsterProfession.name,
+                    monster,
+                    value.numberOfLevel
+                )
+            )
+        ).pipe(
+            concatMap(() =>
+                this.tamedMonsterController
+                    .updateOne(monster.id, {
+                        availableProfession: next.map(
+                            (value) => value.monsterProfession
+                        ),
+                    })
+                    .pipe(
+                        tap((monsterList) =>
+                            this._tamedMonsterList$.next(monsterList)
+                        )
+                    )
+            )
+        );
     }
 
     xpProfession$(professionName: string, monsterId: string, xpInfo: XpInfo) {
@@ -240,6 +262,9 @@ export class TamedMonsterManagerService {
     }
 
     levelUpNTimes$(professionName: string, monster: TamedMonster, n: number) {
+        if (n <= 0) {
+            return of(null);
+        }
         return range(0, n).pipe(
             concatMap(() =>
                 this.getMonsterById$(monster.id).pipe(
