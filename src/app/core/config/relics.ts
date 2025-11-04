@@ -1,25 +1,25 @@
 export const relicList = [
     {
-        name: 'Tissus',
+        name: 'Tissu',
         description:
-            'un bout de tissu qui semble contenir de la puissance divine',
+            'Un bout de tissu qui semble contenir une puissance divine.',
         imagePath: 'assets/relics/tissus.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
         rank: 1,
     },
     {
-        name: 'Metal fer',
+        name: 'Métal brut',
         description:
-            "un bout de metal raw qui pourrais etre utiliser pour faire quelque chose d'autre",
+            'Un morceau de métal brut qui pourrait être utilisé pour fabriquer quelque chose d’autre.',
         imagePath: 'assets/relics/iron.webp',
         effet: { stat: 'damage', value: 4 },
         quantity: 0,
         rank: 1,
     },
     {
-        name: 'Metal gold',
-        description: "Tous ce qui brille n'est pas de lor mais la oui",
+        name: 'Métal doré',
+        description: 'Tout ce qui brille n’est pas de l’or… mais là, oui.',
         imagePath: 'assets/relics/gold.webp',
         effet: { stat: 'damage', value: 5 },
         quantity: 0,
@@ -28,15 +28,15 @@ export const relicList = [
     {
         name: 'Corde',
         description:
-            'Une corde super solide qui pourrait être utilisé pour faire beaucoup de chose',
+            'Une corde très solide qui pourrait être utilisée pour beaucoup de choses.',
         imagePath: 'assets/relics/corde.webp',
         effet: { stat: 'damage', value: 1 },
         quantity: 0,
         rank: 1,
     },
     {
-        name: 'Buche',
-        description: "Juste une buche d'un arbre particulierement solide",
+        name: 'Bûche',
+        description: 'Juste une bûche d’un arbre particulièrement solide.',
         imagePath: 'assets/relics/buche.webp',
         effet: { stat: 'damage', value: 3 },
         quantity: 0,
@@ -45,7 +45,7 @@ export const relicList = [
     {
         name: 'Plume',
         description:
-            'Une plume de faucon, en amassé plusieurs pourrais permettre de voler',
+            'Une plume de faucon ; en en amassant plusieurs, vous pourriez peut-être voler.',
         imagePath: 'assets/relics/plume.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
@@ -55,7 +55,7 @@ export const relicList = [
     {
         name: 'Manche en bois',
         description:
-            'Vous pouvez probablement taper avec mais pas sur que ce soit suffisant',
+            'Vous pouvez probablement frapper avec, mais pas sûr que ce soit suffisant.',
         imagePath: 'assets/relics/woodManche.webp',
         effet: { stat: 'damage', value: 4 },
         quantity: 0,
@@ -63,7 +63,7 @@ export const relicList = [
     },
     {
         name: 'Lame',
-        description: "Ca coupe mais c'est dur de la tenir dans la main",
+        description: 'Ça coupe, mais c’est difficile à tenir à la main.',
         imagePath: 'assets/relics/lame.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
@@ -71,7 +71,7 @@ export const relicList = [
     },
     {
         name: 'Manche',
-        description: 'Une manche de vetement qui semble brillé legerement',
+        description: 'Une manche de vêtement qui semble briller légèrement.',
         imagePath: 'assets/relics/manche.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
@@ -79,7 +79,8 @@ export const relicList = [
     },
     {
         name: 'Plaque',
-        description: 'Une plaque de métal travaillé et prete à être assemblé',
+        description:
+            'Une plaque de métal travaillée et prête à être assemblée.',
         imagePath: 'assets/relics/plaque.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
@@ -87,7 +88,8 @@ export const relicList = [
     },
     {
         name: 'Pendentif',
-        description: "Un debut de bijoux travaillé et qui transpire l'energie",
+        description:
+            'Un début de bijou travaillé, qui semble dégager une étrange énergie.',
         imagePath: 'assets/relics/pendentif.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
@@ -95,7 +97,7 @@ export const relicList = [
     },
     {
         name: 'Fourrure',
-        description: 'Une piece de fourrure bien chaude et protectrice',
+        description: 'Une pièce de fourrure chaude et protectrice.',
         imagePath: 'assets/relics/fourrure.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
@@ -105,7 +107,7 @@ export const relicList = [
     {
         name: 'Amenonuhoko',
         description:
-            'La lance utilisée pour faire surgir de la mer la masse terrestre primordiale',
+            'La lance utilisée pour faire surgir de la mer la masse terrestre primordiale.',
         imagePath: 'assets/relics/amenonuhoko.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
@@ -114,7 +116,7 @@ export const relicList = [
     {
         name: 'Hache de Péroun',
         description:
-            'La hache de péroun emblème de puissance guerrière et de protection contre les orages',
+            'La hache de Péroun, emblème de puissance guerrière et de protection contre les orages.',
         imagePath: 'assets/relics/peroun.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
@@ -123,7 +125,7 @@ export const relicList = [
     {
         name: 'Casque Kunée',
         description:
-            'Créée par les Cyclopes, il peut rendre son porteur invisible',
+            'Créé par les Cyclopes, il peut rendre son porteur invisible.',
         imagePath: 'assets/relics/kunée.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
@@ -132,7 +134,7 @@ export const relicList = [
     {
         name: 'Andvaranaut',
         description:
-            "Pouvant engendrer de l'or et assurant ainsi la fortune de son propriétaire",
+            'Pouvant engendrer de l’or, cet anneau assure la fortune de son propriétaire.',
         imagePath: 'assets/relics/Andvaranaut.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
@@ -141,7 +143,7 @@ export const relicList = [
     {
         name: 'Armure de Beowulf',
         description:
-            'Armure mythique forgée dans le feu des géants, nulle lame mortelle ne peut la percer',
+            'Armure mythique forgée dans le feu des géants : nulle lame mortelle ne peut la percer.',
         imagePath: 'assets/relics/beowulf.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
@@ -150,16 +152,16 @@ export const relicList = [
     {
         name: 'Valshamr',
         description:
-            "Le manteau de plumes de la déesse nordique Freyja. Il permet à celui qui le porte de se changer en oiseau et de voler d'un monde à l'autre",
+            'Le manteau de plumes de la déesse nordique Freyja. Il permet à celui qui le porte de se changer en oiseau et de voyager entre les mondes.',
         imagePath: 'assets/relics/valshamr.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,
         rank: 3,
     },
     {
-        name: 'Ceinture aphrodite',
+        name: 'Ceinture d’Aphrodite',
         description:
-            'Elle a été fabriquée par Héphaïstos. Cette ceinture accorde à toute femme qui la porte une attirance irrésistible',
+            'Fabriquée par Héphaïstos, cette ceinture confère à toute femme qui la porte une attirance irrésistible.',
         imagePath: 'assets/relics/aphrodite.webp',
         effet: { stat: 'damage', value: 2 },
         quantity: 0,

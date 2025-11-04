@@ -6,7 +6,7 @@ export const godList = [
     {
         name: GodNameList.Adventure,
         description:
-            "Le dieu de l'aventure accepte le blé enchanté, en échange il ajoute de nouveau monstre dans votre monde",
+            "Le dieu de l'aventure accepte le blé enchanté ; en échange, il ajoute de nouveaux monstres dans votre monde.",
         imagePath: 'assets/altar/Altar_Adventure.webp',
         index: 1,
         level: 0,
@@ -50,7 +50,7 @@ export const godList = [
     {
         name: GodNameList.Money,
         description:
-            'Le dieu des richesses accepte des ames de monstres enchanté. En échange, il augmente la probability de coffre de meilleur qualité.',
+            'Le dieu des richesses accepte des âmes de monstres enchantés. En échange, il augmente la probabilité d’obtenir des coffres de meilleure qualité.',
         imagePath: 'assets/altar/Altar_Moula.avif',
         index: 3,
         level: 0,
@@ -74,7 +74,7 @@ export const godList = [
     {
         name: GodNameList.Field,
         description:
-            'Le dieu des champs accepte des ames de monstres. En échange, il augmente la quantité de blé sur votre terrotoires.',
+            'Le dieu des champs accepte des âmes de monstres. En échange, il augmente la quantité de blé sur votre territoire.',
         imagePath: 'assets/altar/Altar_Farm.avif',
         index: 4,
         level: 0,
@@ -122,7 +122,7 @@ export const godList = [
     {
         name: GodNameList.Death,
         description:
-            "Le dieu de la mort accepte du blé. En échange, il augmente la quantité de d'ames recoltables.",
+            'Le dieu de la mort accepte du blé. En échange, il augmente la quantité d’âmes récoltables.',
         imagePath: 'assets/altar/Altar_Death.avif',
         index: 6,
         level: 0,
@@ -146,7 +146,7 @@ export const godList = [
     {
         name: GodNameList.Sorcerer,
         description:
-            "Le dieu de la sorcellerie accepte du blé enchanté. En échange, il augmente la quantité d'ames enchantés.",
+            'Le dieu de la sorcellerie accepte du blé enchanté. En échange, il augmente la quantité d’âmes enchantées.',
         imagePath: 'assets/altar/Altar_Malice.webp',
         index: 7,
         level: 0,
@@ -170,7 +170,7 @@ export const godList = [
     {
         name: GodNameList.Birth,
         description:
-            "Le dieu de la fécondité accepte des ames enchantés. En échange, de nouvelles especes d'oeuf apparaissent dans votre monde.",
+            'Le dieu de la fécondité accepte des âmes enchantées. En échange, de nouvelles espèces d’œufs apparaissent dans votre monde.',
         imagePath: 'assets/altar/Altar_Egg.webp',
         index: 8,
         level: 0,
