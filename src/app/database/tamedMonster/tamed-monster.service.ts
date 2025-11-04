@@ -85,6 +85,12 @@ export class TamedMonsterService {
         );
     }
 
+    updateAll(tamedMonsterList: TamedMonster[]): Observable<TamedMonster[]> {
+        return this.writeAll$(tamedMonsterList).pipe(
+            map(() => tamedMonsterList)
+        );
+    }
+
     remove(id: string): Observable<boolean> {
         return this.readAll$().pipe(
             switchMap((list) => {

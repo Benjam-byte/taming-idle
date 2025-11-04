@@ -30,6 +30,10 @@ export class TamedMonsterController {
         return this.service.update(id, tamedMonster);
     }
 
+    updateAll(tamedMonsterList: TamedMonster[]): Observable<TamedMonster[]> {
+        return this.service.updateAll(tamedMonsterList);
+    }
+
     delete(id: string): Observable<boolean> {
         return this.service.remove(id);
     }

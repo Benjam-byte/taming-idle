@@ -57,7 +57,6 @@ export class TamedMonsterManagerService {
     }
 
     get tamedMonsterList$() {
-        if (!this._tamedMonsterList$) return of(null);
         return this._tamedMonsterList$
             .asObservable()
             .pipe(map((list) => [...list].sort((a, b) => a.index - b.index)));

@@ -1,5 +1,13 @@
 import { Injectable, inject } from '@angular/core';
-import { forkJoin, of, concat, defer, catchError, lastValueFrom } from 'rxjs';
+import {
+    forkJoin,
+    of,
+    concat,
+    defer,
+    catchError,
+    lastValueFrom,
+    tap,
+} from 'rxjs';
 import { HumanController } from './app/database/human/human.controller';
 import { CombatTowerController } from './app/database/combatTower/combatTower.controller';
 import { LootController } from './app/database/loot/loot.controller';
@@ -26,6 +34,11 @@ import { OfflineProgress } from './app/core/service/offline-progress';
 import { MetaGodController } from './app/database/meta-god/meta-god.controller';
 import { MetaGodPowerManagerService } from './app/core/service/location/meta-god-manager.service';
 import { OfflineProgressController } from './app/database/offlineProgress/offline-progress.controller';
+import {
+    safeGetNumber,
+    safeSetNumber,
+} from './app/core/helpers/local-storage-acces';
+import { OldVersionFixer } from './app/core/service/old-version-fixer';
 
 const DB_VERSION = 8;
 const DB_KEY = 'db';
@@ -73,9 +86,8 @@ export class DatabaseBootstrapService {
         TamedMonsterManagerService
     );
     private readonly metaGodManagerService = inject(MetaGodPowerManagerService);
-
-    //Helpers using maanger
     private readonly offlineProgress = inject(OfflineProgress);
+    private readonly fixer = inject(OldVersionFixer);
 
     private initDatabase$() {
         return forkJoin([
@@ -140,7 +152,7 @@ export class DatabaseBootstrapService {
 
     /** The one entrypoint called by APP_INITIALIZER */
     async ensureInitialized(): Promise<void> {
-        const stored = this.safeGetNumber(DB_KEY);
+        const stored = safeGetNumber(DB_KEY);
 
         try {
             await lastValueFrom(
@@ -158,34 +170,16 @@ export class DatabaseBootstrapService {
                             this.loadManagerBlocking$()
                         );
                     } else {
-                        return this.loadManagerBlocking$();
+                        return this.loadManagerBlocking$().pipe(
+                            tap(() => this.fixer.fix())
+                        );
                     }
                 })
             );
 
-            this.safeSetNumber(DB_KEY, DB_VERSION);
+            safeSetNumber(DB_KEY, DB_VERSION);
         } catch (err) {
             console.error('[DB bootstrap] failed', err);
-        }
-    }
-
-    // --- small, safe LS helpers --- //
-    private safeGetNumber(key: string): number | null {
-        try {
-            const raw = localStorage.getItem(key);
-            if (raw == null) return null;
-            const n = Number(raw);
-            return n;
-        } catch {
-            return null;
-        }
-    }
-
-    private safeSetNumber(key: string, value: number): void {
-        try {
-            localStorage.setItem(key, String(value));
-        } catch {
-            throw new Error('LocalStorage error');
         }
     }
 }
