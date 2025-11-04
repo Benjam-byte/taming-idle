@@ -3,12 +3,12 @@ import { GameEngineService } from 'src/app/core/service/game-engine.service';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { AttackButtonComponent } from './attack-button/attack-button.component';
-import { WorldMapComponent } from '../world-map/world-map.component';
 import { HealthBarComponent } from '../../../app/core/components/health-bar/health-bar.component';
 import { MonsterSpriteComponent } from '../../../app/core/components/monster-sprite/monster-sprite.component';
 import { CombatTowerManagerService } from 'src/app/core/service/location/combat-tower.service';
-import { HumanManagerService } from 'src/app/core/service/player/human-manager.service';
 import TowerMonster from 'src/app/core/value-object/tower-monster';
+import { AssignedMonsterManagerService } from 'src/app/core/service/player/assigned-monster-manager.service';
+import { TamedMonsterManagerService } from 'src/app/core/service/monster/tamed-monster-manager.service';
 
 @Component({
     selector: 'app-fight-tower',
@@ -24,7 +24,8 @@ import TowerMonster from 'src/app/core/value-object/tower-monster';
 })
 export class FightTowerComponent {
     gameEngineService = inject(GameEngineService);
-    humanManagerService = inject(HumanManagerService);
+    assignedMonsterManager = inject(AssignedMonsterManagerService);
+    tamedMonsterManager = inject(TamedMonsterManagerService);
     combatTowerService = inject(CombatTowerManagerService);
     modalCtrl = inject(ModalController);
     cdr = inject(ChangeDetectorRef);
@@ -66,7 +67,7 @@ export class FightTowerComponent {
     hit(boss: TowerMonster) {
         this.gameEngineService.submitEventByType('fight', () => {
             if (!boss.isAlive) return;
-            boss.getHit(this.humanManagerService.damage);
+            boss.getHit(this.assignedMonsterManager.damage);
             this.bossKilled(boss);
         });
     }
@@ -84,6 +85,10 @@ export class FightTowerComponent {
         this.borderHeight = 0;
         clearInterval(this.timer);
         this.isFighting = false;
+    }
+
+    getImage(name: string) {
+        return this.tamedMonsterManager.getImageFromMonster(name);
     }
 
     startFight() {

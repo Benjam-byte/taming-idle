@@ -1,4 +1,13 @@
 <ion-content class="ion-padding custom-modal-content">
+    @if( this.assignedMonsterManager.assignedMonster$ | async; as monster){
+    <div class="perso-icon">
+        <img
+            class="scale"
+            [src]="getImage(monster.monsterSpecies).base"
+            alt="perso"
+        />
+    </div>
+    }
     <div *ngIf="combatTowerService.combatTower$ | async as combatTower">
         <div
             class="background-image"
