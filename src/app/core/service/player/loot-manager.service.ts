@@ -55,8 +55,23 @@ export class LootManagerService {
             1 * this.regionManagerService.region.resourceQuantity
         );
         if (isEnchanted)
-            return { resource: 'Enchanted_Wheat', quantity: quantity };
-        else return { resource: 'Wheat', quantity: quantity };
+            return {
+                resource: 'Enchanted_Wheat',
+                quantity: stochasticRound(
+                    quantity *
+                        this.assignedMonsterManagerService.assignedMonster
+                            .gatherEnchantedBonus
+                ),
+            };
+        else
+            return {
+                resource: 'Wheat',
+                quantity: stochasticRound(
+                    quantity *
+                        this.assignedMonsterManagerService.assignedMonster
+                            .gatherNormalBonus
+                ),
+            };
     }
 
     getCorrectValueFromRessource$(ressource: string) {
@@ -83,7 +98,12 @@ export class LootManagerService {
                 .subscribe();
             this.lootControllerService
                 .update(this.loot.id, {
-                    enchantedSoul: 1 + this.loot.enchantedSoul,
+                    enchantedSoul:
+                        Math.floor(
+                            1 *
+                                this.assignedMonsterManagerService
+                                    .assignedMonster.lootEnchantedBonus
+                        ) + this.loot.enchantedSoul, //add %
                 })
                 .subscribe((loot) => {
                     this._loot$.next(loot);
@@ -94,7 +114,12 @@ export class LootManagerService {
                 .subscribe();
             this.lootControllerService
                 .update(this.loot.id, {
-                    soul: 1 + this.loot.soul,
+                    soul:
+                        Math.floor(
+                            1 *
+                                this.assignedMonsterManagerService
+                                    .assignedMonster.lootNormalBonus
+                        ) + this.loot.soul, //add %
                 })
                 .subscribe((loot) => {
                     this._loot$.next(loot);

@@ -1,6 +1,7 @@
 import { ElementRef, inject, Injectable, signal } from '@angular/core';
 import { ResourceType } from 'src/app/core/enum/resource.enum';
 import { EggManagerService } from 'src/app/core/service/monster/egg-manager.service';
+import { AssignedMonsterManagerService } from 'src/app/core/service/player/assigned-monster-manager.service';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
 import { Egg } from 'src/app/database/egg/egg.type';
@@ -16,6 +17,7 @@ interface Position {
 export class GatherFacade {
     lootManager = inject(LootManagerService);
     eggManagerService = inject(EggManagerService);
+    assignedMonsterManager = inject(AssignedMonsterManagerService);
     clickEffectService = inject(ClickEffectService);
 
     egg = signal<Omit<Egg, 'id'> | null>(null);

@@ -1,10 +1,4 @@
-import {
-    Component,
-    DestroyRef,
-    inject,
-    OnDestroy,
-    ViewChild,
-} from '@angular/core';
+import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { sampleTime, Subscription } from 'rxjs';
 import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
