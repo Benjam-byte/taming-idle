@@ -244,6 +244,7 @@ export class LootManagerService {
             }
             case 'glitchedStone':
                 this.addGlitchedStone$(2).subscribe();
+                return '2 glitched stone';
         }
         return 'une erreur avec ce coffre';
     }
