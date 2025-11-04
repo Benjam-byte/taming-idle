@@ -1,4 +1,10 @@
-import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
+import {
+    Component,
+    DestroyRef,
+    inject,
+    OnDestroy,
+    ViewChild,
+} from '@angular/core';
 import { sampleTime, Subscription } from 'rxjs';
 import { ClickEffectService } from 'src/app/core/service/Ui/clickEffect.service';
 import { GameEngineService } from 'src/app/core/service/game-engine.service';
@@ -7,6 +13,7 @@ import { FloatingMessagesComponent } from 'src/app/core/components/floating-mess
 import { BroadcastService } from 'src/app/core/service/Ui/broadcast.service';
 import { LootManagerService } from 'src/app/core/service/player/loot-manager.service';
 import { AssignedMonsterManagerService } from 'src/app/core/service/player/assigned-monster-manager.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-tresor-area',
@@ -14,11 +21,11 @@ import { AssignedMonsterManagerService } from 'src/app/core/service/player/assig
     styleUrls: ['./tresor-area.component.scss'],
     imports: [FloatingMessagesComponent],
 })
-export class TresorAreaComponent implements OnDestroy {
+export class TresorAreaComponent {
     @ViewChild('msgDisplay') msgDisplay!: FloatingMessagesComponent;
     lootManager = inject(LootManagerService);
     assignedMonsterManager = inject(AssignedMonsterManagerService);
-
+    destroyRef = inject(DestroyRef);
     gameEngineService = inject(GameEngineService);
     broadcastService = inject(BroadcastService);
     clickEffectService = inject(ClickEffectService);
@@ -27,17 +34,15 @@ export class TresorAreaComponent implements OnDestroy {
 
     private loop: Subscription | undefined;
 
-    ngOnDestroy(): void {
-        this.loop?.unsubscribe();
-    }
-
     startLoop() {
+        this.stopLoop();
         this.loop = this.gameEngineService
             .getTick$()
             .pipe(
                 sampleTime(
                     this.assignedMonsterManager.assignedMonster.lockPickingSpeed
-                )
+                ),
+                takeUntilDestroyed(this.destroyRef)
             )
             .subscribe((now) => {
                 this.crochetage(now);
