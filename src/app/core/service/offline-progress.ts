@@ -5,10 +5,12 @@ import { Region } from 'src/app/database/region/region.type';
 import { RegionManagerService } from './location/region.service';
 import { LootManagerService } from './player/loot-manager.service';
 import { ProfessionName } from '../enum/profession-name.enum';
-import { forkJoin, tap } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, tap } from 'rxjs';
 import { probabilityAtLeastOneEvent } from '../helpers/proba-rolls';
 import { EggManagerService } from './monster/egg-manager.service';
 import { WorldManagerService } from './location/world.service';
+import { OfflineProgressController } from 'src/app/database/offlineProgress/offline-progress.controller';
+import { OfflineValueProgress } from 'src/app/database/offlineProgress/offline-progress.type';
 
 export type OfflineSnapshot = {
     version: 1;
@@ -23,13 +25,34 @@ const LS_KEY = 'offline:snapshot:v1';
     providedIn: 'root',
 })
 export class OfflineProgress {
+    offlineProgressController = inject(OfflineProgressController);
     assignedMonsterManager = inject(AssignedMonsterManagerService);
     regionManager = inject(RegionManagerService);
     eggManager = inject(EggManagerService);
     lootManager = inject(LootManagerService);
     worldManager = inject(WorldManagerService);
 
-    constructor() {}
+    private _offlineValueProgress$!: BehaviorSubject<OfflineValueProgress>;
+
+    get offlineValueProgress() {
+        return this._offlineValueProgress$.value;
+    }
+
+    get OfflineProgress$() {
+        return this._offlineValueProgress$.asObservable();
+    }
+
+    init$() {
+        return this.offlineProgressController.get().pipe(
+            tap(
+                (offlineValueProgress) =>
+                    (this._offlineValueProgress$ = new BehaviorSubject(
+                        offlineValueProgress
+                    ))
+            ),
+            map(() => void 0)
+        );
+    }
 
     saveSnapshot(): void {
         const snapshot: OfflineSnapshot = {
@@ -184,20 +207,30 @@ export class OfflineProgress {
         ]).pipe(tap(() => this.saveSnapshot()));
     }
 
-    private collectWheat(assignedMonster: TamedMonster, ellapsedTime: number) {
+    updateEggProgress$(remainder: number) {
+        return this.offlineProgressController
+            .update(this.offlineValueProgress.id, { eggProgress: remainder })
+            .pipe(
+                tap((offlineValueProgress) =>
+                    this._offlineValueProgress$.next(offlineValueProgress)
+                )
+            );
+    }
+
+    private collectWheat(assignedMonster: TamedMonster, elapsedTime: number) {
         return Math.floor(
-            (ellapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
+            (elapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
                 this.worldManager.world.offlinePower
         );
     }
 
     private collectEnchantedWheat(
         assignedMonster: TamedMonster,
-        ellapsedTime: number,
+        elapsedTime: number,
         selectedRegion: Region
     ) {
         return Math.floor(
-            (ellapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
+            (elapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
                 assignedMonster.gatherEnchantedBonus *
                 selectedRegion.enchantedResource *
                 this.worldManager.world.offlinePower
@@ -206,11 +239,11 @@ export class OfflineProgress {
 
     private collectSoul(
         assignedMonster: TamedMonster,
-        ellapsedTime: number,
+        elapsedTime: number,
         selectedRegion: Region
     ) {
         return Math.floor(
-            (ellapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
+            (elapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
                 selectedRegion.monsterSpawnRate *
                 this.worldManager.world.offlinePower
         );
@@ -218,38 +251,41 @@ export class OfflineProgress {
 
     private collectEgg(
         assignedMonster: TamedMonster,
-        ellapsedTime: number,
+        elapsedTime: number,
         selectedRegion: Region
     ) {
-        return probabilityAtLeastOneEvent(
-            ellapsedTime,
-            assignedMonster.travellingSpeed * 1.75,
-            selectedRegion.eggSpawnRate
-        ) >= 0.95
-            ? 1
-            : 0;
+        const interval = assignedMonster.travellingSpeed * 1.75;
+        const n = Math.max(0, Math.floor(elapsedTime / interval));
+        const expected = n * selectedRegion.eggSpawnRate;
+
+        const prev = this.offlineValueProgress.eggProgress ?? 0;
+        const total = prev + expected;
+
+        const eggs = Math.floor(total);
+        const remainder = total - eggs;
+
+        this.updateEggProgress$(remainder).subscribe();
+
+        return eggs;
     }
 
     private collectEnchantedSoul(
         assignedMonster: TamedMonster,
-        ellapsedTime: number,
+        elapsedTime: number,
         selectedRegion: Region
     ) {
         return Math.floor(
-            (ellapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
+            (elapsedTime / (assignedMonster.travellingSpeed * 1.75)) *
                 selectedRegion.monsterSpawnRate *
                 selectedRegion.enchantedMonsterRate *
                 this.worldManager.world.offlinePower
         );
     }
 
-    private xpForTraveller(
-        assignedMonster: TamedMonster,
-        ellapsedTime: number
-    ) {
+    private xpForTraveller(assignedMonster: TamedMonster, elapsedTime: number) {
         if (this.hasProfession(assignedMonster, ProfessionName.Voyageur))
             return Math.floor(
-                (ellapsedTime / assignedMonster.travellingSpeed) *
+                (elapsedTime / assignedMonster.travellingSpeed) *
                     this.worldManager.world.xpBoost
             );
         return 0;
@@ -309,15 +345,15 @@ export class OfflineProgress {
 
     private xpForPisteur(
         assignedMonster: TamedMonster,
-        ellapsedTime: number,
+        elapsedTime: number,
         region: Region
     ) {
         if (this.hasProfession(assignedMonster, ProfessionName.Pisteur)) {
             const monsterScreen =
-                (ellapsedTime / assignedMonster.travellingSpeed) *
+                (elapsedTime / assignedMonster.travellingSpeed) *
                 region.monsterSpawnRate;
             const chestScreen =
-                (ellapsedTime / assignedMonster.travellingSpeed) *
+                (elapsedTime / assignedMonster.travellingSpeed) *
                 region.tresorMapSpawnRate;
             return Math.floor(monsterScreen / 3 + chestScreen / 3);
         }

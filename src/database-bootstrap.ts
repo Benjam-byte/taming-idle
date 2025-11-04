@@ -25,6 +25,7 @@ import { TamedMonsterManagerService } from './app/core/service/monster/tamed-mon
 import { OfflineProgress } from './app/core/service/offline-progress';
 import { MetaGodController } from './app/database/meta-god/meta-god.controller';
 import { MetaGodPowerManagerService } from './app/core/service/location/meta-god-manager.service';
+import { OfflineProgressController } from './app/database/offlineProgress/offline-progress.controller';
 
 const DB_VERSION = 8;
 const DB_KEY = 'db';
@@ -47,7 +48,11 @@ export class DatabaseBootstrapService {
     private readonly tamedMonsterControllerService = inject(
         TamedMonsterController
     );
-    private readonly MetaGodControllerService = inject(MetaGodController);
+    private readonly MetaGodControllerControllerService =
+        inject(MetaGodController);
+    private readonly OfflineProgressControllerService = inject(
+        OfflineProgressController
+    );
 
     // MANAGERS (loaded after DB is ready)
     private readonly combatTowerService = inject(CombatTowerManagerService);
@@ -85,7 +90,8 @@ export class DatabaseBootstrapService {
             this.relicControllerService.init(),
             this.eggControllerService.init(),
             this.tamedMonsterControllerService.init(),
-            this.MetaGodControllerService.init(),
+            this.MetaGodControllerControllerService.init(),
+            this.OfflineProgressControllerService.init(),
         ]);
     }
 
@@ -103,7 +109,8 @@ export class DatabaseBootstrapService {
             this.relicControllerService.dropTable(),
             this.eggControllerService.dropTable(),
             this.tamedMonsterControllerService.dropTable(),
-            this.MetaGodControllerService.dropTable(),
+            this.MetaGodControllerControllerService.dropTable(),
+            this.OfflineProgressControllerService.dropTable(),
         ]);
     }
 
@@ -121,6 +128,7 @@ export class DatabaseBootstrapService {
             this.eggManagerService.init$(),
             this.tamedMonsterManagerService.init$(),
             this.metaGodManagerService.init$(),
+            this.offlineProgress.init$(),
         ]).pipe(
             catchError((err) => {
                 // log and continue – avoid killing the app
