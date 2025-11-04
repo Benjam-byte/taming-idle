@@ -27,6 +27,11 @@ const levelDict: Record<number, Encounter> = {
     13: { life: 800, type: 'slime', duration: 20000 },
     14: { life: 900, type: 'duck', duration: 20000 },
     15: { life: 1000, type: 'slime', duration: 20000 },
+    16: { life: 1500, type: 'slime', duration: 20000 },
+    17: { life: 2000, type: 'slime', duration: 20000 },
+    18: { life: 2500, type: 'slime', duration: 20000 },
+    19: { life: 3000, type: 'slime', duration: 20000 },
+    20: { life: 5000, type: 'slime', duration: 20000 },
 };
 
 @Injectable({
