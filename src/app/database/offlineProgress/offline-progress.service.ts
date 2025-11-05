@@ -3,7 +3,7 @@ import { OfflineValueProgress } from './offline-progress.type';
 import { inject, Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
 
-const COLLECTION_KEY = 'loot';
+const COLLECTION_KEY = 'offlineProgress';
 
 @Injectable({ providedIn: 'root' })
 export class OfflineProgressService {
