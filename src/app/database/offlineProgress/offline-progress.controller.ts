@@ -16,9 +16,9 @@ export class OfflineProgressController {
     }
 
     create(
-        loot: Omit<OfflineValueProgress, 'id'>
+        offlineProgress: Omit<OfflineValueProgress, 'id'>
     ): Observable<OfflineValueProgress> {
-        return this.service.create(loot);
+        return this.service.create(offlineProgress);
     }
 
     get(): Observable<OfflineValueProgress> {
@@ -27,9 +27,9 @@ export class OfflineProgressController {
 
     update(
         id: string,
-        loot: Partial<Omit<OfflineValueProgress, 'id'>>
+        offlineProgress: Partial<Omit<OfflineValueProgress, 'id'>>
     ): Observable<OfflineValueProgress> {
-        return this.service.update(id, loot);
+        return this.service.update(id, offlineProgress);
     }
 
     dropTable(): Observable<void> {

@@ -6,7 +6,6 @@ import { RegionManagerService } from './location/region.service';
 import { LootManagerService } from './player/loot-manager.service';
 import { ProfessionName } from '../enum/profession-name.enum';
 import { BehaviorSubject, forkJoin, map, tap } from 'rxjs';
-import { probabilityAtLeastOneEvent } from '../helpers/proba-rolls';
 import { EggManagerService } from './monster/egg-manager.service';
 import { WorldManagerService } from './location/world.service';
 import { OfflineProgressController } from 'src/app/database/offlineProgress/offline-progress.controller';
