@@ -23,7 +23,9 @@
               "browser": ""
             },
             "index": "src/index.html",
-            "polyfills": ["src/polyfills.ts"],
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -57,8 +59,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all",
-              "baseHref": "/taming-idle/"
+              "outputHashing": "all"
             },
             "development": {
               "optimization": false,
@@ -128,8 +129,7 @@
     }
   },
   "cli": {
-    "schematicCollections": ["@ionic/angular-toolkit"],
-    "analytics": false
+    "schematicCollections": ["@ionic/angular-toolkit"]
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {
