@@ -10,12 +10,16 @@ export class MinimapRenderer {
   private readonly contentContainer = new Container();
   private readonly maskGraphics = new Graphics();
 
+  private readonly fogContainer = new Container();
+  private readonly fogGraphics = new Graphics();
+
   private readonly playerGraphics = new Graphics();
 
   private readonly visibleTileWidth = 8;
   private readonly visibleTileHeight = 8;
 
   private readonly loadedChunkRadius = 2;
+  private readonly visionRadius = 2;
 
   private readonly cellSize = 16;
   private readonly padding = 10;
@@ -33,8 +37,13 @@ export class MinimapRenderer {
     this.sceneContainer.label = 'minimapSceneContainer';
     this.viewportContainer.label = 'minimapViewportContainer';
     this.contentContainer.label = 'minimapContentContainer';
+    this.fogContainer.label = 'minimapFogContainer';
+    this.fogGraphics.label = 'minimapFogGraphics';
+
+    this.fogContainer.addChild(this.fogGraphics);
 
     this.viewportContainer.addChild(this.contentContainer);
+    this.viewportContainer.addChild(this.fogContainer);
     this.viewportContainer.addChild(this.maskGraphics);
     this.viewportContainer.mask = this.maskGraphics;
 
@@ -47,6 +56,9 @@ export class MinimapRenderer {
     this.layout();
     this.drawFrame();
     this.drawMask();
+    this.drawChunks();
+    this.positionContent();
+    this.drawFog();
     this.drawPlayer();
   }
 
@@ -56,6 +68,7 @@ export class MinimapRenderer {
     this.drawMask();
     this.drawChunks();
     this.positionContent();
+    this.drawFog();
     this.drawPlayer();
   }
 
@@ -181,10 +194,73 @@ export class MinimapRenderer {
     const playerCenterX = visiblePixelWidth / 2;
     const playerCenterY = visiblePixelHeight / 2;
 
-    this.contentContainer.x =
+    const offsetX =
       playerCenterX - (player.x * this.cellSize + this.cellSize / 2);
-    this.contentContainer.y =
+    const offsetY =
       playerCenterY - (player.y * this.cellSize + this.cellSize / 2);
+
+    this.contentContainer.x = offsetX;
+    this.contentContainer.y = offsetY;
+
+    this.fogContainer.x = offsetX;
+    this.fogContainer.y = offsetY;
+  }
+
+  private drawFog(): void {
+    this.fogGraphics.clear();
+
+    const player = this.mapService.playerCoordinate();
+    const chunkSize = this.mapService.chunkSize;
+    const chunkMap = this.mapService.chunkList();
+
+    const playerChunkX = Math.floor(player.x / chunkSize);
+    const playerChunkY = Math.floor(player.y / chunkSize);
+
+    const startChunkX = playerChunkX - this.loadedChunkRadius;
+    const endChunkX = playerChunkX + this.loadedChunkRadius;
+    const startChunkY = playerChunkY - this.loadedChunkRadius;
+    const endChunkY = playerChunkY + this.loadedChunkRadius;
+
+    const fogColor = 0x050505;
+
+    for (let chunkY = startChunkY; chunkY <= endChunkY; chunkY++) {
+      for (let chunkX = startChunkX; chunkX <= endChunkX; chunkX++) {
+        const chunkKey = `${chunkX}:${chunkY}`;
+        const chunk = chunkMap.get(chunkKey);
+
+        if (!chunk) {
+          continue;
+        }
+
+        for (const tile of chunk.tileList) {
+          const x = tile.coordinate.x;
+          const y = tile.coordinate.y;
+
+          if (this.isTileVisible(x, y, player.x, player.y)) {
+            continue;
+          }
+
+          const px = x * this.cellSize;
+          const py = y * this.cellSize;
+
+          this.fogGraphics
+            .rect(px, py, this.cellSize, this.cellSize)
+            .fill({ color: fogColor });
+        }
+      }
+    }
+  }
+
+  private isTileVisible(
+    tileX: number,
+    tileY: number,
+    playerX: number,
+    playerY: number,
+  ): boolean {
+    const dx = tileX - playerX;
+    const dy = tileY - playerY;
+
+    return dx * dx + dy * dy <= this.visionRadius * this.visionRadius;
   }
 
   private drawPlayer(): void {
