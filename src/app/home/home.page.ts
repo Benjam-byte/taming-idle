@@ -14,12 +14,13 @@ import { getRendererPreference } from 'src/app/core/helpers/canvas-helper';
 import { MapService } from 'src/app/core/service/map/map';
 import { MapRenderer } from './pixi-components/map-renderer';
 import { MinimapRenderer } from './pixi-components/mini-map-renderer';
+import { MoveControllerComponent } from './move-controller/move-controller.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonContent],
+  imports: [IonContent, MoveControllerComponent],
 })
 export class HomePage implements AfterViewInit {
   @ViewChild('pixiGameContainer', { static: true })
@@ -53,10 +54,6 @@ export class HomePage implements AfterViewInit {
 
   async ngAfterViewInit(): Promise<void> {
     await this.initGame();
-  }
-
-  onClick() {
-    this.mapService.move(1, 0);
   }
 
   private async initGame(): Promise<void> {

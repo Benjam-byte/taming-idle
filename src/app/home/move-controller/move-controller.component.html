@@ -1,0 +1,39 @@
+<div class="controller" aria-label="Movement controller">
+  <button
+    type="button"
+    class="move-btn up"
+    (pointerdown)="move('UP')"
+    aria-label="Move up"
+  >
+    ↑
+  </button>
+
+  <button
+    type="button"
+    class="move-btn left"
+    (pointerdown)="move('LEFT')"
+    aria-label="Move left"
+  >
+    ←
+  </button>
+
+  <div class="center" aria-hidden="true"></div>
+
+  <button
+    type="button"
+    class="move-btn right"
+    (pointerdown)="move('RIGHT')"
+    aria-label="Move right"
+  >
+    →
+  </button>
+
+  <button
+    type="button"
+    class="move-btn down"
+    (pointerdown)="move('DOWN')"
+    aria-label="Move down"
+  >
+    ↓
+  </button>
+</div>

@@ -1,8 +1,6 @@
 <ion-content [fullscreen]="true">
-  <div
-    id="pixiGameContainer"
-    #pixiGameContainer
-    class="pixi-container"
-    (click)="onClick()"
-  ></div>
+  <div id="pixiGameContainer" #pixiGameContainer class="pixi-container"></div>
+  <div class="absolute w-full flex justify-center bottom-5">
+    <app-move-controller />
+  </div>
 </ion-content>
