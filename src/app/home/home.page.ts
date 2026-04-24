@@ -15,12 +15,13 @@ import { MapService } from 'src/app/core/service/map/map-service';
 import { MapRenderer } from './pixi-components/map-renderer';
 import { MinimapRenderer } from './pixi-components/mini-map-renderer';
 import { MoveControllerComponent } from './move-controller/move-controller.component';
+import { TopHudBarComponent } from './top-hud-bar/top-hud-bar.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonContent, MoveControllerComponent],
+  imports: [IonContent, MoveControllerComponent, TopHudBarComponent],
 })
 export class HomePage implements AfterViewInit {
   @ViewChild('pixiGameContainer', { static: true })

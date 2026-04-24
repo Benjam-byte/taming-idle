@@ -1,1 +1,81 @@
 @import "tailwindcss";
+
+@theme {
+  --font-title: "Baloo 2", "Trebuchet MS", sans-serif;
+  --font-body: "Nunito", "Arial", sans-serif;
+
+  --color-primary-50: #f5eadc;
+  --color-primary-100: #ead4b8;
+  --color-primary-200: #d4aa78;
+  --color-primary-300: #b9854f;
+  --color-primary-400: #8b5d35;
+  --color-primary-500: #6b4729;
+  --color-primary-600: #573820;
+  --color-primary-700: #3f2818;
+  --color-primary-800: #2a1a10;
+  --color-primary-900: #18100a;
+
+  --color-secondary-50: #fff8e6;
+  --color-secondary-100: #f6e8bf;
+  --color-secondary-200: #ecd28e;
+  --color-secondary-300: #d5b56a;
+  --color-secondary-400: #b99549;
+  --color-secondary-500: #987238;
+  --color-secondary-600: #78562c;
+  --color-secondary-700: #5a3d22;
+  --color-secondary-800: #3b2818;
+  --color-secondary-900: #20150d;
+
+  --color-accent-500: #354b24;
+
+  --color-layer-bg: #18100a;
+  --color-layer-surface: #2a1a10;
+  --color-layer-panel: #3f2818;
+  --color-layer-panel-light: #6b4729;
+  --color-layer-card: #573820;
+  --color-layer-inset: #20150d;
+  --color-layer-border: #140c07;
+
+  --color-text-primary: #fff3d0;
+  --color-text-secondary: #d8bd8a;
+  --color-text-muted: #9b7a52;
+}
+
+html,
+body,
+ion-app {
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+.title-xl {
+  font-family: var(--font-title);
+  font-size: 2rem;
+  line-height: 2.25rem;
+  font-weight: 800;
+}
+
+.wood-panel {
+  box-shadow:
+    inset 0 1px 2px rgb(255 255 255 / 0.2),
+    inset 0 -2px 3px rgb(0 0 0 / 0.4),
+    0 3px 0 var(--color-layer-border),
+    0 4px 6px rgb(0 0 0 / 0.6);
+}
+
+.hud-slot {
+  background-color: var(--color-primary-600);
+  border: 2px solid var(--color-primary-800);
+  box-shadow:
+    inset 0 2px 4px rgb(255 255 255 / 0.1),
+    inset 0 -3px 5px rgb(0 0 0 / 0.25),
+    0 2px 3px rgb(0 0 0 / 0.25);
+}
+
+.wood-grain {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgb(255 255 255 / 0.08) 0 1px,
+    transparent 1px 8px
+  );
+}
