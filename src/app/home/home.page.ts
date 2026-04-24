@@ -11,7 +11,7 @@ import { IonContent } from '@ionic/angular/standalone';
 import { Application, Container } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { getRendererPreference } from 'src/app/core/helpers/canvas-helper';
-import { MapService } from 'src/app/core/service/map/map';
+import { MapService } from 'src/app/core/service/map/map-service';
 import { MapRenderer } from './pixi-components/map-renderer';
 import { MinimapRenderer } from './pixi-components/mini-map-renderer';
 import { MoveControllerComponent } from './move-controller/move-controller.component';

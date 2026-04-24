@@ -1,7 +1,7 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
-import { Chunk } from './Chunk';
+import { Chunk } from './chunk';
 import { Coordinate } from '../../type/coordinate';
-import { Tile } from './Tile';
+import { Tile } from './tile';
 
 @Injectable({
   providedIn: 'root',

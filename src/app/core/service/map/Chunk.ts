@@ -1,5 +1,5 @@
 import { Coordinate } from '../../type/coordinate';
-import { Tile } from './Tile';
+import { Tile } from './tile';
 
 export class Chunk {
   size: number;

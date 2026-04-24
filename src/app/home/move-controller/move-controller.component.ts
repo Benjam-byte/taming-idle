@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapService } from 'src/app/core/service/map/map';
+import { MapService } from 'src/app/core/service/map/map-service';
+import { LootStore } from 'src/app/database/store/loot.store';
 
 export type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 

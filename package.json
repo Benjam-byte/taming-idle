@@ -27,6 +27,7 @@
     "@capacitor/keyboard": "8.0.3",
     "@capacitor/status-bar": "8.0.2",
     "@ionic/angular": "^8.0.0",
+    "@ionic/storage-angular": "^4.0.0",
     "@tailwindcss/postcss": "^4.2.2",
     "ionicons": "^7.0.0",
     "pixi.js": "^8.18.1",

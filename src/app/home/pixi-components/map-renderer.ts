@@ -7,7 +7,7 @@ import {
   Texture,
 } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
-import { Tile } from 'src/app/core/service/map/Tile';
+import { Tile } from 'src/app/core/service/map/tile';
 
 export class MapRenderer {
   private readonly sceneContainer = new Container();

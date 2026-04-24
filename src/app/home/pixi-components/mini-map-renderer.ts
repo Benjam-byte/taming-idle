@@ -1,6 +1,6 @@
 import { Application, Container, Graphics } from 'pixi.js';
-import { MapService } from 'src/app/core/service/map/map';
-import { Tile } from 'src/app/core/service/map/Tile';
+import { MapService } from 'src/app/core/service/map/map-service';
+import { Tile } from 'src/app/core/service/map/tile';
 
 export class MinimapRenderer {
   private readonly sceneContainer = new Container();
