@@ -21,6 +21,9 @@ export class MapRenderer {
   private perfInterval?: ReturnType<typeof setInterval>;
   private currentTileKey?: string;
 
+  private isCollectingWheat = false;
+  private wheatCollectTick?: (ticker: any) => void;
+
   constructor(
     private readonly game: Application,
     private readonly container: Container,
@@ -56,6 +59,11 @@ export class MapRenderer {
     }
 
     this.sceneContainer.removeChildren().forEach((child) => child.destroy());
+
+    if (this.wheatCollectTick) {
+      this.game.ticker.remove(this.wheatCollectTick);
+      this.wheatCollectTick = undefined;
+    }
 
     if (this.sceneContainer.parent) {
       this.sceneContainer.parent.removeChild(this.sceneContainer);
@@ -130,7 +138,12 @@ export class MapRenderer {
   }
 
   private updateWheatTexture(tile: Tile): void {
+    if (this.isCollectingWheat) {
+      return;
+    }
+
     if (this.wheat) {
+      this.wheat.removeAllListeners();
       this.sceneContainer.removeChild(this.wheat);
       this.wheat.destroy();
       this.wheat = undefined;
@@ -142,20 +155,26 @@ export class MapRenderer {
 
     const texture = this.pixiAssetService.worldCoreAsset!['wheat'];
 
-    this.wheat = new Sprite(texture);
-    this.wheat.anchor.set(0.5);
-    this.wheat.setSize(80, 80);
-    this.wheat.x = this.game.screen.width / 2;
-    this.wheat.y = 500;
+    const wheat = new Sprite(texture);
 
-    this.wheat.eventMode = 'static';
-    this.wheat.cursor = 'pointer';
+    wheat.anchor.set(0.5);
+    wheat.setSize(80, 80);
+    wheat.x = this.game.screen.width / 2;
+    wheat.y = 500;
 
-    this.wheat.on('pointertap', () => {
-      this.playCollectWheatAnimation(this.wheat!);
+    wheat.eventMode = 'static';
+    wheat.cursor = 'pointer';
+
+    wheat.on('pointertap', () => {
+      if (this.isCollectingWheat) {
+        return;
+      }
+
+      this.playCollectWheatAnimation(wheat);
     });
 
-    this.sceneContainer.addChild(this.wheat);
+    this.wheat = wheat;
+    this.sceneContainer.addChild(wheat);
   }
 
   private getTextureForTile(tile?: Tile): Texture {
@@ -198,7 +217,11 @@ export class MapRenderer {
   }
 
   private playCollectWheatAnimation(wheat: Sprite): void {
+    this.isCollectingWheat = true;
+
     wheat.eventMode = 'none';
+    wheat.cursor = 'default';
+    wheat.removeAllListeners();
 
     const startX = wheat.x;
     const startY = wheat.y;
@@ -209,9 +232,9 @@ export class MapRenderer {
       text: '+1',
       style: new TextStyle({
         fontFamily: 'Arial',
-        fontSize: 18,
-        fill: 'yellow',
+        fontSize: 22,
         fontWeight: '900',
+        fill: 0xfff3d0,
         stroke: {
           color: 0x140c07,
           width: 4,
@@ -229,6 +252,13 @@ export class MapRenderer {
     const duration = 520;
 
     const tick = (ticker: any) => {
+      if (wheat.destroyed || gainText.destroyed) {
+        this.game.ticker.remove(tick);
+        this.wheatCollectTick = undefined;
+        this.isCollectingWheat = false;
+        return;
+      }
+
       elapsed += ticker.deltaMS;
 
       const progress = Math.min(elapsed / duration, 1);
@@ -254,15 +284,22 @@ export class MapRenderer {
 
       if (progress >= 1) {
         this.game.ticker.remove(tick);
+        this.wheatCollectTick = undefined;
 
         gainText.destroy();
-        wheat.destroy();
+
+        if (!wheat.destroyed) {
+          wheat.destroy();
+        }
 
         this.wheat = undefined;
+        this.isCollectingWheat = false;
+
         this.onResourceClick();
       }
     };
 
+    this.wheatCollectTick = tick;
     this.game.ticker.add(tick);
   }
 }

@@ -320,20 +320,27 @@ export class MinimapRenderer {
           const x = tile.coordinate.x;
           const y = tile.coordinate.y;
 
-          if (this.isTileVisible(x, y, player.x, player.y)) {
+          const isVisible = this.isTileVisible(x, y, player.x, player.y);
+
+          if (isVisible) {
             continue;
           }
+
+          const isVisited = this.mapService.isTileVisited(x, y);
 
           const px = x * this.cellSize;
           const py = y * this.cellSize;
 
-          this.fogGraphics
-            .rect(px, py, this.cellSize, this.cellSize)
-            .fill({ color: this.colors.fog, alpha: 0.96 });
+          this.fogGraphics.rect(px, py, this.cellSize, this.cellSize).fill({
+            color: this.colors.fog,
+            alpha: isVisited ? 0.42 : 0.96,
+          });
 
-          this.fogGraphics
-            .rect(px, py, this.cellSize, this.cellSize)
-            .stroke({ color: this.colors.fogLine, alpha: 0.5, width: 1 });
+          this.fogGraphics.rect(px, py, this.cellSize, this.cellSize).stroke({
+            color: this.colors.fogLine,
+            alpha: isVisited ? 0.22 : 0.5,
+            width: 1,
+          });
         }
       }
     }

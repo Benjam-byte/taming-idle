@@ -14,6 +14,7 @@ export class MapService {
 
   playerCoordinate = signal<Coordinate>({ x: 0, y: 0 });
   chunkList = signal(new globalThis.Map<string, Chunk>());
+  visitedTileKeys = signal(new Set<string>());
 
   activeChunkCoordinate = computed<Coordinate>(() => {
     const player = this.playerCoordinate();
@@ -43,6 +44,7 @@ export class MapService {
     effect(() => {
       const activeChunk = this.activeChunkCoordinate();
       this.loadChunksAroundActiveChunk(activeChunk);
+      this.markCurrentTileAsVisited();
     });
   }
 
@@ -56,6 +58,20 @@ export class MapService {
 
   refresh(): void {
     this.chunkList.update((chunkMap) => new globalThis.Map(chunkMap));
+  }
+
+  markCurrentTileAsVisited(): void {
+    const player = this.playerCoordinate();
+
+    this.visitedTileKeys.update((current) => {
+      const next = new Set(current);
+      next.add(`${player.x}:${player.y}`);
+      return next;
+    });
+  }
+
+  isTileVisited(x: number, y: number): boolean {
+    return this.visitedTileKeys().has(`${x}:${y}`);
   }
 
   private loadChunksAroundActiveChunk(center: Coordinate): void {
@@ -133,5 +149,9 @@ export class MapService {
 
   private getChunkKey(chunkCoordinate: Coordinate): string {
     return `${chunkCoordinate.x}:${chunkCoordinate.y}`;
+  }
+
+  private getTileKey(coordinate: Coordinate): string {
+    return `${coordinate.x}:${coordinate.y}`;
   }
 }
