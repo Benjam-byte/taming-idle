@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LootStore } from 'src/app/database/store/loot.store';
 
 export type HudResource = {
   id: string;
@@ -14,4 +15,8 @@ export type HudResource = {
   imports: [CommonModule],
   templateUrl: './top-hud-bar.component.html',
 })
-export class TopHudBarComponent {}
+export class TopHudBarComponent {
+  private readonly lootStore = inject(LootStore);
+
+  wheatQuantity = this.lootStore.wheatQuantity;
+}

@@ -77,7 +77,7 @@ export class Chunk {
 
     for (let i = startIndex; i < endIndex; i++) {
       const tileIndex = shuffledIndexes[i];
-      tiles[tileIndex].hasRessource = true;
+      tiles[tileIndex].hasResource = true;
     }
   }
 

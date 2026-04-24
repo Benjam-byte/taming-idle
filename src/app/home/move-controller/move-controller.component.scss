@@ -10,54 +10,10 @@
   display: grid;
   align-items: center;
   justify-items: center;
-  gap: 8px;
-  .controller {
-    display: grid;
-    align-items: center;
-    justify-items: center;
-    gap: 4px;
+  gap: 4px;
 
-    grid-template-columns: 44px 20px 44px;
-    grid-template-rows: 44px 20px 44px;
-    grid-template-areas:
-      ". up ."
-      "left center right"
-      ". down .";
-  }
-
-  .move-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    font-size: 20px;
-  }
-
-  .center {
-    width: 20px;
-    height: 20px;
-  }
-
-  @media (max-width: 480px) {
-    .controller {
-      grid-template-columns: 40px 20px 40px;
-      grid-template-rows: 40px 20px 40px;
-      gap: 4px;
-    }
-
-    .move-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      font-size: 18px;
-    }
-
-    .center {
-      width: 18px;
-      height: 18px;
-    }
-  }
-  grid-template-columns: 56px 24 56px;
-  grid-template-rows: 56px 24px 56px;
+  grid-template-columns: 44px 30px 44px;
+  grid-template-rows: 44px 30px 44px;
   grid-template-areas:
     ". up ."
     "left center right"
@@ -65,19 +21,19 @@
 }
 
 .move-btn {
-  width: 56px;
-  height: 56px;
+  width: 44px;
+  height: 44px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 16px;
+  border-radius: 12px;
   cursor: pointer;
   touch-action: manipulation;
 
   font-family: var(--font-title);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 900;
 
   color: var(--color-text-primary);
@@ -130,8 +86,8 @@
 .center {
   grid-area: center;
 
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   border-radius: 9999px;
 
   background-color: var(--color-secondary-500);
@@ -145,20 +101,20 @@
 
 @media (max-width: 480px) {
   .controller {
-    grid-template-columns: 48px 20px 48px;
-    grid-template-rows: 48px 20px 48px;
-    gap: 6px;
+    grid-template-columns: 40px 30px 40px;
+    grid-template-rows: 40px 30px 40px;
+    gap: 4px;
   }
 
   .move-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 18px;
   }
 
   .center {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
   }
 }

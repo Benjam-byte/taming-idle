@@ -1,12 +1,14 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Chunk } from './chunk';
 import { Coordinate } from '../../type/coordinate';
 import { Tile } from './tile';
+import { LootStore } from 'src/app/database/store/loot.store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
+  private readonly lootStore = inject(LootStore);
   loadRadius = 2;
   chunkSize = 5;
 
@@ -50,6 +52,10 @@ export class MapService {
       y: player.y + dy,
     }));
     console.log(this.playerCoordinate());
+  }
+
+  refresh(): void {
+    this.chunkList.update((chunkMap) => new globalThis.Map(chunkMap));
   }
 
   private loadChunksAroundActiveChunk(center: Coordinate): void {

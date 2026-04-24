@@ -5,10 +5,11 @@ import {
   Rectangle,
   Sprite,
   Texture,
+  Text,
+  TextStyle,
 } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { Tile } from 'src/app/core/service/map/tile';
-
 export class MapRenderer {
   private readonly sceneContainer = new Container();
 
@@ -18,11 +19,13 @@ export class MapRenderer {
 
   private slimeTextures?: Texture[];
   private perfInterval?: ReturnType<typeof setInterval>;
+  private currentTileKey?: string;
 
   constructor(
     private readonly game: Application,
     private readonly container: Container,
     private readonly pixiAssetService: PixiAssetService,
+    private readonly onResourceClick: () => void,
   ) {}
 
   init(): void {
@@ -33,9 +36,13 @@ export class MapRenderer {
   }
 
   render(tile: Tile): void {
-    if (!this.background) {
+    const tileKey = `${tile.coordinate.x}:${tile.coordinate.y}:${tile.hasMonster}:${tile.hasResource}`;
+
+    if (tileKey === this.currentTileKey) {
       return;
     }
+
+    this.currentTileKey = tileKey;
 
     this.updateBackgroundTexture(tile);
     this.updateMonsterTexture(tile);
@@ -129,17 +136,24 @@ export class MapRenderer {
       this.wheat = undefined;
     }
 
-    if (!tile.hasRessource) {
+    if (!tile.hasResource) {
       return;
     }
 
     const texture = this.pixiAssetService.worldCoreAsset!['wheat'];
 
     this.wheat = new Sprite(texture);
-    this.wheat.width = 80;
-    this.wheat.height = 80;
+    this.wheat.anchor.set(0.5);
+    this.wheat.setSize(80, 80);
     this.wheat.x = this.game.screen.width / 2;
     this.wheat.y = 500;
+
+    this.wheat.eventMode = 'static';
+    this.wheat.cursor = 'pointer';
+
+    this.wheat.on('pointertap', () => {
+      this.playCollectWheatAnimation(this.wheat!);
+    });
 
     this.sceneContainer.addChild(this.wheat);
   }
@@ -181,5 +195,74 @@ export class MapRenderer {
     }
 
     return this.slimeTextures;
+  }
+
+  private playCollectWheatAnimation(wheat: Sprite): void {
+    wheat.eventMode = 'none';
+
+    const startX = wheat.x;
+    const startY = wheat.y;
+    const startScaleX = wheat.scale.x;
+    const startScaleY = wheat.scale.y;
+
+    const gainText = new Text({
+      text: '+1',
+      style: new TextStyle({
+        fontFamily: 'Arial',
+        fontSize: 18,
+        fill: 'yellow',
+        fontWeight: '900',
+        stroke: {
+          color: 0x140c07,
+          width: 4,
+        },
+      }),
+    });
+
+    gainText.anchor.set(0.5);
+    gainText.x = wheat.x;
+    gainText.y = wheat.y - 42;
+
+    this.sceneContainer.addChild(gainText);
+
+    let elapsed = 0;
+    const duration = 520;
+
+    const tick = (ticker: any) => {
+      elapsed += ticker.deltaMS;
+
+      const progress = Math.min(elapsed / duration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+
+      const shake = Math.sin(progress * Math.PI * 4) * (1 - progress) * 3;
+      const floatY = Math.sin(progress * Math.PI) * 8;
+      const scaleMultiplier = 1 + easeOut * 0.08;
+
+      wheat.x = startX + shake;
+      wheat.y = startY - floatY;
+      wheat.rotation = Math.sin(progress * Math.PI * 3) * (1 - progress) * 0.05;
+      wheat.alpha = 1 - easeOut;
+
+      wheat.scale.set(
+        startScaleX * scaleMultiplier,
+        startScaleY * scaleMultiplier,
+      );
+
+      gainText.y = startY - 42 - easeOut * 28;
+      gainText.alpha = 1 - easeOut;
+      gainText.scale.set(1 + easeOut * 0.12);
+
+      if (progress >= 1) {
+        this.game.ticker.remove(tick);
+
+        gainText.destroy();
+        wheat.destroy();
+
+        this.wheat = undefined;
+        this.onResourceClick();
+      }
+    };
+
+    this.game.ticker.add(tick);
   }
 }

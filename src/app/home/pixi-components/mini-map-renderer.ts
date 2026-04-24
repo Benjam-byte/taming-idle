@@ -233,7 +233,7 @@ export class MinimapRenderer {
       .rect(px, py, this.cellSize, this.cellSize)
       .stroke({ color: this.colors.tileLine, alpha: 0.22, width: 1 });
 
-    if (tile.hasRessource) {
+    if (tile.hasResource) {
       this.drawResourceIcon(graphics, px, py);
     }
 

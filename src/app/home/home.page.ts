@@ -17,6 +17,7 @@ import { MinimapRenderer } from './pixi-components/mini-map-renderer';
 import { MoveControllerComponent } from './move-controller/move-controller.component';
 import { TopHudBarComponent } from './top-hud-bar/top-hud-bar.component';
 import { BottomHudBarComponent } from './bottom-hud-bar/bottom-hud-bar.component';
+import { ResourceCollectionService } from '../core/service/resource-collection-service';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +37,9 @@ export class HomePage implements AfterViewInit {
   private readonly pixiAssetService = inject(PixiAssetService);
   private readonly mapService = inject(MapService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly resourceCollectionService = inject(
+    ResourceCollectionService,
+  );
 
   game = new Application();
   isGameReady = false;
@@ -107,6 +111,7 @@ export class HomePage implements AfterViewInit {
       this.game,
       this.worldContainer,
       this.pixiAssetService,
+      () => this.resourceCollectionService.collectActiveTileResource(),
     );
 
     this.minimapRenderer = new MinimapRenderer(
