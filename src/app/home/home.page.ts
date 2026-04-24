@@ -16,12 +16,18 @@ import { MapRenderer } from './pixi-components/map-renderer';
 import { MinimapRenderer } from './pixi-components/mini-map-renderer';
 import { MoveControllerComponent } from './move-controller/move-controller.component';
 import { TopHudBarComponent } from './top-hud-bar/top-hud-bar.component';
+import { BottomHudBarComponent } from './bottom-hud-bar/bottom-hud-bar.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonContent, MoveControllerComponent, TopHudBarComponent],
+  imports: [
+    IonContent,
+    MoveControllerComponent,
+    TopHudBarComponent,
+    BottomHudBarComponent,
+  ],
 })
 export class HomePage implements AfterViewInit {
   @ViewChild('pixiGameContainer', { static: true })

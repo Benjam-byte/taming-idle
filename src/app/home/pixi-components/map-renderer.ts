@@ -112,6 +112,8 @@ export class MapRenderer {
 
     monster.animationSpeed = 0.2;
     monster.anchor.set(0.5);
+    monster.width = 400;
+    monster.height = 400;
     monster.x = this.game.screen.width / 2;
     monster.y = this.game.screen.height / 2;
     monster.play();
@@ -163,8 +165,8 @@ export class MapRenderer {
     }
 
     const frameCount = 10;
-    const frameWidth = 258;
-    const frameHeight = 258;
+    const frameWidth = 1024;
+    const frameHeight = 1024;
     const slimeTexture = this.pixiAssetService.spriteSheetAsset!['slime'];
 
     this.slimeTextures = [];

@@ -8,60 +8,106 @@
 
 .controller {
   display: grid;
-  grid-template-columns: 72px 72px 72px;
-  grid-template-rows: 72px 72px 72px;
+  align-items: center;
+  justify-items: center;
+  gap: 8px;
+  .controller {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    gap: 4px;
+
+    grid-template-columns: 44px 20px 44px;
+    grid-template-rows: 44px 20px 44px;
+    grid-template-areas:
+      ". up ."
+      "left center right"
+      ". down .";
+  }
+
+  .move-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 20px;
+  }
+
+  .center {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: 480px) {
+    .controller {
+      grid-template-columns: 40px 20px 40px;
+      grid-template-rows: 40px 20px 40px;
+      gap: 4px;
+    }
+
+    .move-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      font-size: 18px;
+    }
+
+    .center {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  grid-template-columns: 56px 24 56px;
+  grid-template-rows: 56px 24px 56px;
   grid-template-areas:
     ". up ."
     "left center right"
     ". down .";
-  gap: 10px;
-  align-items: center;
-  justify-items: center;
 }
 
 .move-btn {
-  width: 72px;
-  height: 72px;
-  border: 1px solid rgba(0, 223, 130, 0.22);
-  border-radius: 18px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
-    rgba(18, 22, 20, 0.94);
-  color: #ffffff;
-  font-size: 30px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow:
-    0 10px 24px rgba(0, 0, 0, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    inset 0 0 0 1px rgba(0, 223, 130, 0.04);
-  transition:
-    transform 120ms ease,
-    background 120ms ease,
-    border-color 120ms ease,
-    box-shadow 120ms ease;
-  touch-action: manipulation;
-}
+  width: 56px;
+  height: 56px;
 
-.move-btn:hover {
-  border-color: rgba(0, 223, 130, 0.38);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+  cursor: pointer;
+  touch-action: manipulation;
+
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 900;
+
+  color: var(--color-text-primary);
+  background-color: var(--color-primary-600);
+  border: 2px solid var(--color-primary-800);
+
   box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.32),
-    0 0 14px rgba(0, 223, 130, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    inset 0 1px 2px rgb(255 255 255 / 0.2),
+    inset 0 -2px 3px rgb(0 0 0 / 0.4),
+    0 3px 0 var(--color-layer-border),
+    0 4px 6px rgb(0 0 0 / 0.6);
+
+  transition:
+    transform 100ms ease,
+    background-color 100ms ease,
+    box-shadow 100ms ease;
 }
 
 .move-btn:active {
-  transform: scale(0.95);
-  border-color: rgba(0, 223, 130, 0.55);
+  transform: translateY(2px) scale(0.96);
+  background-color: var(--color-primary-700);
+
   box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.28),
-    0 0 18px rgba(0, 223, 130, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    inset 0 2px 4px rgb(0 0 0 / 0.45),
+    0 1px 0 var(--color-layer-border),
+    0 2px 4px rgb(0 0 0 / 0.5);
 }
 
 .move-btn:focus-visible {
-  outline: 2px solid #00df82;
+  outline: 2px solid var(--color-secondary-200);
   outline-offset: 3px;
 }
 
@@ -83,38 +129,36 @@
 
 .center {
   grid-area: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background:
-    radial-gradient(
-      circle at 30% 30%,
-      rgba(0, 223, 130, 0.22),
-      rgba(0, 223, 130, 0.06)
-    ),
-    rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(0, 223, 130, 0.18);
+
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+
+  background-color: var(--color-secondary-500);
+  border: 2px solid var(--color-primary-800);
+
   box-shadow:
-    inset 0 0 12px rgba(0, 223, 130, 0.08),
-    0 0 16px rgba(0, 223, 130, 0.08);
+    inset 0 1px 2px rgb(255 255 255 / 0.18),
+    inset 0 -2px 3px rgb(0 0 0 / 0.35),
+    0 2px 3px rgb(0 0 0 / 0.45);
 }
 
 @media (max-width: 480px) {
   .controller {
-    grid-template-columns: 64px 64px 64px;
-    grid-template-rows: 64px 64px 64px;
-    gap: 8px;
+    grid-template-columns: 48px 20px 48px;
+    grid-template-rows: 48px 20px 48px;
+    gap: 6px;
   }
 
   .move-btn {
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
-    font-size: 26px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    font-size: 20px;
   }
 
   .center {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
   }
 }

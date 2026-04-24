@@ -55,12 +55,20 @@ ion-app {
   font-weight: 800;
 }
 
-.wood-panel {
+.bottom-shadow {
   box-shadow:
     inset 0 1px 2px rgb(255 255 255 / 0.2),
     inset 0 -2px 3px rgb(0 0 0 / 0.4),
     0 3px 0 var(--color-layer-border),
     0 4px 6px rgb(0 0 0 / 0.6);
+}
+
+.top-shadow {
+  box-shadow:
+    inset 0 -1px 2px rgb(255 255 255 / 0.2),
+    inset 0 2px 3px rgb(0 0 0 / 0.4),
+    0 -3px 0 var(--color-layer-border),
+    0 -6px 10px rgb(0 0 0 / 0.6);
 }
 
 .hud-slot {
