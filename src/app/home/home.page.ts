@@ -7,7 +7,7 @@ import {
   effect,
   inject,
 } from '@angular/core';
-import { IonContent } from '@ionic/angular/standalone';
+import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { Application, Container } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { getRendererPreference } from 'src/app/core/helpers/canvas-helper';
@@ -34,6 +34,7 @@ export class HomePage implements AfterViewInit {
   @ViewChild('pixiGameContainer', { static: true })
   pixiGameContainer!: ElementRef<HTMLDivElement>;
 
+  private readonly modalCtrl = inject(ModalController);
   private readonly pixiAssetService = inject(PixiAssetService);
   private readonly mapService = inject(MapService);
   private readonly destroyRef = inject(DestroyRef);
@@ -65,6 +66,20 @@ export class HomePage implements AfterViewInit {
 
   async ngAfterViewInit(): Promise<void> {
     await this.initGame();
+  }
+
+  async openMap(): Promise<void> {
+    const { FullMapComponent } =
+      await import('../modal/full-map/full-map.component');
+
+    const modal = await this.modalCtrl.create({
+      component: FullMapComponent,
+      cssClass: 'full-screen-modal',
+      backdropDismiss: true,
+      showBackdrop: true,
+    });
+
+    await modal.present();
   }
 
   private async initGame(): Promise<void> {
@@ -118,6 +133,7 @@ export class HomePage implements AfterViewInit {
       this.game,
       this.uiContainer,
       this.mapService,
+      () => this.openMap(),
     );
 
     this.mapRenderer.init();

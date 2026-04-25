@@ -12,6 +12,8 @@ export class MinimapRenderer {
   private readonly contentContainer = new Container();
   private readonly maskGraphics = new Graphics();
 
+  private readonly openMapButton = new Graphics();
+
   private readonly fogContainer = new Container();
   private readonly fogGraphics = new Graphics();
 
@@ -21,7 +23,6 @@ export class MinimapRenderer {
   private readonly visibleTileHeight = 8;
 
   private readonly loadedChunkRadius = 2;
-  private readonly visionRadius = 2;
 
   private readonly cellSize = 16;
   private readonly padding = 9;
@@ -40,7 +41,8 @@ export class MinimapRenderer {
     tileAlt: 0x426f2c,
     tileLine: 0x2f4f20,
 
-    fog: 0x1b130d,
+    unknownFog: 0x050403,
+    seenFog: 0x1b130d,
     fogLine: 0x2a1a10,
 
     resource: 0xd5a13a,
@@ -50,7 +52,7 @@ export class MinimapRenderer {
   };
 
   private readonly positionText = new Text({
-    text: 'x: 0  y: 0',
+    text: 'x:0 y:0',
     style: {
       fontFamily: 'monospace',
       fontSize: 11,
@@ -67,6 +69,7 @@ export class MinimapRenderer {
     private readonly game: Application,
     private readonly container: Container,
     private readonly mapService: MapService,
+    private readonly onOpenFullMap: () => void,
   ) {}
 
   init(): void {
@@ -89,6 +92,7 @@ export class MinimapRenderer {
     this.sceneContainer.addChild(this.viewportContainer);
     this.sceneContainer.addChild(this.playerGraphics);
     this.sceneContainer.addChild(this.positionText);
+    this.sceneContainer.addChild(this.openMapButton);
 
     this.container.addChild(this.sceneContainer);
 
@@ -104,9 +108,12 @@ export class MinimapRenderer {
     this.drawFog();
     this.drawPlayer();
     this.drawPosition();
+    this.drawOpenMapButton();
   }
 
   destroy(): void {
+    this.openMapButton.removeAllListeners();
+
     if (this.sceneContainer.parent) {
       this.sceneContainer.parent.removeChild(this.sceneContainer);
     }
@@ -116,7 +123,6 @@ export class MinimapRenderer {
 
   private layout(): void {
     const visiblePixelWidth = this.getVisibleMapPixelWidth();
-
     const totalWidth = visiblePixelWidth + this.padding * 2;
 
     this.sceneContainer.x = this.game.screen.width - totalWidth - this.margin;
@@ -134,7 +140,6 @@ export class MinimapRenderer {
 
   private drawPosition(): void {
     const player = this.mapService.playerCoordinate();
-
     this.positionText.text = `x:${player.x} y:${player.y}`;
   }
 
@@ -200,8 +205,7 @@ export class MinimapRenderer {
 
     for (let chunkY = startChunkY; chunkY <= endChunkY; chunkY++) {
       for (let chunkX = startChunkX; chunkX <= endChunkX; chunkX++) {
-        const chunkKey = `${chunkX}:${chunkY}`;
-        const chunk = chunkMap.get(chunkKey);
+        const chunk = chunkMap.get(`${chunkX}:${chunkY}`);
 
         if (!chunk) {
           continue;
@@ -219,77 +223,94 @@ export class MinimapRenderer {
   }
 
   private drawTile(graphics: Graphics, tile: Tile): void {
-    const px = tile.coordinate.x * this.cellSize;
-    const py = tile.coordinate.y * this.cellSize;
+    const { x, y } = tile.coordinate;
 
-    const isAlt = Math.abs(tile.coordinate.x + tile.coordinate.y) % 2 === 0;
+    const isVisibleNow = this.isVisibleNow(x, y);
+    const isVisited = this.mapService.isTileVisited(x, y);
+    const isSeen = this.mapService.isTileSeen(x, y);
+
+    const isKnown = isVisibleNow || isVisited || isSeen;
+
+    if (!isKnown) {
+      return;
+    }
+
+    const px = x * this.cellSize;
+    const py = y * this.cellSize;
+
+    const isAlt = Math.abs(x + y) % 2 === 0;
     const tileColor = isAlt ? this.colors.tile : this.colors.tileAlt;
 
-    graphics
-      .rect(px, py, this.cellSize, this.cellSize)
-      .fill({ color: tileColor });
+    graphics.rect(px, py, this.cellSize, this.cellSize).fill({
+      color: tileColor,
+      alpha: isSeen && !isVisited && !isVisibleNow ? 0.55 : 1,
+    });
 
     graphics
       .rect(px, py, this.cellSize, this.cellSize)
       .stroke({ color: this.colors.tileLine, alpha: 0.22, width: 1 });
 
-    if (tile.hasResource) {
-      this.drawResourceIcon(graphics, px, py);
+    if (tile.hasResource && isSeen) {
+      this.drawResourceIcon(
+        graphics,
+        px,
+        py,
+        isVisibleNow || isVisited ? 1 : 0.55,
+      );
     }
 
-    if (tile.hasMonster) {
-      this.drawMonsterIcon(graphics, px, py);
+    const shouldShowMonster =
+      tile.hasMonster && (isVisited || this.mapService.isMonsterSpotted(x, y));
+
+    if (shouldShowMonster) {
+      this.drawMonsterIcon(
+        graphics,
+        px,
+        py,
+        isVisibleNow || isVisited ? 1 : 0.65,
+      );
     }
   }
 
-  private drawResourceIcon(graphics: Graphics, px: number, py: number): void {
+  private drawResourceIcon(
+    graphics: Graphics,
+    px: number,
+    py: number,
+    alpha: number,
+  ): void {
     const cx = px + this.cellSize / 2;
     const cy = py + this.cellSize / 2;
 
     graphics
       .circle(cx, cy, 3.2)
-      .fill({ color: this.colors.resource })
+      .fill({ color: this.colors.resource, alpha })
       .stroke({ color: this.colors.borderDark, width: 1 });
 
-    graphics.circle(cx - 1, cy - 1, 1).fill({ color: 0xfff3d0, alpha: 0.75 });
+    graphics
+      .circle(cx - 1, cy - 1, 1)
+      .fill({ color: 0xfff3d0, alpha: alpha * 0.75 });
   }
 
-  private drawMonsterIcon(graphics: Graphics, px: number, py: number): void {
+  private drawMonsterIcon(
+    graphics: Graphics,
+    px: number,
+    py: number,
+    alpha: number,
+  ): void {
     const cx = px + this.cellSize / 2;
     const cy = py + this.cellSize / 2;
 
     graphics
       .circle(cx, cy, 4)
-      .fill({ color: this.colors.monster })
+      .fill({ color: this.colors.monster, alpha })
       .stroke({ color: this.colors.borderDark, width: 1 });
 
-    graphics.circle(cx - 1.3, cy - 0.7, 0.7).fill({ color: 0x2a1a10 });
-    graphics.circle(cx + 1.3, cy - 0.7, 0.7).fill({ color: 0x2a1a10 });
+    graphics.circle(cx - 1.3, cy - 0.7, 0.7).fill({ color: 0x2a1a10, alpha });
+    graphics.circle(cx + 1.3, cy - 0.7, 0.7).fill({ color: 0x2a1a10, alpha });
 
     graphics
       .rect(cx - 1.8, cy + 1.2, 3.6, 0.9)
-      .fill({ color: 0x2a1a10, alpha: 0.75 });
-  }
-
-  private positionContent(): void {
-    const player = this.mapService.playerCoordinate();
-
-    const visiblePixelWidth = this.getVisibleMapPixelWidth();
-    const visiblePixelHeight = this.getVisibleMapPixelHeight();
-
-    const playerCenterX = visiblePixelWidth / 2;
-    const playerCenterY = visiblePixelHeight / 2;
-
-    const offsetX =
-      playerCenterX - (player.x * this.cellSize + this.cellSize / 2);
-    const offsetY =
-      playerCenterY - (player.y * this.cellSize + this.cellSize / 2);
-
-    this.contentContainer.x = offsetX;
-    this.contentContainer.y = offsetY;
-
-    this.fogContainer.x = offsetX;
-    this.fogContainer.y = offsetY;
+      .fill({ color: 0x2a1a10, alpha: alpha * 0.75 });
   }
 
   private drawFog(): void {
@@ -309,53 +330,39 @@ export class MinimapRenderer {
 
     for (let chunkY = startChunkY; chunkY <= endChunkY; chunkY++) {
       for (let chunkX = startChunkX; chunkX <= endChunkX; chunkX++) {
-        const chunkKey = `${chunkX}:${chunkY}`;
-        const chunk = chunkMap.get(chunkKey);
+        const chunk = chunkMap.get(`${chunkX}:${chunkY}`);
 
         if (!chunk) {
           continue;
         }
 
         for (const tile of chunk.tileList) {
-          const x = tile.coordinate.x;
-          const y = tile.coordinate.y;
+          const { x, y } = tile.coordinate;
 
-          const isVisible = this.isTileVisible(x, y, player.x, player.y);
+          const isVisibleNow = this.isVisibleNow(x, y);
+          const isVisited = this.mapService.isTileVisited(x, y);
+          const isSeen = this.mapService.isTileSeen(x, y);
 
-          if (isVisible) {
+          if (isVisibleNow || isVisited) {
             continue;
           }
-
-          const isVisited = this.mapService.isTileVisited(x, y);
 
           const px = x * this.cellSize;
           const py = y * this.cellSize;
 
           this.fogGraphics.rect(px, py, this.cellSize, this.cellSize).fill({
-            color: this.colors.fog,
-            alpha: isVisited ? 0.42 : 0.96,
+            color: isSeen ? this.colors.seenFog : this.colors.unknownFog,
+            alpha: isSeen ? 0.42 : 0.98,
           });
 
           this.fogGraphics.rect(px, py, this.cellSize, this.cellSize).stroke({
             color: this.colors.fogLine,
-            alpha: isVisited ? 0.22 : 0.5,
+            alpha: isSeen ? 0.22 : 0.5,
             width: 1,
           });
         }
       }
     }
-  }
-
-  private isTileVisible(
-    tileX: number,
-    tileY: number,
-    playerX: number,
-    playerY: number,
-  ): boolean {
-    const dx = tileX - playerX;
-    const dy = tileY - playerY;
-
-    return dx * dx + dy * dy <= this.visionRadius * this.visionRadius;
   }
 
   private drawPlayer(): void {
@@ -376,6 +383,70 @@ export class MinimapRenderer {
     this.playerGraphics
       .circle(centerX - 1.5, centerY - 1.5, 1.4)
       .fill({ color: 0xffffff, alpha: 0.7 });
+  }
+
+  private drawOpenMapButton(): void {
+    const visiblePixelWidth = this.getVisibleMapPixelWidth();
+    const visiblePixelHeight = this.getVisibleMapPixelHeight();
+
+    const size = 22;
+    const x = this.padding + visiblePixelWidth - size - 4;
+    const y = this.padding + visiblePixelHeight - size - 4;
+
+    this.openMapButton.clear();
+
+    this.openMapButton
+      .roundRect(x, y, size, size, 6)
+      .fill({ color: this.colors.woodLight })
+      .stroke({ color: this.colors.playerBorder, width: 2 });
+
+    this.openMapButton
+      .rect(x + 6, y + 6, 4, 4)
+      .fill({ color: this.colors.playerBorder });
+
+    this.openMapButton
+      .rect(x + 13, y + 6, 4, 4)
+      .fill({ color: this.colors.playerBorder });
+
+    this.openMapButton
+      .rect(x + 6, y + 13, 4, 4)
+      .fill({ color: this.colors.playerBorder });
+
+    this.openMapButton
+      .rect(x + 13, y + 13, 4, 4)
+      .fill({ color: this.colors.playerBorder });
+
+    this.openMapButton.eventMode = 'static';
+    this.openMapButton.cursor = 'pointer';
+    this.openMapButton.removeAllListeners();
+    this.openMapButton.on('pointertap', () => {
+      this.onOpenFullMap();
+    });
+  }
+
+  private positionContent(): void {
+    const player = this.mapService.playerCoordinate();
+
+    const visiblePixelWidth = this.getVisibleMapPixelWidth();
+    const visiblePixelHeight = this.getVisibleMapPixelHeight();
+
+    const playerCenterX = visiblePixelWidth / 2;
+    const playerCenterY = visiblePixelHeight / 2;
+
+    this.contentContainer.x =
+      playerCenterX - (player.x * this.cellSize + this.cellSize / 2);
+
+    this.contentContainer.y =
+      playerCenterY - (player.y * this.cellSize + this.cellSize / 2);
+
+    this.fogContainer.x = this.contentContainer.x;
+    this.fogContainer.y = this.contentContainer.y;
+  }
+
+  private isVisibleNow(tileX: number, tileY: number): boolean {
+    const player = this.mapService.playerCoordinate();
+
+    return this.mapService.isInVisionRange(tileX, tileY, player.x, player.y);
   }
 
   private getVisibleMapPixelWidth(): number {

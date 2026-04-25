@@ -1,0 +1,25 @@
+<app-modal-layout title="Carte">
+  <div class="flex h-full flex-col gap-3">
+    <div
+      class="bottom-shadow relative flex-1 overflow-hidden rounded-2xl border-2 border-layer-border bg-layer-inset"
+    >
+      <div #fullMapContainer class="h-full w-full"></div>
+    </div>
+
+    <div class="flex gap-2">
+      <button
+        type="button"
+        class="hud-slot flex-1 rounded-xl px-3 py-2 font-title text-sm font-bold text-text-primary"
+      >
+        Marker
+      </button>
+
+      <button
+        type="button"
+        class="hud-slot flex-1 rounded-xl px-3 py-2 font-title text-sm font-bold text-text-primary"
+      >
+        Clear
+      </button>
+    </div>
+  </div>
+</app-modal-layout>
