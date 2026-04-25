@@ -1,11 +1,25 @@
 <ion-content [fullscreen]="true">
   <app-top-hud-bar />
 
+  @if(isCombatRunning()){
+  <button
+    (click)="leaveCombat()"
+    class="absolute right-2 top-40 w-10 h-10 z-50 flex items-center justify-center rounded-lg bg-[var(--color-primary-600)] border-2 border-[var(--color-primary-800)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-2px_3px_rgba(0,0,0,0.4),0_3px_0_var(--color-layer-border),0_4px_6px_rgba(0,0,0,0.6)] active:translate-y-[2px] active:scale-95 transition"
+  >
+    <img src="assets/icon/back.png" class="w-5 h-5" alt="back button" />
+  </button>
+  }
+
   <div class="game-viewport">
     <div id="pixiGameContainer" #pixiGameContainer class="pixi-container"></div>
 
     <div class="absolute bottom-3 flex w-full justify-center">
+      @if(isCombatRunning()) {
+      <app-combat-controller />
+
+      }@else {
       <app-move-controller />
+      }
     </div>
   </div>
 

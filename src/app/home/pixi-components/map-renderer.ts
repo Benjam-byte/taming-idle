@@ -29,6 +29,7 @@ export class MapRenderer {
     private readonly container: Container,
     private readonly pixiAssetService: PixiAssetService,
     private readonly onResourceClick: () => void,
+    private readonly onMonsterClick: () => void,
   ) {}
 
   init(): void {
@@ -113,6 +114,7 @@ export class MapRenderer {
 
   private updateMonsterTexture(tile: Tile): void {
     if (this.monster) {
+      this.monster.removeAllListeners();
       this.sceneContainer.removeChild(this.monster);
       this.monster.destroy();
       this.monster = undefined;
@@ -131,6 +133,14 @@ export class MapRenderer {
     monster.height = 400;
     monster.x = this.game.screen.width / 2;
     monster.y = this.game.screen.height / 2;
+
+    monster.eventMode = 'static';
+    monster.cursor = 'pointer';
+
+    monster.on('pointertap', () => {
+      this.onMonsterClick();
+    });
+
     monster.play();
 
     this.monster = monster;

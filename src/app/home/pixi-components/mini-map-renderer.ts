@@ -121,6 +121,18 @@ export class MinimapRenderer {
     this.sceneContainer.destroy({ children: true });
   }
 
+  hide(): void {
+    this.sceneContainer.visible = false;
+  }
+
+  show(): void {
+    this.sceneContainer.visible = true;
+  }
+
+  isVisible(): boolean {
+    return this.sceneContainer.visible;
+  }
+
   private layout(): void {
     const visiblePixelWidth = this.getVisibleMapPixelWidth();
     const totalWidth = visiblePixelWidth + this.padding * 2;

@@ -18,6 +18,8 @@ import { MoveControllerComponent } from './move-controller/move-controller.compo
 import { TopHudBarComponent } from './top-hud-bar/top-hud-bar.component';
 import { BottomHudBarComponent } from './bottom-hud-bar/bottom-hud-bar.component';
 import { ResourceCollectionService } from '../core/service/resource-collection-service';
+import { CombatService } from '../core/service/combat-service';
+import { CombatControllerComponent } from './combat-controller/combat-controller.component';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +30,7 @@ import { ResourceCollectionService } from '../core/service/resource-collection-s
     MoveControllerComponent,
     TopHudBarComponent,
     BottomHudBarComponent,
+    CombatControllerComponent,
   ],
 })
 export class HomePage implements AfterViewInit {
@@ -37,6 +40,7 @@ export class HomePage implements AfterViewInit {
   private readonly modalCtrl = inject(ModalController);
   private readonly pixiAssetService = inject(PixiAssetService);
   private readonly mapService = inject(MapService);
+  private readonly combatService = inject(CombatService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly resourceCollectionService = inject(
     ResourceCollectionService,
@@ -44,6 +48,7 @@ export class HomePage implements AfterViewInit {
 
   game = new Application();
   isGameReady = false;
+  isCombatRunning = this.combatService.isCombat;
 
   worldContainer = new Container();
   uiContainer = new Container();
@@ -60,7 +65,12 @@ export class HomePage implements AfterViewInit {
       }
 
       this.mapRenderer.render(tile);
-      this.minimapRenderer.render();
+      if (this.isCombatRunning()) {
+        this.minimapRenderer?.hide();
+      } else {
+        this.minimapRenderer?.show();
+        this.minimapRenderer?.render();
+      }
     });
   }
 
@@ -80,6 +90,10 @@ export class HomePage implements AfterViewInit {
     });
 
     await modal.present();
+  }
+
+  leaveCombat() {
+    this.combatService.endCombat();
   }
 
   private async initGame(): Promise<void> {
@@ -127,6 +141,7 @@ export class HomePage implements AfterViewInit {
       this.worldContainer,
       this.pixiAssetService,
       () => this.resourceCollectionService.collectActiveTileResource(),
+      () => this.combatService.startCombat(),
     );
 
     this.minimapRenderer = new MinimapRenderer(
