@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-player-bar',
@@ -6,16 +6,16 @@ import { Component, output } from '@angular/core';
   styleUrls: ['./player-bar.component.scss'],
 })
 export class PlayerBarComponent {
-  playerName = 'Player';
-  currentHp = 80;
-  maxHp = 100;
+  playerName = 'Terra larva';
+  currentHp = input(0);
+  maxHp = input(0);
   damage = 10;
 
   flee = output();
 
   get hpPercent(): number {
-    if (this.maxHp <= 0) return 0;
+    if (this.maxHp() <= 0) return 0;
 
-    return Math.max(0, Math.min(100, (this.currentHp / this.maxHp) * 100));
+    return Math.max(0, Math.min(100, (this.currentHp() / this.maxHp()) * 100));
   }
 }

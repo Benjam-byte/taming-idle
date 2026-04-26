@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-monster-bar',
@@ -6,14 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./monster-bar.component.scss'],
 })
 export class MonsterBarComponent {
-  monsterName = 'Wild Beast';
-  currentHp = 80;
-  maxHp = 100;
+  monsterName = input('???');
+  currentHp = input(0);
+  maxHp = input(0);
   power = 12;
 
   get hpPercent(): number {
-    if (this.maxHp <= 0) return 0;
+    if (this.maxHp() <= 0) return 0;
 
-    return Math.max(0, Math.min(100, (this.currentHp / this.maxHp) * 100));
+    return Math.max(0, Math.min(100, (this.currentHp() / this.maxHp()) * 100));
   }
 }

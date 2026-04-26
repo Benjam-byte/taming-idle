@@ -18,10 +18,10 @@ import { MoveControllerComponent } from './move-controller/move-controller.compo
 import { TopHudBarComponent } from './top-hud-bar/top-hud-bar.component';
 import { BottomHudBarComponent } from './bottom-hud-bar/bottom-hud-bar.component';
 import { ResourceCollectionService } from '../core/service/resource-collection-service';
-import { CombatService } from '../core/service/combat-service';
 import { CombatControllerComponent } from './combat-controller/combat-controller.component';
 import { MonsterBarComponent } from './monster-bar/monster-bar.component';
 import { PlayerBarComponent } from './player-bar/player-bar.component';
+import { CombatService } from '../core/service/combat/combat-service';
 
 @Component({
   selector: 'app-home',
@@ -44,8 +44,8 @@ export class HomePage implements AfterViewInit {
   private readonly modalCtrl = inject(ModalController);
   private readonly pixiAssetService = inject(PixiAssetService);
   private readonly mapService = inject(MapService);
-  private readonly combatService = inject(CombatService);
   private readonly destroyRef = inject(DestroyRef);
+  combatService = inject(CombatService);
   private readonly resourceCollectionService = inject(
     ResourceCollectionService,
   );
@@ -98,6 +98,10 @@ export class HomePage implements AfterViewInit {
 
   leaveCombat() {
     this.combatService.endCombat();
+  }
+
+  attack() {
+    this.combatService.hitMonster(1);
   }
 
   private async initGame(): Promise<void> {

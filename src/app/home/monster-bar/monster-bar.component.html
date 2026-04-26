@@ -12,7 +12,7 @@
       <span
         class="overflow-hidden text-ellipsis whitespace-nowrap font-[var(--font-title)] text-[15px] leading-none font-black tracking-[0.04em] text-[var(--color-text-primary)] uppercase [text-shadow:0_2px_0_rgba(20,12,7,0.9)] max-[480px]:text-[13px]"
       >
-        {{ monsterName }}
+        {{ monsterName() }}
       </span>
 
       <span
@@ -35,7 +35,7 @@
       <span
         class="min-w-[58px] shrink-0 text-right font-[var(--font-title)] text-[11px] leading-none font-black text-white/80 [text-shadow:0_1px_0_rgba(20,12,7,0.9)] max-[480px]:min-w-[52px] max-[480px]:text-[10px]"
       >
-        {{ currentHp }} / {{ maxHp }}
+        {{ currentHp() }} / {{ maxHp() }}
       </span>
     </div>
   </div>
