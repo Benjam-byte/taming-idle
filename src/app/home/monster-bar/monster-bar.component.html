@@ -1,0 +1,42 @@
+<aside
+  class="pointer-events-none block w-[min(320px,calc(100vw-24px))] max-[480px]:w-[min(280px,calc(100vw-18px))] bg-primary-500 rounded-l-[18px]"
+>
+  <div
+    class="animate-[monsterPanelIn_260ms_cubic-bezier(0.2,0.9,0.25,1.15)] relative rounded-l-[18px] border-2 border-r-0 border-[var(--color-primary-800)] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(0,0,0,0.18)),var(--color-primary-600)] py-3 pr-[14px] pl-[18px] shadow-[inset_0_1px_2px_rgba(255,255,255,0.16),inset_0_-4px_6px_rgba(0,0,0,0.38),-4px_5px_0_var(--color-layer-border),-8px_8px_14px_rgba(0,0,0,0.55)] max-[480px]:rounded-l-2xl max-[480px]:py-[10px] max-[480px]:pr-3 max-[480px]:pl-4"
+  >
+    <span
+      class="absolute top-[10px] bottom-[10px] left-2 w-[5px] rounded-full bg-[#c94b3d] shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_1px_0_rgba(20,12,7,0.8)]"
+    ></span>
+
+    <div class="mb-2 ml-2 flex items-center justify-between gap-3">
+      <span
+        class="overflow-hidden text-ellipsis whitespace-nowrap font-[var(--font-title)] text-[15px] leading-none font-black tracking-[0.04em] text-[var(--color-text-primary)] uppercase [text-shadow:0_2px_0_rgba(20,12,7,0.9)] max-[480px]:text-[13px]"
+      >
+        {{ monsterName }}
+      </span>
+
+      <span
+        class="shrink-0 rounded-full border border-white/10 bg-[rgba(20,12,7,0.45)] px-[7px] py-1 font-[var(--font-title)] text-[10px] leading-none font-black tracking-[0.06em] text-[#ffd6bd] uppercase max-[480px]:text-[9px]"
+      >
+        PWR {{ power }}
+      </span>
+    </div>
+
+    <div class="ml-2 flex items-center gap-2">
+      <div
+        class="h-[13px] flex-1 overflow-hidden rounded-full border border-white/10 bg-[rgba(20,12,7,0.7)] p-[2px] shadow-[inset_0_2px_3px_rgba(0,0,0,0.55),0_1px_0_rgba(255,255,255,0.08)]"
+      >
+        <div
+          class="h-full rounded-full bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent_45%),linear-gradient(90deg,#c94b3d,#d6b44a,#6fa348)] shadow-[inset_0_-1px_2px_rgba(0,0,0,0.3),0_0_6px_rgba(201,75,61,0.35)] transition-[width] duration-200 ease-out"
+          [style.width.%]="hpPercent"
+        ></div>
+      </div>
+
+      <span
+        class="min-w-[58px] shrink-0 text-right font-[var(--font-title)] text-[11px] leading-none font-black text-white/80 [text-shadow:0_1px_0_rgba(20,12,7,0.9)] max-[480px]:min-w-[52px] max-[480px]:text-[10px]"
+      >
+        {{ currentHp }} / {{ maxHp }}
+      </span>
+    </div>
+  </div>
+</aside>

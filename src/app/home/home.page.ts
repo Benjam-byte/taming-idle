@@ -20,6 +20,8 @@ import { BottomHudBarComponent } from './bottom-hud-bar/bottom-hud-bar.component
 import { ResourceCollectionService } from '../core/service/resource-collection-service';
 import { CombatService } from '../core/service/combat-service';
 import { CombatControllerComponent } from './combat-controller/combat-controller.component';
+import { MonsterBarComponent } from './monster-bar/monster-bar.component';
+import { PlayerBarComponent } from './player-bar/player-bar.component';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +33,8 @@ import { CombatControllerComponent } from './combat-controller/combat-controller
     TopHudBarComponent,
     BottomHudBarComponent,
     CombatControllerComponent,
+    MonsterBarComponent,
+    PlayerBarComponent,
   ],
 })
 export class HomePage implements AfterViewInit {

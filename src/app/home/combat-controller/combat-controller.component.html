@@ -1,17 +1,19 @@
-<div class="action-grid" aria-label="Combat actions">
-  <button type="button" class="action-btn type-fire">
-    <span class="action-label">Fight</span>
-  </button>
+<button
+  type="button"
+  class="attack-btn bg-primary-500 bottom-shadow"
+  [class.is-charged]="specialCharge >= 100"
+  [style.--charge]="specialCharge"
+  (click)="onAttack()"
+>
+  <span class="attack-ring"></span>
 
-  <button type="button" class="action-btn type-nature">
-    <span class="action-label">Defense</span>
-  </button>
+  <span class="attack-content">
+    <span class="attack-label">
+      {{ specialCharge >= 100 ? "SPÉCIALE" : "ATTAQUE" }}
+    </span>
 
-  <button type="button" class="action-btn type-water">
-    <span class="action-label">SP2</span>
-  </button>
-
-  <button type="button" class="action-btn type-shadow">
-    <span class="action-label">Focus</span>
-  </button>
-</div>
+    <span class="attack-sub">
+      {{ specialCharge >= 100 ? "Prête" : specialCharge + "%" }}
+    </span>
+  </span>
+</button>

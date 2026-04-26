@@ -39,6 +39,9 @@
   --color-text-primary: #fff3d0;
   --color-text-secondary: #d8bd8a;
   --color-text-muted: #9b7a52;
+
+  --attack-color: #d96b32;
+  --special-color: #8a67b0;
 }
 
 html,
@@ -86,4 +89,20 @@ ion-app {
     rgb(255 255 255 / 0.08) 0 1px,
     transparent 1px 8px
   );
+}
+
+@keyframes shine {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes specialPulse {
+  from {
+    filter: brightness(1);
+  }
+
+  to {
+    filter: brightness(1.18);
+  }
 }

@@ -2,20 +2,20 @@
   <app-top-hud-bar />
 
   @if(isCombatRunning()){
-  <button
-    (click)="leaveCombat()"
-    class="absolute right-2 top-40 w-10 h-10 z-50 flex items-center justify-center rounded-lg bg-[var(--color-primary-600)] border-2 border-[var(--color-primary-800)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.2),inset_0_-2px_3px_rgba(0,0,0,0.4),0_3px_0_var(--color-layer-border),0_4px_6px_rgba(0,0,0,0.6)] active:translate-y-[2px] active:scale-95 transition"
-  >
-    <img src="assets/icon/back.png" class="w-5 h-5" alt="back button" />
-  </button>
+  <div class="absolute z-50 right-0 top-40">
+    <app-monster-bar />
+  </div>
   }
 
   <div class="game-viewport">
     <div id="pixiGameContainer" #pixiGameContainer class="pixi-container"></div>
 
-    <div class="absolute bottom-3 flex w-full justify-center">
+    <div class="absolute bottom-5 flex w-full justify-center">
       @if(isCombatRunning()) {
-      <app-combat-controller />
+      <div class="flex flex-col w-full gap-2">
+        <app-combat-controller />
+        <app-player-bar (flee)="leaveCombat()" />
+      </div>
 
       }@else {
       <app-move-controller />
