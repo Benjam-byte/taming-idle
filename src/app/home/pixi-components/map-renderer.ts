@@ -364,11 +364,7 @@ export class MapRenderer {
       console.log('Map scene children:', this.sceneContainer.children.length);
 
       if (mem) {
-        console.log(
-          'Heap:',
-          Math.round(mem.usedJSHeapSize / 1024 / 1024),
-          'MB',
-        );
+        console.log('Heap:', Math.round(mem.usedJSHeapSize / 256 / 256), 'MB');
       }
     }, 2000);
   }
@@ -497,8 +493,8 @@ export class MapRenderer {
     }
 
     const frameCount = 10;
-    const frameWidth = 1024;
-    const frameHeight = 1024;
+    const frameWidth = 256;
+    const frameHeight = 256;
     const slimeTexture = this.pixiAssetService.spriteSheetAsset!['slime'];
 
     this.slimeTextures = [];
