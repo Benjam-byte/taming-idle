@@ -15,7 +15,24 @@ export class ResourceCollectionService {
     }
 
     tile.collectResource();
-    await this.lootStore.incr('wheatQuantity', 1);
+    await this.lootStore.incr('wheat', 1);
     this.mapService.refresh();
+  }
+
+  async collectActiveTileMonsterResource(): Promise<void> {
+    const tile = this.mapService.activeTile();
+    if (!tile?.hasMonster) {
+      return;
+    }
+    tile.killMonster();
+    this.mapService.refresh();
+  }
+
+  async collectSoul() {
+    await this.lootStore.incr('soul', 1);
+  }
+
+  async collectGlitchedStone() {
+    await this.lootStore.incr('glitchedStone', 1);
   }
 }

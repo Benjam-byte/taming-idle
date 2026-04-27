@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-combat-controller',
@@ -8,6 +8,7 @@ import { Component, output } from '@angular/core';
 export class CombatControllerComponent {
   specialCharge = 0;
   attack = output();
+  disabled = input(true);
 
   onAttack(): void {
     this.attack.emit();

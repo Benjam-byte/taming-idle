@@ -18,5 +18,7 @@ export type HudResource = {
 export class TopHudBarComponent {
   private readonly lootStore = inject(LootStore);
 
-  wheatQuantity = this.lootStore.wheatQuantity;
+  wheat = this.lootStore.wheat;
+  soul = this.lootStore.soul;
+  glitchedStone = this.lootStore.glitchedStone;
 }

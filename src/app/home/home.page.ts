@@ -69,12 +69,21 @@ export class HomePage implements AfterViewInit {
       }
 
       this.mapRenderer.render(tile);
+
       if (this.isCombatRunning()) {
-        this.minimapRenderer?.hide();
+        this.minimapRenderer.hide();
       } else {
-        this.minimapRenderer?.show();
-        this.minimapRenderer?.render();
+        this.minimapRenderer.show();
+        this.minimapRenderer.render();
       }
+    });
+
+    effect(() => {
+      if (!this.combatService.shouldMonsterAttack()) {
+        return;
+      }
+
+      void this.resolveMonsterTurn();
     });
   }
 
@@ -100,8 +109,55 @@ export class HomePage implements AfterViewInit {
     this.combatService.endCombat();
   }
 
-  attack() {
-    this.combatService.hitMonster(1);
+  async attack(): Promise<void> {
+    if (!this.mapRenderer || !this.combatService.canPlayerAttack()) {
+      return;
+    }
+    this.combatService.startTurnResolution();
+    try {
+      const damage = 1;
+      this.combatService.hitMonster(damage);
+      await this.mapRenderer.playMonsterDamageAnimation(damage);
+      if (!this.combatService.isMonsterAlive()) {
+        this.resourceCollectionService.collectActiveTileMonsterResource();
+        await this.mapRenderer?.playMonsterDeathAnimation({
+          soul: 3,
+          glitchedStone: 1,
+        });
+
+        this.combatService.endCombat();
+        return;
+      }
+      this.combatService.giveTurnToMonster();
+    } finally {
+      this.combatService.endTurnResolution();
+    }
+  }
+
+  private async resolveMonsterTurn(): Promise<void> {
+    if (!this.mapRenderer || !this.combatService.shouldMonsterAttack()) {
+      return;
+    }
+    this.combatService.startTurnResolution();
+    try {
+      await this.wait(350);
+      const damage = 1;
+      await this.mapRenderer.playMonsterAttackAnimation(damage);
+      this.combatService.hitPlayer(damage);
+      if (!this.combatService.isPlayerAlive()) {
+        this.combatService.endCombat();
+        return;
+      }
+      this.combatService.giveTurnToPlayer();
+    } finally {
+      this.combatService.endTurnResolution();
+    }
+  }
+
+  private wait(duration: number): Promise<void> {
+    return new Promise((resolve) => {
+      setTimeout(resolve, duration);
+    });
   }
 
   private async initGame(): Promise<void> {
@@ -149,7 +205,20 @@ export class HomePage implements AfterViewInit {
       this.worldContainer,
       this.pixiAssetService,
       () => this.resourceCollectionService.collectActiveTileResource(),
-      () => this.combatService.startCombat(),
+      () => {
+        this.enterCombat();
+      },
+      (dropType) => {
+        switch (dropType) {
+          case 'soul':
+            this.resourceCollectionService.collectSoul();
+            break;
+          case 'glitchedStone':
+            this.resourceCollectionService.collectGlitchedStone();
+            break;
+        }
+        console.log('Collected drop:', dropType);
+      },
     );
 
     this.minimapRenderer = new MinimapRenderer(
@@ -166,6 +235,21 @@ export class HomePage implements AfterViewInit {
     if (tile) {
       this.mapRenderer.render(tile);
       this.minimapRenderer.render();
+    }
+  }
+
+  private async enterCombat(): Promise<void> {
+    if (!this.mapRenderer || this.combatService.isCombat()) {
+      return;
+    }
+
+    this.combatService.startCombat();
+    this.combatService.startTurnResolution();
+
+    try {
+      await this.mapRenderer.playCombatIntroAnimation();
+    } finally {
+      this.combatService.endTurnResolution();
     }
   }
 }

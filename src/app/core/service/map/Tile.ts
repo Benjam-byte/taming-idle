@@ -21,4 +21,8 @@ export class Tile {
   collectResource() {
     this.hasResource = false;
   }
+
+  killMonster() {
+    this.hasMonster = false;
+  }
 }

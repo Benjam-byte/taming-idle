@@ -162,3 +162,51 @@
     font-size: 10px;
   }
 }
+
+.attack-btn:disabled,
+.attack-btn.is-disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
+
+  opacity: 0.58;
+  filter: grayscale(0.35) brightness(0.72);
+
+  border-color: rgb(20 12 7 / 0.75);
+
+  box-shadow:
+    inset 0 2px 5px rgb(0 0 0 / 0.48),
+    0 2px 0 rgb(20 12 7 / 0.8);
+}
+
+.attack-btn:disabled .attack-ring,
+.attack-btn.is-disabled .attack-ring {
+  opacity: 0.38;
+  filter: none;
+
+  background: conic-gradient(
+    rgb(130 130 130 / 0.75) calc(var(--charge) * 1%),
+    rgb(0 0 0 / 0.42) 0
+  );
+}
+
+.attack-btn:disabled .attack-label,
+.attack-btn.is-disabled .attack-label {
+  color: rgb(255 255 255 / 0.45);
+  text-shadow: 0 2px 0 rgb(20 12 7 / 0.8);
+}
+
+.attack-btn:disabled .attack-sub,
+.attack-btn.is-disabled .attack-sub {
+  color: rgb(255 255 255 / 0.32);
+}
+
+.attack-btn:disabled::after,
+.attack-btn.is-disabled::after {
+  display: none;
+}
+
+.attack-btn:disabled.is-charged,
+.attack-btn.is-disabled.is-charged {
+  animation: none;
+}

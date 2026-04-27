@@ -1,6 +1,6 @@
 export type Loot = {
-  wheatQuantity: number;
-  enchantedWheatQuantity: number;
+  wheat: number;
+  enchantedwheat: number;
   soul: number;
   enchantedSoul: number;
   openedChest: number;

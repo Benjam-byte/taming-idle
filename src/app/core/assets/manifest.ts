@@ -10,6 +10,8 @@ export const manifest = {
         { alias: 'plaine5', src: '/assets/map/plaine/Plaine_5.webp' },
         { alias: 'plaine6', src: '/assets/map/plaine/Plaine_6.webp' },
         { alias: 'wheat', src: '/assets/object/Wheat.webp' },
+        { alias: 'Soul', src: 'assets/object/Soul.webp' },
+        { alias: 'Glitched_stone', src: 'assets/object/Glitched_Stone.webp' },
       ],
     },
     {

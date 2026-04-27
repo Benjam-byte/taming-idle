@@ -13,10 +13,8 @@ export class LootStore implements EntityStore {
 
   readonly loot = computed(() => this._loot());
 
-  readonly wheatQuantity = computed(() => this._loot().wheatQuantity);
-  readonly enchantedWheatQuantity = computed(
-    () => this._loot().enchantedWheatQuantity,
-  );
+  readonly wheat = computed(() => this._loot().wheat);
+  readonly enchantedwheat = computed(() => this._loot().enchantedwheat);
   readonly soul = computed(() => this._loot().soul);
   readonly enchantedSoul = computed(() => this._loot().enchantedSoul);
   readonly openedChest = computed(() => this._loot().openedChest);

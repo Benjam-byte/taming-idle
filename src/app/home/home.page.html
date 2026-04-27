@@ -17,7 +17,10 @@
     <div class="absolute bottom-5 flex w-full justify-center">
       @if(isCombatRunning()) {
       <div class="flex flex-col w-full gap-2">
-        <app-combat-controller (attack)="attack()" />
+        <app-combat-controller
+          (attack)="attack()"
+          [disabled]="!combatService.canPlayerAttack()"
+        />
         <app-player-bar
           (flee)="leaveCombat()"
           [currentHp]="combatService.playerLife()"

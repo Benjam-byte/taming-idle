@@ -3,6 +3,8 @@
   class="attack-btn bg-primary-500 bottom-shadow"
   [class.is-charged]="specialCharge >= 100"
   [style.--charge]="specialCharge"
+  [disabled]="disabled()"
+  [class.is-disabled]="disabled()"
   (click)="onAttack()"
 >
   <span class="attack-ring"></span>
