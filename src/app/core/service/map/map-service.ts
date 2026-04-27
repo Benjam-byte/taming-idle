@@ -1,5 +1,5 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
-import { Chunk } from './chunk';
+import { Chunk } from './chunks';
 import { Coordinate } from '../../type/coordinate';
 import { Tile } from './tile';
 import { MapMarker, MapMarkerType } from '../../type/map-maker';
