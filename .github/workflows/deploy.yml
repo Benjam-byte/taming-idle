@@ -25,7 +25,7 @@ jobs:
         run: npm install -g @ionic/cli
 
       - name: Build Ionic project
-        run: ionic build --base-href /taming-idle/
+        run: ionic build --base-href /taming-idle/ --deploy-url /taming-idle/
 
       - name: Upload build to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -35,3 +35,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: www/
           server-dir: /domains/mitnoos.com/public_html/taming-idle/
+          dangerous-clean-slate: true
