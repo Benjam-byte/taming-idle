@@ -396,23 +396,15 @@ export class MapRenderer {
       return;
     }
 
-    const texture = this.pixiAssetService.spriteSheetAsset?.['slime_0'];
+    const textures = this.getSlimeTextures();
 
-    console.log('TEST slime_0 texture', {
-      exists: !!texture,
-      width: texture?.width,
-      height: texture?.height,
-      sourceWidth: texture?.source?.width,
-      sourceHeight: texture?.source?.height,
-    });
-
-    if (!texture) {
+    if (textures.length === 0) {
       return;
     }
 
-    const monster = new Sprite(texture) as unknown as AnimatedSprite;
+    const monster = new AnimatedSprite(textures);
 
-    //monster.animationSpeed = 0.2;
+    monster.animationSpeed = 0.2;
     monster.anchor.set(0.5);
     monster.width = 400;
     monster.height = 400;
@@ -431,7 +423,7 @@ export class MapRenderer {
       this.onMonsterClick();
     });
 
-    //monster.play();
+    monster.play();
 
     this.monster = monster;
     this.sceneContainer.addChild(monster);
