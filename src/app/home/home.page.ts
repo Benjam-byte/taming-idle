@@ -163,9 +163,14 @@ export class HomePage implements AfterViewInit {
   private async initGame(): Promise<void> {
     try {
       await this.game.init({
-        background: '#1099bb',
         resizeTo: this.pixiGameContainer.nativeElement,
+        resolution: 1,
+        autoDensity: true,
         preference: getRendererPreference(),
+        preferWebGLVersion: 1,
+        antialias: false,
+        background: '#1099bb',
+        backgroundAlpha: 0,
       });
 
       await this.pixiAssetService.loadWorldCore();
