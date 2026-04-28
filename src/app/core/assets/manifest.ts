@@ -27,43 +27,43 @@ export const manifest = {
       assets: [
         {
           alias: 'slime_0',
-          src: asset('assets/monster/sprite/slime_base/output_0.webp'),
+          src: asset('assets/monster/sprite/slime_base/output_0.png'),
         },
         {
           alias: 'slime_1',
-          src: asset('assets/monster/sprite/slime_base/output_1.webp'),
+          src: asset('assets/monster/sprite/slime_base/output_1.png'),
         },
         {
           alias: 'slime_2',
-          src: asset('assets/monster/sprite/slime_base/output_2.webp'),
+          src: asset('assets/monster/sprite/slime_base/output_2.png'),
         },
         {
           alias: 'slime_3',
-          src: asset('assets/monster/sprite/slime_base/output_3.webp'),
+          src: asset('assets/monster/sprite/slime_base/output_3.png'),
         },
         {
           alias: 'slime_4',
-          src: asset('assets/monster/sprite/slime_base/output_4.webp'),
+          src: asset('assets/monster/sprite/slime_base/output_4.png'),
         },
         {
           alias: 'slime_5',
-          src: asset('assets/monster/sprite/slime_base/output_5.webp'),
+          src: asset('assets/monster/sprite/slime_base/output_5.png'),
         },
         {
           alias: 'slime_6',
-          src: asset('assets/monster/sprite/slime_base/output_6.webp'),
+          src: asset('assets/monster/sprite/slime_base/output_6.png'),
         },
         {
           alias: 'slime_7',
-          src: asset('assets/monster/sprite/slime_base/output_7.webp'),
+          src: asset('assets/monster/sprite/slime_base/output_7.png'),
         },
         {
           alias: 'slime_8',
-          src: asset('assets/monster/sprite/slime_base/output_8.webp'),
+          src: asset('assets/monster/sprite/slime_base/output_8.png'),
         },
         {
           alias: 'slime_9',
-          src: asset('assets/monster/sprite/slime_base/output_9.webp'),
+          src: asset('assets/monster/sprite/slime_base/output_9.png'),
         },
       ],
     },
