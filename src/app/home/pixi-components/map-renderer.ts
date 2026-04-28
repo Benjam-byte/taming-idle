@@ -2,7 +2,6 @@ import {
   AnimatedSprite,
   Application,
   Container,
-  Rectangle,
   Sprite,
   Texture,
   Text,
@@ -21,6 +20,7 @@ export type MonsterDropReward = {
   soul?: number;
   glitchedStone?: number;
 };
+
 export class MapRenderer {
   private readonly sceneContainer = new Container();
   private readonly animationQueue = new AnimationQueue();
@@ -145,11 +145,7 @@ export class MapRenderer {
         return;
       }
 
-      const animations: Promise<void>[] = [
-        this.playMonsterAttackEffect(this.monster, damage),
-      ];
-
-      await Promise.all(animations);
+      await this.playMonsterAttackEffect(this.monster, damage);
     });
   }
 
@@ -173,11 +169,7 @@ export class MapRenderer {
 
         const overlay = new Graphics();
         overlay.rect(0, 0, this.game.screen.width, this.game.screen.height);
-        overlay.fill({
-          color: 0x000000,
-          alpha: 0,
-        });
-
+        overlay.fill({ color: 0x000000, alpha: 0 });
         overlay.eventMode = 'none';
         overlay.zIndex = 20;
 
@@ -405,6 +397,11 @@ export class MapRenderer {
     }
 
     const textures = this.getSlimeTextures();
+
+    if (textures.length === 0) {
+      return;
+    }
+
     const monster = new AnimatedSprite(textures);
 
     monster.animationSpeed = 0.2;
@@ -493,19 +490,15 @@ export class MapRenderer {
     }
 
     const frameCount = 10;
-    const frameWidth = 256;
-    const frameHeight = 256;
-    const slimeTexture = this.pixiAssetService.spriteSheetAsset!['slime'];
 
     this.slimeTextures = [];
 
     for (let i = 0; i < frameCount; i++) {
-      this.slimeTextures.push(
-        new Texture({
-          source: slimeTexture.source,
-          frame: new Rectangle(0, i * frameHeight, frameWidth, frameHeight),
-        }),
-      );
+      const texture = this.pixiAssetService.spriteSheetAsset?.[`slime_${i}`];
+
+      if (texture) {
+        this.slimeTextures.push(texture);
+      }
     }
 
     return this.slimeTextures;
@@ -1037,12 +1030,9 @@ export class MapRenderer {
         drop.x = originX;
         drop.y = originY;
         drop.alpha = 0;
-
-        // Taille finale petite
         drop.width = 28;
         drop.height = 28;
         drop.scale.set(0.2);
-
         drop.zIndex = 35;
 
         drop.eventMode = 'none';
@@ -1057,7 +1047,6 @@ export class MapRenderer {
 
         drops.push(drop);
         this.activeDrops.add(drop);
-        this.sceneContainer.addChild(drop);
         this.sceneContainer.addChild(drop);
       }
 
@@ -1096,7 +1085,6 @@ export class MapRenderer {
           drop.y = originY + (targetY - originY) * easeOut - arc;
           drop.rotation += 0.045;
 
-          // Petit pop, mais reste petit
           const pop = Math.sin(progress * Math.PI) * 0.18;
           drop.scale.set(baseScaleX * (1 + pop), baseScaleY * (1 + pop));
 
@@ -1156,7 +1144,6 @@ export class MapRenderer {
     this.onDropClick(dropType);
     this.playDropGainTextAnimation(dropType, drop.x, drop.y);
 
-    const startX = drop.x;
     const startY = drop.y;
     const startScaleX = drop.scale.x;
     const startScaleY = drop.scale.y;
