@@ -14,6 +14,16 @@ export const manifest = {
         { alias: 'plaine4', src: asset('assets/map/plaine/Plaine_4.webp') },
         { alias: 'plaine5', src: asset('assets/map/plaine/Plaine_5.webp') },
         { alias: 'plaine6', src: asset('assets/map/plaine/Plaine_6.webp') },
+        { alias: 'forest', src: asset('assets/map/generated/forest.png') },
+        {
+          alias: 'darkClearing',
+          src: asset('assets/map/generated/darkClearing.png'),
+        },
+        { alias: 'lake', src: asset('assets/map/generated/lake.png') },
+        {
+          alias: 'stonequarry',
+          src: asset('assets/map/generated/stonequarry.png'),
+        },
         { alias: 'wheat', src: asset('assets/object/Wheat.webp') },
         { alias: 'Soul', src: asset('assets/object/Soul.webp') },
         {

@@ -81,7 +81,15 @@ export class MapRenderer {
       this.clearActiveDrops();
     }
 
-    const tileKey = `${tile.coordinate.x}:${tile.coordinate.y}:${tile.hasMonster}:${tile.hasResource}`;
+    const tileKey = [
+      tile.coordinate.x,
+      tile.coordinate.y,
+      tile.path,
+      tile.groundType,
+      tile.obstacleType,
+      tile.hasMonster,
+      tile.hasResource,
+    ].join(':');
 
     if (tileKey === this.currentTileKey) {
       return;
@@ -470,13 +478,14 @@ export class MapRenderer {
   }
 
   private getTextureForTile(tile?: Tile): Texture {
-    if (tile) {
-      return this.pixiAssetService.worldCoreAsset![
-        `plaine${this.getTileVariant(tile)}`
-      ];
+    if (!tile) {
+      return this.pixiAssetService.worldCoreAsset!['plaine1'];
     }
 
-    return this.pixiAssetService.worldCoreAsset!['plaine1'];
+    return (
+      this.pixiAssetService.worldCoreAsset![tile.path] ??
+      this.pixiAssetService.worldCoreAsset!['plaine1']
+    );
   }
 
   private getTileVariant(tile: Tile): number {

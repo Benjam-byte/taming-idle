@@ -41,6 +41,24 @@ export class MinimapRenderer {
     tileAlt: 0x426f2c,
     tileLine: 0x2f4f20,
 
+    clearing: 0x4f7f35,
+    clearingAlt: 0x426f2c,
+
+    darkClearing: 0x2f5f2b,
+    darkClearingAlt: 0x244f24,
+
+    path: 0x9b7a45,
+    pathAlt: 0x85683a,
+
+    stoneQuarry: 0x77756f,
+    stoneQuarryAlt: 0x66645f,
+
+    lake: 0x2f6f8f,
+    lakeAlt: 0x255a75,
+
+    grove: 0x1f4a24,
+    groveAlt: 0x173b1c,
+
     unknownFog: 0x050403,
     seenFog: 0x1b130d,
     fogLine: 0x2a1a10,
@@ -250,17 +268,21 @@ export class MinimapRenderer {
     const px = x * this.cellSize;
     const py = y * this.cellSize;
 
-    const isAlt = Math.abs(x + y) % 2 === 0;
-    const tileColor = isAlt ? this.colors.tile : this.colors.tileAlt;
+    const tileColor = this.getTileColor(tile);
+    const alpha = isSeen && !isVisited && !isVisibleNow ? 0.55 : 1;
 
     graphics.rect(px, py, this.cellSize, this.cellSize).fill({
       color: tileColor,
-      alpha: isSeen && !isVisited && !isVisibleNow ? 0.55 : 1,
+      alpha,
     });
 
     graphics
       .rect(px, py, this.cellSize, this.cellSize)
       .stroke({ color: this.colors.tileLine, alpha: 0.22, width: 1 });
+
+    if (tile.obstacleType) {
+      this.drawObstacleIcon(graphics, px, py, tile.obstacleType, alpha);
+    }
 
     if (tile.hasResource && isSeen) {
       this.drawResourceIcon(
@@ -281,6 +303,65 @@ export class MinimapRenderer {
         py,
         isVisibleNow || isVisited ? 1 : 0.65,
       );
+    }
+  }
+
+  private getTileColor(tile: Tile): number {
+    const { x, y } = tile.coordinate;
+    const isAlt = Math.abs(x + y) % 2 === 0;
+    if (tile.groundType === 'lake') {
+      return isAlt ? this.colors.lake : this.colors.lakeAlt;
+    }
+
+    if (tile.groundType === 'clearing') {
+      return isAlt ? this.colors.clearing : this.colors.clearingAlt;
+    }
+
+    if (tile.groundType === 'darkClearing') {
+      return isAlt ? this.colors.darkClearing : this.colors.darkClearingAlt;
+    }
+
+    if (tile.groundType === 'stoneQuarry') {
+      return isAlt ? this.colors.stoneQuarry : this.colors.stoneQuarryAlt;
+    }
+
+    return isAlt ? this.colors.clearing : this.colors.clearingAlt;
+  }
+
+  private drawObstacleIcon(
+    graphics: Graphics,
+    px: number,
+    py: number,
+    obstacleType: NonNullable<Tile['obstacleType']>,
+    alpha: number,
+  ): void {
+    const cx = px + this.cellSize / 2;
+    const cy = py + this.cellSize / 2;
+
+    if (obstacleType === 'lake') {
+      graphics
+        .ellipse(cx, cy, 5.5, 3.5)
+        .fill({ color: 0x8fd3ff, alpha: alpha * 0.7 });
+
+      graphics
+        .ellipse(cx - 1.5, cy - 1, 2.5, 1.2)
+        .fill({ color: 0xd8f2ff, alpha: alpha * 0.55 });
+
+      return;
+    }
+
+    if (obstacleType === 'grove') {
+      graphics
+        .circle(cx - 2.5, cy + 1, 3.2)
+        .fill({ color: 0x0f2f16, alpha: alpha * 0.8 });
+
+      graphics
+        .circle(cx, cy - 2, 3.8)
+        .fill({ color: 0x143d1d, alpha: alpha * 0.9 });
+
+      graphics
+        .circle(cx + 2.8, cy + 1, 3.2)
+        .fill({ color: 0x0f2f16, alpha: alpha * 0.8 });
     }
   }
 

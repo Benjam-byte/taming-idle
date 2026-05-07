@@ -9,9 +9,9 @@ import { MapMarker, MapMarkerType } from '../../type/map-maker';
 })
 export class MapService {
   readonly markers = signal<MapMarker[]>([]);
-  loadRadius = 2;
+  loadRadius = 1;
   private readonly visionRadius = 2;
-  chunkSize = 5;
+  chunkSize = 9;
 
   playerCoordinate = signal<Coordinate>({ x: 0, y: 0 });
   chunkList = signal(new globalThis.Map<string, Chunk>());
@@ -55,13 +55,25 @@ export class MapService {
   }
 
   move(dx: number, dy: number): void {
-    this.playerCoordinate.update((player) => ({
+    const player = this.playerCoordinate();
+
+    const nextCoordinate: Coordinate = {
       x: player.x + dx,
       y: player.y + dy,
-    }));
-    console.log(this.playerCoordinate());
-  }
+    };
 
+    const nextChunkCoordinate = this.getChunkCoordinateFromTile(nextCoordinate);
+
+    this.ensureChunkLoaded(nextChunkCoordinate);
+
+    const nextTile = this.getTileAtCoordinate(nextCoordinate);
+
+    if (!nextTile || !nextTile.isWalkable) {
+      return;
+    }
+
+    this.playerCoordinate.set(nextCoordinate);
+  }
   refresh(): void {
     this.chunkList.update((chunkMap) => new globalThis.Map(chunkMap));
   }
@@ -176,19 +188,23 @@ export class MapService {
       const nextMap = new globalThis.Map(chunkMap);
       const chunkCenterCoordinate =
         this.getChunkCenterCoordinate(chunkCoordinate);
+
       const chunk = new Chunk(this.chunkSize, chunkCenterCoordinate, 1, 5);
 
       nextMap.set(key, chunk);
+
       this.exploredChunkKeys.update((current) => {
         const next = new Set(current);
         next.add(key);
         return next;
       });
+
       this.exploredChunkList.update((exploredMap) => {
         const nextExploredMap = new globalThis.Map(exploredMap);
         nextExploredMap.set(key, chunk);
         return nextExploredMap;
       });
+
       return nextMap;
     });
   }
@@ -209,16 +225,27 @@ export class MapService {
 
   private markVisibleTilesAsSeen(): void {
     const player = this.playerCoordinate();
-    const chunkMap = this.chunkList();
 
     this.seenTileKeys.update((current) => {
       const next = new Set(current);
 
-      for (const chunk of chunkMap.values()) {
-        for (const tile of chunk.tileList) {
-          const { x, y } = tile.coordinate;
-
+      for (
+        let y = player.y - this.visionRadius;
+        y <= player.y + this.visionRadius;
+        y++
+      ) {
+        for (
+          let x = player.x - this.visionRadius;
+          x <= player.x + this.visionRadius;
+          x++
+        ) {
           if (!this.isInVisionRange(x, y, player.x, player.y)) {
+            continue;
+          }
+
+          const tile = this.getTileAtCoordinate({ x, y });
+
+          if (!tile) {
             continue;
           }
 
@@ -252,6 +279,30 @@ export class MapService {
       next.add(key);
       return next;
     });
+  }
+
+  private getTileAtCoordinate(coordinate: Coordinate): Tile | undefined {
+    const chunkMap = this.chunkList();
+
+    for (const chunk of chunkMap.values()) {
+      for (const tile of chunk.tileList) {
+        if (
+          tile.coordinate.x === coordinate.x &&
+          tile.coordinate.y === coordinate.y
+        ) {
+          return tile;
+        }
+      }
+    }
+
+    return undefined;
+  }
+
+  private getChunkCoordinateFromTile(coordinate: Coordinate): Coordinate {
+    return {
+      x: Math.floor(coordinate.x / this.chunkSize),
+      y: Math.floor(coordinate.y / this.chunkSize),
+    };
   }
 
   private getChunkCenterCoordinate(chunkCoordinate: Coordinate): Coordinate {

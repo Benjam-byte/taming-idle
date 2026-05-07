@@ -1,28 +1,32 @@
 import { Coordinate } from '../../type/coordinate';
 
-export class Tile {
-  path: string;
-  coordinate: Coordinate;
-  hasMonster: boolean;
-  hasResource: boolean;
+export type TileGroundType =
+  | 'clearing'
+  | 'darkClearing'
+  | 'stoneQuarry'
+  | 'lake';
 
+export type TileObstacleType = 'lake' | 'grove' | null;
+
+export class Tile {
   constructor(
-    path: string,
-    coordinate: Coordinate,
-    hasMonster = false,
-    hasResource = false,
-  ) {
-    this.path = path;
-    this.coordinate = coordinate;
-    this.hasMonster = hasMonster;
-    this.hasResource = hasResource;
+    public path: string,
+    public coordinate: Coordinate,
+    public groundType: TileGroundType,
+    public obstacleType: TileObstacleType = null,
+    public hasMonster = false,
+    public hasResource = false,
+  ) {}
+
+  get isWalkable(): boolean {
+    return this.obstacleType === null;
   }
 
-  collectResource() {
+  collectResource(): void {
     this.hasResource = false;
   }
 
-  killMonster() {
+  killMonster(): void {
     this.hasMonster = false;
   }
 }

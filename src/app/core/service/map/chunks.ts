@@ -1,5 +1,6 @@
 import { Coordinate } from '../../type/coordinate';
-import { Tile } from './tile';
+import { generateDiamondSquareGrid, Point } from './diamond-square';
+import { Tile, TileGroundType, TileObstacleType } from './tile';
 
 export class Chunk {
   size: number;
@@ -7,6 +8,7 @@ export class Chunk {
   monsterNumber: number;
   resourceNumber: number;
   tileList: Tile[];
+  readonly tileMap = new Map<string, Tile>();
 
   constructor(
     size: number,
@@ -19,10 +21,18 @@ export class Chunk {
     this.monsterNumber = monsterNumber;
     this.resourceNumber = resourceNumber;
     this.tileList = this.generateChunkTiles();
+    for (const tile of this.tileList) {
+      this.tileMap.set(`${tile.coordinate.x}:${tile.coordinate.y}`, tile);
+    }
+  }
+
+  getTileAt(coordinate: Coordinate): Tile | undefined {
+    return this.tileMap.get(`${coordinate.x}:${coordinate.y}`);
   }
 
   generateChunkTiles(): Tile[] {
-    const tiles = this.createEmptyTiles();
+    const grid = generateDiamondSquareGrid();
+    const tiles = this.createTilesFromGrid(grid);
     const shuffledIndexes = this.getDeterministicShuffledIndexes(tiles.length);
 
     this.assignMonsters(tiles, shuffledIndexes);
@@ -31,52 +41,59 @@ export class Chunk {
     return tiles;
   }
 
-  private createEmptyTiles(): Tile[] {
+  private createTilesFromGrid(grid: Point[][]): Tile[] {
     const tiles: Tile[] = [];
-    const halfSize = Math.floor(this.size / 2);
 
-    for (
-      let y = this.centerCoordinate.y - halfSize;
-      y <= this.centerCoordinate.y + halfSize;
-      y++
-    ) {
-      for (
-        let x = this.centerCoordinate.x - halfSize;
-        x <= this.centerCoordinate.x + halfSize;
-        x++
-      ) {
-        tiles.push(this.createTile(x, y));
+    const gridSize = grid.length;
+    const halfSize = Math.floor(gridSize / 2);
+
+    for (let gridY = 0; gridY < gridSize; gridY++) {
+      for (let gridX = 0; gridX < gridSize; gridX++) {
+        const point = grid[gridX][gridY];
+
+        const worldX = this.centerCoordinate.x + point.posX - halfSize;
+        const worldY = this.centerCoordinate.y + point.posY - halfSize;
+
+        tiles.push(
+          this.createTileFromPoint(point, {
+            x: worldX,
+            y: worldY,
+          }),
+        );
       }
     }
 
     return tiles;
   }
 
-  private createTile(x: number, y: number): Tile {
-    return new Tile('', { x, y }, false, false);
-  }
-
   private assignMonsters(tiles: Tile[], shuffledIndexes: number[]): void {
+    const walkableIndexes = shuffledIndexes.filter(
+      (index) => tiles[index].isWalkable,
+    );
+
     const maxMonsterCount = Math.min(
       this.monsterNumber,
-      shuffledIndexes.length,
+      walkableIndexes.length,
     );
 
     for (let i = 0; i < maxMonsterCount; i++) {
-      const tileIndex = shuffledIndexes[i];
+      const tileIndex = walkableIndexes[i];
       tiles[tileIndex].hasMonster = true;
     }
   }
 
   private assignRessources(tiles: Tile[], shuffledIndexes: number[]): void {
-    const startIndex = this.monsterNumber;
-    const endIndex = Math.min(
-      this.monsterNumber + this.resourceNumber,
-      shuffledIndexes.length,
+    const walkableIndexes = shuffledIndexes.filter(
+      (index) => tiles[index].isWalkable && !tiles[index].hasMonster,
     );
 
-    for (let i = startIndex; i < endIndex; i++) {
-      const tileIndex = shuffledIndexes[i];
+    const maxResourceCount = Math.min(
+      this.resourceNumber,
+      walkableIndexes.length,
+    );
+
+    for (let i = 0; i < maxResourceCount; i++) {
+      const tileIndex = walkableIndexes[i];
       tiles[tileIndex].hasResource = true;
     }
   }
@@ -117,5 +134,65 @@ export class Chunk {
 
   private nextSeed(seed: number): number {
     return (seed * 1664525 + 1013904223) >>> 0;
+  }
+
+  private hash2D(x: number, y: number, seed = 1337): number {
+    let h = x * 374761393 + y * 668265263 + seed * 1442695041;
+    h = (h ^ (h >> 13)) * 1274126177;
+    h = h ^ (h >> 16);
+
+    return Math.abs(h % 10000) / 10000;
+  }
+
+  private getTileAssetPath(
+    x: number,
+    y: number,
+    groundType: TileGroundType,
+  ): string {
+    if (groundType === 'clearing') {
+      return this.getClearingVariant(x, y);
+    }
+
+    return groundType;
+  }
+
+  private getClearingVariant(x: number, y: number): string {
+    const variants = [
+      'plaine1',
+      'plaine2',
+      'plaine3',
+      'plaine4',
+      'plaine5',
+      'plaine6',
+    ];
+    const index = Math.floor(this.hash2D(x, y, 500) * variants.length);
+
+    return variants[index];
+  }
+
+  private createTileFromPoint(point: Point, coordinate: Coordinate): Tile {
+    const groundType = this.getGroundTypeFromHeight(point.height);
+    const obstacleType = this.getObstacleTypeFromHeight(point.height);
+
+    return new Tile(
+      this.getTileAssetPath(coordinate.x, coordinate.y, groundType),
+      coordinate,
+      groundType,
+      obstacleType,
+    );
+  }
+
+  private getGroundTypeFromHeight(height: number): TileGroundType {
+    if (height <= 4) return 'lake';
+    if (height <= 8) return 'clearing';
+    if (height <= 12) return 'darkClearing';
+    return 'stoneQuarry';
+  }
+
+  private getObstacleTypeFromHeight(height: number): TileObstacleType {
+    if (height === 1) return 'lake';
+    if (height === 11) return 'grove';
+
+    return null;
   }
 }
