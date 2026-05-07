@@ -4,6 +4,7 @@ import {
   FederatedPointerEvent,
   Graphics,
 } from 'pixi.js';
+import { colors } from 'src/app/core/config/map-colors';
 import { MapService } from 'src/app/core/service/map/map-service';
 import { Tile } from 'src/app/core/service/map/tile';
 
@@ -25,24 +26,6 @@ export class FullMapRenderer {
   private pointerDownY = 0;
   private lastPointerX = 0;
   private lastPointerY = 0;
-
-  private readonly colors = {
-    tile: 0x4f7f35,
-    tileAlt: 0x426f2c,
-    tileLine: 0x2f4f20,
-
-    unknownFog: 0x050403,
-    seenFog: 0x1b130d,
-
-    resource: 0xd5a13a,
-    monster: 0x9f3f2f,
-
-    marker: 0xfff3d0,
-    markerBorder: 0x140c07,
-
-    player: 0x6ee08f,
-    playerBorder: 0xfff3d0,
-  };
 
   constructor(
     private readonly game: Application,
@@ -174,13 +157,6 @@ export class FullMapRenderer {
   };
 
   centerOnPlayer(): void {
-    console.log(
-      'full map screen',
-      this.game.screen.width,
-      this.game.screen.height,
-    );
-    console.log('player', this.mapService.playerCoordinate());
-    console.log('map position', this.mapContainer.x, this.mapContainer.y);
     const player = this.mapService.playerCoordinate();
 
     const screenWidth = this.game.screen.width;
@@ -226,8 +202,7 @@ export class FullMapRenderer {
     const px = x * this.cellSize;
     const py = y * this.cellSize;
 
-    const isAlt = Math.abs(x + y) % 2 === 0;
-    const color = isAlt ? this.colors.tile : this.colors.tileAlt;
+    const color = this.getTileColor(tile);
 
     this.tileGraphics.rect(px, py, this.cellSize, this.cellSize).fill({
       color,
@@ -236,7 +211,7 @@ export class FullMapRenderer {
 
     this.tileGraphics
       .rect(px, py, this.cellSize, this.cellSize)
-      .stroke({ color: this.colors.tileLine, alpha: 0.25, width: 1 });
+      .stroke({ color: colors.tileLine, alpha: 0.25, width: 1 });
 
     if (tile.hasResource && isSeen) {
       this.drawResourceIcon(tile, isVisibleNow || isVisited ? 1 : 0.55);
@@ -248,6 +223,10 @@ export class FullMapRenderer {
     if (shouldShowMonster) {
       this.drawMonsterIcon(tile, isVisibleNow || isVisited ? 1 : 0.65);
     }
+
+    if (tile.obstacleType) {
+      this.drawObstacleIcon(this.tileGraphics, px, py, tile.obstacleType, 1);
+    }
   }
 
   private drawResourceIcon(tile: Tile, alpha: number): void {
@@ -256,7 +235,7 @@ export class FullMapRenderer {
 
     this.tileGraphics
       .circle(cx, cy, 5)
-      .fill({ color: this.colors.resource, alpha })
+      .fill({ color: colors.resource, alpha })
       .stroke({ color: 0x140c07, width: 1 });
   }
 
@@ -266,7 +245,7 @@ export class FullMapRenderer {
 
     this.tileGraphics
       .circle(cx, cy, 6)
-      .fill({ color: this.colors.monster, alpha })
+      .fill({ color: colors.monster, alpha })
       .stroke({ color: 0x140c07, width: 1 });
   }
 
@@ -291,7 +270,7 @@ export class FullMapRenderer {
         const py = y * this.cellSize;
 
         this.fogGraphics.rect(px, py, this.cellSize, this.cellSize).fill({
-          color: isSeen ? this.colors.seenFog : this.colors.unknownFog,
+          color: isSeen ? colors.seenFog : colors.unknownFog,
           alpha: isSeen ? 0.42 : 0.98,
         });
       }
@@ -313,12 +292,10 @@ export class FullMapRenderer {
 
       this.markerGraphics
         .circle(cx, cy, 8)
-        .fill({ color: this.colors.marker })
-        .stroke({ color: this.colors.markerBorder, width: 2 });
+        .fill({ color: colors.marker })
+        .stroke({ color: colors.markerBorder, width: 2 });
 
-      this.markerGraphics
-        .circle(cx, cy, 3)
-        .fill({ color: this.colors.monster });
+      this.markerGraphics.circle(cx, cy, 3).fill({ color: colors.monster });
     }
   }
 
@@ -336,8 +313,8 @@ export class FullMapRenderer {
 
     this.playerGraphics
       .circle(cx, cy, 9)
-      .fill({ color: this.colors.player })
-      .stroke({ color: this.colors.playerBorder, width: 2 });
+      .fill({ color: colors.player })
+      .stroke({ color: colors.playerBorder, width: 2 });
   }
 
   private isVisibleNow(tileX: number, tileY: number): boolean {
@@ -359,5 +336,64 @@ export class FullMapRenderer {
       x: Math.floor(local.x / this.cellSize),
       y: Math.floor(local.y / this.cellSize),
     };
+  }
+
+  private getTileColor(tile: Tile): number {
+    const { x, y } = tile.coordinate;
+    const isAlt = Math.abs(x + y) % 2 === 0;
+    if (tile.groundType === 'lake') {
+      return isAlt ? colors.lake : colors.lakeAlt;
+    }
+
+    if (tile.groundType === 'clearing') {
+      return isAlt ? colors.clearing : colors.clearingAlt;
+    }
+
+    if (tile.groundType === 'darkClearing') {
+      return isAlt ? colors.darkClearing : colors.darkClearingAlt;
+    }
+
+    if (tile.groundType === 'stoneQuarry') {
+      return isAlt ? colors.stoneQuarry : colors.stoneQuarryAlt;
+    }
+
+    return isAlt ? colors.clearing : colors.clearingAlt;
+  }
+
+  private drawObstacleIcon(
+    graphics: Graphics,
+    px: number,
+    py: number,
+    obstacleType: NonNullable<Tile['obstacleType']>,
+    alpha: number,
+  ): void {
+    const cx = px + this.cellSize / 2;
+    const cy = py + this.cellSize / 2;
+
+    if (obstacleType === 'lake') {
+      graphics
+        .ellipse(cx, cy, 11, 7)
+        .fill({ color: 0x8fd3ff, alpha: alpha * 0.7 });
+
+      graphics
+        .ellipse(cx - 3, cy - 2, 5, 2.4)
+        .fill({ color: 0xd8f2ff, alpha: alpha * 0.55 });
+
+      return;
+    }
+
+    if (obstacleType === 'grove') {
+      graphics
+        .circle(cx - 5, cy + 2, 6.4)
+        .fill({ color: 0x0f2f16, alpha: alpha * 0.8 });
+
+      graphics
+        .circle(cx, cy - 4, 7.6)
+        .fill({ color: 0x143d1d, alpha: alpha * 0.9 });
+
+      graphics
+        .circle(cx + 5.6, cy + 2, 6.4)
+        .fill({ color: 0x0f2f16, alpha: alpha * 0.8 });
+    }
   }
 }

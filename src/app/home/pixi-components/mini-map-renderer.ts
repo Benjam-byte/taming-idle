@@ -1,4 +1,5 @@
 import { Application, Container, Graphics, Text } from 'pixi.js';
+import { colors } from 'src/app/core/config/map-colors';
 import { MapService } from 'src/app/core/service/map/map-service';
 import { Tile } from 'src/app/core/service/map/tile';
 
@@ -28,46 +29,6 @@ export class MinimapRenderer {
   private readonly padding = 9;
   private readonly margin = 16;
   private readonly borderRadius = 14;
-
-  private readonly colors = {
-    shadow: 0x140c07,
-    borderDark: 0x2a1a10,
-    borderLight: 0x6b4729,
-    wood: 0x573820,
-    woodLight: 0x6b4729,
-    inset: 0x20150d,
-
-    tile: 0x4f7f35,
-    tileAlt: 0x426f2c,
-    tileLine: 0x2f4f20,
-
-    clearing: 0x4f7f35,
-    clearingAlt: 0x426f2c,
-
-    darkClearing: 0x2f5f2b,
-    darkClearingAlt: 0x244f24,
-
-    path: 0x9b7a45,
-    pathAlt: 0x85683a,
-
-    stoneQuarry: 0x77756f,
-    stoneQuarryAlt: 0x66645f,
-
-    lake: 0x2f6f8f,
-    lakeAlt: 0x255a75,
-
-    grove: 0x1f4a24,
-    groveAlt: 0x173b1c,
-
-    unknownFog: 0x050403,
-    seenFog: 0x1b130d,
-    fogLine: 0x2a1a10,
-
-    resource: 0xd5a13a,
-    monster: 0x9f3f2f,
-    player: 0x6ee08f,
-    playerBorder: 0xfff3d0,
-  };
 
   private readonly positionText = new Text({
     text: 'x:0 y:0',
@@ -183,17 +144,17 @@ export class MinimapRenderer {
     this.shadow.clear();
     this.shadow
       .roundRect(3, 5, totalWidth, totalHeight, this.borderRadius)
-      .fill({ color: this.colors.shadow, alpha: 0.75 });
+      .fill({ color: colors.shadow, alpha: 0.75 });
 
     this.background.clear();
     this.background
       .roundRect(0, 0, totalWidth, totalHeight, this.borderRadius)
-      .fill({ color: this.colors.wood })
-      .stroke({ color: this.colors.borderDark, width: 3 });
+      .fill({ color: colors.wood })
+      .stroke({ color: colors.borderDark, width: 3 });
 
     this.background
       .roundRect(4, 4, totalWidth - 8, totalHeight - 8, this.borderRadius - 4)
-      .stroke({ color: this.colors.borderLight, alpha: 0.35, width: 1 });
+      .stroke({ color: colors.borderLight, alpha: 0.35, width: 1 });
 
     this.innerBackground.clear();
     this.innerBackground
@@ -204,8 +165,8 @@ export class MinimapRenderer {
         visiblePixelHeight + 4,
         8,
       )
-      .fill({ color: this.colors.inset })
-      .stroke({ color: this.colors.borderDark, width: 2 });
+      .fill({ color: colors.inset })
+      .stroke({ color: colors.borderDark, width: 2 });
   }
 
   private drawMask(): void {
@@ -278,7 +239,7 @@ export class MinimapRenderer {
 
     graphics
       .rect(px, py, this.cellSize, this.cellSize)
-      .stroke({ color: this.colors.tileLine, alpha: 0.22, width: 1 });
+      .stroke({ color: colors.tileLine, alpha: 0.22, width: 1 });
 
     if (tile.obstacleType) {
       this.drawObstacleIcon(graphics, px, py, tile.obstacleType, alpha);
@@ -310,22 +271,22 @@ export class MinimapRenderer {
     const { x, y } = tile.coordinate;
     const isAlt = Math.abs(x + y) % 2 === 0;
     if (tile.groundType === 'lake') {
-      return isAlt ? this.colors.lake : this.colors.lakeAlt;
+      return isAlt ? colors.lake : colors.lakeAlt;
     }
 
     if (tile.groundType === 'clearing') {
-      return isAlt ? this.colors.clearing : this.colors.clearingAlt;
+      return isAlt ? colors.clearing : colors.clearingAlt;
     }
 
     if (tile.groundType === 'darkClearing') {
-      return isAlt ? this.colors.darkClearing : this.colors.darkClearingAlt;
+      return isAlt ? colors.darkClearing : colors.darkClearingAlt;
     }
 
     if (tile.groundType === 'stoneQuarry') {
-      return isAlt ? this.colors.stoneQuarry : this.colors.stoneQuarryAlt;
+      return isAlt ? colors.stoneQuarry : colors.stoneQuarryAlt;
     }
 
-    return isAlt ? this.colors.clearing : this.colors.clearingAlt;
+    return isAlt ? colors.clearing : colors.clearingAlt;
   }
 
   private drawObstacleIcon(
@@ -376,8 +337,8 @@ export class MinimapRenderer {
 
     graphics
       .circle(cx, cy, 3.2)
-      .fill({ color: this.colors.resource, alpha })
-      .stroke({ color: this.colors.borderDark, width: 1 });
+      .fill({ color: colors.resource, alpha })
+      .stroke({ color: colors.borderDark, width: 1 });
 
     graphics
       .circle(cx - 1, cy - 1, 1)
@@ -395,8 +356,8 @@ export class MinimapRenderer {
 
     graphics
       .circle(cx, cy, 4)
-      .fill({ color: this.colors.monster, alpha })
-      .stroke({ color: this.colors.borderDark, width: 1 });
+      .fill({ color: colors.monster, alpha })
+      .stroke({ color: colors.borderDark, width: 1 });
 
     graphics.circle(cx - 1.3, cy - 0.7, 0.7).fill({ color: 0x2a1a10, alpha });
     graphics.circle(cx + 1.3, cy - 0.7, 0.7).fill({ color: 0x2a1a10, alpha });
@@ -444,12 +405,12 @@ export class MinimapRenderer {
           const py = y * this.cellSize;
 
           this.fogGraphics.rect(px, py, this.cellSize, this.cellSize).fill({
-            color: isSeen ? this.colors.seenFog : this.colors.unknownFog,
+            color: isSeen ? colors.seenFog : colors.unknownFog,
             alpha: isSeen ? 0.42 : 0.98,
           });
 
           this.fogGraphics.rect(px, py, this.cellSize, this.cellSize).stroke({
-            color: this.colors.fogLine,
+            color: colors.fogLine,
             alpha: isSeen ? 0.22 : 0.5,
             width: 1,
           });
@@ -466,12 +427,12 @@ export class MinimapRenderer {
 
     this.playerGraphics
       .circle(centerX + 1, centerY + 2, 5)
-      .fill({ color: this.colors.shadow, alpha: 0.55 });
+      .fill({ color: colors.shadow, alpha: 0.55 });
 
     this.playerGraphics
       .circle(centerX, centerY, 5)
-      .fill({ color: this.colors.player })
-      .stroke({ color: this.colors.playerBorder, width: 1.5 });
+      .fill({ color: colors.player })
+      .stroke({ color: colors.playerBorder, width: 1.5 });
 
     this.playerGraphics
       .circle(centerX - 1.5, centerY - 1.5, 1.4)
@@ -490,24 +451,24 @@ export class MinimapRenderer {
 
     this.openMapButton
       .roundRect(x, y, size, size, 6)
-      .fill({ color: this.colors.woodLight })
-      .stroke({ color: this.colors.playerBorder, width: 2 });
+      .fill({ color: colors.woodLight })
+      .stroke({ color: colors.playerBorder, width: 2 });
 
     this.openMapButton
       .rect(x + 6, y + 6, 4, 4)
-      .fill({ color: this.colors.playerBorder });
+      .fill({ color: colors.playerBorder });
 
     this.openMapButton
       .rect(x + 13, y + 6, 4, 4)
-      .fill({ color: this.colors.playerBorder });
+      .fill({ color: colors.playerBorder });
 
     this.openMapButton
       .rect(x + 6, y + 13, 4, 4)
-      .fill({ color: this.colors.playerBorder });
+      .fill({ color: colors.playerBorder });
 
     this.openMapButton
       .rect(x + 13, y + 13, 4, 4)
-      .fill({ color: this.colors.playerBorder });
+      .fill({ color: colors.playerBorder });
 
     this.openMapButton.eventMode = 'static';
     this.openMapButton.cursor = 'pointer';

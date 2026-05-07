@@ -40,8 +40,6 @@ export class FullMapComponent {
     const element = this.fullMapContainer.nativeElement;
     const rect = element.getBoundingClientRect();
 
-    console.log('full map container rect', rect.width, rect.height);
-
     await this.game.init({
       width: rect.width,
       height: rect.height,
