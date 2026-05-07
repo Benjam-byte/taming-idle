@@ -21,7 +21,7 @@ export const manifest = {
         },
         { alias: 'lake', src: asset('assets/map/generated/lake.png') },
         {
-          alias: 'stonequarry',
+          alias: 'stoneQuarry',
           src: asset('assets/map/generated/stonequarry.png'),
         },
         { alias: 'wheat', src: asset('assets/object/Wheat.webp') },
