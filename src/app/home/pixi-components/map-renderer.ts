@@ -10,6 +10,7 @@ import {
 } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { AnimationQueue } from 'src/app/core/service/combat/animation-queue';
+import { Coordinate } from 'src/app/core/type/coordinate';
 import { Tile } from 'src/app/core/service/map/tile';
 
 type PixiTick = {
@@ -48,7 +49,7 @@ export class MapRenderer {
     private readonly game: Application,
     private readonly container: Container,
     private readonly pixiAssetService: PixiAssetService,
-    private readonly onResourceClick: () => void,
+    private readonly onResourceCollected: (coord: Coordinate) => void,
     private readonly onMonsterClick: () => void,
     private readonly onDropClick: (dropType: 'soul' | 'glitchedStone') => void,
   ) {}
@@ -470,7 +471,7 @@ export class MapRenderer {
         return;
       }
 
-      this.playCollectWheatAnimation(wheat);
+      this.playCollectWheatAnimation(wheat, tile.coordinate);
     });
 
     this.wheat = wheat;
@@ -513,7 +514,7 @@ export class MapRenderer {
     return this.slimeTextures;
   }
 
-  private playCollectWheatAnimation(wheat: Sprite): void {
+  private playCollectWheatAnimation(wheat: Sprite, tileCoord: Coordinate): void {
     this.isCollectingWheat = true;
 
     wheat.eventMode = 'none';
@@ -593,7 +594,7 @@ export class MapRenderer {
         this.wheat = undefined;
         this.isCollectingWheat = false;
 
-        this.onResourceClick();
+        this.onResourceCollected(tileCoord);
       }
     };
 

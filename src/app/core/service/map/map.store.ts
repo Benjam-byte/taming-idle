@@ -50,6 +50,8 @@ function inVisionRange(tileX: number, tileY: number, px: number, py: number): bo
 
 
 
+type TileMutationState = { hasMonster: boolean; hasResource: boolean };
+
 type MapState = {
   playerCoordinate: Coordinate;
   chunkList: Map<string, Chunk>;
@@ -59,6 +61,7 @@ type MapState = {
   exploredChunkKeys: Set<string>;
   exploredChunkList: Map<string, Chunk>;
   markers: MapMarker[];
+  tileMutations: Map<string, TileMutationState>;
 };
 
 const initialMapState: MapState = {
@@ -70,6 +73,7 @@ const initialMapState: MapState = {
   exploredChunkKeys: new Set(),
   exploredChunkList: new Map(),
   markers: [],
+  tileMutations: new Map(),
 };
 
 
@@ -92,6 +96,13 @@ export const MapStore = signalStore(
       if (store.chunkList().has(key)) return;
 
       const chunk = new Chunk(CHUNK_SIZE, chunkCenterCoord(chunkCoord), 1, 5);
+
+      const mutations = store.tileMutations();
+      for (const tile of chunk.tileList) {
+        const tk = tileKey(tile.coordinate.x, tile.coordinate.y);
+        const m = mutations.get(tk);
+        if (m) chunk.mutateTile(tile.coordinate, m);
+      }
 
       patchState(store, (state) => ({
         chunkList: new Map(state.chunkList).set(key, chunk),
@@ -180,12 +191,19 @@ export const MapStore = signalStore(
 
     return {
       hydrate(world: WorldSave): void {
+        const tileMutations = new Map(
+          world.tileMutations.map((m) => [
+            m.key,
+            { hasMonster: m.hasMonster, hasResource: m.hasResource },
+          ]),
+        );
         patchState(store, {
           playerCoordinate: world.playerCoordinate,
           visitedTileKeys: new Set(world.visitedTileKeys),
           seenTileKeys: new Set(world.seenTileKeys),
           spottedMonsterTileKeys: new Set(world.spottedMonsterTileKeys),
           markers: world.markers,
+          tileMutations,
         });
       },
 
@@ -201,8 +219,29 @@ export const MapStore = signalStore(
         ngrxStore.dispatch(WorldActions.playerMoved({ coordinate: next }));
       },
 
-      refresh(): void {
-        patchState(store, (state) => ({ chunkList: new Map(state.chunkList) }));
+      getTileAt(coord: Coordinate): Tile | undefined {
+        return getTileAt(store.chunkList(), coord);
+      },
+
+      mutateTile(coord: Coordinate, mutation: { hasMonster?: boolean; hasResource?: boolean }): void {
+        const cc = tileToChunkCoord(coord);
+        const ck = chunkKey(cc.x, cc.y);
+        const chunk = store.chunkList().get(ck);
+        if (chunk) chunk.mutateTile(coord, mutation);
+
+        const tk = tileKey(coord.x, coord.y);
+        patchState(store, (state) => {
+          const existing = state.tileMutations.get(tk);
+          const next = new Map(state.tileMutations);
+          next.set(tk, {
+            hasMonster: mutation.hasMonster ?? existing?.hasMonster ?? false,
+            hasResource: mutation.hasResource ?? existing?.hasResource ?? false,
+          });
+          return {
+            tileMutations: next,
+            chunkList: new Map(state.chunkList),
+          };
+        });
       },
 
       isTileVisited(x: number, y: number): boolean {

@@ -206,7 +206,7 @@ export class HomePage implements AfterViewInit {
       this.game,
       this.worldContainer,
       this.pixiAssetService,
-      () => this.resourceCollectionService.collectActiveTileResource(),
+      (coord) => this.resourceCollectionService.collectTileResourceAt(coord),
       () => {
         this.enterCombat();
       },

@@ -30,6 +30,25 @@ export class Chunk {
     return this.tileMap.get(`${coordinate.x}:${coordinate.y}`);
   }
 
+  mutateTile(coord: Coordinate, mutation: { hasMonster?: boolean; hasResource?: boolean }): void {
+    const key = `${coord.x}:${coord.y}`;
+    const tile = this.tileMap.get(key);
+    if (!tile) return;
+
+    const newTile = new Tile(
+      tile.path,
+      tile.coordinate,
+      tile.groundType,
+      tile.obstacleType,
+      mutation.hasMonster ?? tile.hasMonster,
+      mutation.hasResource ?? tile.hasResource,
+    );
+
+    const idx = this.tileList.indexOf(tile);
+    if (idx !== -1) this.tileList[idx] = newTile;
+    this.tileMap.set(key, newTile);
+  }
+
   generateChunkTiles(): Tile[] {
     const grid = generateDiamondSquareGrid();
     const tiles = this.createTilesFromGrid(grid);
