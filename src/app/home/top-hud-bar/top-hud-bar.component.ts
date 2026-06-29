@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { LootStore } from 'src/app/database/store/loot.store';
+import { Store } from '@ngrx/store';
+import { selectGlitchedStone, selectSoul, selectWheat } from 'src/app/store/loot/loot.reducer';
 import { HudResourceChipComponent } from 'src/app/ui/hud-resource-chip/hud-resource-chip.component';
 
 @Component({
@@ -9,9 +10,9 @@ import { HudResourceChipComponent } from 'src/app/ui/hud-resource-chip/hud-resou
   templateUrl: './top-hud-bar.component.html',
 })
 export class TopHudBarComponent {
-  private readonly lootStore = inject(LootStore);
+  private readonly store = inject(Store);
 
-  wheat = this.lootStore.wheat;
-  soul = this.lootStore.soul;
-  glitchedStone = this.lootStore.glitchedStone;
+  wheat = this.store.selectSignal(selectWheat);
+  soul = this.store.selectSignal(selectSoul);
+  glitchedStone = this.store.selectSignal(selectGlitchedStone);
 }

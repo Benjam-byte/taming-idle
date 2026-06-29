@@ -1,3 +1,4 @@
+import { isDevMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import {
   RouteReuseStrategy,
@@ -20,6 +21,14 @@ import {
 import { PixiAssetService } from './app/core/assets/PixiAssetService';
 import { DatabaseBootstrapService } from './app/database/database-boostrap.service';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideState } from '@ngrx/store';
+import { lootFeature } from './app/store/loot/loot.reducer';
+import { lootEffects } from './app/store/loot/loot.effects';
+import { worldFeature } from './app/store/world/world.reducer';
+import { worldEffects } from './app/store/world/world.effects';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -27,8 +36,8 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     importProvidersFrom(
       IonicStorageModule.forRoot({
-        name: '__myappdb', // DB name
-        storeName: 'keyval', // table/keyspace
+        name: '__myappdb',
+        storeName: 'keyval',
         driverOrder: [
           Drivers.SecureStorage,
           Drivers.IndexedDB,
@@ -37,6 +46,11 @@ bootstrapApplication(AppComponent, {
       }),
     ),
     provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideStore(),
+    provideState(lootFeature),
+    provideState(worldFeature),
+    provideEffects(lootEffects, worldEffects),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideAppInitializer(() => {
       const databaseBootstrapService = inject(DatabaseBootstrapService);
       const pixiAssetService = inject(PixiAssetService);

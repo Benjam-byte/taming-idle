@@ -1,13 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { LootStore } from 'src/app/database/store/loot.store';
+import { Store } from '@ngrx/store';
+import { LootActions } from 'src/app/store/loot/loot.actions';
+import { WorldActions } from 'src/app/store/world/world.actions';
 import { MapService } from './map/map-service';
 
 @Injectable({ providedIn: 'root' })
 export class ResourceCollectionService {
   private readonly mapService = inject(MapService);
-  private readonly lootStore = inject(LootStore);
+  private readonly store = inject(Store);
 
-  async collectActiveTileResource(): Promise<void> {
+  collectActiveTileResource(): void {
     const tile = this.mapService.activeTile();
 
     if (!tile?.hasResource) {
@@ -15,24 +17,44 @@ export class ResourceCollectionService {
     }
 
     tile.collectResource();
-    await this.lootStore.incr('wheat', 1);
+    this.store.dispatch(LootActions.increment({ key: 'wheat', amount: 1 }));
+    this.store.dispatch(
+      WorldActions.tileMutated({
+        mutation: {
+          key: `${tile.coordinate.x}:${tile.coordinate.y}`,
+          hasMonster: tile.hasMonster,
+          hasResource: false,
+        },
+      }),
+    );
     this.mapService.refresh();
   }
 
-  async collectActiveTileMonsterResource(): Promise<void> {
+  collectActiveTileMonsterResource(): void {
     const tile = this.mapService.activeTile();
+
     if (!tile?.hasMonster) {
       return;
     }
+
     tile.killMonster();
+    this.store.dispatch(
+      WorldActions.tileMutated({
+        mutation: {
+          key: `${tile.coordinate.x}:${tile.coordinate.y}`,
+          hasMonster: false,
+          hasResource: tile.hasResource,
+        },
+      }),
+    );
     this.mapService.refresh();
   }
 
-  async collectSoul() {
-    await this.lootStore.incr('soul', 1);
+  collectSoul(): void {
+    this.store.dispatch(LootActions.increment({ key: 'soul', amount: 1 }));
   }
 
-  async collectGlitchedStone() {
-    await this.lootStore.incr('glitchedStone', 1);
+  collectGlitchedStone(): void {
+    this.store.dispatch(LootActions.increment({ key: 'glitchedStone', amount: 1 }));
   }
 }

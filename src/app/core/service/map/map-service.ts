@@ -1,4 +1,7 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, inject, signal } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { WorldActions } from 'src/app/store/world/world.actions';
+import { WorldSave } from 'src/app/database/type/world';
 import { Chunk } from './chunks';
 import { Coordinate } from '../../type/coordinate';
 import { Tile } from './tile';
@@ -8,6 +11,8 @@ import { MapMarker, MapMarkerType } from '../../type/map-maker';
   providedIn: 'root',
 })
 export class MapService {
+  private readonly store = inject(Store);
+
   readonly markers = signal<MapMarker[]>([]);
   loadRadius = 1;
   private readonly visionRadius = 2;
@@ -54,6 +59,14 @@ export class MapService {
     });
   }
 
+  hydrate(world: WorldSave): void {
+    this.playerCoordinate.set(world.playerCoordinate);
+    this.visitedTileKeys.set(new Set(world.visitedTileKeys));
+    this.seenTileKeys.set(new Set(world.seenTileKeys));
+    this.spottedMonsterTileKeys.set(new Set(world.spottedMonsterTileKeys));
+    this.markers.set(world.markers);
+  }
+
   move(dx: number, dy: number): void {
     const player = this.playerCoordinate();
 
@@ -73,7 +86,9 @@ export class MapService {
     }
 
     this.playerCoordinate.set(nextCoordinate);
+    this.store.dispatch(WorldActions.playerMoved({ coordinate: nextCoordinate }));
   }
+
   refresh(): void {
     this.chunkList.update((chunkMap) => new globalThis.Map(chunkMap));
   }
@@ -102,25 +117,36 @@ export class MapService {
 
   markExplorationState(): void {
     const player = this.playerCoordinate();
+    const newVisited = new Set<string>();
 
     this.visitedTileKeys.update((current) => {
       const next = new Set(current);
-      next.add(this.getTileKey(player));
+      const key = this.getTileKey(player);
+      if (!next.has(key)) {
+        next.add(key);
+        newVisited.add(key);
+      }
       return next;
     });
 
-    this.markVisibleTilesAsSeen();
+    const newSeen = this.markVisibleTilesAsSeen();
+
+    if (newVisited.size > 0) {
+      this.store.dispatch(WorldActions.tilesVisited({ keys: [...newVisited] }));
+    }
+    if (newSeen.size > 0) {
+      this.store.dispatch(WorldActions.tilesSeen({ keys: [...newSeen] }));
+    }
   }
 
   addMarker(coordinate: Coordinate, type: MapMarkerType = 'custom'): void {
-    this.markers.update((markers) => [
-      ...markers,
-      {
-        id: crypto.randomUUID(),
-        coordinate,
-        type,
-      },
-    ]);
+    const marker: MapMarker = {
+      id: crypto.randomUUID(),
+      coordinate,
+      type,
+    };
+    this.markers.update((markers) => [...markers, marker]);
+    this.store.dispatch(WorldActions.markerAdded({ marker }));
   }
 
   isInVisionRange(
@@ -139,10 +165,12 @@ export class MapService {
     this.markers.update((markers) =>
       markers.filter((marker) => marker.id !== id),
     );
+    this.store.dispatch(WorldActions.markerRemoved({ id }));
   }
 
   clearMarkers(): void {
     this.markers.set([]);
+    this.store.dispatch(WorldActions.markersCleared());
   }
 
   private loadChunksAroundActiveChunk(center: Coordinate): void {
@@ -205,6 +233,8 @@ export class MapService {
         return nextExploredMap;
       });
 
+      this.store.dispatch(WorldActions.chunkExplored({ key }));
+
       return nextMap;
     });
   }
@@ -223,8 +253,9 @@ export class MapService {
     });
   }
 
-  private markVisibleTilesAsSeen(): void {
+  private markVisibleTilesAsSeen(): Set<string> {
     const player = this.playerCoordinate();
+    const newSeen = new Set<string>();
 
     this.seenTileKeys.update((current) => {
       const next = new Set(current);
@@ -249,7 +280,11 @@ export class MapService {
             continue;
           }
 
-          next.add(this.getTileKey(tile.coordinate));
+          const tileKey = this.getTileKey(tile.coordinate);
+          if (!next.has(tileKey)) {
+            next.add(tileKey);
+            newSeen.add(tileKey);
+          }
 
           if (tile.hasMonster) {
             this.trySpotMonster(tile);
@@ -259,6 +294,8 @@ export class MapService {
 
       return next;
     });
+
+    return newSeen;
   }
 
   private trySpotMonster(tile: Tile): void {
@@ -279,6 +316,8 @@ export class MapService {
       next.add(key);
       return next;
     });
+
+    this.store.dispatch(WorldActions.monstersSpotted({ keys: [key] }));
   }
 
   private getTileAtCoordinate(coordinate: Coordinate): Tile | undefined {

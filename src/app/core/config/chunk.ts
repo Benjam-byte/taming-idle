@@ -18,7 +18,7 @@ export type ChunkPatternType =
 export const GROUND_ASSET_BY_TYPE: Record<TileGroundType, string[]> = {
   clearing: ['plaine1', 'plaine2', 'plaine3', 'plaine4', 'plaine5', 'plaine6'],
   darkClearing: ['darkClearing'],
-  path: ['plaine1'],
+  lake: ['plaine1'],
   stoneQuarry: ['stonequarry'],
 };
 
