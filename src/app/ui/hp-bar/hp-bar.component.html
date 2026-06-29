@@ -1,7 +1,6 @@
-<div
-  class="hp-bar"
-  [class.hp-bar--enemy]="tone() === 'enemy'"
-  [class.hp-bar--md]="size() === 'md'"
->
-  <div class="hp-bar__fill" [style.width.%]="percent()"></div>
+<div class="health-bar" role="progressbar" [class.is-medium]="size() === 'md'"
+  [class.is-warning]="healthState() === 'warning'" [class.is-critical]="healthState() === 'critical'"
+  [class.has-health]="hasHealth()" [attr.aria-valuemin]="0" [attr.aria-valuemax]="maxHealthValue()"
+  [attr.aria-valuenow]="currentHealthValue()" [attr.aria-valuetext]="healthValueText()">
+  <div class="health-fill" [style.width.%]="healthPercent()"></div>
 </div>

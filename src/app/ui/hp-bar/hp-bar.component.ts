@@ -4,9 +4,10 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { HpBarSize, HpBarState } from './hp.type';
 
-export type HpBarTone = 'player' | 'enemy';
-export type HpBarSize = 'sm' | 'md';
+const criticalHealthPercentThreshold = 10;
+const warningHealthPercentThreshold = 35;
 
 @Component({
   selector: 'app-hp-bar',
@@ -16,18 +17,50 @@ export type HpBarSize = 'sm' | 'md';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HpBarComponent {
-  readonly current = input(0);
-  readonly max = input(0);
-  readonly tone = input<HpBarTone>('player');
+  readonly currentHealth = input(0);
+  readonly maxHealth = input(0);
   readonly size = input<HpBarSize>('sm');
 
-  readonly percent = computed(() => {
-    const max = this.max();
+  readonly maxHealthValue = computed(() => Math.max(0, this.maxHealth()));
 
-    if (max <= 0) {
+  readonly currentHealthValue = computed(() => {
+    const currentHealth = Math.max(0, this.currentHealth());
+    const maxHealth = this.maxHealthValue();
+
+    if (maxHealth <= 0) {
       return 0;
     }
 
-    return Math.max(0, Math.min(100, (this.current() / max) * 100));
+    return Math.min(currentHealth, maxHealth);
   });
+
+  readonly healthPercent = computed(() => {
+    const maxHealth = this.maxHealthValue();
+
+    if (maxHealth <= 0) {
+      return 0;
+    }
+
+    return (this.currentHealthValue() / maxHealth) * 100;
+  });
+
+  readonly healthState = computed<HpBarState>(() => {
+    const healthPercent = this.healthPercent();
+
+    if (healthPercent < criticalHealthPercentThreshold) {
+      return 'critical';
+    }
+
+    if (healthPercent < warningHealthPercentThreshold) {
+      return 'warning';
+    }
+
+    return 'healthy';
+  });
+
+  readonly healthValueText = computed(
+    () => `${this.currentHealthValue()} / ${this.maxHealthValue()} PV`,
+  );
+
+  readonly hasHealth = computed(() => this.currentHealthValue() > 0);
 }

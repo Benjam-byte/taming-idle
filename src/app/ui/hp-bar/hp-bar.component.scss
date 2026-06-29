@@ -3,7 +3,11 @@
   min-width: 0;
 }
 
-.hp-bar {
+.health-bar {
+  --health-fill-color: var(--color-hp-player);
+  --health-glow-rgb: var(--color-hp-player-rgb);
+
+  width: 100%;
   height: 10px;
   overflow: hidden;
   border: 1px solid rgb(var(--color-white-rgb) / 0.1);
@@ -15,39 +19,33 @@
     0 1px 0 rgb(var(--color-white-rgb) / 0.08);
 }
 
-.hp-bar--md {
+.health-bar.is-medium {
   height: 13px;
 }
 
-.hp-bar__fill {
-  height: 100%;
-  margin-left: auto;
-  border-radius: inherit;
-  background:
-    linear-gradient(180deg, rgb(var(--color-white-rgb) / 0.28), transparent 45%),
-    linear-gradient(
-      90deg,
-      var(--color-hp-player),
-      var(--color-hp-mid),
-      var(--color-hp-enemy)
-    );
-  box-shadow:
-    inset 0 -1px 2px rgb(var(--color-black-rgb) / 0.3),
-    0 0 5px rgb(var(--color-hp-player-rgb) / 0.35);
-  transition: width 200ms ease-out;
+.health-bar.is-warning {
+  --health-fill-color: var(--color-hp-mid);
+  --health-glow-rgb: var(--color-hp-mid-rgb);
 }
 
-.hp-bar--enemy .hp-bar__fill {
-  margin-left: 0;
-  background:
-    linear-gradient(180deg, rgb(var(--color-white-rgb) / 0.28), transparent 45%),
-    linear-gradient(
-      90deg,
-      var(--color-hp-enemy),
-      var(--color-hp-mid),
-      var(--color-hp-player)
-    );
+.health-bar.is-critical {
+  --health-fill-color: var(--color-hp-enemy);
+  --health-glow-rgb: var(--color-hp-enemy-rgb);
+}
+
+.health-fill {
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--health-fill-color);
   box-shadow:
     inset 0 -1px 2px rgb(var(--color-black-rgb) / 0.3),
-    0 0 6px rgb(var(--color-hp-enemy-rgb) / 0.35);
+    0 0 5px rgb(var(--health-glow-rgb) / 0.35);
+  transition:
+    width 200ms ease-out,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.health-bar.has-health .health-fill {
+  min-width: 4px;
 }

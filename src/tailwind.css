@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+@theme static {
   --font-title: "Baloo 2", "Trebuchet MS", sans-serif;
   --font-body: "Nunito", "Arial", sans-serif;
 
@@ -53,6 +53,7 @@
   --color-hp-mid: #d6b44a;
   --color-hp-enemy: #c94b3d;
   --color-hp-player-rgb: 111 163 72;
+  --color-hp-mid-rgb: 214 180 74;
   --color-hp-enemy-rgb: 201 75 61;
   --color-badge-player: #d8ffd0;
   --color-badge-enemy: #ffd6bd;

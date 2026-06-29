@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import {
-  HpBarComponent,
-  HpBarSize,
-  HpBarTone,
-} from '../hp-bar/hp-bar.component';
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
+import { HpBarComponent } from '../hp-bar/hp-bar.component';
+import { HpBarSize } from '../hp-bar/hp.type';
 
 export type CombatantPanelVariant = 'player' | 'enemy';
 
@@ -11,7 +13,6 @@ export type CombatantPanelVariant = 'player' | 'enemy';
   selector: 'app-combatant-panel',
   standalone: true,
   imports: [HpBarComponent],
-  host: { class: 'block w-full' },
   templateUrl: './combatant-panel.component.html',
   styleUrl: './combatant-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,11 +24,8 @@ export class CombatantPanelComponent {
   readonly statValue = input<number | string>('');
   readonly currentHp = input(0);
   readonly maxHp = input(0);
-  readonly accentColor = input('var(--color-hp-player)');
-  readonly badgeColor = input('var(--color-badge-player)');
   readonly hpSize = input<HpBarSize>('sm');
 
-  get hpTone(): HpBarTone {
-    return this.variant() === 'enemy' ? 'enemy' : 'player';
-  }
+  readonly isEnemy = computed(() => this.variant() === 'enemy');
+  readonly hasStat = computed(() => this.statLabel().length > 0);
 }
