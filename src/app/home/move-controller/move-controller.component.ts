@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapService } from 'src/app/core/service/map/map-service';
+import { MapStore } from 'src/app/core/service/map/map.store';
 
 export type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 
@@ -13,7 +13,7 @@ export type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoveControllerComponent {
-  private readonly mapService = inject(MapService);
+  private readonly mapService = inject(MapStore);
 
   move(direction: Direction): void {
     switch (direction) {

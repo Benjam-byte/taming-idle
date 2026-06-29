@@ -1,6 +1,6 @@
 import { Application, Container, Graphics, Text } from 'pixi.js';
 import { colors } from 'src/app/core/config/map-colors';
-import { MapService } from 'src/app/core/service/map/map-service';
+import { CHUNK_SIZE, MapStore } from 'src/app/core/service/map/map.store';
 import { Tile } from 'src/app/core/service/map/tile';
 
 export class MinimapRenderer {
@@ -47,7 +47,7 @@ export class MinimapRenderer {
   constructor(
     private readonly game: Application,
     private readonly container: Container,
-    private readonly mapService: MapService,
+    private readonly mapService: MapStore,
     private readonly onOpenFullMap: () => void,
   ) {}
 
@@ -183,11 +183,10 @@ export class MinimapRenderer {
     this.contentContainer.removeChildren().forEach((child) => child.destroy());
 
     const player = this.mapService.playerCoordinate();
-    const chunkSize = this.mapService.chunkSize;
     const chunkMap = this.mapService.chunkList();
 
-    const playerChunkX = Math.floor(player.x / chunkSize);
-    const playerChunkY = Math.floor(player.y / chunkSize);
+    const playerChunkX = Math.floor(player.x / CHUNK_SIZE);
+    const playerChunkY = Math.floor(player.y / CHUNK_SIZE);
 
     const startChunkX = playerChunkX - this.loadedChunkRadius;
     const endChunkX = playerChunkX + this.loadedChunkRadius;
@@ -371,11 +370,10 @@ export class MinimapRenderer {
     this.fogGraphics.clear();
 
     const player = this.mapService.playerCoordinate();
-    const chunkSize = this.mapService.chunkSize;
     const chunkMap = this.mapService.chunkList();
 
-    const playerChunkX = Math.floor(player.x / chunkSize);
-    const playerChunkY = Math.floor(player.y / chunkSize);
+    const playerChunkX = Math.floor(player.x / CHUNK_SIZE);
+    const playerChunkY = Math.floor(player.y / CHUNK_SIZE);
 
     const startChunkX = playerChunkX - this.loadedChunkRadius;
     const endChunkX = playerChunkX + this.loadedChunkRadius;

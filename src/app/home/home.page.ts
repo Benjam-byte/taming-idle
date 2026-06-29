@@ -11,7 +11,7 @@ import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { Application, Container } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { getRendererPreference } from 'src/app/core/helpers/canvas-helper';
-import { MapService } from 'src/app/core/service/map/map-service';
+import { MapStore } from 'src/app/core/service/map/map.store';
 import { MapRenderer } from './pixi-components/map-renderer';
 import { MinimapRenderer } from './pixi-components/mini-map-renderer';
 import { MoveControllerComponent } from './move-controller/move-controller.component';
@@ -43,7 +43,7 @@ export class HomePage implements AfterViewInit {
 
   private readonly modalCtrl = inject(ModalController);
   private readonly pixiAssetService = inject(PixiAssetService);
-  private readonly mapService = inject(MapService);
+  private readonly mapService = inject(MapStore);
   private readonly destroyRef = inject(DestroyRef);
   readonly combatStore = inject(CombatStore);
   private readonly resourceCollectionService = inject(ResourceCollectionService);

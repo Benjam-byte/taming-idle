@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MapService } from '../core/service/map/map-service';
+import { MapStore } from '../core/service/map/map.store';
 import { SaveGameRepository } from './save-game.repository';
 import { LootActions } from '../store/loot/loot.actions';
 import { WorldActions } from '../store/world/world.actions';
@@ -9,7 +9,7 @@ import { WorldActions } from '../store/world/world.actions';
 export class DatabaseBootstrapService {
   private readonly repo = inject(SaveGameRepository);
   private readonly store = inject(Store);
-  private readonly mapService = inject(MapService);
+  private readonly mapService = inject(MapStore);
 
   async ensureInitialized(): Promise<void> {
     try {

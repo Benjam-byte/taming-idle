@@ -5,7 +5,7 @@ import {
   Graphics,
 } from 'pixi.js';
 import { colors } from 'src/app/core/config/map-colors';
-import { MapService } from 'src/app/core/service/map/map-service';
+import { MapStore } from 'src/app/core/service/map/map.store';
 import { Tile } from 'src/app/core/service/map/tile';
 
 export class FullMapRenderer {
@@ -30,7 +30,7 @@ export class FullMapRenderer {
   constructor(
     private readonly game: Application,
     private readonly container: Container,
-    private readonly mapService: MapService,
+    private readonly mapService: MapStore,
   ) {}
 
   init(): void {

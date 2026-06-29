@@ -2,11 +2,11 @@ import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { LootActions } from 'src/app/store/loot/loot.actions';
 import { WorldActions } from 'src/app/store/world/world.actions';
-import { MapService } from './map/map-service';
+import { MapStore } from './map/map.store';
 
 @Injectable({ providedIn: 'root' })
 export class ResourceCollectionService {
-  private readonly mapService = inject(MapService);
+  private readonly mapService = inject(MapStore);
   private readonly store = inject(Store);
 
   collectActiveTileResource(): void {
