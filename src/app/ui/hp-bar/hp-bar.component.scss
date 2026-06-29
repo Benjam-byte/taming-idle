@@ -1,0 +1,53 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.hp-bar {
+  height: 10px;
+  overflow: hidden;
+  border: 1px solid rgb(var(--color-white-rgb) / 0.1);
+  border-radius: 9999px;
+  background-color: rgb(var(--color-layer-border-rgb) / 0.7);
+  padding: 2px;
+  box-shadow:
+    inset 0 2px 3px rgb(var(--color-black-rgb) / 0.55),
+    0 1px 0 rgb(var(--color-white-rgb) / 0.08);
+}
+
+.hp-bar--md {
+  height: 13px;
+}
+
+.hp-bar__fill {
+  height: 100%;
+  margin-left: auto;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, rgb(var(--color-white-rgb) / 0.28), transparent 45%),
+    linear-gradient(
+      90deg,
+      var(--color-hp-player),
+      var(--color-hp-mid),
+      var(--color-hp-enemy)
+    );
+  box-shadow:
+    inset 0 -1px 2px rgb(var(--color-black-rgb) / 0.3),
+    0 0 5px rgb(var(--color-hp-player-rgb) / 0.35);
+  transition: width 200ms ease-out;
+}
+
+.hp-bar--enemy .hp-bar__fill {
+  margin-left: 0;
+  background:
+    linear-gradient(180deg, rgb(var(--color-white-rgb) / 0.28), transparent 45%),
+    linear-gradient(
+      90deg,
+      var(--color-hp-enemy),
+      var(--color-hp-mid),
+      var(--color-hp-player)
+    );
+  box-shadow:
+    inset 0 -1px 2px rgb(var(--color-black-rgb) / 0.3),
+    0 0 6px rgb(var(--color-hp-enemy-rgb) / 0.35);
+}

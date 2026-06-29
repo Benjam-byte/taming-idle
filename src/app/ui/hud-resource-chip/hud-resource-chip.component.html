@@ -1,0 +1,11 @@
+<div class="hud-slot resource-chip">
+  <img
+    class="resource-chip__icon"
+    [class.resource-chip__icon--large]="largeIcon()"
+    [src]="iconSrc()"
+    [alt]="alt()"
+  />
+  <span class="resource-chip__value">
+    {{ value() }}
+  </span>
+</div>

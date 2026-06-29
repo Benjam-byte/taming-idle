@@ -169,7 +169,6 @@ export class HomePage implements AfterViewInit {
         preference: getRendererPreference(),
         preferWebGLVersion: 1,
         antialias: false,
-        background: '#1099bb',
         backgroundAlpha: 0,
       });
 

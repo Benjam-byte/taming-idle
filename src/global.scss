@@ -18,13 +18,6 @@
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
-/* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
-
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
@@ -42,22 +35,18 @@ html,
 body {
   margin: 0;
   height: 100%;
-  background: #000;
-  /* fond noir */
-  font-family: Arial, sans-serif;
+  background: var(--color-black);
 }
 
-/* Container centré */
 #splash-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #fff;
+  color: var(--color-white);
 }
 
-/* Logo */
 #splash-screen img {
   width: 200px;
   height: auto;
@@ -65,14 +54,12 @@ body {
   animation: bounce 2s infinite;
 }
 
-/* Texte "Chargement..." */
 #splash-screen p {
   font-size: 1.2rem;
   letter-spacing: 2px;
-  color: #f9d71c;
+  color: var(--color-splash-text);
 }
 
-/* Animation du logo */
 @keyframes bounce {
   0%,
   100% {

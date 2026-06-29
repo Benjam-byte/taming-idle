@@ -1,19 +1,15 @@
 import { Component, input } from '@angular/core';
+import { CombatantPanelComponent } from 'src/app/ui/combatant-panel/combatant-panel.component';
 
 @Component({
   selector: 'app-monster-bar',
+  standalone: true,
   templateUrl: './monster-bar.component.html',
-  styleUrls: ['./monster-bar.component.scss'],
+  imports: [CombatantPanelComponent],
 })
 export class MonsterBarComponent {
   monsterName = input('???');
   currentHp = input(0);
   maxHp = input(0);
   power = 12;
-
-  get hpPercent(): number {
-    if (this.maxHp() <= 0) return 0;
-
-    return Math.max(0, Math.min(100, (this.currentHp() / this.maxHp()) * 100));
-  }
 }

@@ -1,9 +1,12 @@
 import { Component, input, output } from '@angular/core';
+import { CombatantPanelComponent } from 'src/app/ui/combatant-panel/combatant-panel.component';
+import { IconButtonComponent } from 'src/app/ui/icon-button/icon-button.component';
 
 @Component({
   selector: 'app-player-bar',
+  standalone: true,
   templateUrl: './player-bar.component.html',
-  styleUrls: ['./player-bar.component.scss'],
+  imports: [CombatantPanelComponent, IconButtonComponent],
 })
 export class PlayerBarComponent {
   playerName = 'Terra larva';
@@ -12,10 +15,4 @@ export class PlayerBarComponent {
   damage = 10;
 
   flee = output();
-
-  get hpPercent(): number {
-    if (this.maxHp() <= 0) return 0;
-
-    return Math.max(0, Math.min(100, (this.currentHp() / this.maxHp()) * 100));
-  }
 }

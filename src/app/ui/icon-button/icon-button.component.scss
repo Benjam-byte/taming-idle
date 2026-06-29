@@ -1,0 +1,56 @@
+:host {
+  display: inline-flex;
+}
+
+.ui-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-title);
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    transform 100ms ease,
+    background-color 100ms ease,
+    box-shadow 100ms ease;
+}
+
+.ui-icon-button--sm {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  font-size: 20px;
+}
+
+.ui-icon-button--md {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  font-size: 28px;
+}
+
+.ui-icon-button--lg {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  font-size: 30px;
+}
+
+.ui-icon-button:active {
+  transform: translateY(1px);
+}
+
+.ui-icon-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  filter: grayscale(0.35) brightness(0.72);
+}
+
+.ui-icon-button:focus-visible {
+  outline: 2px solid var(--color-secondary-200);
+  outline-offset: 3px;
+}

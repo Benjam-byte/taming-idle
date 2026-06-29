@@ -1,0 +1,41 @@
+<section
+  class="combatant-panel"
+  [class.combatant-panel--enemy]="variant() === 'enemy'"
+  [class.combatant-panel--player]="variant() === 'player'"
+  [style.--accent-color]="accentColor()"
+  [style.--badge-color]="badgeColor()"
+>
+  <span class="combatant-panel__accent" aria-hidden="true"></span>
+
+  <div class="combatant-panel__content">
+    <div class="combatant-panel__main">
+      <div class="combatant-panel__header">
+        <span class="combatant-panel__name">
+          {{ name() }}
+        </span>
+
+        @if (statLabel()) {
+          <span class="combatant-panel__badge">
+            {{ statLabel() }} {{ statValue() }}
+          </span>
+        }
+      </div>
+
+      <div class="combatant-panel__health">
+        <app-hp-bar
+          class="combatant-panel__bar"
+          [current]="currentHp()"
+          [max]="maxHp()"
+          [tone]="hpTone"
+          [size]="hpSize()"
+        />
+
+        <span class="combatant-panel__hp-text">
+          {{ currentHp() }} / {{ maxHp() }}
+        </span>
+      </div>
+    </div>
+
+    <ng-content select="[panelAction]"></ng-content>
+  </div>
+</section>

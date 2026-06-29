@@ -1,18 +1,11 @@
-import { Component, inject, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { LootStore } from 'src/app/database/store/loot.store';
-
-export type HudResource = {
-  id: string;
-  value: number;
-  iconSrc: string;
-  alt?: string;
-};
+import { HudResourceChipComponent } from 'src/app/ui/hud-resource-chip/hud-resource-chip.component';
 
 @Component({
   selector: 'app-top-hud-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [HudResourceChipComponent],
   templateUrl: './top-hud-bar.component.html',
 })
 export class TopHudBarComponent {

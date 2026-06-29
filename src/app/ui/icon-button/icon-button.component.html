@@ -1,0 +1,12 @@
+<button
+  type="button"
+  class="hud-slot ui-icon-button"
+  [class.ui-icon-button--sm]="size() === 'sm'"
+  [class.ui-icon-button--md]="size() === 'md'"
+  [class.ui-icon-button--lg]="size() === 'lg'"
+  [attr.aria-label]="label()"
+  [disabled]="disabled()"
+  (click)="pressed.emit($event)"
+>
+  <ng-content></ng-content>
+</button>

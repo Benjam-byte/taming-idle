@@ -4,6 +4,11 @@
   --font-title: "Baloo 2", "Trebuchet MS", sans-serif;
   --font-body: "Nunito", "Arial", sans-serif;
 
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-white-rgb: 255 255 255;
+  --color-black-rgb: 0 0 0;
+
   --color-primary-50: #f5eadc;
   --color-primary-100: #ead4b8;
   --color-primary-200: #d4aa78;
@@ -35,13 +40,27 @@
   --color-layer-card: #573820;
   --color-layer-inset: #20150d;
   --color-layer-border: #140c07;
+  --color-layer-inset-rgb: 32 21 13;
+  --color-layer-border-rgb: 20 12 7;
 
   --color-text-primary: #fff3d0;
   --color-text-secondary: #d8bd8a;
   --color-text-muted: #9b7a52;
 
-  --attack-color: #d96b32;
-  --special-color: #8a67b0;
+  --color-combat-attack: #d96b32;
+  --color-combat-special: #8a67b0;
+  --color-hp-player: #6fa348;
+  --color-hp-mid: #d6b44a;
+  --color-hp-enemy: #c94b3d;
+  --color-hp-player-rgb: 111 163 72;
+  --color-hp-enemy-rgb: 201 75 61;
+  --color-badge-player: #d8ffd0;
+  --color-badge-enemy: #ffd6bd;
+  --color-splash-text: #f9d71c;
+  --color-debug-canvas: #1099bb;
+
+  --attack-color: var(--color-combat-attack);
+  --special-color: var(--color-combat-special);
 }
 
 html,
@@ -51,58 +70,74 @@ ion-app {
   color: var(--color-text-primary);
 }
 
-.title-xl {
-  font-family: var(--font-title);
-  font-size: 2rem;
-  line-height: 2.25rem;
-  font-weight: 800;
+.full-screen-modal {
+  --width: 100%;
+  --height: 100%;
+  --border-radius: 0;
+  --background: transparent;
+}
+
+.hud-bar {
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-layer-panel-light);
+  padding-inline: 0.75rem;
+}
+
+.hud-bar--top {
+  height: 4rem;
+}
+
+.hud-bar--bottom {
+  height: 2.25rem;
+  justify-content: center;
+}
+
+.inset-panel {
+  border: 2px solid var(--color-primary-800);
+  border-radius: 1rem;
+  background-color: rgb(var(--color-layer-inset-rgb) / 0.75);
+  box-shadow:
+    inset 0 2px 4px rgb(var(--color-white-rgb) / 0.08),
+    inset 0 -4px 6px rgb(var(--color-black-rgb) / 0.28);
+}
+
+.map-frame {
+  border: 2px solid var(--color-layer-border);
+  border-radius: 1rem;
+  background-color: var(--color-layer-inset);
 }
 
 .bottom-shadow {
   box-shadow:
-    inset 0 1px 2px rgb(255 255 255 / 0.2),
-    inset 0 -2px 3px rgb(0 0 0 / 0.4),
+    inset 0 1px 2px rgb(var(--color-white-rgb) / 0.2),
+    inset 0 -2px 3px rgb(var(--color-black-rgb) / 0.4),
     0 3px 0 var(--color-layer-border),
-    0 4px 6px rgb(0 0 0 / 0.6);
+    0 4px 6px rgb(var(--color-black-rgb) / 0.6);
 }
 
 .top-shadow {
   box-shadow:
-    inset 0 -1px 2px rgb(255 255 255 / 0.2),
-    inset 0 2px 3px rgb(0 0 0 / 0.4),
+    inset 0 -1px 2px rgb(var(--color-white-rgb) / 0.2),
+    inset 0 2px 3px rgb(var(--color-black-rgb) / 0.4),
     0 -3px 0 var(--color-layer-border),
-    0 -6px 10px rgb(0 0 0 / 0.6);
+    0 -6px 10px rgb(var(--color-black-rgb) / 0.6);
 }
 
 .hud-slot {
   background-color: var(--color-primary-600);
   border: 2px solid var(--color-primary-800);
   box-shadow:
-    inset 0 2px 4px rgb(255 255 255 / 0.1),
-    inset 0 -3px 5px rgb(0 0 0 / 0.25),
-    0 2px 3px rgb(0 0 0 / 0.25);
+    inset 0 2px 4px rgb(var(--color-white-rgb) / 0.1),
+    inset 0 -3px 5px rgb(var(--color-black-rgb) / 0.25),
+    0 2px 3px rgb(var(--color-black-rgb) / 0.25);
 }
 
 .wood-grain {
   background-image: repeating-linear-gradient(
     90deg,
-    rgb(255 255 255 / 0.08) 0 1px,
+    rgb(var(--color-white-rgb) / 0.08) 0 1px,
     transparent 1px 8px
   );
-}
-
-@keyframes shine {
-  to {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes specialPulse {
-  from {
-    filter: brightness(1);
-  }
-
-  to {
-    filter: brightness(1.18);
-  }
 }

@@ -12,8 +12,8 @@ import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 
 @Component({
   selector: 'app-full-map',
+  standalone: true,
   templateUrl: './full-map.component.html',
-  styleUrls: ['./full-map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ModalLayoutComponent],
 })
