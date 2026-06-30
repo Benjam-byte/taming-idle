@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { ResourceCollectionService } from 'src/app/core/service/resource-collection-service';
 import { CombatService } from 'src/app/core/service/combat/combat-service';
-import { MapRenderer } from '../pixi-components/map-renderer';
+import { MapSceneRenderer } from '../../pixi-components/main/map-scene-renderer';
 import { CombatControllerComponent } from './combat-controller/combat-controller.component';
 import { MonsterBarComponent } from './monster-bar/monster-bar.component';
 import { PlayerBarComponent } from './player-bar/player-bar.component';
@@ -26,7 +26,7 @@ export class CombatComponent implements OnInit {
     ResourceCollectionService,
   );
 
-  mapRenderer = input<MapRenderer>();
+  mapSceneRenderer = input<MapSceneRenderer>();
 
   constructor() {
     effect(() => {
@@ -47,9 +47,9 @@ export class CombatComponent implements OnInit {
   }
 
   async attack(): Promise<void> {
-    const mapRenderer = this.mapRenderer();
+    const mapSceneRenderer = this.mapSceneRenderer();
 
-    if (!mapRenderer || !this.combatService.canPlayerAttack()) {
+    if (!mapSceneRenderer || !this.combatService.canPlayerAttack()) {
       return;
     }
 
@@ -58,11 +58,11 @@ export class CombatComponent implements OnInit {
     try {
       const damage = 1;
       this.combatService.hitMonster(damage);
-      await mapRenderer.playMonsterDamageAnimation(damage);
+      await mapSceneRenderer.playMonsterDamageAnimation(damage);
 
       if (!this.combatService.isMonsterAlive()) {
         this.resourceCollectionService.collectActiveTileMonsterResource();
-        await mapRenderer.playMonsterDeathAnimation({
+        await mapSceneRenderer.playMonsterDeathAnimation({
           soul: 3,
           glitchedStone: 1,
         });
@@ -78,25 +78,25 @@ export class CombatComponent implements OnInit {
   }
 
   private async playCombatIntro(): Promise<void> {
-    const mapRenderer = this.mapRenderer();
+    const mapSceneRenderer = this.mapSceneRenderer();
 
-    if (!mapRenderer) {
+    if (!mapSceneRenderer) {
       return;
     }
 
     this.combatService.startTurnResolution();
 
     try {
-      await mapRenderer.playCombatIntroAnimation();
+      await mapSceneRenderer.playCombatIntroAnimation();
     } finally {
       this.combatService.endTurnResolution();
     }
   }
 
   private async resolveMonsterTurn(): Promise<void> {
-    const mapRenderer = this.mapRenderer();
+    const mapSceneRenderer = this.mapSceneRenderer();
 
-    if (!mapRenderer || !this.combatService.shouldMonsterAttack()) {
+    if (!mapSceneRenderer || !this.combatService.shouldMonsterAttack()) {
       return;
     }
 
@@ -105,7 +105,7 @@ export class CombatComponent implements OnInit {
     try {
       await this.wait(350);
       const damage = 1;
-      await mapRenderer.playMonsterAttackAnimation(damage);
+      await mapSceneRenderer.playMonsterAttackAnimation(damage);
       this.combatService.hitPlayer(damage);
 
       if (!this.combatService.isPlayerAlive()) {

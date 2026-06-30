@@ -12,8 +12,8 @@ import { Application, Container } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { getRendererPreference } from 'src/app/core/helpers/canvas-helper';
 import { MapService } from 'src/app/core/service/map/map-service';
-import { MapRenderer } from './pixi-components/map-renderer';
-import { MinimapRenderer } from './pixi-components/mini-map-renderer';
+import { MapSceneRenderer } from '../pixi-components/main/map-scene-renderer';
+import { MinimapRenderer } from '../pixi-components/main/minimap/minimap-renderer';
 import { ResourceCollectionService } from '../../core/service/resource-collection-service';
 import { CombatService } from '../../core/service/combat/combat-service';
 import { TopHudBarComponent } from './hud/top-hud-bar/top-hud-bar.component';
@@ -53,18 +53,18 @@ export class MainPage implements AfterViewInit {
   worldContainer = new Container();
   uiContainer = new Container();
 
-  mapRenderer?: MapRenderer;
+  mapSceneRenderer?: MapSceneRenderer;
   private minimapRenderer?: MinimapRenderer;
 
   constructor() {
     effect(() => {
       const tile = this.mapService.activeTile();
 
-      if (!tile || !this.mapRenderer || !this.minimapRenderer) {
+      if (!tile || !this.mapSceneRenderer || !this.minimapRenderer) {
         return;
       }
 
-      this.mapRenderer.render(tile);
+      this.mapSceneRenderer.render(tile);
 
       if (this.isCombatRunning()) {
         this.minimapRenderer.hide();
@@ -115,7 +115,7 @@ export class MainPage implements AfterViewInit {
       this.isGameReady = true;
 
       this.destroyRef.onDestroy(() => {
-        this.mapRenderer?.destroy();
+        this.mapSceneRenderer?.destroy();
         this.minimapRenderer?.destroy();
         this.game.destroy(true);
       });
@@ -137,7 +137,7 @@ export class MainPage implements AfterViewInit {
   }
 
   private initRenderers(): void {
-    this.mapRenderer = new MapRenderer(
+    this.mapSceneRenderer = new MapSceneRenderer(
       this.game,
       this.worldContainer,
       this.pixiAssetService,
@@ -163,12 +163,12 @@ export class MainPage implements AfterViewInit {
       () => this.openMap(),
     );
 
-    this.mapRenderer.init();
+    this.mapSceneRenderer.init();
     this.minimapRenderer.init();
 
     const tile = this.mapService.activeTile();
     if (tile) {
-      this.mapRenderer.render(tile);
+      this.mapSceneRenderer.render(tile);
       this.minimapRenderer.render();
     }
   }

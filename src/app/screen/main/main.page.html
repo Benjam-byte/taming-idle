@@ -5,7 +5,7 @@
     <div id="pixiGameContainer" #pixiGameContainer class="pixi-container"></div>
 
     @if(isCombatRunning()) {
-    <app-combat [mapRenderer]="mapRenderer" />
+    <app-combat [mapSceneRenderer]="mapSceneRenderer" />
     } @else {
     <app-exploration />
     }
