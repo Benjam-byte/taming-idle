@@ -14,14 +14,14 @@ import { getRendererPreference } from 'src/app/core/helpers/canvas-helper';
 import { MapService } from 'src/app/core/service/map/map-service';
 import { MapRenderer } from './pixi-components/map-renderer';
 import { MinimapRenderer } from './pixi-components/mini-map-renderer';
-import { MoveControllerComponent } from './move-controller/move-controller.component';
-import { TopHudBarComponent } from './top-hud-bar/top-hud-bar.component';
-import { BottomHudBarComponent } from './bottom-hud-bar/bottom-hud-bar.component';
 import { ResourceCollectionService } from '../core/service/resource-collection-service';
 import { CombatControllerComponent } from './combat-controller/combat-controller.component';
 import { MonsterBarComponent } from './monster-bar/monster-bar.component';
 import { PlayerBarComponent } from './player-bar/player-bar.component';
 import { CombatService } from '../core/service/combat/combat-service';
+import { MoveControllerComponent } from './hud/move-controller/move-controller.component';
+import { TopHudBarComponent } from './hud/top-hud-bar/top-hud-bar.component';
+import { BottomHudBarComponent } from './hud/bottom-hud-bar/bottom-hud-bar.component';
 
 @Component({
   selector: 'app-home',
