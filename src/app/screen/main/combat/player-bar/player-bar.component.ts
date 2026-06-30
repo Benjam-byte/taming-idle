@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
-import { CombatantPanelComponent } from 'src/app/ui/combatant-panel/combatant-panel.component';
-import { IconButtonComponent } from 'src/app/ui/icon-button/icon-button.component';
+import { CombatantPanelComponent } from 'src/app/screen/main/combat/combatant-panel/combatant-panel.component';
+import { IconButtonComponent } from 'src/app/components/icon-button/icon-button.component';
 
 @Component({
   selector: 'app-player-bar',

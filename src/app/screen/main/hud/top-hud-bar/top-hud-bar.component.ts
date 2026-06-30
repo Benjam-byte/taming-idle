@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { LootStore } from 'src/app/database/store/loot.store';
-import { HudResourceChipComponent } from 'src/app/ui/hud-resource-chip/hud-resource-chip.component';
+import { HudResourceChipComponent } from 'src/app/screen/main/hud/hud-resource-chip/hud-resource-chip.component';
 
 @Component({
   selector: 'app-top-hud-bar',

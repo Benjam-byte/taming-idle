@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IconButtonComponent } from 'src/app/ui/icon-button/icon-button.component';
+import { IconButtonComponent } from 'src/app/components/icon-button/icon-button.component';
 
 @Component({
   selector: 'app-bottom-hud-bar',
@@ -7,4 +7,4 @@ import { IconButtonComponent } from 'src/app/ui/icon-button/icon-button.componen
   templateUrl: './bottom-hud-bar.component.html',
   imports: [IconButtonComponent],
 })
-export class BottomHudBarComponent {}
+export class BottomHudBarComponent { }

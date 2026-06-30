@@ -1,0 +1,15 @@
+<ion-content [fullscreen]="true">
+  <app-top-hud-bar />
+
+  <div class="game-viewport">
+    <div id="pixiGameContainer" #pixiGameContainer class="pixi-container"></div>
+
+    @if(isCombatRunning()) {
+    <app-combat [mapRenderer]="mapRenderer" />
+    } @else {
+    <app-exploration />
+    }
+  </div>
+
+  <app-bottom-hud-bar />
+</ion-content>

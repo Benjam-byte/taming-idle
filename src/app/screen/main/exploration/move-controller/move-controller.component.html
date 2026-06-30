@@ -2,7 +2,7 @@
   <button
     type="button"
     class="move-btn up"
-    (pointerdown)="move('UP')"
+    (pointerdown)="moveRequested.emit('UP')"
     aria-label="Move up"
   >
     ↑
@@ -11,7 +11,7 @@
   <button
     type="button"
     class="move-btn left"
-    (pointerdown)="move('LEFT')"
+    (pointerdown)="moveRequested.emit('LEFT')"
     aria-label="Move left"
   >
     ←
@@ -22,7 +22,7 @@
   <button
     type="button"
     class="move-btn right"
-    (pointerdown)="move('RIGHT')"
+    (pointerdown)="moveRequested.emit('RIGHT')"
     aria-label="Move right"
   >
     →
@@ -31,7 +31,7 @@
   <button
     type="button"
     class="move-btn down"
-    (pointerdown)="move('DOWN')"
+    (pointerdown)="moveRequested.emit('DOWN')"
     aria-label="Move down"
   >
     ↓

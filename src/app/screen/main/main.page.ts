@@ -14,30 +14,26 @@ import { getRendererPreference } from 'src/app/core/helpers/canvas-helper';
 import { MapService } from 'src/app/core/service/map/map-service';
 import { MapRenderer } from './pixi-components/map-renderer';
 import { MinimapRenderer } from './pixi-components/mini-map-renderer';
-import { ResourceCollectionService } from '../core/service/resource-collection-service';
-import { CombatControllerComponent } from './combat-controller/combat-controller.component';
-import { MonsterBarComponent } from './monster-bar/monster-bar.component';
-import { PlayerBarComponent } from './player-bar/player-bar.component';
-import { CombatService } from '../core/service/combat/combat-service';
-import { MoveControllerComponent } from './hud/move-controller/move-controller.component';
+import { ResourceCollectionService } from '../../core/service/resource-collection-service';
+import { CombatService } from '../../core/service/combat/combat-service';
 import { TopHudBarComponent } from './hud/top-hud-bar/top-hud-bar.component';
 import { BottomHudBarComponent } from './hud/bottom-hud-bar/bottom-hud-bar.component';
+import { ExplorationComponent } from './exploration/exploration.component';
+import { CombatComponent } from './combat/combat.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-main',
+  templateUrl: 'main.page.html',
+  styleUrls: ['main.page.scss'],
   imports: [
     IonContent,
-    MoveControllerComponent,
     TopHudBarComponent,
     BottomHudBarComponent,
-    CombatControllerComponent,
-    MonsterBarComponent,
-    PlayerBarComponent,
+    ExplorationComponent,
+    CombatComponent,
   ],
 })
-export class HomePage implements AfterViewInit {
+export class MainPage implements AfterViewInit {
   @ViewChild('pixiGameContainer', { static: true })
   pixiGameContainer!: ElementRef<HTMLDivElement>;
 
@@ -45,7 +41,7 @@ export class HomePage implements AfterViewInit {
   private readonly pixiAssetService = inject(PixiAssetService);
   private readonly mapService = inject(MapService);
   private readonly destroyRef = inject(DestroyRef);
-  combatService = inject(CombatService);
+  private readonly combatService = inject(CombatService);
   private readonly resourceCollectionService = inject(
     ResourceCollectionService,
   );
@@ -57,7 +53,7 @@ export class HomePage implements AfterViewInit {
   worldContainer = new Container();
   uiContainer = new Container();
 
-  private mapRenderer?: MapRenderer;
+  mapRenderer?: MapRenderer;
   private minimapRenderer?: MinimapRenderer;
 
   constructor() {
@@ -77,14 +73,6 @@ export class HomePage implements AfterViewInit {
         this.minimapRenderer.render();
       }
     });
-
-    effect(() => {
-      if (!this.combatService.shouldMonsterAttack()) {
-        return;
-      }
-
-      void this.resolveMonsterTurn();
-    });
   }
 
   async ngAfterViewInit(): Promise<void> {
@@ -103,61 +91,6 @@ export class HomePage implements AfterViewInit {
     });
 
     await modal.present();
-  }
-
-  leaveCombat() {
-    this.combatService.endCombat();
-  }
-
-  async attack(): Promise<void> {
-    if (!this.mapRenderer || !this.combatService.canPlayerAttack()) {
-      return;
-    }
-    this.combatService.startTurnResolution();
-    try {
-      const damage = 1;
-      this.combatService.hitMonster(damage);
-      await this.mapRenderer.playMonsterDamageAnimation(damage);
-      if (!this.combatService.isMonsterAlive()) {
-        this.resourceCollectionService.collectActiveTileMonsterResource();
-        await this.mapRenderer?.playMonsterDeathAnimation({
-          soul: 3,
-          glitchedStone: 1,
-        });
-
-        this.combatService.endCombat();
-        return;
-      }
-      this.combatService.giveTurnToMonster();
-    } finally {
-      this.combatService.endTurnResolution();
-    }
-  }
-
-  private async resolveMonsterTurn(): Promise<void> {
-    if (!this.mapRenderer || !this.combatService.shouldMonsterAttack()) {
-      return;
-    }
-    this.combatService.startTurnResolution();
-    try {
-      await this.wait(350);
-      const damage = 1;
-      await this.mapRenderer.playMonsterAttackAnimation(damage);
-      this.combatService.hitPlayer(damage);
-      if (!this.combatService.isPlayerAlive()) {
-        this.combatService.endCombat();
-        return;
-      }
-      this.combatService.giveTurnToPlayer();
-    } finally {
-      this.combatService.endTurnResolution();
-    }
-  }
-
-  private wait(duration: number): Promise<void> {
-    return new Promise((resolve) => {
-      setTimeout(resolve, duration);
-    });
   }
 
   private async initGame(): Promise<void> {
@@ -209,9 +142,7 @@ export class HomePage implements AfterViewInit {
       this.worldContainer,
       this.pixiAssetService,
       () => this.resourceCollectionService.collectActiveTileResource(),
-      () => {
-        this.enterCombat();
-      },
+      () => this.showCombat(),
       (dropType) => {
         switch (dropType) {
           case 'soul':
@@ -242,18 +173,11 @@ export class HomePage implements AfterViewInit {
     }
   }
 
-  private async enterCombat(): Promise<void> {
-    if (!this.mapRenderer || this.combatService.isCombat()) {
+  private showCombat(): void {
+    if (this.combatService.isCombat()) {
       return;
     }
 
     this.combatService.startCombat();
-    this.combatService.startTurnResolution();
-
-    try {
-      await this.mapRenderer.playCombatIntroAnimation();
-    } finally {
-      this.combatService.endTurnResolution();
-    }
   }
 }

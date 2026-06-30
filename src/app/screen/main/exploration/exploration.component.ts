@@ -1,19 +1,18 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Direction,
+  MoveControllerComponent,
+} from './move-controller/move-controller.component';
 import { MapService } from 'src/app/core/service/map/map-service';
-import { LootStore } from 'src/app/database/store/loot.store';
-
-export type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 
 @Component({
-  selector: 'app-move-controller',
+  selector: 'app-exploration',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './move-controller.component.html',
-  styleUrl: './move-controller.component.scss',
+  imports: [MoveControllerComponent],
+  templateUrl: './exploration.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MoveControllerComponent {
+export class ExplorationComponent {
   private readonly mapService = inject(MapService);
 
   move(direction: Direction): void {

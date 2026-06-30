@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { CombatantPanelComponent } from 'src/app/ui/combatant-panel/combatant-panel.component';
+import { CombatantPanelComponent } from 'src/app/screen/main/combat/combatant-panel/combatant-panel.component';
 
 @Component({
   selector: 'app-monster-bar',
