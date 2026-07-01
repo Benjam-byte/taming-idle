@@ -1,0 +1,21 @@
+<div class="absolute z-50 right-0 top-40">
+  <app-monster-bar
+    monsterName="Slime"
+    [currentHp]="monsterLife()"
+    [maxHp]="monsterMaxLife()"
+  />
+</div>
+
+<div class="absolute bottom-5 flex w-full justify-center">
+  <div class="flex w-full flex-col gap-2">
+    <app-combat-controller
+      (attack)="attack()"
+      [disabled]="!canPlayerAttack()"
+    />
+    <app-player-bar
+      (flee)="leaveCombat()"
+      [currentHp]="playerLife()"
+      [maxHp]="playerMaxLife()"
+    />
+  </div>
+</div>

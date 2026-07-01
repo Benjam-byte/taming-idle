@@ -1,0 +1,30 @@
+<section class="combatant-panel" [class.is-enemy]="isEnemy()">
+  <span class="combatant-accent" aria-hidden="true"></span>
+
+  <div class="combatant-content">
+    <div class="combatant-main">
+      <div class="combatant-header">
+        <span class="combatant-name">
+          {{ name() }}
+        </span>
+
+        @if (hasStat()) {
+        <span class="combatant-badge">
+          {{ statLabel() }} {{ statValue() }}
+        </span>
+        }
+      </div>
+
+      <div class="combatant-health">
+        <app-hp-bar class="combatant-health-bar" [currentHealth]="currentHp()" [maxHealth]="maxHp()"
+          [size]="hpSize()" />
+
+        <span class="combatant-health-text">
+          {{ currentHp() }} / {{ maxHp() }}
+        </span>
+      </div>
+    </div>
+
+    <ng-content select="[panelAction]"></ng-content>
+  </div>
+</section>
