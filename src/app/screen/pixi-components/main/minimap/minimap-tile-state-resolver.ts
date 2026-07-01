@@ -1,9 +1,9 @@
-import { MapService } from 'src/app/core/service/map/map-service';
+import { MapStore } from 'src/app/core/service/map/map.store';
 import { Tile } from 'src/app/core/service/map/tile';
 import { MinimapTileState } from './minimap-renderer.types';
 
 export class MinimapTileStateResolver {
-  constructor(private readonly mapService: MapService) {}
+  constructor(private readonly mapService: MapStore) {}
 
   resolve(tile: Tile): MinimapTileState {
     const { x, y } = tile.coordinate;

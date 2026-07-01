@@ -1,6 +1,7 @@
 import { Application, Container, Sprite, Text, TextStyle } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { Tile } from 'src/app/core/service/map/tile';
+import { Coordinate } from 'src/app/core/type/coordinate';
 import { easeOutCubic } from '../utils/easing';
 import {
   TickerAnimationHandle,
@@ -12,6 +13,7 @@ export class WheatRenderer {
   private gainText?: Text;
   private collectAnimation?: TickerAnimationHandle;
   private isCollecting = false;
+  private resourceCoordinate?: Coordinate;
 
   constructor(
     private readonly game: Application,
@@ -19,8 +21,8 @@ export class WheatRenderer {
     private readonly pixiAssetService: PixiAssetService,
     private readonly animationRunner: TickerAnimationRunner,
     private readonly canInteract: () => boolean,
-    private readonly onResourceClick: () => void,
-  ) { }
+    private readonly onResourceClick: (coordinate: Coordinate) => void,
+  ) {}
 
   render(tile: Tile): void {
     if (this.isCollecting) {
@@ -30,8 +32,11 @@ export class WheatRenderer {
     this.destroyWheat();
 
     if (!tile.hasResource) {
+      this.resourceCoordinate = undefined;
       return;
     }
+
+    this.resourceCoordinate = tile.coordinate;
 
     const texture = this.pixiAssetService.worldCoreAsset!['wheat'];
     const wheat = new Sprite(texture);
@@ -136,12 +141,16 @@ export class WheatRenderer {
         return false;
       }
 
+      const collectedCoordinate = this.resourceCoordinate;
+
       this.collectAnimation = undefined;
       this.destroyGainText();
       this.destroyWheat();
       this.isCollecting = false;
 
-      this.onResourceClick();
+      if (collectedCoordinate) {
+        this.onResourceClick(collectedCoordinate);
+      }
 
       return true;
     });
@@ -156,6 +165,7 @@ export class WheatRenderer {
     this.wheat.removeFromParent();
     this.wheat.destroy();
     this.wheat = undefined;
+    this.resourceCoordinate = undefined;
   }
 
   private destroyGainText(): void {

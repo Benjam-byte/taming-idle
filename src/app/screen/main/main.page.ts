@@ -11,15 +11,15 @@ import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { Application, Container } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { getRendererPreference } from 'src/app/core/helpers/canvas-helper';
-import { MapService } from 'src/app/core/service/map/map-service';
+import { CombatStore } from 'src/app/core/service/combat/combat.store';
+import { MapStore } from 'src/app/core/service/map/map.store';
+import { ResourceCollectionService } from 'src/app/core/service/resource-collection-service';
 import { MapSceneRenderer } from '../pixi-components/main/map-scene-renderer';
 import { MinimapRenderer } from '../pixi-components/main/minimap/minimap-renderer';
-import { ResourceCollectionService } from '../../core/service/resource-collection-service';
-import { CombatService } from '../../core/service/combat/combat-service';
-import { TopHudBarComponent } from './hud/top-hud-bar/top-hud-bar.component';
-import { BottomHudBarComponent } from './hud/bottom-hud-bar/bottom-hud-bar.component';
-import { ExplorationComponent } from './exploration/exploration.component';
 import { CombatComponent } from './combat/combat.component';
+import { ExplorationComponent } from './exploration/exploration.component';
+import { BottomHudBarComponent } from './hud/bottom-hud-bar/bottom-hud-bar.component';
+import { TopHudBarComponent } from './hud/top-hud-bar/top-hud-bar.component';
 
 @Component({
   selector: 'app-main',
@@ -39,16 +39,16 @@ export class MainPage implements AfterViewInit {
 
   private readonly modalCtrl = inject(ModalController);
   private readonly pixiAssetService = inject(PixiAssetService);
-  private readonly mapService = inject(MapService);
+  private readonly mapStore = inject(MapStore);
+  private readonly combatStore = inject(CombatStore);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly combatService = inject(CombatService);
   private readonly resourceCollectionService = inject(
     ResourceCollectionService,
   );
 
   game = new Application();
   isGameReady = false;
-  isCombatRunning = this.combatService.isCombat;
+  isCombatRunning = this.combatStore.isCombat;
 
   worldContainer = new Container();
   uiContainer = new Container();
@@ -58,7 +58,7 @@ export class MainPage implements AfterViewInit {
 
   constructor() {
     effect(() => {
-      const tile = this.mapService.activeTile();
+      const tile = this.mapStore.activeTile();
 
       if (!tile || !this.mapSceneRenderer || !this.minimapRenderer) {
         return;
@@ -141,7 +141,8 @@ export class MainPage implements AfterViewInit {
       this.game,
       this.worldContainer,
       this.pixiAssetService,
-      () => this.resourceCollectionService.collectActiveTileResource(),
+      (coordinate) =>
+        this.resourceCollectionService.collectTileResourceAt(coordinate),
       () => this.showCombat(),
       (dropType) => {
         switch (dropType) {
@@ -152,6 +153,7 @@ export class MainPage implements AfterViewInit {
             this.resourceCollectionService.collectGlitchedStone();
             break;
         }
+
         console.log('Collected drop:', dropType);
       },
     );
@@ -159,14 +161,14 @@ export class MainPage implements AfterViewInit {
     this.minimapRenderer = new MinimapRenderer(
       this.game,
       this.uiContainer,
-      this.mapService,
+      this.mapStore,
       () => this.openMap(),
     );
 
     this.mapSceneRenderer.init();
     this.minimapRenderer.init();
 
-    const tile = this.mapService.activeTile();
+    const tile = this.mapStore.activeTile();
     if (tile) {
       this.mapSceneRenderer.render(tile);
       this.minimapRenderer.render();
@@ -174,10 +176,10 @@ export class MainPage implements AfterViewInit {
   }
 
   private showCombat(): void {
-    if (this.combatService.isCombat()) {
+    if (this.combatStore.isCombat()) {
       return;
     }
 
-    this.combatService.startCombat();
+    this.combatStore.startCombat();
   }
 }

@@ -55,12 +55,17 @@ export class SaveGameRepository {
   }
 
   private migrate(save: SaveGame): SaveGame {
+    const defaults = createDefaultSaveGame();
     let migrated: SaveGame = {
-      ...createDefaultSaveGame(),
+      ...defaults,
       ...save,
       loot: {
-        ...createDefaultSaveGame().loot,
+        ...defaults.loot,
         ...(save.loot ?? {}),
+      },
+      world: {
+        ...defaults.world,
+        ...(save.world ?? {}),
       },
     };
 

@@ -1,8 +1,8 @@
 <div class="absolute z-50 right-0 top-40">
   <app-monster-bar
     monsterName="Slime"
-    [currentHp]="combatService.monsterLife()"
-    [maxHp]="combatService.monsterMaxLife()"
+    [currentHp]="monsterLife()"
+    [maxHp]="monsterMaxLife()"
   />
 </div>
 
@@ -10,12 +10,12 @@
   <div class="flex w-full flex-col gap-2">
     <app-combat-controller
       (attack)="attack()"
-      [disabled]="!combatService.canPlayerAttack()"
+      [disabled]="!canPlayerAttack()"
     />
     <app-player-bar
       (flee)="leaveCombat()"
-      [currentHp]="combatService.playerLife()"
-      [maxHp]="combatService.playerMaxLife()"
+      [currentHp]="playerLife()"
+      [maxHp]="playerMaxLife()"
     />
   </div>
 </div>

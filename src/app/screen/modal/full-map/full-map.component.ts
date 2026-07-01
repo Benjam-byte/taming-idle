@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Application, Container } from 'pixi.js';
-import { MapService } from 'src/app/core/service/map/map-service';
+import { MapStore } from 'src/app/core/service/map/map.store';
 import { FullMapRenderer } from './full-map-renderer';
 import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 
@@ -21,7 +21,7 @@ export class FullMapComponent {
   @ViewChild('fullMapContainer', { static: true })
   private readonly fullMapContainer!: ElementRef<HTMLDivElement>;
 
-  private readonly mapService = inject(MapService);
+  private readonly mapService = inject(MapStore);
 
   private readonly game = new Application();
   private readonly worldContainer = new Container();

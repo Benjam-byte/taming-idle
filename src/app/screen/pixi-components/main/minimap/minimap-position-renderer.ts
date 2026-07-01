@@ -1,10 +1,10 @@
 import { Text } from 'pixi.js';
-import { MapService } from 'src/app/core/service/map/map-service';
+import { MapStore } from 'src/app/core/service/map/map.store';
 
 export class MinimapPositionRenderer {
   constructor(
     private readonly positionText: Text,
-    private readonly mapService: MapService,
+    private readonly mapService: MapStore,
   ) {}
 
   render(): void {

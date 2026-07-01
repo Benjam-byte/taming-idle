@@ -7,11 +7,11 @@ import {
   input,
 } from '@angular/core';
 import { ResourceCollectionService } from 'src/app/core/service/resource-collection-service';
-import { CombatService } from 'src/app/core/service/combat/combat-service';
 import { MapSceneRenderer } from '../../pixi-components/main/map-scene-renderer';
 import { CombatControllerComponent } from './combat-controller/combat-controller.component';
 import { MonsterBarComponent } from './monster-bar/monster-bar.component';
 import { PlayerBarComponent } from './player-bar/player-bar.component';
+import { CombatStore } from 'src/app/core/service/combat/combat.store';
 
 @Component({
   selector: 'app-combat',
@@ -21,16 +21,22 @@ import { PlayerBarComponent } from './player-bar/player-bar.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CombatComponent implements OnInit {
-  readonly combatService = inject(CombatService);
+  private readonly combatStore = inject(CombatStore);
   private readonly resourceCollectionService = inject(
     ResourceCollectionService,
   );
+
+  readonly monsterLife = this.combatStore.monsterLife;
+  readonly monsterMaxLife = this.combatStore.monsterMaxLife;
+  readonly playerLife = this.combatStore.playerLife;
+  readonly playerMaxLife = this.combatStore.playerMaxLife;
+  readonly canPlayerAttack = this.combatStore.canPlayerAttack;
 
   mapSceneRenderer = input<MapSceneRenderer>();
 
   constructor() {
     effect(() => {
-      if (!this.combatService.shouldMonsterAttack()) {
+      if (!this.combatStore.shouldMonsterAttack()) {
         return;
       }
 
@@ -43,37 +49,37 @@ export class CombatComponent implements OnInit {
   }
 
   leaveCombat(): void {
-    this.combatService.endCombat();
+    this.combatStore.endCombat();
   }
 
   async attack(): Promise<void> {
     const mapSceneRenderer = this.mapSceneRenderer();
 
-    if (!mapSceneRenderer || !this.combatService.canPlayerAttack()) {
+    if (!mapSceneRenderer || !this.combatStore.canPlayerAttack()) {
       return;
     }
 
-    this.combatService.startTurnResolution();
+    this.combatStore.startTurnResolution();
 
     try {
       const damage = 1;
-      this.combatService.hitMonster(damage);
+      this.combatStore.hitMonster(damage);
       await mapSceneRenderer.playMonsterDamageAnimation(damage);
 
-      if (!this.combatService.isMonsterAlive()) {
+      if (!this.combatStore.isMonsterAlive()) {
         this.resourceCollectionService.collectActiveTileMonsterResource();
         await mapSceneRenderer.playMonsterDeathAnimation({
           soul: 3,
           glitchedStone: 1,
         });
 
-        this.combatService.endCombat();
+        this.combatStore.endCombat();
         return;
       }
 
-      this.combatService.giveTurnToMonster();
+      this.combatStore.giveTurnToMonster();
     } finally {
-      this.combatService.endTurnResolution();
+      this.combatStore.endTurnResolution();
     }
   }
 
@@ -84,38 +90,38 @@ export class CombatComponent implements OnInit {
       return;
     }
 
-    this.combatService.startTurnResolution();
+    this.combatStore.startTurnResolution();
 
     try {
       await mapSceneRenderer.playCombatIntroAnimation();
     } finally {
-      this.combatService.endTurnResolution();
+      this.combatStore.endTurnResolution();
     }
   }
 
   private async resolveMonsterTurn(): Promise<void> {
     const mapSceneRenderer = this.mapSceneRenderer();
 
-    if (!mapSceneRenderer || !this.combatService.shouldMonsterAttack()) {
+    if (!mapSceneRenderer || !this.combatStore.shouldMonsterAttack()) {
       return;
     }
 
-    this.combatService.startTurnResolution();
+    this.combatStore.startTurnResolution();
 
     try {
       await this.wait(350);
       const damage = 1;
       await mapSceneRenderer.playMonsterAttackAnimation(damage);
-      this.combatService.hitPlayer(damage);
+      this.combatStore.hitPlayer(damage);
 
-      if (!this.combatService.isPlayerAlive()) {
-        this.combatService.endCombat();
+      if (!this.combatStore.isPlayerAlive()) {
+        this.combatStore.endCombat();
         return;
       }
 
-      this.combatService.giveTurnToPlayer();
+      this.combatStore.giveTurnToPlayer();
     } finally {
-      this.combatService.endTurnResolution();
+      this.combatStore.endTurnResolution();
     }
   }
 

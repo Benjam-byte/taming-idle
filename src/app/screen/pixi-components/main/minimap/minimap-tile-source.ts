@@ -1,20 +1,19 @@
-import { MapService } from 'src/app/core/service/map/map-service';
+import { CHUNK_SIZE, MapStore } from 'src/app/core/service/map/map.store';
 import { Tile } from 'src/app/core/service/map/tile';
 import { MinimapConfig } from './minimap-renderer.types';
 
 export class MinimapTileSource {
   constructor(
-    private readonly mapService: MapService,
+    private readonly mapService: MapStore,
     private readonly config: MinimapConfig,
   ) {}
 
   forEachLoadedChunk(callback: (tileList: Tile[]) => void): void {
     const player = this.mapService.playerCoordinate();
-    const chunkSize = this.mapService.chunkSize;
     const chunkMap = this.mapService.chunkList();
 
-    const playerChunkX = Math.floor(player.x / chunkSize);
-    const playerChunkY = Math.floor(player.y / chunkSize);
+    const playerChunkX = Math.floor(player.x / CHUNK_SIZE);
+    const playerChunkY = Math.floor(player.y / CHUNK_SIZE);
 
     const startChunkX = playerChunkX - this.config.loadedChunkRadius;
     const endChunkX = playerChunkX + this.config.loadedChunkRadius;

@@ -1,5 +1,5 @@
 import { Application, Container, Graphics, Text } from 'pixi.js';
-import { MapService } from 'src/app/core/service/map/map-service';
+import { MapStore } from 'src/app/core/service/map/map.store';
 import { MinimapContentRenderer } from './minimap-content-renderer';
 import { MinimapFogRenderer } from './minimap-fog-renderer';
 import { MinimapFrameRenderer } from './minimap-frame-renderer';
@@ -54,7 +54,7 @@ export class MinimapRenderer {
   constructor(
     private readonly game: Application,
     private readonly container: Container,
-    private readonly mapService: MapService,
+    private readonly mapService: MapStore,
     onOpenFullMap: () => void,
   ) {
     const tileSource = new MinimapTileSource(

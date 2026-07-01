@@ -1,6 +1,7 @@
 import { AnimatedSprite, Application, Container } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { Tile } from 'src/app/core/service/map/tile';
+import { Coordinate } from 'src/app/core/type/coordinate';
 import { TickerAnimationRunner } from '../utils/ticker-animation-runner';
 import { TileRenderStateResolver } from '../tile-render-state-resolver';
 import { BackgroundRenderer } from './background-renderer';
@@ -24,7 +25,7 @@ export class ExplorationSceneRenderer {
     pixiAssetService: PixiAssetService,
     animationRunner: TickerAnimationRunner,
     canInteract: () => boolean,
-    onResourceClick: () => void,
+    onResourceClick: (coordinate: Coordinate) => void,
     onMonsterClick: () => void,
   ) {
     this.backgroundRenderer = new BackgroundRenderer(

@@ -1,6 +1,7 @@
 import { Application, Container } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { Tile } from 'src/app/core/service/map/tile';
+import { Coordinate } from 'src/app/core/type/coordinate';
 import { TickerAnimationRunner } from './utils/ticker-animation-runner';
 import { CombatSceneRenderer } from './combat/combat-scene-renderer';
 import { ExplorationSceneRenderer } from './exploration/exploration-scene-renderer';
@@ -24,7 +25,7 @@ export class MapSceneRenderer {
     private readonly game: Application,
     private readonly container: Container,
     pixiAssetService: PixiAssetService,
-    onResourceClick: () => void,
+    onResourceClick: (coordinate: Coordinate) => void,
     onMonsterClick: () => void,
     onDropClick: (dropType: DropType) => void,
   ) {
