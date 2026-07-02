@@ -12,6 +12,8 @@ import { CombatControllerComponent } from './combat-controller/combat-controller
 import { MonsterBarComponent } from './monster-bar/monster-bar.component';
 import { PlayerBarComponent } from './player-bar/player-bar.component';
 import { CombatStore } from 'src/app/core/service/combat/combat.store';
+import type { AttackResolution } from 'src/app/core/service/combat/attack-resolver';
+import type { CombatAnimationTarget } from '../../pixi-components/main/combat/combat-animation-renderer';
 
 @Component({
   selector: 'app-combat',
@@ -30,6 +32,7 @@ export class CombatComponent implements OnInit {
   readonly monsterMaxLife = this.combatStore.monsterMaxLife;
   readonly playerLife = this.combatStore.playerLife;
   readonly playerMaxLife = this.combatStore.playerMaxLife;
+  readonly playerSpecialAttackCharge = this.combatStore.playerSpecialAttackCharge;
   readonly canPlayerAttack = this.combatStore.canPlayerAttack;
 
   mapSceneRenderer = input<MapSceneRenderer>();
@@ -62,9 +65,17 @@ export class CombatComponent implements OnInit {
     this.combatStore.startTurnResolution();
 
     try {
-      const damage = 1;
-      this.combatStore.hitMonster(damage);
-      await mapSceneRenderer.playMonsterDamageAnimation(damage);
+      const resolution = this.combatStore.resolvePlayerAttack();
+
+      if (!resolution) {
+        return;
+      }
+
+      await this.playResolutionAnimation(mapSceneRenderer, resolution, {
+        target: this.getPlayerAttackAnimationTarget(resolution),
+        applyDamage: (damage) => this.combatStore.hitMonster(damage),
+        isTargetAlive: () => this.combatStore.isMonsterAlive(),
+      });
 
       if (!this.combatStore.isMonsterAlive()) {
         this.resourceCollectionService.collectActiveTileMonsterResource();
@@ -110,9 +121,18 @@ export class CombatComponent implements OnInit {
 
     try {
       await this.wait(350);
-      const damage = 1;
-      await mapSceneRenderer.playMonsterAttackAnimation(damage);
-      this.combatStore.hitPlayer(damage);
+      const resolution = this.combatStore.resolveMonsterAttack();
+
+      if (!resolution) {
+        return;
+      }
+
+      await this.playResolutionAnimation(mapSceneRenderer, resolution, {
+        target: this.getMonsterAttackAnimationTarget(resolution),
+        animateMonsterAttack: resolution.animationTarget === 'target',
+        applyDamage: (damage) => this.combatStore.hitPlayer(damage),
+        isTargetAlive: () => this.combatStore.isPlayerAlive(),
+      });
 
       if (!this.combatStore.isPlayerAlive()) {
         this.combatStore.endCombat();
@@ -129,5 +149,54 @@ export class CombatComponent implements OnInit {
     return new Promise((resolve) => {
       setTimeout(resolve, duration);
     });
+  }
+
+  private async playResolutionAnimation(
+    mapSceneRenderer: MapSceneRenderer,
+    resolution: AttackResolution,
+    options: {
+      target: CombatAnimationTarget;
+      animateMonsterAttack?: boolean;
+      applyDamage?: (damage: number) => void;
+      isTargetAlive?: () => boolean;
+    },
+  ): Promise<void> {
+    if (resolution.effect !== 'multiple') {
+      await mapSceneRenderer.playAttackAnimation({
+        target: options.target,
+        animation: resolution.animation,
+        damage: resolution.damage,
+        animateMonsterAttack: options.animateMonsterAttack,
+      });
+
+      return;
+    }
+
+    for (let hit = 0; hit < resolution.hits; hit++) {
+      options.applyDamage?.(resolution.damageByHit);
+
+      await mapSceneRenderer.playAttackAnimation({
+        target: options.target,
+        animation: resolution.animation,
+        damage: resolution.damageByHit,
+        animateMonsterAttack: options.animateMonsterAttack,
+      });
+
+      if (options.isTargetAlive && !options.isTargetAlive()) {
+        return;
+      }
+    }
+  }
+
+  private getPlayerAttackAnimationTarget(
+    resolution: AttackResolution,
+  ): CombatAnimationTarget {
+    return resolution.animationTarget === 'target' ? 'monster' : 'player';
+  }
+
+  private getMonsterAttackAnimationTarget(
+    resolution: AttackResolution,
+  ): CombatAnimationTarget {
+    return resolution.animationTarget === 'target' ? 'player' : 'monster';
   }
 }

@@ -6,6 +6,7 @@ import { manifest } from './manifest';
 export class PixiAssetService {
   worldCoreAsset: Record<string, Texture> | null = null;
   spriteSheetAsset: Record<string, Texture> | null = null;
+  attackAsset: Record<string, Texture> | null = null;
 
   private initialized = false;
 
@@ -19,5 +20,22 @@ export class PixiAssetService {
   async loadWorldCore(): Promise<void> {
     this.worldCoreAsset = await Assets.loadBundle('world-core');
     this.spriteSheetAsset = await Assets.loadBundle('spritesheet');
+    this.attackAsset = await Assets.loadBundle('attack');
+  }
+
+  getAttackTextures(animation: string): Texture[] {
+    const textures: Texture[] = [];
+
+    for (let frame = 1; ; frame++) {
+      const texture = this.attackAsset?.[`attack_${animation}_${frame}`];
+
+      if (!texture) {
+        break;
+      }
+
+      textures.push(texture);
+    }
+
+    return textures;
   }
 }

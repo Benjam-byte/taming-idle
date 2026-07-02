@@ -3,6 +3,17 @@ function asset(path: string): string {
   return new URL(path, window.location.origin + baseHref).toString();
 }
 
+function attackFrames(folder: string, frameCount: number) {
+  return Array.from({ length: frameCount }, (_, index) => {
+    const frame = index + 1;
+
+    return {
+      alias: `attack_${folder}_${frame}`,
+      src: asset(`assets/attack/${folder}/${frame}.png`),
+    };
+  });
+}
+
 export const manifest = {
   bundles: [
     {
@@ -75,6 +86,16 @@ export const manifest = {
           alias: 'slime_9',
           src: asset('assets/monster/sprite/slime_base/output_9.png'),
         },
+      ],
+    },
+    {
+      name: 'attack',
+      assets: [
+        ...attackFrames('boost', 12),
+        ...attackFrames('heal', 8),
+        ...attackFrames('multiple', 10),
+        ...attackFrames('shield', 7),
+        ...attackFrames('simple', 7),
       ],
     },
   ],

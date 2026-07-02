@@ -4,6 +4,7 @@ import { AnimationQueue } from 'src/app/core/service/combat/animation-queue';
 import { TickerAnimationRunner } from '../utils/ticker-animation-runner';
 import { DropType, MonsterDropReward } from '../map-scene-renderer.types';
 import { CombatAnimationRenderer } from './combat-animation-renderer';
+import type { CombatAttackAnimationOptions } from './combat-animation-renderer';
 import { DropRenderer } from './drop-renderer';
 
 export type CombatSceneMonsterAccess = {
@@ -29,6 +30,7 @@ export class CombatSceneRenderer {
     this.combatAnimationRenderer = new CombatAnimationRenderer(
       game,
       sceneContainer,
+      pixiAssetService,
       animationRunner,
     );
 
@@ -67,6 +69,15 @@ export class CombatSceneRenderer {
       return this.combatAnimationRenderer.playMonsterAttackAnimation(
         this.monsterAccess.getMonsterSprite(),
         damage,
+      );
+    });
+  }
+
+  playAttackAnimation(options: CombatAttackAnimationOptions): Promise<void> {
+    return this.animationQueue.enqueue(() => {
+      return this.combatAnimationRenderer.playAttackAnimation(
+        this.monsterAccess.getMonsterSprite(),
+        options,
       );
     });
   }
