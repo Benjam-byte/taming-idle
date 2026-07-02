@@ -10,6 +10,7 @@
   <div class="flex w-full flex-col gap-2">
     <app-combat-controller
       (attack)="attack()"
+      [specialCharge]="playerSpecialAttackCharge()"
       [disabled]="!canPlayerAttack()"
     />
     <app-player-bar

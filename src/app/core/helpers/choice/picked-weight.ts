@@ -1,4 +1,4 @@
-export function pick3WeightedItem(itemList: any[]) {
+export function pick3WeightedItem<T>(itemList: readonly T[]): T {
     if (itemList.length !== 3) {
         throw new Error('La liste doit contenir exactement 3 éléments');
     }

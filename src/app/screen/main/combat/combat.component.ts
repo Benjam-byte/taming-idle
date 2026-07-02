@@ -30,6 +30,7 @@ export class CombatComponent implements OnInit {
   readonly monsterMaxLife = this.combatStore.monsterMaxLife;
   readonly playerLife = this.combatStore.playerLife;
   readonly playerMaxLife = this.combatStore.playerMaxLife;
+  readonly playerSpecialAttackCharge = this.combatStore.playerSpecialAttackCharge;
   readonly canPlayerAttack = this.combatStore.canPlayerAttack;
 
   mapSceneRenderer = input<MapSceneRenderer>();
@@ -62,9 +63,15 @@ export class CombatComponent implements OnInit {
     this.combatStore.startTurnResolution();
 
     try {
-      const damage = 1;
-      this.combatStore.hitMonster(damage);
-      await mapSceneRenderer.playMonsterDamageAnimation(damage);
+      const resolution = this.combatStore.resolvePlayerAttack();
+
+      if (!resolution) {
+        return;
+      }
+
+      if (resolution.damage > 0) {
+        await mapSceneRenderer.playMonsterDamageAnimation(resolution.damage);
+      }
 
       if (!this.combatStore.isMonsterAlive()) {
         this.resourceCollectionService.collectActiveTileMonsterResource();
@@ -110,9 +117,15 @@ export class CombatComponent implements OnInit {
 
     try {
       await this.wait(350);
-      const damage = 1;
-      await mapSceneRenderer.playMonsterAttackAnimation(damage);
-      this.combatStore.hitPlayer(damage);
+      const resolution = this.combatStore.resolveMonsterAttack();
+
+      if (!resolution) {
+        return;
+      }
+
+      if (resolution.damage > 0) {
+        await mapSceneRenderer.playMonsterAttackAnimation(resolution.damage);
+      }
 
       if (!this.combatStore.isPlayerAlive()) {
         this.combatStore.endCombat();

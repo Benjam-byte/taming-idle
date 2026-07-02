@@ -1,20 +1,14 @@
-<button
-  type="button"
-  class="attack-btn bg-primary-500 bottom-shadow"
-  [class.is-charged]="specialCharge >= 100"
-  [style.--charge]="specialCharge"
-  [disabled]="disabled()"
-  (click)="onAttack()"
->
+<button type="button" class="attack-btn bg-primary-500 bottom-shadow" [class.is-charged]="specialCharge() >= 100"
+  [style.--charge]="specialCharge()" [disabled]="disabled()" (click)="onAttack()">
   <span class="attack-ring"></span>
 
   <span class="attack-content">
     <span class="attack-label">
-      {{ specialCharge >= 100 ? "SPÉCIALE" : "ATTAQUE" }}
+      {{ specialCharge() >= 100 ? "SPÉCIALE" : "ATTAQUE" }}
     </span>
 
     <span class="attack-sub">
-      {{ specialCharge >= 100 ? "Prête" : specialCharge + "%" }}
+      {{ specialCharge() >= 100 ? "Prête" : specialCharge + "%" }}
     </span>
   </span>
 </button>

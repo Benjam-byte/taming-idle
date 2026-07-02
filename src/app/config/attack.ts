@@ -1,6 +1,6 @@
 import { AttackSpeDefintion, BaseAttackDefinition } from './type/attack-type';
 
-export const BaseAttackDict: BaseAttackDefinition[] = [
+export const BaseAttackDict = [
     {
         name: 'frappe',
         effiency: 20, // Applique 20% des degats de l'utilisateur
@@ -13,11 +13,11 @@ export const BaseAttackDict: BaseAttackDefinition[] = [
         type: 'neutre',
         description: 'un coup leger mais qui fait du bruit',
     },
-];
+] as const satisfies readonly BaseAttackDefinition[];
 
 export type BaseAttackKey = (typeof BaseAttackDict)[number]['name'];
 
-export const AttackSpeDict: AttackSpeDefintion[] = [
+export const AttackSpeDict = [
     {
         name: 'griffure',
         effect: 'multiple',
@@ -35,7 +35,7 @@ export const AttackSpeDict: AttackSpeDefintion[] = [
         turn: 3,
         bonus: 0.5,
         duration: 5,
-        stat: 'attack',
+        stat: 'defense',
     },
     {
         name: 'focus',
@@ -73,6 +73,6 @@ export const AttackSpeDict: AttackSpeDefintion[] = [
         turn: 4,
         effiency: 10,
     },
-];
+] as const satisfies readonly AttackSpeDefintion[];
 
 export type AttackSpeKey = (typeof AttackSpeDict)[number]['name'];
