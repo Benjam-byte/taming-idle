@@ -1,0 +1,20 @@
+<app-modal-layout title="Menu" [showMenuButton]="false">
+  <div class="menu-content">
+    @for (section of sections; track section.title) {
+      <section class="menu-section">
+        <h2 class="menu-section__title">{{ section.title }}</h2>
+
+        <div class="menu-section__grid">
+          @for (item of section.items; track item.label) {
+            <app-menu-button
+              [label]="item.label"
+              [iconSrc]="item.iconSrc"
+              [disabled]="item.disabled ?? false"
+              (selected)="selectPlaceholder(item)"
+            />
+          }
+        </div>
+      </section>
+    }
+  </div>
+</app-modal-layout>
