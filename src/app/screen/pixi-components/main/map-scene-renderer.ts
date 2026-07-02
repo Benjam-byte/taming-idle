@@ -4,6 +4,7 @@ import { Tile } from 'src/app/core/service/map/tile';
 import { Coordinate } from 'src/app/core/type/coordinate';
 import { TickerAnimationRunner } from './utils/ticker-animation-runner';
 import { CombatSceneRenderer } from './combat/combat-scene-renderer';
+import type { CombatAttackAnimationOptions } from './combat/combat-animation-renderer';
 import { ExplorationSceneRenderer } from './exploration/exploration-scene-renderer';
 import { DropType, MonsterDropReward } from './map-scene-renderer.types';
 
@@ -103,6 +104,12 @@ export class MapSceneRenderer {
 
   public playMonsterAttackAnimation(damage: number): Promise<void> {
     return this.combatSceneRenderer.playMonsterAttackAnimation(damage);
+  }
+
+  public playAttackAnimation(
+    options: CombatAttackAnimationOptions,
+  ): Promise<void> {
+    return this.combatSceneRenderer.playAttackAnimation(options);
   }
 
   public playCombatIntroAnimation(): Promise<void> {

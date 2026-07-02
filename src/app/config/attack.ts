@@ -6,12 +6,14 @@ export const BaseAttackDict = [
         effiency: 20, // Applique 20% des degats de l'utilisateur
         type: 'neutre',
         description: 'un coup simple',
+        animation: 'simple',
     },
     {
         name: 'Baffe',
         effiency: 30,
         type: 'neutre',
         description: 'un coup leger mais qui fait du bruit',
+        animation: 'simple',
     },
 ] as const satisfies readonly BaseAttackDefinition[];
 
@@ -26,6 +28,7 @@ export const AttackSpeDict = [
         turn: 4,
         effiency: 10,
         probability: 0.5,
+        animation: 'multiple',
     },
     {
         name: 'attack_boost',
@@ -35,7 +38,8 @@ export const AttackSpeDict = [
         turn: 3,
         bonus: 0.5,
         duration: 5,
-        stat: 'defense',
+        stat: 'attack',
+        animation: 'boost',
     },
     {
         name: 'focus',
@@ -46,6 +50,7 @@ export const AttackSpeDict = [
         bonus: 2,
         duration: 1,
         stat: 'damage',
+        animation: 'boost',
     },
     {
         name: 'regen',
@@ -54,6 +59,7 @@ export const AttackSpeDict = [
         type: 'neutre',
         turn: 3,
         effiency: 5,
+        animation: 'heal',
     },
     {
         name: 'defense_boost',
@@ -63,7 +69,8 @@ export const AttackSpeDict = [
         turn: 2,
         bonus: 0.5,
         duration: 5,
-        stat: 'attack',
+        stat: 'defense',
+        animation: 'boost',
     },
     {
         name: 'shield',
@@ -72,6 +79,7 @@ export const AttackSpeDict = [
         type: 'neutre',
         turn: 4,
         effiency: 10,
+        animation: 'shield',
     },
 ] as const satisfies readonly AttackSpeDefintion[];
 

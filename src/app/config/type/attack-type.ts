@@ -2,12 +2,14 @@ import { MonsterType } from './monster-type';
 
 export type AttackEffect = 'heal' | 'boost' | 'shield' | 'stun' | 'multiple';
 export type AttackBoostStat = 'attack' | 'defense' | 'damage';
+export type AttackAnimation = 'boost' | 'heal' | 'multiple' | 'shield' | 'simple';
 
 export type BaseAttackDefinition = {
     name: string;
     effiency: number;
     type: MonsterType;
     description: string;
+    animation: AttackAnimation;
 };
 
 export type AttackSpeBase = {
@@ -16,6 +18,7 @@ export type AttackSpeBase = {
     description: string;
     turn: number;
     effect: AttackEffect;
+    animation: AttackAnimation;
 };
 
 export type AttackSpeMultipleDefinition = AttackSpeBase & {

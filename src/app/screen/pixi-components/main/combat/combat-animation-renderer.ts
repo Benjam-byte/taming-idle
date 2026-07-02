@@ -5,16 +5,35 @@ import {
   Graphics,
   Text,
   TextStyle,
+  Texture,
 } from 'pixi.js';
+import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { easeInQuad, easeOutCubic } from '../utils/easing';
 import {
   TickerAnimationHandle,
   TickerAnimationRunner,
 } from '../utils/ticker-animation-runner';
 
+export type CombatAnimationTarget = 'monster' | 'player';
+
+export type CombatAttackAnimationOptions = {
+  target: CombatAnimationTarget;
+  animation: string;
+  damage?: number;
+  animateMonsterAttack?: boolean;
+};
+
+type AttackSpritePosition = {
+  x: number;
+  y: number;
+  size: number;
+  zIndex: number;
+};
+
 export class CombatAnimationRenderer {
   private readonly animationHandles = new Set<TickerAnimationHandle>();
   private readonly activeTexts = new Set<Text>();
+  private readonly activeAttackSprites = new Set<AnimatedSprite>();
 
   private combatIntroOverlay?: Graphics;
   private combatIntroText?: Text;
@@ -23,32 +42,81 @@ export class CombatAnimationRenderer {
   constructor(
     private readonly game: Application,
     private readonly sceneContainer: Container,
+    private readonly pixiAssetService: PixiAssetService,
     private readonly animationRunner: TickerAnimationRunner,
   ) { }
+
+  async playAttackAnimation(
+    monster: AnimatedSprite | undefined,
+    options: CombatAttackAnimationOptions,
+  ): Promise<void> {
+    const damage = options.damage ?? 0;
+
+    if (options.target === 'monster') {
+      if (!monster || monster.destroyed) {
+        return;
+      }
+
+      if (damage > 0) {
+        void this.playDamageTextAnimation(damage, monster.x, monster.y - 150);
+      }
+
+      await this.withGreyedMonster(monster, () =>
+        Promise.all([
+          this.playAttackSpriteAnimation(options.animation, {
+            x: monster.x,
+            y: monster.y - 12,
+            size: this.getAttackSpriteSize(options.animation, options.target),
+            zIndex: 31,
+          }),
+          damage > 0 ? this.playMonsterHitEffect(monster) : Promise.resolve(),
+        ]),
+      );
+
+      return;
+    }
+
+    if (damage > 0) {
+      void this.playPlayerDamageTextAnimation(damage);
+    }
+
+    await Promise.all([
+      this.playAttackSpriteAnimation(options.animation, {
+        x: this.game.screen.width / 2,
+        y: this.game.screen.height - 165,
+        size: this.getAttackSpriteSize(options.animation, options.target),
+        zIndex: 31,
+      }),
+      damage > 0 ? this.playSceneImpactShake() : Promise.resolve(),
+      options.animateMonsterAttack && monster && !monster.destroyed
+        ? this.playMonsterAttackPulse(monster)
+        : Promise.resolve(),
+    ]);
+  }
 
   async playMonsterDamageAnimation(
     monster: AnimatedSprite | undefined,
     damage: number,
+    animation = 'simple',
   ): Promise<void> {
-    if (!monster || monster.destroyed) {
-      return;
-    }
-
-    await Promise.all([
-      this.playDamageTextAnimation(damage, monster.x, monster.y - 150),
-      this.playMonsterHitEffect(monster),
-    ]);
+    await this.playAttackAnimation(monster, {
+      target: 'monster',
+      animation,
+      damage,
+    });
   }
 
   async playMonsterAttackAnimation(
     monster: AnimatedSprite | undefined,
     damage: number,
+    animation = 'simple',
   ): Promise<void> {
-    if (!monster || monster.destroyed) {
-      return;
-    }
-
-    await this.playMonsterAttackEffect(monster, damage);
+    await this.playAttackAnimation(monster, {
+      target: 'player',
+      animation,
+      damage,
+      animateMonsterAttack: true,
+    });
   }
 
   playCombatIntroAnimation(monster: AnimatedSprite | undefined): Promise<void> {
@@ -297,8 +365,92 @@ export class CombatAnimationRenderer {
       this.destroyText(text);
     }
 
+    for (const sprite of this.activeAttackSprites) {
+      this.destroyAttackSprite(sprite);
+    }
+
     this.activeTexts.clear();
+    this.activeAttackSprites.clear();
     this.isPlayingCombatIntro = false;
+  }
+
+  private playAttackSpriteAnimation(
+    animation: string,
+    position: AttackSpritePosition,
+  ): Promise<void> {
+    const textures = this.pixiAssetService.getAttackTextures(animation);
+
+    if (textures.length === 0) {
+      return Promise.resolve();
+    }
+
+    const sprite = new AnimatedSprite(textures);
+
+    sprite.anchor.set(0.5);
+    sprite.x = position.x;
+    sprite.y = position.y;
+    sprite.zIndex = position.zIndex;
+    sprite.loop = false;
+    sprite.animationSpeed = 0.38;
+    sprite.eventMode = 'none';
+    sprite.scale.set(this.getAttackSpriteScale(textures, position.size));
+
+    this.activeAttackSprites.add(sprite);
+    this.sceneContainer.addChild(sprite);
+
+    return new Promise((resolve) => {
+      sprite.onComplete = () => {
+        this.activeAttackSprites.delete(sprite);
+        this.destroyAttackSprite(sprite);
+        resolve();
+      };
+
+      sprite.play();
+    });
+  }
+
+  private getAttackSpriteScale(textures: Texture[], size: number): number {
+    const maxTextureSize = Math.max(
+      ...textures.map((texture) => Math.max(texture.width, texture.height)),
+      1,
+    );
+
+    return size / maxTextureSize;
+  }
+
+  private getAttackSpriteSize(
+    animation: string,
+    target: CombatAnimationTarget,
+  ): number {
+    if (animation === 'heal' || animation === 'shield') {
+      return target === 'monster' ? 470 : 350;
+    }
+
+    if (animation === 'boost') {
+      return target === 'monster' ? 310 : 230;
+    }
+
+    return target === 'monster' ? 290 : 230;
+  }
+
+  private async withGreyedMonster(
+    monster: AnimatedSprite,
+    animation: () => Promise<unknown>,
+  ): Promise<void> {
+    const startTint = monster.tint;
+    const startAlpha = monster.alpha;
+
+    monster.tint = 0x8a8a8a;
+    monster.alpha = startAlpha * 0.78;
+
+    try {
+      await animation();
+    } finally {
+      if (!monster.destroyed) {
+        monster.tint = startTint;
+        monster.alpha = startAlpha;
+      }
+    }
   }
 
   private playDamageTextAnimation(
@@ -336,7 +488,7 @@ export class CombatAnimationRenderer {
     this.sceneContainer.addChild(damageText);
 
     let elapsed = 0;
-    const duration = 620;
+    const duration = 1250;
 
     const startY = damageText.y;
     const startX = damageText.x;
@@ -350,12 +502,14 @@ export class CombatAnimationRenderer {
 
       const progress = Math.min(elapsed / duration, 1);
       const easeOut = easeOutCubic(progress);
+      const fadeProgress =
+        progress < 0.42 ? 0 : Math.min((progress - 0.42) / 0.58, 1);
 
       const shake = Math.sin(progress * Math.PI * 8) * (1 - progress) * 4;
 
       damageText.x = startX + shake;
-      damageText.y = startY - easeOut * 70;
-      damageText.alpha = 1 - easeOut;
+      damageText.y = startY - easeOut * 82;
+      damageText.alpha = 1 - easeOutCubic(fadeProgress);
       damageText.scale.set(1 + easeOut * 0.35);
 
       if (progress < 1) {
@@ -408,6 +562,47 @@ export class CombatAnimationRenderer {
         monster.x = startX;
         monster.tint = startTint;
         monster.alpha = startAlpha;
+        monster.scale.set(startScaleX, startScaleY);
+      }
+
+      return true;
+    });
+  }
+
+  private playMonsterAttackPulse(monster: AnimatedSprite): Promise<void> {
+    const startY = monster.y;
+    const startScaleX = monster.scale.x;
+    const startScaleY = monster.scale.y;
+    const startTint = monster.tint;
+
+    let elapsed = 0;
+    const duration = 380;
+
+    return this.runTrackedAnimation((ticker) => {
+      if (monster.destroyed) {
+        return true;
+      }
+
+      elapsed += ticker.deltaMS;
+
+      const progress = Math.min(elapsed / duration, 1);
+      const pulse = Math.sin(progress * Math.PI);
+      const lunge = easeOutCubic(Math.min(progress / 0.45, 1));
+
+      monster.y = startY - pulse * 14;
+      monster.tint = pulse > 0.08 ? 0xd6d6d6 : startTint;
+      monster.scale.set(
+        startScaleX * (1 + pulse * 0.18 + lunge * 0.03),
+        startScaleY * (1 + pulse * 0.18 - lunge * 0.02),
+      );
+
+      if (progress < 1) {
+        return false;
+      }
+
+      if (!monster.destroyed) {
+        monster.y = startY;
+        monster.tint = startTint;
         monster.scale.set(startScaleX, startScaleY);
       }
 
@@ -515,7 +710,7 @@ export class CombatAnimationRenderer {
     this.sceneContainer.addChild(damageText);
 
     let elapsed = 0;
-    const duration = 700;
+    const duration = 1250;
 
     const startY = damageText.y;
 
@@ -528,9 +723,11 @@ export class CombatAnimationRenderer {
 
       const progress = Math.min(elapsed / duration, 1);
       const easeOut = easeOutCubic(progress);
+      const fadeProgress =
+        progress < 0.42 ? 0 : Math.min((progress - 0.42) / 0.58, 1);
 
-      damageText.y = startY - easeOut * 46;
-      damageText.alpha = 1 - easeOut;
+      damageText.y = startY - easeOut * 58;
+      damageText.alpha = 1 - easeOutCubic(fadeProgress);
       damageText.scale.set(1 + easeOut * 0.22);
 
       if (progress < 1) {
@@ -608,5 +805,15 @@ export class CombatAnimationRenderer {
 
     text.removeFromParent();
     text.destroy();
+  }
+
+  private destroyAttackSprite(sprite: AnimatedSprite): void {
+    if (sprite.destroyed) {
+      return;
+    }
+
+    sprite.stop();
+    sprite.removeFromParent();
+    sprite.destroy();
   }
 }

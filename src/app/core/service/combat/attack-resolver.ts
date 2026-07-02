@@ -6,6 +6,7 @@ import {
   BaseAttackKey,
 } from 'src/app/config/attack';
 import {
+  AttackAnimation,
   AttackEffect,
   AttackSpeDefintion,
   BaseAttackDefinition,
@@ -13,6 +14,7 @@ import {
 import { Monster } from './monster';
 
 export type AttackKind = 'base' | 'special';
+export type AttackAnimationTarget = 'attacker' | 'target';
 
 type BaseAttackConfig = BaseAttackDefinition & { name: BaseAttackKey };
 type AttackSpeConfig = AttackSpeDefintion & { name: AttackSpeKey };
@@ -21,9 +23,12 @@ export type AttackResolution = {
   kind: AttackKind;
   attackName: BaseAttackKey | AttackSpeKey;
   effect: AttackEffect | 'damage';
+  animation: AttackAnimation;
+  animationTarget: AttackAnimationTarget;
   attacker: Monster;
   target: Monster;
   damage: number;
+  damageByHit: number;
   healing: number;
   shield: number;
   hits: number;
@@ -53,9 +58,12 @@ export class AttackResolver {
       kind: 'base',
       attackName: attack.name,
       effect: 'damage',
+      animation: attack.animation,
+      animationTarget: 'target',
       attacker: attacker.getWithNextAttackStocked().getWithSpentBuffTurn(),
       target: target.getHit(damage),
       damage,
+      damageByHit: damage,
       healing: 0,
       shield: 0,
       hits: 1,
@@ -75,6 +83,8 @@ export class AttackResolver {
           kind: 'special',
           attackName: attack.name,
           effect: attack.effect,
+          animation: attack.animation,
+          animationTarget: 'attacker',
           attacker: attacker
             .getWithAttackStocked(0)
             .getWithSpentBuffTurn()
@@ -86,6 +96,7 @@ export class AttackResolver {
             }),
           target,
           damage: 0,
+          damageByHit: 0,
           healing: 0,
           shield: 0,
           hits: 0,
@@ -97,6 +108,8 @@ export class AttackResolver {
           kind: 'special',
           attackName: attack.name,
           effect: attack.effect,
+          animation: attack.animation,
+          animationTarget: 'attacker',
           attacker: attacker
             .getWithAttackStocked(0)
             .getWithSpentBuffTurn()
@@ -106,6 +119,7 @@ export class AttackResolver {
             }),
           target,
           damage: 0,
+          damageByHit: 0,
           healing,
           shield: 0,
           hits: 0,
@@ -118,6 +132,8 @@ export class AttackResolver {
           kind: 'special',
           attackName: attack.name,
           effect: attack.effect,
+          animation: attack.animation,
+          animationTarget: 'attacker',
           attacker: attacker
             .getWithAttackStocked(0)
             .getWithSpentBuffTurn()
@@ -127,6 +143,7 @@ export class AttackResolver {
             }),
           target,
           damage: 0,
+          damageByHit: 0,
           healing: 0,
           shield,
           hits: 0,
@@ -137,9 +154,12 @@ export class AttackResolver {
           kind: 'special',
           attackName: attack.name,
           effect: attack.effect,
+          animation: attack.animation,
+          animationTarget: 'target',
           attacker: attacker.getWithAttackStocked(0).getWithSpentBuffTurn(),
           target,
           damage: 0,
+          damageByHit: 0,
           healing: 0,
           shield: 0,
           hits: 0,
@@ -152,7 +172,7 @@ export class AttackResolver {
     target: Monster,
     attack: Extract<AttackSpeConfig, { effect: 'multiple' }>,
   ): AttackResolution {
-    let hits = 0;
+    let hits = 1;
 
     while (
       hits < this.maxMultipleHits &&
@@ -161,15 +181,19 @@ export class AttackResolver {
       hits += 1;
     }
 
-    const damage = hits * this.resolveDamage(attacker, attack.effiency);
+    const damageByHit = this.resolveDamage(attacker, attack.effiency);
+    const damage = hits * damageByHit;
 
     return {
       kind: 'special',
       attackName: attack.name,
       effect: attack.effect,
+      animation: attack.animation,
+      animationTarget: 'target',
       attacker: attacker.getWithAttackStocked(0).getWithSpentBuffTurn(),
-      target: damage > 0 ? target.getHit(damage) : target,
+      target,
       damage,
+      damageByHit,
       healing: 0,
       shield: 0,
       hits,
