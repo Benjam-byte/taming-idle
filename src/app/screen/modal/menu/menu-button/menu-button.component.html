@@ -1,0 +1,16 @@
+<div class="menu-button">
+  <app-ui-icon-button
+    size="lg"
+    [label]="label()"
+    [disabled]="disabled()"
+    (pressed)="press()"
+  >
+    <img
+      [src]="displayedIconSrc()"
+      alt=""
+      class="menu-button__icon"
+    />
+  </app-ui-icon-button>
+
+  <span class="menu-button__label">{{ label() }}</span>
+</div>

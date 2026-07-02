@@ -15,12 +15,12 @@ export class ModalLayoutComponent {
   readonly title = input<string | null>(null);
   readonly showMenuButton = input(true);
 
-  close(): void {
-    this.modalCtrl.dismiss();
+  close(): Promise<boolean> {
+    return this.modalCtrl.dismiss();
   }
 
   async goToMenu(): Promise<void> {
-    /**   await this.close();
+    await this.close();
 
     const { MenuComponent } = await import('../menu/menu.component');
 
@@ -31,6 +31,6 @@ export class ModalLayoutComponent {
       showBackdrop: true,
     });
 
-    await modal.present();*/
+    await modal.present();
   }
 }
