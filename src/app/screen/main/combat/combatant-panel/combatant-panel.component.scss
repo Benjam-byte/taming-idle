@@ -35,6 +35,19 @@
     -8px 8px 14px rgb(var(--color-black-rgb) / 0.55);
 }
 
+.combatant-panel.is-player {
+  width: min(320px, calc(100vw - 24px));
+  border-left: 0;
+  border-radius: 0 18px 18px 0;
+  padding: 12px 18px 12px 14px;
+  animation: playerPanelIn 260ms cubic-bezier(0.2, 0.9, 0.25, 1.15);
+  box-shadow:
+    inset 0 1px 2px rgb(var(--color-white-rgb) / 0.16),
+    inset 0 -4px 6px rgb(var(--color-black-rgb) / 0.38),
+    4px 5px 0 var(--color-layer-border),
+    8px 8px 14px rgb(var(--color-black-rgb) / 0.55);
+}
+
 .combatant-accent {
   position: absolute;
   top: 8px;
@@ -54,11 +67,24 @@
   width: 5px;
 }
 
+.combatant-panel.is-player .combatant-accent {
+  top: 10px;
+  right: 8px;
+  bottom: 10px;
+  left: auto;
+  width: 5px;
+}
+
 .combatant-content {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-left: 8px;
+}
+
+.combatant-panel.is-player .combatant-content {
+  margin-right: 8px;
+  margin-left: 0;
 }
 
 .combatant-main {
@@ -140,14 +166,32 @@
   font-size: 11px;
 }
 
+.combatant-panel.is-player .combatant-health-text {
+  min-width: 58px;
+  font-size: 11px;
+}
+
 @media (max-width: 480px) {
-  .combatant-panel.is-enemy {
+  .combatant-panel.is-enemy,
+  .combatant-panel.is-player {
     width: min(280px, calc(100vw - 18px));
-    border-radius: 16px 0 0 16px;
     padding: 10px 12px 10px 16px;
   }
 
+  .combatant-panel.is-enemy {
+    border-radius: 16px 0 0 16px;
+  }
+
+  .combatant-panel.is-player {
+    border-radius: 0 16px 16px 0;
+    padding: 10px 16px 10px 12px;
+  }
+
   .combatant-panel.is-enemy .combatant-name {
+    font-size: 13px;
+  }
+
+  .combatant-panel.is-player .combatant-name {
     font-size: 13px;
   }
 
@@ -155,7 +199,12 @@
     font-size: 9px;
   }
 
-  .combatant-panel.is-enemy .combatant-health-text {
+  .combatant-panel.is-player .combatant-badge {
+    font-size: 9px;
+  }
+
+  .combatant-panel.is-enemy .combatant-health-text,
+  .combatant-panel.is-player .combatant-health-text {
     min-width: 52px;
     font-size: 10px;
   }
@@ -165,6 +214,18 @@
   from {
     opacity: 0;
     transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes playerPanelIn {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
   }
 
   to {

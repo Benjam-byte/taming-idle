@@ -5,7 +5,10 @@ import { Coordinate } from 'src/app/core/type/coordinate';
 import { TickerAnimationRunner } from '../utils/ticker-animation-runner';
 import { TileRenderStateResolver } from '../tile-render-state-resolver';
 import { BackgroundRenderer } from './background-renderer';
-import { MonsterEncounterRenderer } from './monster-encounter-renderer';
+import {
+  MonsterEncounterMode,
+  MonsterEncounterRenderer,
+} from './monster-encounter-renderer';
 import { WheatRenderer } from './wheat-renderer';
 
 export type ExplorationRenderResult = {
@@ -91,6 +94,10 @@ export class ExplorationSceneRenderer {
 
   finishMonsterDeath(): void {
     this.monsterEncounterRenderer.finishDeath();
+  }
+
+  setMonsterMode(mode: MonsterEncounterMode): void {
+    this.monsterEncounterRenderer.setMode(mode);
   }
 
   destroy(): void {

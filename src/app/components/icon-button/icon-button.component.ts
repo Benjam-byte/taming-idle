@@ -17,6 +17,7 @@ export type IconButtonSize = 'sm' | 'md' | 'lg';
 export class IconButtonComponent {
   readonly size = input<IconButtonSize>('sm');
   readonly label = input('');
+  readonly labeled = input(false);
   readonly disabled = input(false);
 
   readonly pressed = output<MouseEvent>();

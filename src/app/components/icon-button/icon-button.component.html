@@ -4,6 +4,7 @@
   [class.ui-icon-button--sm]="size() === 'sm'"
   [class.ui-icon-button--md]="size() === 'md'"
   [class.ui-icon-button--lg]="size() === 'lg'"
+  [class.ui-icon-button--labeled]="labeled()"
   [attr.aria-label]="label()"
   [disabled]="disabled()"
   (click)="pressed.emit($event)"

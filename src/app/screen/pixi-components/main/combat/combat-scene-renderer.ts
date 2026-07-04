@@ -5,6 +5,7 @@ import { TickerAnimationRunner } from '../utils/ticker-animation-runner';
 import { DropType, MonsterDropReward } from '../map-scene-renderer.types';
 import { CombatAnimationRenderer } from './combat-animation-renderer';
 import type { CombatAttackAnimationOptions } from './combat-animation-renderer';
+import { CombatPlayerRenderer } from './combat-player-renderer';
 import { DropRenderer } from './drop-renderer';
 
 export type CombatSceneMonsterAccess = {
@@ -17,6 +18,7 @@ export type CombatSceneMonsterAccess = {
 export class CombatSceneRenderer {
   private readonly animationQueue = new AnimationQueue();
   private readonly combatAnimationRenderer: CombatAnimationRenderer;
+  private readonly combatPlayerRenderer: CombatPlayerRenderer;
   private readonly dropRenderer: DropRenderer;
 
   constructor(
@@ -32,6 +34,12 @@ export class CombatSceneRenderer {
       sceneContainer,
       pixiAssetService,
       animationRunner,
+    );
+
+    this.combatPlayerRenderer = new CombatPlayerRenderer(
+      game,
+      sceneContainer,
+      pixiAssetService,
     );
 
     this.dropRenderer = new DropRenderer(
@@ -50,8 +58,17 @@ export class CombatSceneRenderer {
     this.dropRenderer.clearActiveDrops();
   }
 
+  setCombatMode(isCombatMode: boolean): void {
+    if (isCombatMode) {
+      this.combatPlayerRenderer.show();
+    } else {
+      this.combatPlayerRenderer.hide();
+    }
+  }
+
   destroy(): void {
     this.combatAnimationRenderer.destroy();
+    this.combatPlayerRenderer.destroy();
     this.dropRenderer.destroy();
   }
 
@@ -68,6 +85,7 @@ export class CombatSceneRenderer {
     return this.animationQueue.enqueue(() => {
       return this.combatAnimationRenderer.playMonsterAttackAnimation(
         this.monsterAccess.getMonsterSprite(),
+        this.combatPlayerRenderer.sprite,
         damage,
       );
     });
@@ -77,6 +95,7 @@ export class CombatSceneRenderer {
     return this.animationQueue.enqueue(() => {
       return this.combatAnimationRenderer.playAttackAnimation(
         this.monsterAccess.getMonsterSprite(),
+        this.combatPlayerRenderer.sprite,
         options,
       );
     });

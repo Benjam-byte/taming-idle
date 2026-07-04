@@ -59,18 +59,19 @@ export class MainPage implements AfterViewInit {
   constructor() {
     effect(() => {
       const tile = this.mapStore.activeTile();
+      const isCombatRunning = this.isCombatRunning();
 
-      if (!tile || !this.mapSceneRenderer || !this.minimapRenderer) {
+      this.updateMinimapVisibility(isCombatRunning);
+      this.mapSceneRenderer?.setCombatMode(isCombatRunning);
+
+      if (!tile || !this.mapSceneRenderer) {
         return;
       }
 
       this.mapSceneRenderer.render(tile);
 
-      if (this.isCombatRunning()) {
-        this.minimapRenderer.hide();
-      } else {
-        this.minimapRenderer.show();
-        this.minimapRenderer.render();
+      if (!isCombatRunning) {
+        this.minimapRenderer?.render();
       }
     });
   }
@@ -167,11 +168,30 @@ export class MainPage implements AfterViewInit {
 
     this.mapSceneRenderer.init();
     this.minimapRenderer.init();
+    this.updateMinimapVisibility();
+    this.mapSceneRenderer.setCombatMode(this.isCombatRunning());
 
     const tile = this.mapStore.activeTile();
     if (tile) {
       this.mapSceneRenderer.render(tile);
-      this.minimapRenderer.render();
+
+      if (!this.isCombatRunning()) {
+        this.minimapRenderer.render();
+      }
+    }
+  }
+
+  private updateMinimapVisibility(
+    isCombatRunning = this.isCombatRunning(),
+  ): void {
+    if (!this.minimapRenderer) {
+      return;
+    }
+
+    if (isCombatRunning) {
+      this.minimapRenderer.hide();
+    } else {
+      this.minimapRenderer.show();
     }
   }
 

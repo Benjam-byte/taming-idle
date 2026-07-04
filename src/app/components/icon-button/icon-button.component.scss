@@ -40,6 +40,17 @@
   font-size: 30px;
 }
 
+.ui-icon-button--labeled {
+  width: auto;
+  min-width: 96px;
+  gap: 8px;
+  justify-content: flex-start;
+  padding: 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .ui-icon-button:active {
   transform: translateY(1px);
 }
