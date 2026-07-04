@@ -6,6 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { IconButtonComponent } from 'src/app/components/icon-button/icon-button.component';
 import { ResourceCollectionService } from 'src/app/core/service/resource-collection-service';
 import { MapSceneRenderer } from '../../pixi-components/main/map-scene-renderer';
 import { CombatControllerComponent } from './combat-controller/combat-controller.component';
@@ -18,7 +19,12 @@ import type { CombatAnimationTarget } from '../../pixi-components/main/combat/co
 @Component({
   selector: 'app-combat',
   standalone: true,
-  imports: [CombatControllerComponent, MonsterBarComponent, PlayerBarComponent],
+  imports: [
+    CombatControllerComponent,
+    IconButtonComponent,
+    MonsterBarComponent,
+    PlayerBarComponent,
+  ],
   templateUrl: './combat.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

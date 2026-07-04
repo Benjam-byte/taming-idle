@@ -81,6 +81,13 @@ export class MapSceneRenderer {
     }
   }
 
+  setCombatMode(isCombatMode: boolean): void {
+    this.explorationSceneRenderer.setMonsterMode(
+      isCombatMode ? 'combat' : 'exploration',
+    );
+    this.combatSceneRenderer.setCombatMode(isCombatMode);
+  }
+
   destroy(): void {
     if (this.perfInterval) {
       clearInterval(this.perfInterval);
@@ -113,6 +120,7 @@ export class MapSceneRenderer {
   }
 
   public playCombatIntroAnimation(): Promise<void> {
+    this.setCombatMode(true);
     return this.combatSceneRenderer.playCombatIntroAnimation();
   }
 

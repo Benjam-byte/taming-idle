@@ -27,5 +27,6 @@ export class CombatantPanelComponent {
   readonly hpSize = input<HpBarSize>('sm');
 
   readonly isEnemy = computed(() => this.variant() === 'enemy');
+  readonly isPlayer = computed(() => this.variant() === 'player');
   readonly hasStat = computed(() => this.statLabel().length > 0);
 }

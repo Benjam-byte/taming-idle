@@ -1,22 +1,31 @@
-<div class="absolute z-50 right-0 top-40">
-  <app-monster-bar
-    monsterName="Slime"
-    [currentHp]="monsterLife()"
-    [maxHp]="monsterMaxLife()"
-  />
+<div class="absolute z-50 right-0 top-20">
+  <app-monster-bar monsterName="Slime" [currentHp]="monsterLife()" [maxHp]="monsterMaxLife()" />
 </div>
 
-<div class="absolute bottom-5 flex w-full justify-center">
-  <div class="flex w-full flex-col gap-2">
-    <app-combat-controller
-      (attack)="attack()"
-      [specialCharge]="playerSpecialAttackCharge()"
-      [disabled]="!canPlayerAttack()"
-    />
-    <app-player-bar
-      (flee)="leaveCombat()"
-      [currentHp]="playerLife()"
-      [maxHp]="playerMaxLife()"
-    />
+<div class="absolute z-50 left-0 bottom-40">
+  <app-player-bar [currentHp]="playerLife()" [maxHp]="playerMaxLife()" />
+</div>
+
+<div class="absolute z-[60] bottom-5 flex w-full justify-center px-3">
+  <div class="flex w-full flex-col items-center gap-2">
+    <div class="flex self-end gap-3">
+      <app-ui-icon-button size="lg" label="Quitter le combat" [labeled]="true" (pressed)="leaveCombat()">
+        <img src="assets/icon/flee-icon.png" class="h-7 w-7 shrink-0" alt="" />
+        <span class="text-xs font-black uppercase leading-none">Fuir</span>
+      </app-ui-icon-button>
+
+      <app-ui-icon-button size="lg" label="Changer de monstre" [labeled]="true">
+        <img src="assets/icon/switch-monster-icon.png" class="h-7 w-7 shrink-0" alt="" />
+        <span class="text-xs font-black uppercase leading-none">Switch</span>
+      </app-ui-icon-button>
+
+      <app-ui-icon-button size="lg" label="Domestiquer" [labeled]="true">
+        <img src="assets/icon/tame-icon.png" class="h-7 w-7 shrink-0" alt="" />
+        <span class="text-xs font-black uppercase leading-none">Tame</span>
+      </app-ui-icon-button>
+    </div>
+
+    <app-combat-controller (attack)="attack()" [specialCharge]="playerSpecialAttackCharge()"
+      [disabled]="!canPlayerAttack()" />
   </div>
 </div>

@@ -44,10 +44,11 @@ export class CombatAnimationRenderer {
     private readonly sceneContainer: Container,
     private readonly pixiAssetService: PixiAssetService,
     private readonly animationRunner: TickerAnimationRunner,
-  ) { }
+  ) {}
 
   async playAttackAnimation(
     monster: AnimatedSprite | undefined,
+    player: AnimatedSprite | undefined,
     options: CombatAttackAnimationOptions,
   ): Promise<void> {
     const damage = options.damage ?? 0;
@@ -69,25 +70,49 @@ export class CombatAnimationRenderer {
             size: this.getAttackSpriteSize(options.animation, options.target),
             zIndex: 31,
           }),
-          damage > 0 ? this.playMonsterHitEffect(monster) : Promise.resolve(),
+          damage > 0
+            ? this.playCombatantHitEffect(monster)
+            : Promise.resolve(),
         ]),
       );
 
       return;
     }
 
+    const playerTarget = player && !player.destroyed ? player : undefined;
+    const playerAttackPosition = playerTarget
+      ? {
+          x: playerTarget.x,
+          y: playerTarget.y - 12,
+        }
+      : {
+          x: this.game.screen.width / 2,
+          y: this.game.screen.height - 165,
+        };
+
     if (damage > 0) {
-      void this.playPlayerDamageTextAnimation(damage);
+      if (playerTarget) {
+        void this.playDamageTextAnimation(
+          damage,
+          playerTarget.x,
+          playerTarget.y - 140,
+        );
+      } else {
+        void this.playPlayerDamageTextAnimation(damage);
+      }
     }
 
     await Promise.all([
       this.playAttackSpriteAnimation(options.animation, {
-        x: this.game.screen.width / 2,
-        y: this.game.screen.height - 165,
+        x: playerAttackPosition.x,
+        y: playerAttackPosition.y,
         size: this.getAttackSpriteSize(options.animation, options.target),
         zIndex: 31,
       }),
       damage > 0 ? this.playSceneImpactShake() : Promise.resolve(),
+      damage > 0 && playerTarget
+        ? this.playCombatantHitEffect(playerTarget)
+        : Promise.resolve(),
       options.animateMonsterAttack && monster && !monster.destroyed
         ? this.playMonsterAttackPulse(monster)
         : Promise.resolve(),
@@ -99,7 +124,7 @@ export class CombatAnimationRenderer {
     damage: number,
     animation = 'simple',
   ): Promise<void> {
-    await this.playAttackAnimation(monster, {
+    await this.playAttackAnimation(monster, undefined, {
       target: 'monster',
       animation,
       damage,
@@ -108,10 +133,11 @@ export class CombatAnimationRenderer {
 
   async playMonsterAttackAnimation(
     monster: AnimatedSprite | undefined,
+    player: AnimatedSprite | undefined,
     damage: number,
     animation = 'simple',
   ): Promise<void> {
-    await this.playAttackAnimation(monster, {
+    await this.playAttackAnimation(monster, player, {
       target: 'player',
       animation,
       damage,
@@ -523,20 +549,20 @@ export class CombatAnimationRenderer {
     });
   }
 
-  private playMonsterHitEffect(monster: AnimatedSprite): Promise<void> {
-    const startX = monster.x;
-    const startTint = monster.tint;
-    const startAlpha = monster.alpha;
-    const startScaleX = monster.scale.x;
-    const startScaleY = monster.scale.y;
+  private playCombatantHitEffect(combatant: AnimatedSprite): Promise<void> {
+    const startX = combatant.x;
+    const startTint = combatant.tint;
+    const startAlpha = combatant.alpha;
+    const startScaleX = combatant.scale.x;
+    const startScaleY = combatant.scale.y;
 
     let elapsed = 0;
     const duration = 220;
 
-    monster.tint = 0xff4b4b;
+    combatant.tint = 0xff4b4b;
 
     return this.runTrackedAnimation((ticker) => {
-      if (monster.destroyed) {
+      if (combatant.destroyed) {
         return true;
       }
 
@@ -548,21 +574,24 @@ export class CombatAnimationRenderer {
       const shake = Math.sin(progress * Math.PI * 10) * intensity * 8;
       const squash = Math.sin(progress * Math.PI) * 0.08;
 
-      monster.x = startX + shake;
-      monster.alpha =
+      combatant.x = startX + shake;
+      combatant.alpha =
         startAlpha * (0.72 + Math.sin(progress * Math.PI * 8) * 0.14);
 
-      monster.scale.set(startScaleX * (1 + squash), startScaleY * (1 - squash));
+      combatant.scale.set(
+        startScaleX * (1 + squash),
+        startScaleY * (1 - squash),
+      );
 
       if (progress < 1) {
         return false;
       }
 
-      if (!monster.destroyed) {
-        monster.x = startX;
-        monster.tint = startTint;
-        monster.alpha = startAlpha;
-        monster.scale.set(startScaleX, startScaleY);
+      if (!combatant.destroyed) {
+        combatant.x = startX;
+        combatant.tint = startTint;
+        combatant.alpha = startAlpha;
+        combatant.scale.set(startScaleX, startScaleY);
       }
 
       return true;

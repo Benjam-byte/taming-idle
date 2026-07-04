@@ -14,6 +14,17 @@ function attackFrames(folder: string, frameCount: number) {
   });
 }
 
+function monsterSpriteFrames(folder: string, frameCount: number) {
+  return Array.from({ length: frameCount }, (_, index) => {
+    const frame = index + 1;
+
+    return {
+      alias: `${folder}_${frame}`,
+      src: asset(`assets/monster/sprite/${folder}/${frame}.png`),
+    };
+  });
+}
+
 export const manifest = {
   bundles: [
     {
@@ -86,6 +97,7 @@ export const manifest = {
           alias: 'slime_9',
           src: asset('assets/monster/sprite/slime_base/output_9.png'),
         },
+        ...monsterSpriteFrames('terra_larva_dos', 10),
       ],
     },
     {
