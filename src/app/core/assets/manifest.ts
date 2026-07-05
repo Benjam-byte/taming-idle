@@ -107,7 +107,7 @@ export const manifest = {
         ...attackFrames('heal', 8),
         ...attackFrames('multiple', 10),
         ...attackFrames('shield', 7),
-        ...attackFrames('simple', 7),
+        ...attackFrames('simple', 5),
       ],
     },
   ],
