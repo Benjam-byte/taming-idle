@@ -29,8 +29,6 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 
-// ---------------------------------- Index.html ---------------------------------------------------------------------
-
 html,
 body {
   margin: 0;
@@ -38,7 +36,7 @@ body {
   background: var(--color-black);
 }
 
-#splash-screen {
+.splash-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,15 +45,15 @@ body {
   color: var(--color-white);
 }
 
-#splash-screen img {
+.splash-screen img {
   width: 200px;
   height: auto;
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
   animation: bounce 2s infinite;
 }
 
-#splash-screen p {
-  font-size: 1.2rem;
+.splash-screen p {
+  font-size: 19px;
   letter-spacing: 2px;
   color: var(--color-splash-text);
 }
@@ -70,5 +68,3 @@ body {
     transform: translateY(-15px);
   }
 }
-
-// ------------------------------------------------ Index.html-------------------------------------------------------------------------

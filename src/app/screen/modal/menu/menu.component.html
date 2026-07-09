@@ -1,10 +1,10 @@
 <app-modal-layout title="Menu" [showMenuButton]="false">
-  <div class="menu-content">
+  <div class="flex min-h-full flex-col gap-4 overflow-auto p-1">
     @for (section of sections; track section.title) {
-    <section class="menu-section">
+    <section class="flex flex-col gap-3.5">
       <h2 class="menu-section-title">{{ section.title }}</h2>
 
-      <div class="menu-section-grid">
+      <div class="grid grid-cols-[repeat(auto-fill,minmax(72px,1fr))] justify-items-center gap-x-3 gap-y-4">
         @for (item of section.items; track item.label) {
         <app-menu-button [label]="item.label" [iconSrc]="item.iconSrc" [disabled]="item.disabled ?? false"
           (selected)="selectItem(item)" />

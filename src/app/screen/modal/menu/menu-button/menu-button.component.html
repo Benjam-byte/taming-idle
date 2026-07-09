@@ -1,4 +1,4 @@
-<div class="menu-button">
+<div class="flex min-w-16 flex-col items-center gap-1.5 text-center font-title text-xs font-extrabold leading-tight text-text-primary">
   <app-ui-icon-button
     size="lg"
     [label]="label()"
@@ -8,9 +8,9 @@
     <img
       [src]="displayedIconSrc()"
       alt=""
-      class="menu-button__icon"
+      class="h-7 w-7 object-contain"
     />
   </app-ui-icon-button>
 
-  <span class="menu-button__label">{{ label() }}</span>
+  <span class="max-w-[72px] [overflow-wrap:anywhere]">{{ label() }}</span>
 </div>

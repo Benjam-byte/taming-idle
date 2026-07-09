@@ -1,7 +1,7 @@
-<div class="controller" aria-label="Movement controller">
+<div class="move-controller" aria-label="Movement controller">
   <button
     type="button"
-    class="move-btn up"
+    class="move-button move-up"
     (pointerdown)="moveRequested.emit('UP')"
     aria-label="Move up"
   >
@@ -10,18 +10,18 @@
 
   <button
     type="button"
-    class="move-btn left"
+    class="move-button move-left"
     (pointerdown)="moveRequested.emit('LEFT')"
     aria-label="Move left"
   >
     ←
   </button>
 
-  <div class="center" aria-hidden="true"></div>
+  <div class="move-center" aria-hidden="true"></div>
 
   <button
     type="button"
-    class="move-btn right"
+    class="move-button move-right"
     (pointerdown)="moveRequested.emit('RIGHT')"
     aria-label="Move right"
   >
@@ -30,7 +30,7 @@
 
   <button
     type="button"
-    class="move-btn down"
+    class="move-button move-down"
     (pointerdown)="moveRequested.emit('DOWN')"
     aria-label="Move down"
   >

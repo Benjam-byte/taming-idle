@@ -1,5 +1,5 @@
 <app-modal-layout title="Equipe active">
-  <div class="active-team">
+  <div class="flex min-h-0 flex-1 flex-col gap-3 overflow-auto">
     <section class="team-band">
       <div class="team-band-header">
         <span>{{ activeCreatureCount }} / 3</span>
@@ -62,7 +62,7 @@
 
           <div class="jobs-grid">
             @for (job of selectedCreature().jobs; track job.label) {
-            <div class="job-chip" [class.job-chip--primary]="job.role === 'primary'">
+            <div class="job-chip" [class.is-primary]="job.role === 'primary'">
               <span class="job-chip-role">
                 {{ job.role === "primary" ? "Principal" : "Secondaire" }}
               </span>
@@ -81,7 +81,7 @@
         <section class="stats-section">
           <h3>Stats combat</h3>
 
-          <div class="stats-grid stats-grid--combat">
+          <div class="stats-grid combat-stats-grid">
             @for (
             stat of selectedCreature().combatStats;
             track trackStat($index, stat)

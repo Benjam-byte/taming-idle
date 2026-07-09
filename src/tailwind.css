@@ -83,21 +83,21 @@ ion-app {
   display: flex;
   align-items: center;
   background-color: var(--color-layer-panel-light);
-  padding-inline: 0.75rem;
+  padding-inline: 12px;
 }
 
-.hud-bar--top {
-  height: 4rem;
+.hud-bar-top {
+  height: 64px;
 }
 
-.hud-bar--bottom {
-  height: 2.25rem;
+.hud-bar-bottom {
+  height: 36px;
   justify-content: center;
 }
 
 .inset-panel {
   border: 2px solid var(--color-primary-800);
-  border-radius: 1rem;
+  border-radius: 16px;
   background-color: rgb(var(--color-layer-inset-rgb) / 0.75);
   box-shadow:
     inset 0 2px 4px rgb(var(--color-white-rgb) / 0.08),
@@ -106,7 +106,7 @@ ion-app {
 
 .map-frame {
   border: 2px solid var(--color-layer-border);
-  border-radius: 1rem;
+  border-radius: 16px;
   background-color: var(--color-layer-inset);
 }
 

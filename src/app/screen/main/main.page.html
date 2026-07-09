@@ -1,8 +1,8 @@
 <ion-content [fullscreen]="true">
   <app-top-hud-bar />
 
-  <div class="game-viewport">
-    <div id="pixiGameContainer" #pixiGameContainer class="pixi-container"></div>
+  <div class="absolute left-0 right-0 overflow-hidden [bottom:var(--bottom-hud-height)] [top:var(--top-hud-height)]">
+    <div id="pixiGameContainer" #pixiGameContainer class="h-full w-full"></div>
 
     @if(isCombatRunning()) {
     <app-combat [mapSceneRenderer]="mapSceneRenderer" />

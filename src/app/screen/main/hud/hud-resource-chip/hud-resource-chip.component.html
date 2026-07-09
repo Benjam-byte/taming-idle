@@ -1,11 +1,11 @@
-<div class="hud-slot resource-chip">
+<div class="hud-slot relative flex min-w-24 items-center justify-center gap-2 rounded-lg px-3 py-1">
   <img
-    class="resource-chip__icon"
-    [class.resource-chip__icon--large]="largeIcon()"
+    class="h-5 w-5 object-contain"
+    [class.resource-icon-large]="largeIcon()"
     [src]="iconSrc()"
     [alt]="alt()"
   />
-  <span class="resource-chip__value">
+  <span class="resource-value text-sm font-bold text-text-primary">
     {{ value() }}
   </span>
 </div>
