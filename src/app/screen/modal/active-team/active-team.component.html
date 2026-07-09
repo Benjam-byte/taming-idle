@@ -1,0 +1,161 @@
+<app-modal-layout title="Equipe active">
+  <div class="active-team">
+    <section class="team-band">
+      <div class="team-band-header">
+        <span>{{ activeCreatureCount }} / 3</span>
+      </div>
+
+      <div class="team-slots">
+        @for (slot of slots; track trackSlot($index, slot)) {
+        @if (slot.kind === "creature") {
+        <button type="button" class="team-slot bottom-shadow"
+          [class.is-selected]="slot.creature.id === selectedCreatureId()"
+          [attr.aria-pressed]="slot.creature.id === selectedCreatureId()" (click)="selectCreature(slot.creature.id)">
+          <span class="team-slot-type">
+            <img [src]="slot.creature.typeIconSrc" alt="" />
+          </span>
+
+          <img [src]="slot.creature.imageSrc" alt="" class="team-slot-portrait" />
+
+          <strong>{{ slot.creature.name }}</strong>
+        </button>
+        } @else {
+        <button type="button" class="team-slot is-empty" disabled>
+          <span class="team-slot-plus">+</span>
+          <strong>Slot vide</strong>
+        </button>
+        }
+        }
+      </div>
+    </section>
+
+    <section class="creature-sheet">
+      <div class="creature-sheet-portrait">
+        <img [src]="selectedCreature().imageSrc" alt="" />
+      </div>
+
+      <div class="creature-sheet-details">
+        <header class="creature-sheet-header">
+          <div>
+            <h2>{{ selectedCreature().name }}</h2>
+
+            <div class="creature-sheet-mana" role="meter"
+              [attr.aria-label]="'Mana stocke de ' + selectedCreature().name"
+              [attr.aria-valuenow]="selectedCreature().mana.current" aria-valuemin="0"
+              [attr.aria-valuemax]="selectedCreature().mana.max">
+              <span class="creature-sheet-mana-label">Mana stockee</span>
+
+              <div class="creature-sheet-mana-track">
+                <span class="creature-sheet-mana-fill" [style.width.%]="selectedManaPercent()"></span>
+
+                <strong>
+                  {{ selectedCreature().mana.current }} /
+                  {{ selectedCreature().mana.max }}
+                </strong>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section class="jobs-section">
+          <h3>Metiers</h3>
+
+          <div class="jobs-grid">
+            @for (job of selectedCreature().jobs; track job.label) {
+            <div class="job-chip" [class.job-chip--primary]="job.role === 'primary'">
+              <span class="job-chip-role">
+                {{ job.role === "primary" ? "Principal" : "Secondaire" }}
+              </span>
+
+              <img [src]="job.iconSrc" alt="" />
+
+              <div class="job-chip-body">
+                <strong>{{ job.label }}</strong>
+                <span>Niv. {{ job.level }}</span>
+              </div>
+            </div>
+            }
+          </div>
+        </section>
+
+        <section class="stats-section">
+          <h3>Stats combat</h3>
+
+          <div class="stats-grid stats-grid--combat">
+            @for (
+            stat of selectedCreature().combatStats;
+            track trackStat($index, stat)
+            ) {
+            <div class="stat-tile">
+              <span>{{ stat.label }}</span>
+              <img [src]="stat.iconSrc" alt="" />
+              <strong>{{ stat.value }}</strong>
+            </div>
+            }
+          </div>
+        </section>
+
+        <section class="stats-section">
+          <h3>Stats exploration</h3>
+
+          <div class="stats-grid">
+            @for (
+            stat of selectedCreature().explorationStats;
+            track trackStat($index, stat)
+            ) {
+            <div class="stat-tile">
+              <span>{{ stat.label }}</span>
+              <img [src]="stat.iconSrc" alt="" />
+              <strong>{{ stat.value }}</strong>
+            </div>
+            }
+          </div>
+        </section>
+
+        <section class="attacks-section">
+          <button type="button" class="attacks-section-toggle" [attr.aria-expanded]="attacksExpanded()"
+            (click)="toggleAttacks()">
+            <span>Attaques</span>
+            <strong>{{ attacksExpanded() ? "^" : "v" }}</strong>
+          </button>
+
+          @if (attacksExpanded()) {
+          <div class="attacks-list">
+            @for (
+            attack of selectedCreature().attacks;
+            track trackAttack($index, attack)
+            ) {
+            <article class="attack-row">
+              <img [src]="attack.iconSrc" alt="" />
+
+              <div class="attack-row-heading">
+                <h4>{{ attack.name }}</h4>
+                <span>{{ attack.kind }}</span>
+              </div>
+
+              <p class="attack-row-description">
+                {{ attack.description }}
+              </p>
+
+              <dl class="attack-row-numbers">
+                <div>
+                  <dt>Puissance</dt>
+                  <dd>{{ attack.power }}</dd>
+                </div>
+
+                @if (attack.turnsRequired) {
+                <div>
+                  <dt>Tours requis</dt>
+                  <dd>{{ attack.turnsRequired }}</dd>
+                </div>
+                }
+              </dl>
+            </article>
+            }
+          </div>
+          }
+        </section>
+      </div>
+    </section>
+  </div>
+</app-modal-layout>

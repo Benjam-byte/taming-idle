@@ -18,7 +18,7 @@
   gap: 0.85rem;
 }
 
-.menu-section__title {
+.menu-section-title {
   margin: 0;
   border: 2px solid var(--color-primary-800);
   border-radius: 8px;
@@ -35,7 +35,7 @@
   text-align: center;
 }
 
-.menu-section__grid {
+.menu-section-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
   gap: 0.95rem 0.75rem;

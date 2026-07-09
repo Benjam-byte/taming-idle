@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ModalController } from '@ionic/angular/standalone';
 import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 
@@ -22,6 +23,8 @@ type MenuSection = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent {
+  private readonly modalCtrl = inject(ModalController);
+
   readonly sections: readonly MenuSection[] = [
     {
       title: 'Lieux',
@@ -36,7 +39,7 @@ export class MenuComponent {
     {
       title: 'Joueur',
       items: [
-        { label: 'Profil', iconSrc: 'assets/icon/helmet.png' },
+        { label: 'Profil', iconSrc: 'assets/icon/equipe.png' },
         { label: 'Region', iconSrc: 'assets/icon/world-level.png' },
         { label: 'Metier', iconSrc: 'assets/icon/skilltree.png' },
         { label: 'Reliques', iconSrc: 'assets/icon/relic.png' },
@@ -53,7 +56,28 @@ export class MenuComponent {
     },
   ];
 
-  selectPlaceholder(item: MenuItem): void {
+  async selectItem(item: MenuItem): Promise<void> {
+    if (item.label === 'Profil') {
+      await this.openActiveTeamModal();
+      return;
+    }
+
     console.log(`Menu placeholder selected: ${item.label}`);
+  }
+
+  private async openActiveTeamModal(): Promise<void> {
+    await this.modalCtrl.dismiss();
+
+    const { ActiveTeamModalComponent } =
+      await import('../active-team/active-team.component');
+
+    const modal = await this.modalCtrl.create({
+      component: ActiveTeamModalComponent,
+      cssClass: 'full-screen-modal',
+      backdropDismiss: true,
+      showBackdrop: true,
+    });
+
+    await modal.present();
   }
 }
