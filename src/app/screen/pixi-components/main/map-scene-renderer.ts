@@ -5,6 +5,7 @@ import { Coordinate } from 'src/app/core/type/coordinate';
 import { TickerAnimationRunner } from './utils/ticker-animation-runner';
 import { CombatSceneRenderer } from './combat/combat-scene-renderer';
 import type { CombatAttackAnimationOptions } from './combat/combat-animation-renderer';
+import type { CombatHealthBarsState } from './combat/combat-health-bar-renderer';
 import { ExplorationSceneRenderer } from './exploration/exploration-scene-renderer';
 import { DropType, MonsterDropReward } from './map-scene-renderer.types';
 
@@ -117,6 +118,10 @@ export class MapSceneRenderer {
     options: CombatAttackAnimationOptions,
   ): Promise<void> {
     return this.combatSceneRenderer.playAttackAnimation(options);
+  }
+
+  public setCombatHealthBars(state: CombatHealthBarsState): void {
+    this.combatSceneRenderer.setCombatHealthBars(state);
   }
 
   public playCombatIntroAnimation(): Promise<void> {

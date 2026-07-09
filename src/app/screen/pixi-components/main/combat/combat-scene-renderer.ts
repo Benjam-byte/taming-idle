@@ -5,6 +5,8 @@ import { TickerAnimationRunner } from '../utils/ticker-animation-runner';
 import { DropType, MonsterDropReward } from '../map-scene-renderer.types';
 import { CombatAnimationRenderer } from './combat-animation-renderer';
 import type { CombatAttackAnimationOptions } from './combat-animation-renderer';
+import { CombatHealthBarRenderer } from './combat-health-bar-renderer';
+import type { CombatHealthBarsState } from './combat-health-bar-renderer';
 import { CombatPlayerRenderer } from './combat-player-renderer';
 import { DropRenderer } from './drop-renderer';
 
@@ -19,6 +21,7 @@ export class CombatSceneRenderer {
   private readonly animationQueue = new AnimationQueue();
   private readonly combatAnimationRenderer: CombatAnimationRenderer;
   private readonly combatPlayerRenderer: CombatPlayerRenderer;
+  private readonly combatHealthBarRenderer: CombatHealthBarRenderer;
   private readonly dropRenderer: DropRenderer;
 
   constructor(
@@ -42,6 +45,16 @@ export class CombatSceneRenderer {
       pixiAssetService,
     );
 
+    this.combatHealthBarRenderer = new CombatHealthBarRenderer(
+      game,
+      sceneContainer,
+      animationRunner,
+      {
+        monster: () => this.monsterAccess.getMonsterSprite(),
+        player: () => this.combatPlayerRenderer.sprite,
+      },
+    );
+
     this.dropRenderer = new DropRenderer(
       animationRunner,
       sceneContainer,
@@ -61,14 +74,21 @@ export class CombatSceneRenderer {
   setCombatMode(isCombatMode: boolean): void {
     if (isCombatMode) {
       this.combatPlayerRenderer.show();
+      this.combatHealthBarRenderer.setVisible(true);
     } else {
       this.combatPlayerRenderer.hide();
+      this.combatHealthBarRenderer.setVisible(false);
     }
+  }
+
+  setCombatHealthBars(state: CombatHealthBarsState): void {
+    this.combatHealthBarRenderer.setHealthBars(state);
   }
 
   destroy(): void {
     this.combatAnimationRenderer.destroy();
     this.combatPlayerRenderer.destroy();
+    this.combatHealthBarRenderer.destroy();
     this.dropRenderer.destroy();
   }
 

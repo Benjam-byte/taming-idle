@@ -10,8 +10,6 @@ import { IconButtonComponent } from 'src/app/components/icon-button/icon-button.
 import { ResourceCollectionService } from 'src/app/core/service/resource-collection-service';
 import { MapSceneRenderer } from '../../pixi-components/main/map-scene-renderer';
 import { CombatControllerComponent } from './combat-controller/combat-controller.component';
-import { MonsterBarComponent } from './monster-bar/monster-bar.component';
-import { PlayerBarComponent } from './player-bar/player-bar.component';
 import { CombatStore } from 'src/app/core/service/combat/combat.store';
 import type { AttackResolution } from 'src/app/core/service/combat/attack-resolver';
 import type { CombatAnimationTarget } from '../../pixi-components/main/combat/combat-animation-renderer';
@@ -19,12 +17,7 @@ import type { CombatAnimationTarget } from '../../pixi-components/main/combat/co
 @Component({
   selector: 'app-combat',
   standalone: true,
-  imports: [
-    CombatControllerComponent,
-    IconButtonComponent,
-    MonsterBarComponent,
-    PlayerBarComponent,
-  ],
+  imports: [CombatControllerComponent, IconButtonComponent],
   templateUrl: './combat.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -50,6 +43,19 @@ export class CombatComponent implements OnInit {
       }
 
       void this.resolveMonsterTurn();
+    });
+
+    effect(() => {
+      this.mapSceneRenderer()?.setCombatHealthBars({
+        monster: {
+          current: this.monsterLife(),
+          max: this.monsterMaxLife(),
+        },
+        player: {
+          current: this.playerLife(),
+          max: this.playerMaxLife(),
+        },
+      });
     });
   }
 
@@ -79,6 +85,7 @@ export class CombatComponent implements OnInit {
 
       await this.playResolutionAnimation(mapSceneRenderer, resolution, {
         target: this.getPlayerAttackAnimationTarget(resolution),
+        animatePlayerAttack: resolution.kind === 'base',
         applyDamage: (damage) => this.combatStore.hitMonster(damage),
         isTargetAlive: () => this.combatStore.isMonsterAlive(),
       });
@@ -163,6 +170,7 @@ export class CombatComponent implements OnInit {
     options: {
       target: CombatAnimationTarget;
       animateMonsterAttack?: boolean;
+      animatePlayerAttack?: boolean;
       applyDamage?: (damage: number) => void;
       isTargetAlive?: () => boolean;
     },
@@ -173,6 +181,7 @@ export class CombatComponent implements OnInit {
         animation: resolution.animation,
         damage: resolution.damage,
         animateMonsterAttack: options.animateMonsterAttack,
+        animatePlayerAttack: options.animatePlayerAttack,
       });
 
       return;
@@ -186,6 +195,7 @@ export class CombatComponent implements OnInit {
         animation: resolution.animation,
         damage: resolution.damageByHit,
         animateMonsterAttack: options.animateMonsterAttack,
+        animatePlayerAttack: options.animatePlayerAttack,
       });
 
       if (options.isTargetAlive && !options.isTargetAlive()) {

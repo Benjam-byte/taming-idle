@@ -3,10 +3,9 @@ import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 
 const PLAYER_TEXTURE_PREFIX = 'terra_larva_dos';
 const PLAYER_FRAME_COUNT = 10;
-const PLAYER_PANEL_BOTTOM = 160;
-const PLAYER_PANEL_HEIGHT = 82;
-const PLAYER_PANEL_HEIGHT_MOBILE = 72;
-const PLAYER_SPRITE_GAP = 8;
+const PLAYER_CONTROLS_RESERVED_HEIGHT = 138;
+const PLAYER_CONTROLS_RESERVED_HEIGHT_MOBILE = 132;
+const PLAYER_HEALTH_BAR_TOP_SPACE = 38;
 const PLAYER_SPRITE_SIZE = 260;
 const PLAYER_SPRITE_SIZE_MOBILE = 200;
 const PLAYER_SPRITE_MOBILE_BREAKPOINT = 480;
@@ -91,21 +90,18 @@ export class CombatPlayerRenderer {
     const size = Math.min(
       isMobile ? PLAYER_SPRITE_SIZE_MOBILE : PLAYER_SPRITE_SIZE,
       this.game.screen.width * 0.55,
+      this.game.screen.height * 0.42,
     );
-    const panelHeight = isMobile
-      ? PLAYER_PANEL_HEIGHT_MOBILE
-      : PLAYER_PANEL_HEIGHT;
+    const controlsReservedHeight = isMobile
+      ? PLAYER_CONTROLS_RESERVED_HEIGHT_MOBILE
+      : PLAYER_CONTROLS_RESERVED_HEIGHT;
 
     this.player.width = size;
     this.player.height = size;
-    this.player.x = size / 2;
+    this.player.x = 12 + size / 2;
     this.player.y = Math.max(
-      size / 2,
-      this.game.screen.height -
-        PLAYER_PANEL_BOTTOM -
-        panelHeight -
-        PLAYER_SPRITE_GAP -
-        size / 2,
+      PLAYER_HEALTH_BAR_TOP_SPACE + size / 2,
+      this.game.screen.height - controlsReservedHeight - size / 2,
     );
   }
 

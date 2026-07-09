@@ -11,15 +11,14 @@ type MonsterLayout = {
 };
 
 const EXPLORATION_MONSTER_SIZE = 400;
-const COMBAT_PANEL_TOP = 80;
-const COMBAT_PANEL_HEIGHT = 82;
-const COMBAT_PANEL_HEIGHT_MOBILE = 72;
-const COMBAT_PANEL_GAP = 16;
-const COMBAT_PANEL_WIDTH = 320;
-const COMBAT_PANEL_WIDTH_MOBILE = 280;
-const COMBAT_PANEL_HORIZONTAL_MARGIN = 24;
-const COMBAT_PANEL_HORIZONTAL_MARGIN_MOBILE = 18;
-const COMBAT_PANEL_MOBILE_BREAKPOINT = 480;
+const COMBAT_MONSTER_SIZE = 300;
+const COMBAT_MONSTER_SIZE_MOBILE = 220;
+const COMBAT_MONSTER_TOP_PADDING = 42;
+const COMBAT_MONSTER_TOP_PADDING_MOBILE = 34;
+const COMBAT_HEALTH_BAR_RESERVED_HEIGHT = 34;
+const COMBAT_MONSTER_HORIZONTAL_MARGIN = 18;
+const COMBAT_MONSTER_HORIZONTAL_MARGIN_MOBILE = 12;
+const COMBAT_MONSTER_MOBILE_BREAKPOINT = 480;
 
 export class MonsterEncounterRenderer {
   private monster?: AnimatedSprite;
@@ -153,24 +152,28 @@ export class MonsterEncounterRenderer {
 
   private getCombatLayout(): MonsterLayout {
     const isMobile =
-      this.game.screen.width <= COMBAT_PANEL_MOBILE_BREAKPOINT;
-    const panelMaxWidth = isMobile
-      ? COMBAT_PANEL_WIDTH_MOBILE
-      : COMBAT_PANEL_WIDTH;
+      this.game.screen.width <= COMBAT_MONSTER_MOBILE_BREAKPOINT;
+    const maxSize = isMobile
+      ? COMBAT_MONSTER_SIZE_MOBILE
+      : COMBAT_MONSTER_SIZE;
     const horizontalMargin = isMobile
-      ? COMBAT_PANEL_HORIZONTAL_MARGIN_MOBILE
-      : COMBAT_PANEL_HORIZONTAL_MARGIN;
-    const panelHeight = isMobile
-      ? COMBAT_PANEL_HEIGHT_MOBILE
-      : COMBAT_PANEL_HEIGHT;
+      ? COMBAT_MONSTER_HORIZONTAL_MARGIN_MOBILE
+      : COMBAT_MONSTER_HORIZONTAL_MARGIN;
+    const topPadding = isMobile
+      ? COMBAT_MONSTER_TOP_PADDING_MOBILE
+      : COMBAT_MONSTER_TOP_PADDING;
     const size = Math.max(
-      160,
-      Math.min(panelMaxWidth, this.game.screen.width - horizontalMargin),
+      150,
+      Math.min(
+        maxSize,
+        this.game.screen.width * 0.56,
+        this.game.screen.height * 0.38,
+      ),
     );
 
     return {
-      x: this.game.screen.width - size / 2,
-      y: COMBAT_PANEL_TOP + panelHeight + COMBAT_PANEL_GAP + size / 2,
+      x: this.game.screen.width - horizontalMargin - size / 2,
+      y: topPadding + COMBAT_HEALTH_BAR_RESERVED_HEIGHT + size / 2,
       size,
     };
   }

@@ -21,6 +21,7 @@ export type CombatAttackAnimationOptions = {
   animation: string;
   damage?: number;
   animateMonsterAttack?: boolean;
+  animatePlayerAttack?: boolean;
 };
 
 type AttackSpritePosition = {
@@ -58,6 +59,8 @@ export class CombatAnimationRenderer {
         return;
       }
 
+      const playerAttacker = player && !player.destroyed ? player : undefined;
+
       if (damage > 0) {
         void this.playDamageTextAnimation(damage, monster.x, monster.y - 150);
       }
@@ -72,6 +75,9 @@ export class CombatAnimationRenderer {
           }),
           damage > 0
             ? this.playCombatantHitEffect(monster)
+            : Promise.resolve(),
+          options.animatePlayerAttack && playerAttacker
+            ? this.playCombatantAttackPulse(playerAttacker)
             : Promise.resolve(),
         ]),
       );
@@ -114,7 +120,7 @@ export class CombatAnimationRenderer {
         ? this.playCombatantHitEffect(playerTarget)
         : Promise.resolve(),
       options.animateMonsterAttack && monster && !monster.destroyed
-        ? this.playMonsterAttackPulse(monster)
+        ? this.playCombatantAttackPulse(monster)
         : Promise.resolve(),
     ]);
   }
@@ -598,17 +604,17 @@ export class CombatAnimationRenderer {
     });
   }
 
-  private playMonsterAttackPulse(monster: AnimatedSprite): Promise<void> {
-    const startY = monster.y;
-    const startScaleX = monster.scale.x;
-    const startScaleY = monster.scale.y;
-    const startTint = monster.tint;
+  private playCombatantAttackPulse(combatant: AnimatedSprite): Promise<void> {
+    const startY = combatant.y;
+    const startScaleX = combatant.scale.x;
+    const startScaleY = combatant.scale.y;
+    const startTint = combatant.tint;
 
     let elapsed = 0;
     const duration = 380;
 
     return this.runTrackedAnimation((ticker) => {
-      if (monster.destroyed) {
+      if (combatant.destroyed) {
         return true;
       }
 
@@ -618,9 +624,9 @@ export class CombatAnimationRenderer {
       const pulse = Math.sin(progress * Math.PI);
       const lunge = easeOutCubic(Math.min(progress / 0.45, 1));
 
-      monster.y = startY - pulse * 14;
-      monster.tint = pulse > 0.08 ? 0xd6d6d6 : startTint;
-      monster.scale.set(
+      combatant.y = startY - pulse * 14;
+      combatant.tint = pulse > 0.08 ? 0xd6d6d6 : startTint;
+      combatant.scale.set(
         startScaleX * (1 + pulse * 0.18 + lunge * 0.03),
         startScaleY * (1 + pulse * 0.18 - lunge * 0.02),
       );
@@ -629,10 +635,10 @@ export class CombatAnimationRenderer {
         return false;
       }
 
-      if (!monster.destroyed) {
-        monster.y = startY;
-        monster.tint = startTint;
-        monster.scale.set(startScaleX, startScaleY);
+      if (!combatant.destroyed) {
+        combatant.y = startY;
+        combatant.tint = startTint;
+        combatant.scale.set(startScaleX, startScaleY);
       }
 
       return true;
