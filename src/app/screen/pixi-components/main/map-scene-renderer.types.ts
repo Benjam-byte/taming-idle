@@ -1,4 +1,4 @@
-import type { MonsterReward } from 'src/app/config/type/monster-type';
+import type { MonsterReward } from 'src/app/core/models/monster';
 
 export type PixiTick = {
   deltaMS: number;

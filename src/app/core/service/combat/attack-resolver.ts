@@ -1,32 +1,35 @@
 import { Injectable } from '@angular/core';
 import {
-  AttackSpeDict,
-  AttackSpeKey,
-  BaseAttackDict,
-  BaseAttackKey,
-} from 'src/app/config/attack';
-import {
   AttackAnimation,
   AttackEffect,
-  AttackSpeDefintion,
-  BaseAttackDefinition,
-} from 'src/app/config/type/attack-type';
-import { Monster } from './monster';
+  BaseAttackName,
+  SpeAttack,
+  SpeAttackName,
+} from '../../../core/models/monster/';
+import {
+  CombatMonster,
+  getBuffed,
+  getBuffedCharacteristics,
+  getDamageMultiplier,
+  getHit,
+  getWithAttackStocked,
+  getWithNextAttackStocked,
+  getWithSpentBuffTurn,
+} from './combat-monster';
 
 export type AttackKind = 'base' | 'special';
 export type AttackAnimationTarget = 'attacker' | 'target';
 
-type BaseAttackConfig = BaseAttackDefinition & { name: BaseAttackKey };
-type AttackSpeConfig = AttackSpeDefintion & { name: AttackSpeKey };
+type AttackSpeConfig = SpeAttack;
 
 export type AttackResolution = {
   kind: AttackKind;
-  attackName: BaseAttackKey | AttackSpeKey;
+  attackName: BaseAttackName | SpeAttackName;
   effect: AttackEffect | 'damage';
   animation: AttackAnimation;
   animationTarget: AttackAnimationTarget;
-  attacker: Monster;
-  target: Monster;
+  attacker: CombatMonster;
+  target: CombatMonster;
   damage: number;
   damageByHit: number;
   healing: number;
@@ -40,18 +43,24 @@ export type AttackResolution = {
 export class AttackResolver {
   private readonly maxMultipleHits = 20;
 
-  resolveAttack(attacker: Monster, target: Monster): AttackResolution {
-    const specialAttack = this.getSpecialAttack(attacker.attackSpe);
+  resolveAttack(
+    attacker: CombatMonster,
+    target: CombatMonster,
+  ): AttackResolution {
+    const specialAttack = attacker.attacks.special;
 
-    if (attacker.attackStocked >= specialAttack.turn) {
+    if (attacker.attacks.stored >= specialAttack.turn) {
       return this.resolveSpecialAttack(attacker, target, specialAttack);
     }
 
     return this.resolveBaseAttack(attacker, target);
   }
 
-  resolveBaseAttack(attacker: Monster, target: Monster): AttackResolution {
-    const attack = this.getBaseAttack(attacker.baseAttack);
+  resolveBaseAttack(
+    attacker: CombatMonster,
+    target: CombatMonster,
+  ): AttackResolution {
+    const attack = attacker.attacks.base;
     const damage = this.resolveDamage(attacker, attack.effiency);
 
     return {
@@ -60,8 +69,8 @@ export class AttackResolver {
       effect: 'damage',
       animation: attack.animation,
       animationTarget: 'target',
-      attacker: attacker.getWithNextAttackStocked().getWithSpentBuffTurn(),
-      target: target.getHit(damage),
+      attacker: getWithSpentBuffTurn(getWithNextAttackStocked(attacker)),
+      target: getHit(target, damage),
       damage,
       damageByHit: damage,
       healing: 0,
@@ -71,8 +80,8 @@ export class AttackResolver {
   }
 
   private resolveSpecialAttack(
-    attacker: Monster,
-    target: Monster,
+    attacker: CombatMonster,
+    target: CombatMonster,
     attack: AttackSpeConfig,
   ): AttackResolution {
     switch (attack.effect) {
@@ -85,15 +94,15 @@ export class AttackResolver {
           effect: attack.effect,
           animation: attack.animation,
           animationTarget: 'attacker',
-          attacker: attacker
-            .getWithAttackStocked(0)
-            .getWithSpentBuffTurn()
-            .getBuffed({
+          attacker: getBuffed(
+            getWithSpentBuffTurn(getWithAttackStocked(attacker, 0)),
+            {
               effect: attack.effect,
               stat: attack.stat,
               bonus: attack.bonus,
               duration: attack.duration,
-            }),
+            },
+          ),
           target,
           damage: 0,
           damageByHit: 0,
@@ -110,13 +119,13 @@ export class AttackResolver {
           effect: attack.effect,
           animation: attack.animation,
           animationTarget: 'attacker',
-          attacker: attacker
-            .getWithAttackStocked(0)
-            .getWithSpentBuffTurn()
-            .getBuffed({
+          attacker: getBuffed(
+            getWithSpentBuffTurn(getWithAttackStocked(attacker, 0)),
+            {
               effect: attack.effect,
               amount: healing,
-            }),
+            },
+          ),
           target,
           damage: 0,
           damageByHit: 0,
@@ -134,13 +143,13 @@ export class AttackResolver {
           effect: attack.effect,
           animation: attack.animation,
           animationTarget: 'attacker',
-          attacker: attacker
-            .getWithAttackStocked(0)
-            .getWithSpentBuffTurn()
-            .getBuffed({
+          attacker: getBuffed(
+            getWithSpentBuffTurn(getWithAttackStocked(attacker, 0)),
+            {
               effect: attack.effect,
               amount: shield,
-            }),
+            },
+          ),
           target,
           damage: 0,
           damageByHit: 0,
@@ -156,7 +165,7 @@ export class AttackResolver {
           effect: attack.effect,
           animation: attack.animation,
           animationTarget: 'target',
-          attacker: attacker.getWithAttackStocked(0).getWithSpentBuffTurn(),
+          attacker: getWithSpentBuffTurn(getWithAttackStocked(attacker, 0)),
           target,
           damage: 0,
           damageByHit: 0,
@@ -168,16 +177,13 @@ export class AttackResolver {
   }
 
   private resolveMultipleAttack(
-    attacker: Monster,
-    target: Monster,
+    attacker: CombatMonster,
+    target: CombatMonster,
     attack: Extract<AttackSpeConfig, { effect: 'multiple' }>,
   ): AttackResolution {
     let hits = 1;
 
-    while (
-      hits < this.maxMultipleHits &&
-      Math.random() < attack.probability
-    ) {
+    while (hits < this.maxMultipleHits && Math.random() < attack.probability) {
       hits += 1;
     }
 
@@ -190,7 +196,7 @@ export class AttackResolver {
       effect: attack.effect,
       animation: attack.animation,
       animationTarget: 'target',
-      attacker: attacker.getWithAttackStocked(0).getWithSpentBuffTurn(),
+      attacker: getWithSpentBuffTurn(getWithAttackStocked(attacker, 0)),
       target,
       damage,
       damageByHit,
@@ -200,34 +206,23 @@ export class AttackResolver {
     };
   }
 
-  private resolveDamage(attacker: Monster, effiency: number): number {
+  private resolveDamage(attacker: CombatMonster, effiency: number): number {
+    const buffedCharacteristics = getBuffedCharacteristics(attacker);
     const rawDamage =
-      attacker.buffedStat.attack * attacker.damageMultiplier * (effiency / 100);
+      buffedCharacteristics.attack *
+      getDamageMultiplier(attacker) *
+      (effiency / 100);
 
     return Math.max(1, Math.round(rawDamage));
   }
 
-  private resolveSupportAmount(attacker: Monster, effiency: number): number {
-    return Math.max(1, Math.round(attacker.stat.hp * (effiency / 100)));
-  }
-
-  private getBaseAttack(key: BaseAttackKey): BaseAttackConfig {
-    const attack = BaseAttackDict.find((attackDef) => attackDef.name === key);
-
-    if (!attack) {
-      throw new Error(`Unknown base attack: ${key}`);
-    }
-
-    return attack;
-  }
-
-  private getSpecialAttack(key: AttackSpeKey): AttackSpeConfig {
-    const attack = AttackSpeDict.find((attackDef) => attackDef.name === key);
-
-    if (!attack) {
-      throw new Error(`Unknown special attack: ${key}`);
-    }
-
-    return attack;
+  private resolveSupportAmount(
+    attacker: CombatMonster,
+    effiency: number,
+  ): number {
+    return Math.max(
+      1,
+      Math.round(attacker.attribut.baseCharacteristics.hp * (effiency / 100)),
+    );
   }
 }
