@@ -36,15 +36,15 @@ export function generateCombatMonster(monster: Monster): CombatMonster {
     attribut: {
       baseCharacteristics: {
         hp: getHPByLevel(monster.stats.hp.level),
-        attack: getDamageByLevel(monster.stats.hp.level),
-        defense: getDefenseByLevel(monster.stats.hp.level),
+        attack: getDamageByLevel(monster.stats.attack.level),
+        defense: getDefenseByLevel(monster.stats.defense.level),
         shield: 0,
         speed: getInitiativeByLevel(monster.stats.initiative.level),
       },
       currentCharacteristics: {
         hp: getHPByLevel(monster.stats.hp.level),
-        attack: getDamageByLevel(monster.stats.hp.level),
-        defense: getDefenseByLevel(monster.stats.hp.level),
+        attack: getDamageByLevel(monster.stats.attack.level),
+        defense: getDefenseByLevel(monster.stats.defense.level),
         shield: 0,
         speed: getInitiativeByLevel(monster.stats.initiative.level),
       },
@@ -106,7 +106,8 @@ export function getBuffed(m: CombatMonster, buff: MonsterBuff): CombatMonster {
         ...m.attribut,
         currentCharacteristics: {
           ...m.attribut.currentCharacteristics,
-          shield: m.attribut.currentCharacteristics.shield + Math.max(0, buff.amount),
+          shield:
+            m.attribut.currentCharacteristics.shield + Math.max(0, buff.amount),
         },
       },
     };
