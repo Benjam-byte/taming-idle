@@ -8,6 +8,7 @@ import type { CombatAttackAnimationOptions } from './combat/combat-animation-ren
 import type { CombatHealthBarsState } from './combat/combat-health-bar-renderer';
 import { ExplorationSceneRenderer } from './exploration/exploration-scene-renderer';
 import { DropType, MonsterDropReward } from './map-scene-renderer.types';
+import { BurrowRenderScene } from './exploration/burrow-scene-renderer';
 
 export type { MonsterDropReward } from './map-scene-renderer.types';
 
@@ -29,6 +30,9 @@ export class MapSceneRenderer {
     pixiAssetService: PixiAssetService,
     onResourceClick: (coordinate: Coordinate) => void,
     onMonsterClick: () => void,
+    onBurrowEntranceClick: () => void,
+    onBurrowSlimeClick: () => void,
+    onBurrowDepositClick: () => boolean,
     onDropClick: (dropType: DropType) => void,
   ) {
     this.animationRunner = new TickerAnimationRunner(this.game);
@@ -41,6 +45,9 @@ export class MapSceneRenderer {
       () => !this.isAnimating,
       onResourceClick,
       onMonsterClick,
+      onBurrowEntranceClick,
+      onBurrowSlimeClick,
+      onBurrowDepositClick,
     );
 
     this.combatSceneRenderer = new CombatSceneRenderer(
@@ -87,6 +94,28 @@ export class MapSceneRenderer {
       isCombatMode ? 'combat' : 'exploration',
     );
     this.combatSceneRenderer.setCombatMode(isCombatMode);
+  }
+
+  setBurrowScene(
+    scene: BurrowRenderScene,
+    tile: Tile,
+    isCombat: boolean,
+    depositRemaining = 0,
+  ): void {
+    this.explorationSceneRenderer.setBurrowScene(
+      scene,
+      tile,
+      isCombat,
+      depositRemaining,
+    );
+  }
+
+  showCombatMonster(): void {
+    this.explorationSceneRenderer.showCombatMonster();
+  }
+
+  clearDrops(): void {
+    this.combatSceneRenderer.clearDrops();
   }
 
   destroy(): void {

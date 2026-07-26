@@ -28,6 +28,16 @@ export class BackgroundRenderer {
     this.background.texture = this.getTextureForTile(tile);
   }
 
+  renderAsset(alias: string): void {
+    if (!this.background) {
+      return;
+    }
+
+    this.background.texture =
+      this.pixiAssetService.worldCoreAsset?.[alias] ??
+      this.pixiAssetService.worldCoreAsset!['plaine1'];
+  }
+
   destroy(): void {
     if (!this.background) {
       return;

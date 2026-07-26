@@ -4,10 +4,16 @@
   <div class="absolute left-0 right-0 overflow-hidden [bottom:var(--bottom-hud-height)] [top:var(--top-hud-height)]">
     <div id="pixiGameContainer" #pixiGameContainer class="h-full w-full"></div>
 
+    <app-burrow
+      #burrowController
+      [mapSceneRenderer]="mapSceneRenderer"
+      (insideChanged)="isBurrowInside.set($event)"
+    />
+
     @if(isCombatRunning()) {
     <app-combat [mapSceneRenderer]="mapSceneRenderer" />
-    } @else {
-    <app-exploration />
+    } @else if(!isBurrowInside()) {
+    <app-exploration (enterBurrowRequested)="burrowController.enter()" />
     }
   </div>
 

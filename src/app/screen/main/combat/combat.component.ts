@@ -13,11 +13,17 @@ import { CombatControllerComponent } from './combat-controller/combat-controller
 import { CombatStore } from 'src/app/core/service/combat/combat.store';
 import type { AttackResolution } from 'src/app/core/service/combat/attack-resolver';
 import type { CombatAnimationTarget } from '../../pixi-components/main/combat/combat-animation-renderer';
+import { BurrowStore } from 'src/app/core/service/burrow/burrow.store';
+import { TurnOrderComponent } from './turn-order/turn-order.component';
 
 @Component({
   selector: 'app-combat',
   standalone: true,
-  imports: [CombatControllerComponent, IconButtonComponent],
+  imports: [
+    CombatControllerComponent,
+    IconButtonComponent,
+    TurnOrderComponent,
+  ],
   templateUrl: './combat.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -26,6 +32,7 @@ export class CombatComponent implements OnInit {
   private readonly resourceCollectionService = inject(
     ResourceCollectionService,
   );
+  private readonly burrowStore = inject(BurrowStore);
 
   readonly monsterLife = this.combatStore.monsterLife;
   readonly monsterMaxLife = this.combatStore.monsterMaxLife;
@@ -33,6 +40,8 @@ export class CombatComponent implements OnInit {
   readonly playerMaxLife = this.combatStore.playerMaxLife;
   readonly playerSpecialAttackCharge = this.combatStore.playerSpecialAttackCharge;
   readonly canPlayerAttack = this.combatStore.canPlayerAttack;
+  readonly isTurnResolving = this.combatStore.isTurnResolving;
+  readonly upcomingTurns = this.combatStore.upcomingTurns;
 
   mapSceneRenderer = input<MapSceneRenderer>();
 
@@ -64,7 +73,16 @@ export class CombatComponent implements OnInit {
   }
 
   leaveCombat(): void {
+    if (this.combatStore.isTurnResolving()) {
+      return;
+    }
+
+    const isBurrowCombat = this.combatStore.isBurrowCombat();
     this.combatStore.endCombat();
+
+    if (isBurrowCombat) {
+      this.burrowStore.abort();
+    }
   }
 
   async attack(): Promise<void> {
@@ -91,13 +109,7 @@ export class CombatComponent implements OnInit {
       });
 
       if (!this.combatStore.isMonsterAlive()) {
-        this.resourceCollectionService.collectActiveTileMonsterResource();
-        await mapSceneRenderer.playMonsterDeathAnimation({
-          soul: 3,
-          glitchedStone: 1,
-        });
-
-        this.combatStore.endCombat();
+        await this.resolveEnemyDefeat(mapSceneRenderer);
         return;
       }
 
@@ -148,13 +160,65 @@ export class CombatComponent implements OnInit {
       });
 
       if (!this.combatStore.isPlayerAlive()) {
+        const isBurrowCombat = this.combatStore.isBurrowCombat();
         this.combatStore.endCombat();
+
+        if (isBurrowCombat) {
+          this.burrowStore.abort();
+        }
         return;
       }
 
       this.combatStore.giveTurnToPlayer();
     } finally {
       this.combatStore.endTurnResolution();
+    }
+  }
+
+  private async resolveEnemyDefeat(
+    mapSceneRenderer: MapSceneRenderer,
+  ): Promise<void> {
+    const isBurrowCombat = this.combatStore.isBurrowCombat();
+    const completion = this.combatStore.recordCurrentEnemyDefeat();
+
+    if (!completion) {
+      this.abortCombat(isBurrowCombat);
+      return;
+    }
+
+    if (isBurrowCombat) {
+      this.burrowStore.recordEnemyDefeated();
+    }
+
+    await mapSceneRenderer.playMonsterDeathAnimation(
+      completion.encounterComplete ? completion.reward : {},
+    );
+
+    if (!completion.encounterComplete) {
+      if (!this.combatStore.startNextEnemy()) {
+        this.abortCombat(isBurrowCombat);
+        return;
+      }
+
+      mapSceneRenderer.showCombatMonster();
+      await mapSceneRenderer.playCombatIntroAnimation();
+      return;
+    }
+
+    if (isBurrowCombat) {
+      this.burrowStore.complete();
+    } else {
+      this.resourceCollectionService.collectActiveTileMonsterResource();
+    }
+
+    this.combatStore.endCombat();
+  }
+
+  private abortCombat(isBurrowCombat: boolean): void {
+    this.combatStore.endCombat();
+
+    if (isBurrowCombat) {
+      this.burrowStore.abort();
     }
   }
 

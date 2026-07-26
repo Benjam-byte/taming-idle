@@ -217,6 +217,14 @@ export class FullMapRenderer {
       this.drawResourceIcon(tile, isVisibleNow || isVisited ? 1 : 0.55);
     }
 
+    if (tile.specialType === 'burrow' && isSeen) {
+      this.drawBurrowIcon(
+        tile,
+        isVisibleNow || isVisited ? 1 : 0.55,
+        this.mapService.isBurrowSpent(tile.coordinate),
+      );
+    }
+
     const shouldShowMonster =
       tile.hasMonster && (isVisited || this.mapService.isMonsterSpotted(x, y));
 
@@ -247,6 +255,23 @@ export class FullMapRenderer {
       .circle(cx, cy, 6)
       .fill({ color: colors.monster, alpha })
       .stroke({ color: 0x140c07, width: 1 });
+  }
+
+  private drawBurrowIcon(
+    tile: Tile,
+    alpha: number,
+    isSpent: boolean,
+  ): void {
+    const cx = tile.coordinate.x * this.cellSize + this.cellSize / 2;
+    const cy = tile.coordinate.y * this.cellSize + this.cellSize / 2;
+
+    this.tileGraphics
+      .ellipse(cx, cy + 2, 10, 7)
+      .fill({ color: isSpent ? 0x5c4a3c : 0x2b160c, alpha })
+      .stroke({ color: isSpent ? 0x8a7768 : 0xb8793e, width: 2 });
+    this.tileGraphics
+      .ellipse(cx, cy, 5.5, 3.5)
+      .fill({ color: 0x090604, alpha: alpha * (isSpent ? 0.55 : 1) });
   }
 
   private drawFog(): void {

@@ -40,6 +40,7 @@ export class TileRenderStateResolver {
       tile.obstacleType,
       tile.hasMonster,
       tile.hasResource,
+      tile.specialType,
     ].join(':');
   }
 }

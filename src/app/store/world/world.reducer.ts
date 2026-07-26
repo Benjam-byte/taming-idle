@@ -32,6 +32,33 @@ export const worldFeature = createFeature({
         ? state.exploredChunkKeys
         : [...state.exploredChunkKeys, key],
     })),
+    on(WorldActions.burrowSpent, (state, { key }) => ({
+      ...state,
+      spentBurrowTileKeys: state.spentBurrowTileKeys.includes(key)
+        ? state.spentBurrowTileKeys
+        : [...state.spentBurrowTileKeys, key],
+    })),
+    on(WorldActions.burrowCompleted, (state, { key }) => ({
+      ...state,
+      completedBurrowTileKeys: state.completedBurrowTileKeys.includes(key)
+        ? state.completedBurrowTileKeys
+        : [...state.completedBurrowTileKeys, key],
+    })),
+    on(WorldActions.burrowDepositCollected, (state, { key }) => {
+      const current =
+        state.burrowDepositCollections.find((item) => item.key === key)
+          ?.collected ?? 0;
+
+      return {
+        ...state,
+        burrowDepositCollections: [
+          ...state.burrowDepositCollections.filter(
+            (item) => item.key !== key,
+          ),
+          { key, collected: Math.min(3, current + 1) },
+        ],
+      };
+    }),
     on(WorldActions.markerAdded, (state, { marker }) => ({
       ...state,
       markers: [...state.markers, marker],
@@ -63,6 +90,9 @@ export const {
   selectSeenTileKeys,
   selectSpottedMonsterTileKeys,
   selectExploredChunkKeys,
+  selectSpentBurrowTileKeys,
+  selectCompletedBurrowTileKeys,
+  selectBurrowDepositCollections,
   selectMarkers,
   selectTileMutations,
 } = worldFeature;

@@ -42,6 +42,7 @@ export class Chunk {
       tile.obstacleType,
       mutation.hasMonster ?? tile.hasMonster,
       mutation.hasResource ?? tile.hasResource,
+      tile.specialType,
     );
 
     const idx = this.tileList.indexOf(tile);
@@ -50,10 +51,11 @@ export class Chunk {
   }
 
   generateChunkTiles(): Tile[] {
-    const grid = generateDiamondSquareGrid();
+    const grid = generateDiamondSquareGrid({}, this.createChunkRandom());
     const tiles = this.createTilesFromGrid(grid);
     const shuffledIndexes = this.getDeterministicShuffledIndexes(tiles.length);
 
+    this.assignBurrow(tiles, shuffledIndexes);
     this.assignMonsters(tiles, shuffledIndexes);
     this.assignRessources(tiles, shuffledIndexes);
 
@@ -87,7 +89,8 @@ export class Chunk {
 
   private assignMonsters(tiles: Tile[], shuffledIndexes: number[]): void {
     const walkableIndexes = shuffledIndexes.filter(
-      (index) => tiles[index].isWalkable,
+      (index) =>
+        tiles[index].isWalkable && tiles[index].specialType !== 'burrow',
     );
 
     const maxMonsterCount = Math.min(
@@ -103,7 +106,10 @@ export class Chunk {
 
   private assignRessources(tiles: Tile[], shuffledIndexes: number[]): void {
     const walkableIndexes = shuffledIndexes.filter(
-      (index) => tiles[index].isWalkable && !tiles[index].hasMonster,
+      (index) =>
+        tiles[index].isWalkable &&
+        tiles[index].specialType !== 'burrow' &&
+        !tiles[index].hasMonster,
     );
 
     const maxResourceCount = Math.min(
@@ -115,6 +121,28 @@ export class Chunk {
       const tileIndex = walkableIndexes[i];
       tiles[tileIndex].hasResource = true;
     }
+  }
+
+  private assignBurrow(tiles: Tile[], shuffledIndexes: number[]): void {
+    const shuffledTiles = shuffledIndexes.map((index) => tiles[index]);
+    const burrowTile =
+      shuffledTiles.find(
+        (tile) =>
+          tile.isWalkable &&
+          (tile.coordinate.x !== 0 || tile.coordinate.y !== 0),
+      ) ??
+      shuffledTiles.find(
+        (tile) => tile.coordinate.x !== 0 || tile.coordinate.y !== 0,
+      ) ??
+      shuffledTiles[0];
+
+    if (!burrowTile) {
+      return;
+    }
+
+    burrowTile.obstacleType = null;
+    burrowTile.path = 'terrier1';
+    burrowTile.specialType = 'burrow';
   }
 
   private getDeterministicShuffledIndexes(length: number): number[] {
@@ -153,6 +181,15 @@ export class Chunk {
 
   private nextSeed(seed: number): number {
     return (seed * 1664525 + 1013904223) >>> 0;
+  }
+
+  private createChunkRandom(): () => number {
+    let seed = this.getChunkSeed() || 1;
+
+    return () => {
+      seed = this.nextSeed(seed);
+      return seed / 0x100000000;
+    };
   }
 
   private hash2D(x: number, y: number, seed = 1337): number {

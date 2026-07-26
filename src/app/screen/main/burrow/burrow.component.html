@@ -1,0 +1,13 @@
+@if (isInside() && !isCombatRunning()) {
+  <div class="absolute z-[60] bottom-5 flex w-full justify-center">
+    <app-ui-icon-button
+      size="lg"
+      label="Retour au monde"
+      [labeled]="true"
+      (pressed)="leave()"
+    >
+      <img src="assets/icon/back.png" class="h-7 w-7 shrink-0" alt="" />
+      <span class="text-xs font-black uppercase leading-none">Retour</span>
+    </app-ui-icon-button>
+  </div>
+}

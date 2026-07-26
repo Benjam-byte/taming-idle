@@ -23,6 +23,7 @@ export type MinimapTileState = {
   isSeen: boolean;
   isKnown: boolean;
   isMonsterSpotted: boolean;
+  isBurrowSpent: boolean;
 };
 
 export type MinimapPositionTarget = Pick<Coordinate, 'x' | 'y'>;

@@ -46,11 +46,18 @@ export const manifest = {
           alias: 'stoneQuarry',
           src: asset('assets/map/generated/stonequarry.png'),
         },
+        { alias: 'terrier1', src: asset('assets/map/generated/terrier1.png') },
+        { alias: 'terrier2', src: asset('assets/map/generated/terrier2.png') },
+        { alias: 'terrier3', src: asset('assets/map/generated/terrier3.png') },
         { alias: 'wheat', src: asset('assets/object/Wheat.webp') },
         { alias: 'Soul', src: asset('assets/object/Soul.webp') },
         {
           alias: 'Glitched_stone',
           src: asset('assets/object/Glitched_Stone.webp'),
+        },
+        {
+          alias: 'Gisement_Glitched_stone',
+          src: asset('assets/object/Gisement_Glitched_Stone.webp'),
         },
       ],
     },

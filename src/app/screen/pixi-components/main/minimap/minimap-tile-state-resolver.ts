@@ -17,6 +17,7 @@ export class MinimapTileStateResolver {
       isSeen,
       isKnown: isVisibleNow || isVisited || isSeen,
       isMonsterSpotted: this.mapService.isMonsterSpotted(x, y),
+      isBurrowSpent: this.mapService.isBurrowSpent(tile.coordinate),
     };
   }
 

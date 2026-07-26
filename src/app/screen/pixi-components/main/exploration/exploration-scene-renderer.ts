@@ -10,6 +10,10 @@ import {
   MonsterEncounterRenderer,
 } from './monster-encounter-renderer';
 import { WheatRenderer } from './wheat-renderer';
+import {
+  BurrowRenderScene,
+  BurrowSceneRenderer,
+} from './burrow-scene-renderer';
 
 export type ExplorationRenderResult = {
   coordinateChanged: boolean;
@@ -21,6 +25,7 @@ export class ExplorationSceneRenderer {
   private readonly backgroundRenderer: BackgroundRenderer;
   private readonly monsterEncounterRenderer: MonsterEncounterRenderer;
   private readonly wheatRenderer: WheatRenderer;
+  private readonly burrowSceneRenderer: BurrowSceneRenderer;
 
   constructor(
     game: Application,
@@ -30,6 +35,9 @@ export class ExplorationSceneRenderer {
     canInteract: () => boolean,
     onResourceClick: (coordinate: Coordinate) => void,
     onMonsterClick: () => void,
+    onBurrowEntranceClick: () => void,
+    onBurrowSlimeClick: () => void,
+    onBurrowDepositClick: () => boolean,
   ) {
     this.backgroundRenderer = new BackgroundRenderer(
       game,
@@ -52,6 +60,17 @@ export class ExplorationSceneRenderer {
       animationRunner,
       canInteract,
       onResourceClick,
+    );
+
+    this.burrowSceneRenderer = new BurrowSceneRenderer(
+      game,
+      sceneContainer,
+      pixiAssetService,
+      animationRunner,
+      canInteract,
+      onBurrowEntranceClick,
+      onBurrowSlimeClick,
+      onBurrowDepositClick,
     );
   }
 
@@ -81,6 +100,7 @@ export class ExplorationSceneRenderer {
     this.backgroundRenderer.render(tile);
     this.monsterEncounterRenderer.render(tile);
     this.wheatRenderer.render(tile);
+    this.burrowSceneRenderer.renderWorld(tile);
 
     return {
       coordinateChanged,
@@ -100,9 +120,37 @@ export class ExplorationSceneRenderer {
     this.monsterEncounterRenderer.setMode(mode);
   }
 
+  setBurrowScene(
+    scene: BurrowRenderScene,
+    tile: Tile,
+    isCombat: boolean,
+    depositRemaining: number,
+  ): void {
+    if (scene === 'world') {
+      this.backgroundRenderer.render(tile);
+      this.burrowSceneRenderer.renderWorld(tile);
+      return;
+    }
+
+    this.backgroundRenderer.renderAsset(
+      scene === 'room' ? 'terrier2' : 'terrier3',
+    );
+    this.burrowSceneRenderer.renderScene(
+      scene,
+      isCombat,
+      depositRemaining,
+    );
+  }
+
+  showCombatMonster(): void {
+    this.burrowSceneRenderer.hideRoomSlimes();
+    this.monsterEncounterRenderer.renderMonster();
+  }
+
   destroy(): void {
     this.wheatRenderer.destroy();
     this.monsterEncounterRenderer.destroy();
+    this.burrowSceneRenderer.destroy();
     this.backgroundRenderer.destroy();
   }
 }

@@ -7,6 +7,7 @@ export type TileGroundType =
   | 'lake';
 
 export type TileObstacleType = 'lake' | 'grove' | null;
+export type TileSpecialType = 'burrow' | null;
 
 export class Tile {
   constructor(
@@ -16,6 +17,7 @@ export class Tile {
     public obstacleType: TileObstacleType = null,
     public hasMonster = false,
     public hasResource = false,
+    public specialType: TileSpecialType = null,
   ) {}
 
   get isWalkable(): boolean {
