@@ -1,0 +1,69 @@
+:host {
+  position: absolute;
+  z-index: 60;
+  top: 62px;
+  left: 12px;
+  display: block;
+  pointer-events: none;
+}
+
+.turn-order {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.turn-panel {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 2px solid var(--color-primary-800);
+  border-radius: 5px;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(var(--color-white-rgb) / 0.08),
+      rgb(var(--color-black-rgb) / 0.2)
+    ),
+    var(--color-primary-600);
+  opacity: 0.78;
+  box-shadow:
+    inset 0 1px 2px rgb(var(--color-white-rgb) / 0.14),
+    inset 0 -3px 4px rgb(var(--color-black-rgb) / 0.35),
+    0 3px 0 var(--color-layer-border),
+    0 5px 8px rgb(var(--color-black-rgb) / 0.45);
+}
+
+.turn-panel.is-current {
+  border: 2px solid var(--color-secondary-300);
+  opacity: 1;
+  box-shadow:
+    inset 0 1px 2px rgb(var(--color-white-rgb) / 0.2),
+    inset 0 -3px 4px rgb(var(--color-black-rgb) / 0.35),
+    0 0 0 2px var(--color-secondary-800),
+    0 4px 0 var(--color-layer-border),
+    0 6px 10px rgb(var(--color-black-rgb) / 0.55);
+}
+
+.turn-portrait {
+  position: absolute;
+  left: 50%;
+  width: 50px;
+  max-width: none;
+  height: 50px;
+  object-fit: contain;
+  transform: translateX(-50%);
+}
+
+.turn-portrait.is-player {
+  top: -6px;
+}
+
+.turn-portrait.is-monster {
+  top: -14px;
+}

@@ -1,0 +1,18 @@
+<ol class="turn-order" aria-label="Ordre des tours">
+  @for (turn of turns(); track $index; let isCurrent = $first) {
+    <li
+      class="turn-panel"
+      [class.is-current]="isCurrent"
+      [attr.data-actor]="turn"
+      [attr.aria-current]="isCurrent ? 'true' : null"
+    >
+      <img
+        class="turn-portrait"
+        [class.is-player]="turn === 'player'"
+        [class.is-monster]="turn === 'monster'"
+        [src]="getPortraitPath(turn)"
+        [alt]="getPortraitAlt(turn)"
+      />
+    </li>
+  }
+</ol>

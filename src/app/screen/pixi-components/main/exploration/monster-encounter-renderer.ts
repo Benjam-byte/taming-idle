@@ -53,6 +53,16 @@ export class MonsterEncounterRenderer {
       return;
     }
 
+    this.renderMonster();
+  }
+
+  renderMonster(): void {
+    if (this.isDying) {
+      return;
+    }
+
+    this.destroyMonster();
+
     const textures = this.getSlimeTextures();
 
     if (textures.length === 0) {

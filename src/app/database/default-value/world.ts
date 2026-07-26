@@ -6,6 +6,9 @@ export const DEFAULT_WORLD: WorldSave = {
   seenTileKeys: [],
   spottedMonsterTileKeys: [],
   exploredChunkKeys: [],
+  spentBurrowTileKeys: [],
+  completedBurrowTileKeys: [],
+  burrowDepositCollections: [],
   markers: [],
   tileMutations: [],
 };

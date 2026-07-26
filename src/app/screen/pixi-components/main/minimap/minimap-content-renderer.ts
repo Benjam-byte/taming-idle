@@ -72,6 +72,16 @@ export class MinimapContentRenderer {
       );
     }
 
+    if (tile.specialType === 'burrow' && state.isSeen) {
+      this.tileIconsRenderer.drawBurrowIcon(
+        graphics,
+        px,
+        py,
+        state.isVisibleNow || state.isVisited ? 1 : 0.55,
+        state.isBurrowSpent,
+      );
+    }
+
     const shouldShowMonster =
       tile.hasMonster && (state.isVisited || state.isMonsterSpotted);
 

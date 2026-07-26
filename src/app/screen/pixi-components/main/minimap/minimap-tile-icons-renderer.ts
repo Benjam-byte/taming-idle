@@ -83,4 +83,36 @@ export class MinimapTileIconsRenderer {
       .rect(cx - 1.8, cy + 1.2, 3.6, 0.9)
       .fill({ color: 0x2a1a10, alpha: alpha * 0.75 });
   }
+
+  drawBurrowIcon(
+    graphics: Graphics,
+    px: number,
+    py: number,
+    alpha: number,
+    isSpent: boolean,
+  ): void {
+    const cx = px + this.config.cellSize / 2;
+    const cy = py + this.config.cellSize / 2;
+
+    if (isSpent) {
+      graphics
+        .circle(cx, cy, 5)
+        .fill({ color: 0x514d49, alpha })
+        .stroke({ color: 0x948d86, width: 1, alpha });
+      graphics
+        .moveTo(cx - 2.8, cy)
+        .lineTo(cx - 0.8, cy + 2)
+        .lineTo(cx + 3.2, cy - 2.2)
+        .stroke({ color: 0x8ee28e, width: 1.5, alpha });
+      return;
+    }
+
+    graphics
+      .ellipse(cx, cy + 1, 5, 3.5)
+      .fill({ color: 0x2b160c, alpha })
+      .stroke({ color: 0xb8793e, width: 1, alpha });
+    graphics
+      .ellipse(cx, cy, 2.8, 1.8)
+      .fill({ color: 0x090604, alpha });
+  }
 }

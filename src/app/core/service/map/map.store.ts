@@ -60,6 +60,9 @@ type MapState = {
   spottedMonsterTileKeys: Set<string>;
   exploredChunkKeys: Set<string>;
   exploredChunkList: Map<string, Chunk>;
+  spentBurrowTileKeys: Set<string>;
+  completedBurrowTileKeys: Set<string>;
+  burrowDepositCollections: Map<string, number>;
   markers: MapMarker[];
   tileMutations: Map<string, TileMutationState>;
 };
@@ -72,6 +75,9 @@ const initialMapState: MapState = {
   spottedMonsterTileKeys: new Set(),
   exploredChunkKeys: new Set(),
   exploredChunkList: new Map(),
+  spentBurrowTileKeys: new Set(),
+  completedBurrowTileKeys: new Set(),
+  burrowDepositCollections: new Map(),
   markers: [],
   tileMutations: new Map(),
 };
@@ -202,6 +208,16 @@ export const MapStore = signalStore(
           visitedTileKeys: new Set(world.visitedTileKeys),
           seenTileKeys: new Set(world.seenTileKeys),
           spottedMonsterTileKeys: new Set(world.spottedMonsterTileKeys),
+          spentBurrowTileKeys: new Set(world.spentBurrowTileKeys ?? []),
+          completedBurrowTileKeys: new Set(
+            world.completedBurrowTileKeys ?? [],
+          ),
+          burrowDepositCollections: new Map(
+            (world.burrowDepositCollections ?? []).map((item) => [
+              item.key,
+              item.collected,
+            ]),
+          ),
           markers: world.markers,
           tileMutations,
         });
@@ -254,6 +270,75 @@ export const MapStore = signalStore(
 
       isMonsterSpotted(x: number, y: number): boolean {
         return store.spottedMonsterTileKeys().has(tileKey(x, y));
+      },
+
+      isBurrowSpent(coordinate: Coordinate): boolean {
+        return store.spentBurrowTileKeys().has(
+          tileKey(coordinate.x, coordinate.y),
+        );
+      },
+
+      spendBurrow(coordinate: Coordinate): void {
+        const key = tileKey(coordinate.x, coordinate.y);
+
+        if (store.spentBurrowTileKeys().has(key)) {
+          return;
+        }
+
+        patchState(store, (state) => ({
+          spentBurrowTileKeys: new Set([...state.spentBurrowTileKeys, key]),
+        }));
+        ngrxStore.dispatch(WorldActions.burrowSpent({ key }));
+      },
+
+      isBurrowCompleted(coordinate: Coordinate): boolean {
+        return store.completedBurrowTileKeys().has(
+          tileKey(coordinate.x, coordinate.y),
+        );
+      },
+
+      completeBurrow(coordinate: Coordinate): void {
+        const key = tileKey(coordinate.x, coordinate.y);
+
+        if (store.completedBurrowTileKeys().has(key)) {
+          return;
+        }
+
+        patchState(store, (state) => ({
+          completedBurrowTileKeys: new Set([
+            ...state.completedBurrowTileKeys,
+            key,
+          ]),
+        }));
+        ngrxStore.dispatch(WorldActions.burrowCompleted({ key }));
+      },
+
+      getBurrowDepositCollected(coordinate: Coordinate): number {
+        return (
+          store.burrowDepositCollections().get(
+            tileKey(coordinate.x, coordinate.y),
+          ) ?? 0
+        );
+      },
+
+      collectBurrowDeposit(coordinate: Coordinate): boolean {
+        const key = tileKey(coordinate.x, coordinate.y);
+        const collected = store.burrowDepositCollections().get(key) ?? 0;
+
+        if (
+          !store.completedBurrowTileKeys().has(key) ||
+          collected >= 3
+        ) {
+          return false;
+        }
+
+        patchState(store, (state) => ({
+          burrowDepositCollections: new Map(
+            state.burrowDepositCollections,
+          ).set(key, collected + 1),
+        }));
+        ngrxStore.dispatch(WorldActions.burrowDepositCollected({ key }));
+        return true;
       },
 
       isInVisionRange(tileX: number, tileY: number, playerX: number, playerY: number): boolean {

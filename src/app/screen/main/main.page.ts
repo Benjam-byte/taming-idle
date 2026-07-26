@@ -6,6 +6,7 @@ import {
   ViewChild,
   effect,
   inject,
+  signal,
 } from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular/standalone';
 import { Application, Container } from 'pixi.js';
@@ -20,6 +21,7 @@ import { CombatComponent } from './combat/combat.component';
 import { ExplorationComponent } from './exploration/exploration.component';
 import { BottomHudBarComponent } from './hud/bottom-hud-bar/bottom-hud-bar.component';
 import { TopHudBarComponent } from './hud/top-hud-bar/top-hud-bar.component';
+import { BurrowComponent } from './burrow/burrow.component';
 
 @Component({
   selector: 'app-main',
@@ -31,11 +33,15 @@ import { TopHudBarComponent } from './hud/top-hud-bar/top-hud-bar.component';
     BottomHudBarComponent,
     ExplorationComponent,
     CombatComponent,
+    BurrowComponent,
   ],
 })
 export class MainPage implements AfterViewInit {
   @ViewChild('pixiGameContainer', { static: true })
   pixiGameContainer!: ElementRef<HTMLDivElement>;
+
+  @ViewChild(BurrowComponent, { static: true })
+  burrowComponent!: BurrowComponent;
 
   private readonly modalCtrl = inject(ModalController);
   private readonly pixiAssetService = inject(PixiAssetService);
@@ -49,6 +55,7 @@ export class MainPage implements AfterViewInit {
   game = new Application();
   isGameReady = false;
   isCombatRunning = this.combatStore.isCombat;
+  isBurrowInside = signal(false);
 
   worldContainer = new Container();
   uiContainer = new Container();
@@ -61,7 +68,10 @@ export class MainPage implements AfterViewInit {
       const tile = this.mapStore.activeTile();
       const isCombatRunning = this.isCombatRunning();
 
-      this.updateMinimapVisibility(isCombatRunning);
+      this.updateMinimapVisibility(
+        isCombatRunning,
+        this.isBurrowInside(),
+      );
       this.mapSceneRenderer?.setCombatMode(isCombatRunning);
 
       if (!tile || !this.mapSceneRenderer) {
@@ -145,6 +155,9 @@ export class MainPage implements AfterViewInit {
       (coordinate) =>
         this.resourceCollectionService.collectTileResourceAt(coordinate),
       () => this.showCombat(),
+      () => this.burrowComponent.enter(),
+      () => this.burrowComponent.startCombat(),
+      () => this.burrowComponent.collectDeposit(),
       (dropType) => {
         switch (dropType) {
           case 'soul':
@@ -168,7 +181,7 @@ export class MainPage implements AfterViewInit {
 
     this.mapSceneRenderer.init();
     this.minimapRenderer.init();
-    this.updateMinimapVisibility();
+    this.updateMinimapVisibility(this.isCombatRunning(), this.isBurrowInside());
     this.mapSceneRenderer.setCombatMode(this.isCombatRunning());
 
     const tile = this.mapStore.activeTile();
@@ -183,12 +196,13 @@ export class MainPage implements AfterViewInit {
 
   private updateMinimapVisibility(
     isCombatRunning = this.isCombatRunning(),
+    isBurrowInside = this.isBurrowInside(),
   ): void {
     if (!this.minimapRenderer) {
       return;
     }
 
-    if (isCombatRunning) {
+    if (isCombatRunning || isBurrowInside) {
       this.minimapRenderer.hide();
     } else {
       this.minimapRenderer.show();
@@ -196,7 +210,7 @@ export class MainPage implements AfterViewInit {
   }
 
   private showCombat(): void {
-    if (this.combatStore.isCombat()) {
+    if (this.combatStore.isCombat() || this.isBurrowInside()) {
       return;
     }
 

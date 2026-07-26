@@ -1,8 +1,10 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
+  OnDestroy,
   ViewChild,
 } from '@angular/core';
 import { Application, Container } from 'pixi.js';
@@ -17,7 +19,7 @@ import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ModalLayoutComponent],
 })
-export class FullMapComponent {
+export class FullMapComponent implements AfterViewInit, OnDestroy {
   @ViewChild('fullMapContainer', { static: true })
   private readonly fullMapContainer!: ElementRef<HTMLDivElement>;
 

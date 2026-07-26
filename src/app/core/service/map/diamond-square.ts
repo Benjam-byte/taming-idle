@@ -28,6 +28,7 @@ const DEFAULT_CONFIG: Required<DiamondSquareConfig> = {
 
 export function generateDiamondSquareGrid(
   config: DiamondSquareConfig = {},
+  random: () => number = Math.random,
 ): Point[][] {
   const {
     size,
@@ -41,7 +42,7 @@ export function generateDiamondSquareGrid(
   };
 
   const gridSize = 2 ** size + 1;
-  const grid = initGrid(gridSize, rangeHeight);
+  const grid = initGrid(gridSize, rangeHeight, random);
 
   let step = gridSize - 1;
   let currentRangeRandom: [number, number] = [...rangeRandom];
@@ -61,7 +62,7 @@ export function generateDiamondSquareGrid(
             grid[x + step][y].height,
             grid[x + step][y + step].height,
             grid[x][y + step].height,
-          ]) + getRandomInRange(currentRangeRandom);
+          ]) + getRandomInRange(currentRangeRandom, random);
       }
     }
 
@@ -78,7 +79,7 @@ export function generateDiamondSquareGrid(
           neighbours.push(grid[x][y + halfStep].height);
 
         grid[x][y].height =
-          average(neighbours) + getRandomInRange(currentRangeRandom);
+          average(neighbours) + getRandomInRange(currentRangeRandom, random);
       }
     }
 
@@ -95,7 +96,11 @@ export function generateDiamondSquareGrid(
   return grid;
 }
 
-function initGrid(gridSize: number, rangeHeight: [number, number]): Point[][] {
+function initGrid(
+  gridSize: number,
+  rangeHeight: [number, number],
+  random: () => number,
+): Point[][] {
   const grid: Point[][] = [];
 
   for (let x = 0; x < gridSize; x++) {
@@ -106,18 +111,25 @@ function initGrid(gridSize: number, rangeHeight: [number, number]): Point[][] {
     }
   }
 
-  grid[0][0].height = getRandomInteger(rangeHeight[0], rangeHeight[1]);
+  grid[0][0].height = getRandomInteger(
+    rangeHeight[0],
+    rangeHeight[1],
+    random,
+  );
   grid[gridSize - 1][0].height = getRandomInteger(
     rangeHeight[0],
     rangeHeight[1],
+    random,
   );
   grid[gridSize - 1][gridSize - 1].height = getRandomInteger(
     rangeHeight[0],
     rangeHeight[1],
+    random,
   );
   grid[0][gridSize - 1].height = getRandomInteger(
     rangeHeight[0],
     rangeHeight[1],
+    random,
   );
 
   return grid;
@@ -196,10 +208,17 @@ function average(values: number[]): number {
   return values.reduce((sum, value) => sum + value, 0) / values.length;
 }
 
-function getRandomInRange([min, max]: [number, number]): number {
-  return Math.random() * (max - min) + min;
+function getRandomInRange(
+  [min, max]: [number, number],
+  random: () => number,
+): number {
+  return random() * (max - min) + min;
 }
 
-function getRandomInteger(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+function getRandomInteger(
+  min: number,
+  max: number,
+  random: () => number,
+): number {
+  return Math.floor(random() * (max - min + 1)) + min;
 }

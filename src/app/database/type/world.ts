@@ -7,12 +7,20 @@ export type TileMutation = {
   hasResource: boolean;
 };
 
+export type BurrowDepositCollection = {
+  key: string;
+  collected: number;
+};
+
 export type WorldSave = {
   playerCoordinate: Coordinate;
   visitedTileKeys: string[];
   seenTileKeys: string[];
   spottedMonsterTileKeys: string[];
   exploredChunkKeys: string[];
+  spentBurrowTileKeys: string[];
+  completedBurrowTileKeys: string[];
+  burrowDepositCollections: BurrowDepositCollection[];
   markers: MapMarker[];
   tileMutations: TileMutation[];
 };

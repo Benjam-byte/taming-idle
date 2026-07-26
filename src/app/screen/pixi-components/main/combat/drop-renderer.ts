@@ -143,7 +143,7 @@ export class DropRenderer {
     }
 
     const drops: Sprite[] = [];
-    const maxVisibleDrops = Math.min(dropList.length, 12);
+    const maxVisibleDrops = Math.min(dropList.length, 16);
 
     for (let i = 0; i < maxVisibleDrops; i++) {
       const dropInfo = dropList[i];

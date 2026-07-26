@@ -43,4 +43,13 @@ export class ResourceCollectionService {
   collectGlitchedStone(): void {
     this.store.dispatch(LootActions.increment({ key: 'glitchedStone', amount: 1 }));
   }
+
+  collectBurrowDepositAt(coord: Coordinate): boolean {
+    if (!this.mapService.collectBurrowDeposit(coord)) {
+      return false;
+    }
+
+    this.collectGlitchedStone();
+    return true;
+  }
 }

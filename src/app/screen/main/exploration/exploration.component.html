@@ -1,3 +1,21 @@
 <div class="absolute bottom-5 flex w-full justify-center">
-  <app-move-controller (moveRequested)="move($event)" />
+  <div class="flex flex-col items-center gap-3">
+    @if(isOnBurrow()) {
+    <app-ui-icon-button
+      size="lg"
+      label="Entrer dans le terrier"
+      [labeled]="true"
+      (pressed)="enterBurrowRequested.emit()"
+    >
+      <img
+        src="assets/icon/footsteps.png"
+        class="h-7 w-7 shrink-0"
+        alt=""
+      />
+      <span class="text-xs font-black uppercase leading-none">Entrer</span>
+    </app-ui-icon-button>
+    }
+
+    <app-move-controller (moveRequested)="move($event)" />
+  </div>
 </div>

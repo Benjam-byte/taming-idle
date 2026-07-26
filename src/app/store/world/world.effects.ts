@@ -33,4 +33,27 @@ export const persistWorld = createEffect(
   { functional: true },
 );
 
-export const worldEffects = { persistWorld };
+export const persistBurrow = createEffect(
+  (
+    actions$ = inject(Actions),
+    store = inject(Store),
+    repo = inject(SaveGameRepository),
+  ) =>
+    actions$.pipe(
+      ofType(
+        WorldActions.burrowSpent,
+        WorldActions.burrowCompleted,
+        WorldActions.burrowDepositCollected,
+      ),
+      withLatestFrom(store.select(selectWorldState)),
+      switchMap(([, world]) =>
+        from(repo.patch({ world })).pipe(
+          map(() => WorldActions.persistSuccess()),
+          catchError((error) => of(WorldActions.persistFailure({ error }))),
+        ),
+      ),
+    ),
+  { functional: true },
+);
+
+export const worldEffects = { persistWorld, persistBurrow };

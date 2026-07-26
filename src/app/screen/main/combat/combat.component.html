@@ -1,7 +1,10 @@
+<app-combat-turn-order [turns]="upcomingTurns()" />
+
 <div class="absolute z-[60] bottom-5 flex w-full justify-center px-3">
   <div class="flex w-full flex-col items-center gap-2">
     <div class="flex self-end gap-3">
-      <app-ui-icon-button size="lg" label="Quitter le combat" [labeled]="true" (pressed)="leaveCombat()">
+      <app-ui-icon-button size="lg" label="Quitter le combat" [labeled]="true" [disabled]="isTurnResolving()"
+        (pressed)="leaveCombat()">
         <img src="assets/icon/flee-icon.png" class="h-7 w-7 shrink-0" alt="" />
         <span class="text-xs font-black uppercase leading-none">Fuir</span>
       </app-ui-icon-button>
