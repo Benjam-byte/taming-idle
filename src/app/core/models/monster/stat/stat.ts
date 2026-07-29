@@ -1,3 +1,5 @@
+import { pickWeightedChoice } from 'src/app/core/helpers/random';
+
 export const STAT_NAME_LIST = [
   'initiative',
   'defense',
@@ -12,30 +14,40 @@ export const STAT_NAME_LIST = [
 ] as const;
 export type StatName = (typeof STAT_NAME_LIST)[number];
 
+export const enum Rarity {
+  Normal,
+  Rare,
+  SuperRare,
+  Legendary,
+}
+
+const MULT_BY_RARITY: Record<Rarity, number> = {
+  [Rarity.Normal]: 1,
+  [Rarity.Rare]: 1.15,
+  [Rarity.SuperRare]: 1.15 * 1.15,
+  [Rarity.Legendary]: 1.15 * 1.15 * 1.15,
+};
+
 export type Stat = {
-  level: number;
   value: number;
+  rarity: Rarity;
 };
 
 export type StatDefinition = {
-  mu: number,
-  n: number
-}
+  base: number;
+};
 
-export type MonsterStat = Record<StatName, Stat>
+export type MonsterStat = Record<StatName, Stat>;
 
-export function getHPByLevel(level: number): number {
-  return 10 + 2 * level;
-}
+export function generateStat(base: number): Stat {
+  const rarity = pickWeightedChoice(
+    [Rarity.Normal, Rarity.Rare, Rarity.SuperRare, Rarity.Legendary],
+    [60, 25, 12, 3],
+  );
 
-export function getDefenseByLevel(level: number): number {
-  return Math.min(0.75, ((level - 1) * 3) / 196);
-}
-
-export function getDamageByLevel(level: number): number {
-  return Math.ceil(level * 0.75);
-}
-
-export function getInitiativeByLevel(level: number): number {
-  return level;
+  const mult = MULT_BY_RARITY[rarity];
+  return {
+    rarity,
+    value: base * mult,
+  };
 }

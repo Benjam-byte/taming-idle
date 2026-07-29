@@ -1,10 +1,12 @@
-import {
-  generateInWindow,
-  pickWeightedChoice,
-} from '../../helpers/random';
+import { pickWeightedChoice } from '../../helpers/random';
 import { ElementType } from '../common';
 import { BaseAttackName, SpeAttackName } from './attack';
-import { MonsterStat, StatDefinition, StatName } from './stat/stat';
+import {
+  generateStat,
+  MonsterStat,
+  StatDefinition,
+  StatName,
+} from './stat/stat';
 
 export type MonsterName = 'Terra larva' | 'Slime';
 
@@ -34,9 +36,7 @@ export function generateMonster(definition: MonsterDefintion): Monster {
     (acc, [name, statDef]) => {
       return {
         ...acc,
-        [name]: {
-          level: generateInWindow(statDef.mu, statDef.n),
-        },
+        [name]: generateStat(statDef.base),
       };
     },
     {},
