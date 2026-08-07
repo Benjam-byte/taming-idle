@@ -237,6 +237,27 @@ export const CombatStore = signalStore(
       );
     }
 
+    function recordCurrentEnemyCleared(
+      reward: MonsterReward,
+    ): CombatWaveCompletion {
+      const defeatedEnemyCount = Math.min(
+        store.totalEnemyCount(),
+        store.defeatedEnemyCount() + 1,
+      );
+      const encounterComplete =
+        defeatedEnemyCount === store.totalEnemyCount();
+
+      patchState(store, {
+        accumulatedReward: reward,
+        defeatedEnemyCount,
+        currentEnemyDefeatRecorded: true,
+      });
+
+      return encounterComplete
+        ? { encounterComplete: true, reward }
+        : { encounterComplete: false, reward: null };
+    }
+
     return {
       startCombat(
         context: CombatContext = 'world',
@@ -293,26 +314,18 @@ export const CombatStore = signalStore(
           return null;
         }
 
-        const reward = addRewards(
-          store.accumulatedReward(),
-          store.currentEnemyReward(),
+        return recordCurrentEnemyCleared(
+          addRewards(store.accumulatedReward(), store.currentEnemyReward()),
         );
-        const defeatedEnemyCount = Math.min(
-          store.totalEnemyCount(),
-          store.defeatedEnemyCount() + 1,
-        );
-        const encounterComplete =
-          defeatedEnemyCount === store.totalEnemyCount();
+      },
+      recordCurrentEnemyTamed(): CombatWaveCompletion | null {
+        const monster = store.monster();
 
-        patchState(store, {
-          accumulatedReward: reward,
-          defeatedEnemyCount,
-          currentEnemyDefeatRecorded: true,
-        });
+        if (!monster || store.currentEnemyDefeatRecorded()) {
+          return null;
+        }
 
-        return encounterComplete
-          ? { encounterComplete: true, reward }
-          : { encounterComplete: false, reward: null };
+        return recordCurrentEnemyCleared(store.accumulatedReward());
       },
       startNextEnemy(): boolean {
         const player = store.player();

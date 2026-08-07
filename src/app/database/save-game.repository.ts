@@ -67,6 +67,10 @@ export class SaveGameRepository {
         ...defaults.world,
         ...(save.world ?? {}),
       },
+      monster: {
+        ...defaults.monster,
+        ...(save.monster ?? {}),
+      },
     };
 
     if (!migrated.version) {

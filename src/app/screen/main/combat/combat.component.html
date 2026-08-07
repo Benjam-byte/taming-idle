@@ -14,7 +14,8 @@
         <span class="text-xs font-black uppercase leading-none">Switch</span>
       </app-ui-icon-button>
 
-      <app-ui-icon-button size="lg" label="Domestiquer" [labeled]="true">
+      <app-ui-icon-button size="lg" label="Domestiquer" [labeled]="true" [disabled]="!canPlayerAttack()"
+        (pressed)="tame()">
         <img src="assets/icon/tame-icon.png" class="h-7 w-7 shrink-0" alt="" />
         <span class="text-xs font-black uppercase leading-none">Tame</span>
       </app-ui-icon-button>

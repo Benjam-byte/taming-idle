@@ -25,6 +25,7 @@ export type MonsterDefintion = {
 };
 
 export type Monster = {
+  name: MonsterName;
   stats: MonsterStat;
   type: ElementType;
   baseAttack: BaseAttackName;
@@ -43,6 +44,7 @@ export function generateMonster(definition: MonsterDefintion): Monster {
   ) as MonsterStat;
 
   return {
+    name: definition.name,
     stats,
     type: definition.type,
     baseAttack: definition.baseAttack,

@@ -1,0 +1,42 @@
+<app-modal-layout title="Bestiaire">
+  <div class="flex min-h-0 flex-1 flex-col gap-3 overflow-auto">
+    <section class="bestiary-band">
+      <div class="bestiary-band-header">
+        <span>{{ tamedCount() }} domestique{{ tamedCount() > 1 ? "s" : "" }}</span>
+      </div>
+
+      @if (entries().length === 0) {
+      <p class="bestiary-empty">Aucun monstre domestique pour le moment.</p>
+      } @else {
+      <div class="bestiary-grid">
+        @for (entry of entries(); track trackEntry($index, entry)) {
+        <article class="bestiary-card">
+          <img [src]="entry.portraitSrc" alt="" class="bestiary-card-portrait" />
+
+          <strong class="bestiary-card-name">{{ entry.name }}</strong>
+
+          <div class="bestiary-card-stats">
+            <div class="stat-tile">
+              <span>HP</span>
+              <strong>{{ entry.hp }}</strong>
+            </div>
+            <div class="stat-tile">
+              <span>Attaque</span>
+              <strong>{{ entry.attack }}</strong>
+            </div>
+            <div class="stat-tile">
+              <span>Defense</span>
+              <strong>{{ entry.defense }}</strong>
+            </div>
+            <div class="stat-tile">
+              <span>Vitesse</span>
+              <strong>{{ entry.speed }}</strong>
+            </div>
+          </div>
+        </article>
+        }
+      </div>
+      }
+    </section>
+  </div>
+</app-modal-layout>

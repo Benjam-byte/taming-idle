@@ -29,6 +29,8 @@ import { lootFeature } from './app/store/loot/loot.reducer';
 import { lootEffects } from './app/store/loot/loot.effects';
 import { worldFeature } from './app/store/world/world.reducer';
 import { worldEffects } from './app/store/world/world.effects';
+import { monsterFeature } from './app/store/monster/monster.reducer';
+import { monsterEffects } from './app/store/monster/monster.effects';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -49,7 +51,8 @@ bootstrapApplication(AppComponent, {
     provideStore(),
     provideState(lootFeature),
     provideState(worldFeature),
-    provideEffects(lootEffects, worldEffects),
+    provideState(monsterFeature),
+    provideEffects(lootEffects, worldEffects, monsterEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideAppInitializer(() => {
       const databaseBootstrapService = inject(DatabaseBootstrapService);

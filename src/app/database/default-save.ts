@@ -1,4 +1,5 @@
 import { DEFAULT_LOOT } from './default-value/loot';
+import { DEFAULT_MONSTER } from './default-value/monster';
 import { DEFAULT_WORLD } from './default-value/world';
 import { SaveGame } from './save-game.type';
 
@@ -10,6 +11,7 @@ export function createDefaultSaveGame(): SaveGame {
     version: DB_VERSION,
     loot: { ...DEFAULT_LOOT },
     world: { ...DEFAULT_WORLD },
+    monster: { ...DEFAULT_MONSTER },
     updatedAt: new Date().toISOString(),
   };
 }
