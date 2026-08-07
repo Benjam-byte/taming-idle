@@ -6,6 +6,9 @@ export type TamedMonster = {
   tamedAt: string;
 };
 
+export const ACTIVE_TEAM_SIZE = 3;
+
 export type MonsterSave = {
   tamed: TamedMonster[];
+  activeTeamIds: (string | null)[];
 };

@@ -5,15 +5,11 @@ import {
   inject,
 } from '@angular/core';
 import { MonsterName } from 'src/app/core/models/monster';
+import { MONSTER_PORTRAIT } from 'src/app/core/assets/monster-portraits';
 import { generateCombatMonster } from 'src/app/core/service/combat/combat-monster';
 import { MonsterStore } from 'src/app/core/service/monster/monster.store';
 import { TamedMonster } from 'src/app/database/type/monster';
 import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
-
-const MONSTER_PORTRAIT: Record<MonsterName, string> = {
-  'Terra larva': 'assets/monster/terra_larva/Terra_larva.webp',
-  Slime: 'assets/monster/slime/Slime_Base.webp',
-};
 
 type BestiaryEntry = {
   id: string;

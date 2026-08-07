@@ -6,6 +6,7 @@ export const MonsterActions = createActionGroup({
   events: {
     Hydrate: props<{ monster: MonsterSave }>(),
     Tamed: props<{ tamed: TamedMonster }>(),
+    'Team Slot Set': props<{ activeTeamIds: (string | null)[] }>(),
     'Persist Success': emptyProps(),
     'Persist Failure': props<{ error: unknown }>(),
   },

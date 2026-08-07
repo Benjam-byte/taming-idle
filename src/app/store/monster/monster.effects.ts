@@ -10,7 +10,7 @@ import { selectMonsterState } from './monster.reducer';
 export const persistMonster = createEffect(
   (actions$ = inject(Actions), store = inject(Store), repo = inject(SaveGameRepository)) =>
     actions$.pipe(
-      ofType(MonsterActions.tamed),
+      ofType(MonsterActions.tamed, MonsterActions.teamSlotSet),
       debounceTime(500),
       withLatestFrom(store.select(selectMonsterState)),
       switchMap(([, monster]) =>

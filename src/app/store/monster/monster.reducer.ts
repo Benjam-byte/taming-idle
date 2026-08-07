@@ -17,6 +17,10 @@ export const monsterFeature = createFeature({
       ...state,
       tamed: [...state.tamed, tamed],
     })),
+    on(MonsterActions.teamSlotSet, (state, { activeTeamIds }) => ({
+      ...state,
+      activeTeamIds,
+    })),
   ),
 });
 
@@ -25,4 +29,5 @@ export const {
   reducer: monsterReducer,
   selectMonsterState,
   selectTamed,
+  selectActiveTeamIds,
 } = monsterFeature;

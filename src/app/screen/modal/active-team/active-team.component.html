@@ -2,107 +2,76 @@
   <div class="flex min-h-0 flex-1 flex-col gap-3 overflow-auto">
     <section class="team-band">
       <div class="team-band-header">
-        <span>{{ activeCreatureCount }} / 3</span>
+        <span>{{ activeCreatureCount() }} / {{ teamSize }}</span>
       </div>
 
       <div class="team-slots">
-        @for (slot of slots; track trackSlot($index, slot)) {
-        @if (slot.kind === "creature") {
-        <button type="button" class="team-slot bottom-shadow"
-          [class.is-selected]="slot.creature.id === selectedCreatureId()"
-          [attr.aria-pressed]="slot.creature.id === selectedCreatureId()" (click)="selectCreature(slot.creature.id)">
+        @for (slot of activeSlots(); track $index) {
+        <button type="button" class="team-slot bottom-shadow" [class.is-selected]="$index === selectedSlotIndex()"
+          [attr.aria-pressed]="$index === selectedSlotIndex()" (click)="selectSlot($index)">
+          @if (slot) {
           <span class="team-slot-type">
-            <img [src]="slot.creature.typeIconSrc" alt="" />
+            <img [src]="slot.typeIconSrc" alt="" />
           </span>
 
-          <img [src]="slot.creature.imageSrc" alt="" class="team-slot-portrait" />
+          <img [src]="slot.portraitSrc" alt="" class="team-slot-portrait" />
 
-          <strong>{{ slot.creature.name }}</strong>
-        </button>
-        } @else {
-        <button type="button" class="team-slot is-empty" disabled>
+          <strong>{{ slot.name }}</strong>
+          } @else {
           <span class="team-slot-plus">+</span>
-          <strong>Slot vide</strong>
+          <strong>Choisir</strong>
+          }
         </button>
-        }
         }
       </div>
     </section>
 
+    @if (isPickerOpen()) {
+    <section class="creature-picker">
+      <header class="creature-picker-header">
+        <h3>Choisir un monstre</h3>
+        <button type="button" class="creature-picker-close" (click)="closePicker()">Fermer</button>
+      </header>
+
+      @if (pickerCandidates().length === 0) {
+      <p class="creature-picker-empty">Aucun monstre domestique disponible.</p>
+      } @else {
+      <div class="creature-picker-grid">
+        @for (tamedMonster of pickerCandidates(); track tamedMonster.id) {
+        <button type="button" class="creature-picker-card" (click)="pickCreature(tamedMonster.id)">
+          <img [src]="portraitSrcFor(tamedMonster)" alt="" />
+          <strong>{{ tamedMonster.monster.name }}</strong>
+        </button>
+        }
+      </div>
+      }
+
+      @if (pickerHasCurrentCreature()) {
+      <button type="button" class="creature-picker-remove" (click)="removeFromTeam()">
+        Retirer de l'equipe
+      </button>
+      }
+    </section>
+    } @else if (selectedSheet(); as sheet) {
     <section class="creature-sheet">
       <div class="creature-sheet-portrait">
-        <img [src]="selectedCreature().imageSrc" alt="" />
+        <img [src]="sheet.imageSrc" alt="" />
       </div>
 
       <div class="creature-sheet-details">
         <header class="creature-sheet-header">
-          <div>
-            <h2>{{ selectedCreature().name }}</h2>
+          <h2>{{ sheet.name }}</h2>
 
-            <div class="creature-sheet-mana" role="meter"
-              [attr.aria-label]="'Mana stocke de ' + selectedCreature().name"
-              [attr.aria-valuenow]="selectedCreature().mana.current" aria-valuemin="0"
-              [attr.aria-valuemax]="selectedCreature().mana.max">
-              <span class="creature-sheet-mana-label">Mana stockee</span>
-
-              <div class="creature-sheet-mana-track">
-                <span class="creature-sheet-mana-fill" [style.width.%]="selectedManaPercent()"></span>
-
-                <strong>
-                  {{ selectedCreature().mana.current }} /
-                  {{ selectedCreature().mana.max }}
-                </strong>
-              </div>
-            </div>
-          </div>
+          <button type="button" class="creature-sheet-change" (click)="openPicker(selectedSlotIndex())">
+            Changer
+          </button>
         </header>
-
-        <section class="jobs-section">
-          <h3>Metiers</h3>
-
-          <div class="jobs-grid">
-            @for (job of selectedCreature().jobs; track job.label) {
-            <div class="job-chip" [class.is-primary]="job.role === 'primary'">
-              <span class="job-chip-role">
-                {{ job.role === "primary" ? "Principal" : "Secondaire" }}
-              </span>
-
-              <img [src]="job.iconSrc" alt="" />
-
-              <div class="job-chip-body">
-                <strong>{{ job.label }}</strong>
-                <span>Niv. {{ job.level }}</span>
-              </div>
-            </div>
-            }
-          </div>
-        </section>
 
         <section class="stats-section">
           <h3>Stats combat</h3>
 
           <div class="stats-grid combat-stats-grid">
-            @for (
-            stat of selectedCreature().combatStats;
-            track trackStat($index, stat)
-            ) {
-            <div class="stat-tile">
-              <span>{{ stat.label }}</span>
-              <img [src]="stat.iconSrc" alt="" />
-              <strong>{{ stat.value }}</strong>
-            </div>
-            }
-          </div>
-        </section>
-
-        <section class="stats-section">
-          <h3>Stats exploration</h3>
-
-          <div class="stats-grid">
-            @for (
-            stat of selectedCreature().explorationStats;
-            track trackStat($index, stat)
-            ) {
+            @for (stat of sheet.combatStats; track trackStat($index, stat)) {
             <div class="stat-tile">
               <span>{{ stat.label }}</span>
               <img [src]="stat.iconSrc" alt="" />
@@ -121,10 +90,7 @@
 
           @if (attacksExpanded()) {
           <div class="attacks-list">
-            @for (
-            attack of selectedCreature().attacks;
-            track trackAttack($index, attack)
-            ) {
+            @for (attack of sheet.attacks; track trackAttack($index, attack)) {
             <article class="attack-row">
               <img [src]="attack.iconSrc" alt="" />
 
@@ -138,10 +104,12 @@
               </p>
 
               <dl class="attack-row-numbers">
+                @if (attack.power !== undefined) {
                 <div>
                   <dt>Puissance</dt>
                   <dd>{{ attack.power }}</dd>
                 </div>
+                }
 
                 @if (attack.turnsRequired) {
                 <div>
@@ -157,5 +125,10 @@
         </section>
       </div>
     </section>
+    } @else {
+    <section class="creature-sheet creature-sheet-empty">
+      <p>Selectionnez ou ajoutez un monstre pour voir sa fiche.</p>
+    </section>
+    }
   </div>
 </app-modal-layout>
