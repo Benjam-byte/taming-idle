@@ -46,7 +46,6 @@ button {
 }
 
 .creature-sheet-header h2,
-.jobs-section h3,
 .stats-section h3,
 .attacks-section-toggle {
   font-family: var(--font-title);
@@ -193,6 +192,10 @@ button {
 }
 
 .creature-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   border-bottom: 2px solid color-mix(in srgb, var(--color-primary-600) 32%, transparent);
   padding-bottom: 10px;
 }
@@ -203,84 +206,29 @@ button {
   font-size: clamp(22px, 6vw, 36px);
 }
 
-.creature-sheet-mana {
-  display: grid;
-  width: 100%;
-  gap: 5px;
-  margin-top: 8px;
-}
-
-.creature-sheet-mana-label {
-  color: color-mix(in srgb, var(--color-combat-special) 56%, var(--color-layer-border));
+.creature-sheet-change {
+  flex: 0 0 auto;
+  border: 2px solid var(--color-primary-500);
+  border-radius: 8px;
+  background-color: var(--color-primary-600);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font: inherit;
   font-family: var(--font-title);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 900;
-  line-height: 1;
+  padding: 6px 12px;
   text-transform: uppercase;
 }
 
-.creature-sheet-mana-track {
-  position: relative;
-  height: 23px;
-  overflow: hidden;
-  border: 2px solid color-mix(in srgb, var(--color-combat-special) 58%, var(--color-layer-border));
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgb(var(--color-white-rgb) / 0.08), transparent 45%),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-combat-special) 26%, var(--color-layer-border)),
-      var(--color-layer-border)
-    );
-  box-shadow:
-    inset 0 2px 4px rgb(var(--color-black-rgb) / 0.48),
-    inset 0 -2px 2px rgb(var(--color-white-rgb) / 0.08),
-    0 2px 0 color-mix(in srgb, var(--color-combat-special) 42%, transparent);
-}
-
-.creature-sheet-mana-track::after {
-  position: absolute;
-  inset: 3px 6px auto;
-  height: 6px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, transparent, rgb(var(--color-white-rgb) / 0.28), transparent);
-  content: "";
-  pointer-events: none;
-}
-
-.creature-sheet-mana-fill {
-  position: absolute;
-  inset: 0 auto 0 0;
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgb(var(--color-white-rgb) / 0.34), transparent 36%),
-    linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--color-combat-special) 72%, var(--color-hp-player)),
-      var(--color-combat-special) 52%,
-      color-mix(in srgb, var(--color-combat-special) 58%, var(--color-white))
-    );
-  box-shadow:
-    inset 0 -2px 2px rgb(var(--color-black-rgb) / 0.18),
-    0 0 12px color-mix(in srgb, var(--color-combat-special) 72%, transparent);
-}
-
-.creature-sheet-mana-track strong {
-  position: absolute;
-  inset: 0;
+.creature-sheet-empty {
   display: grid;
   place-items: center;
-  color: var(--color-secondary-50);
-  font-family: var(--font-title);
-  font-size: 15px;
-  font-weight: 900;
-  line-height: 1;
-  text-shadow:
-    0 1px 0 var(--color-layer-border),
-    0 0 6px color-mix(in srgb, var(--color-combat-special) 45%, var(--color-layer-border));
+  min-height: 160px;
+  padding: 14px;
+  text-align: center;
 }
 
-.jobs-section h3,
 .stats-section h3,
 .attacks-section-toggle {
   border: 2px solid var(--color-primary-400);
@@ -288,124 +236,12 @@ button {
   color: var(--color-text-primary);
 }
 
-.jobs-section {
-  margin-top: 15px;
-}
-
-.jobs-section h3,
 .stats-section h3 {
   display: inline-flex;
   margin: 0 0 7px;
   border-radius: 6px;
   padding: 4px 11px;
   font-size: 16px;
-}
-
-.jobs-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  gap: 10px;
-}
-
-.job-chip {
-  position: relative;
-  display: grid;
-  min-height: 82px;
-  grid-template-columns: 46px minmax(0, 1fr);
-  gap: 10px;
-  align-items: center;
-  border: 2px solid color-mix(in srgb, var(--color-primary-500) 58%, transparent);
-  border-radius: 9px;
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-secondary-50) 74%, transparent),
-      color-mix(in srgb, var(--color-secondary-200) 38%, transparent)
-    ),
-    color-mix(in srgb, var(--color-primary-50) 44%, transparent);
-  box-shadow:
-    inset 0 1px 2px rgb(var(--color-white-rgb) / 0.28),
-    inset 0 -2px 3px color-mix(in srgb, var(--color-primary-600) 16%, transparent);
-  color: var(--color-primary-900);
-  padding: 14px 11px 10px;
-}
-
-.job-chip.is-primary {
-  min-height: 90px;
-  border-color: var(--color-primary-400);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-secondary-100) 88%, transparent),
-      color-mix(in srgb, var(--color-primary-300) 42%, transparent)
-    ),
-    color-mix(in srgb, var(--color-primary-50) 56%, transparent);
-  box-shadow:
-    inset 0 1px 2px rgb(var(--color-white-rgb) / 0.36),
-    inset 0 -3px 4px color-mix(in srgb, var(--color-primary-600) 20%, transparent),
-    0 0 0 2px color-mix(in srgb, var(--color-secondary-200) 28%, transparent);
-}
-
-.job-chip-role {
-  position: absolute;
-  top: 6px;
-  right: 7px;
-  border: 1px solid color-mix(in srgb, var(--color-primary-500) 58%, transparent);
-  border-radius: 999px;
-  background-color: color-mix(in srgb, var(--color-primary-600) 14%, transparent);
-  color: var(--color-primary-600);
-  font-family: var(--font-title);
-  font-size: 10px;
-  font-weight: 900;
-  line-height: 1;
-  padding: 3px 7px;
-  text-transform: uppercase;
-}
-
-.job-chip.is-primary .job-chip-role {
-  border-color: var(--color-primary-600);
-  background-color: var(--color-primary-500);
-  color: var(--color-text-primary);
-}
-
-.job-chip img {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-}
-
-.job-chip.is-primary img {
-  width: 38px;
-  height: 38px;
-}
-
-.job-chip-body {
-  display: grid;
-  min-width: 0;
-  gap: 4px;
-  padding-top: 7px;
-}
-
-.job-chip-body strong {
-  overflow-wrap: anywhere;
-  color: var(--color-primary-900);
-  font-family: var(--font-title);
-  font-size: 16px;
-  font-weight: 900;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.job-chip.is-primary .job-chip-body strong {
-  font-size: 19px;
-}
-
-.job-chip-body span {
-  color: var(--color-primary-500);
-  font-family: var(--font-title);
-  font-size: 13px;
-  font-weight: 900;
-  line-height: 1;
 }
 
 .stats-section {
@@ -593,8 +429,8 @@ button {
     max-height: 160px;
   }
 
-  .jobs-grid {
-    grid-template-columns: 1fr;
+  .creature-picker-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .stats-grid,
@@ -628,4 +464,91 @@ button {
     border-left: 0;
     padding-top: 4px;
   }
+}
+
+.creature-picker {
+  border-radius: 14px;
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-900);
+  padding: 14px;
+}
+
+.creature-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.creature-picker-header h3 {
+  margin: 0;
+  color: var(--color-primary-900);
+  font-family: var(--font-title);
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.creature-picker-close,
+.creature-picker-remove {
+  border: 2px solid var(--color-primary-500);
+  border-radius: 8px;
+  background-color: var(--color-primary-500);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font: inherit;
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 900;
+  padding: 6px 12px;
+  text-transform: uppercase;
+}
+
+.creature-picker-remove {
+  margin-top: 12px;
+  width: 100%;
+  background-color: var(--color-hp-enemy);
+  border-color: var(--color-hp-enemy);
+}
+
+.creature-picker-empty {
+  margin: 0;
+  color: var(--color-primary-700);
+  text-align: center;
+  padding: 20px 0;
+}
+
+.creature-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.creature-picker-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border: 2px solid var(--color-primary-400);
+  border-radius: 10px;
+  background-color: var(--color-layer-card);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font: inherit;
+  padding: 8px;
+}
+
+.creature-picker-card img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.creature-picker-card strong {
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
 }

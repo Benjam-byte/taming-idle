@@ -62,6 +62,11 @@ export class MenuComponent {
       return;
     }
 
+    if (item.label === 'Bestiaire') {
+      await this.openBestiaryModal();
+      return;
+    }
+
     console.log(`Menu placeholder selected: ${item.label}`);
   }
 
@@ -73,6 +78,22 @@ export class MenuComponent {
 
     const modal = await this.modalCtrl.create({
       component: ActiveTeamModalComponent,
+      cssClass: 'full-screen-modal',
+      backdropDismiss: true,
+      showBackdrop: true,
+    });
+
+    await modal.present();
+  }
+
+  private async openBestiaryModal(): Promise<void> {
+    await this.modalCtrl.dismiss();
+
+    const { BestiaryModalComponent } =
+      await import('../bestiary/bestiary.component');
+
+    const modal = await this.modalCtrl.create({
+      component: BestiaryModalComponent,
       cssClass: 'full-screen-modal',
       backdropDismiss: true,
       showBackdrop: true,

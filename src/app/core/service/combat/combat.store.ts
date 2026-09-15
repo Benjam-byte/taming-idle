@@ -6,20 +6,27 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { Monster, Stat } from './monster';
-import { AttackSpeDict } from 'src/app/config/attack';
-import { MonsterDict } from 'src/app/config/monster';
-import { pick3WeightedItem } from '../../helpers/choice/picked-weight';
+import {
+  MonsterName,
+  MonsterReward,
+  MONSTER_DEFINITION_RECORD,
+  generateMonster,
+} from '../../../core/models/monster';
 import { AttackResolution, AttackResolver } from './attack-resolver';
-import type { MonsterReward } from 'src/app/config/type/monster-type';
+import {
+  CombatMonster,
+  generateCombatMonster,
+  getBuffedCharacteristics,
+  getHit,
+  isAlive,
+} from './combat-monster';
 
 export type CombatEnemyConfig = {
-  monsterName: string;
-  stat: Stat;
+  monsterName: MonsterName;
 };
 
 type QueuedEnemy = {
-  monster: Monster;
+  monster: CombatMonster;
   reward: MonsterReward;
 };
 
@@ -28,8 +35,8 @@ type CombatState = {
   context: CombatContext;
   playerTurn: boolean;
   isTurnResolving: boolean;
-  monster: Monster | null;
-  player: Monster | null;
+  monster: CombatMonster | null;
+  player: CombatMonster | null;
   currentEnemyReward: MonsterReward;
   remainingEnemies: readonly QueuedEnemy[];
   accumulatedReward: MonsterReward;
@@ -52,12 +59,6 @@ export type CombatWaveCompletion =
 
 const COMBAT_TURN_PREVIEW_COUNT = 6;
 const MAX_COMBAT_ENEMY_COUNT = 3;
-const SLIME_STAT: Stat = {
-  hp: 10,
-  defense: 0,
-  attack: 1,
-  speed: 0,
-};
 
 const initialState: CombatState = {
   isCombat: false,
@@ -85,8 +86,7 @@ function createSlimeEncounter(
   enemyCount: number,
 ): readonly CombatEnemyConfig[] {
   return Array.from({ length: enemyCount }, () => ({
-    monsterName: 'Slime',
-    stat: { ...SLIME_STAT },
+    monsterName: 'Slime' as const,
   }));
 }
 
@@ -101,25 +101,22 @@ function addRewards(
   };
 }
 
-function getSpecialAttackThreshold(monster: Monster | null): number {
+function getSpecialAttackThreshold(monster: CombatMonster | null): number {
   if (!monster) {
     return 0;
   }
 
-  return (
-    AttackSpeDict.find((attackSpe) => attackSpe.name === monster.attackSpe)
-      ?.turn ?? 0
-  );
+  return monster.attacks.special.turn;
 }
 
-function getSpecialAttackCharge(monster: Monster | null): number {
+function getSpecialAttackCharge(monster: CombatMonster | null): number {
   const threshold = getSpecialAttackThreshold(monster);
 
   if (!monster || threshold <= 0) {
     return 0;
   }
 
-  return Math.min(100, Math.floor((monster.attackStocked / threshold) * 100));
+  return Math.min(100, Math.floor((monster.attacks.stored / threshold) * 100));
 }
 
 function getUpcomingTurns(playerTurn: boolean): readonly CombatTurnActor[] {
@@ -146,7 +143,6 @@ export const CombatStore = signalStore(
       defeatedEnemyCount,
     }) => ({
       isBurrowCombat: computed(() => isCombat() && context() === 'burrow'),
-      activeEnemy: computed(() => monster()),
       currentEnemyNumber: computed(() =>
         isCombat()
           ? Math.min(totalEnemyCount(), defeatedEnemyCount() + 1)
@@ -155,12 +151,26 @@ export const CombatStore = signalStore(
       remainingEnemyCount: computed(() =>
         Math.max(0, totalEnemyCount() - defeatedEnemyCount()),
       ),
-      isMonsterAlive: computed(() => monster()?.isAlive ?? false),
-      monsterLife: computed(() => monster()?.life ?? 0),
-      monsterMaxLife: computed(() => monster()?.stat.hp ?? 0),
-      isPlayerAlive: computed(() => player()?.isAlive ?? false),
-      playerLife: computed(() => player()?.life ?? 0),
-      playerMaxLife: computed(() => player()?.stat.hp ?? 0),
+      isMonsterAlive: computed(() => {
+        const m = monster();
+        return !!m && isAlive(m);
+      }),
+      monsterLife: computed(
+        () => monster()?.attribut.currentCharacteristics.hp ?? 0,
+      ),
+      monsterMaxLife: computed(
+        () => monster()?.attribut.baseCharacteristics.hp ?? 0,
+      ),
+      isPlayerAlive: computed(() => {
+        const p = player();
+        return !!p && isAlive(p);
+      }),
+      playerLife: computed(
+        () => player()?.attribut.currentCharacteristics.hp ?? 0,
+      ),
+      playerMaxLife: computed(
+        () => player()?.attribut.baseCharacteristics.hp ?? 0,
+      ),
       upcomingTurns: computed(() => getUpcomingTurns(playerTurn())),
       playerSpecialAttackCharge: computed(() =>
         getSpecialAttackCharge(player()),
@@ -172,62 +182,80 @@ export const CombatStore = signalStore(
         return (
           !!currentPlayer &&
           threshold > 0 &&
-          currentPlayer.attackStocked >= threshold
+          currentPlayer.attacks.stored >= threshold
         );
       }),
-      canPlayerAttack: computed(
-        () =>
+      canPlayerAttack: computed(() => {
+        const m = monster();
+        const p = player();
+        return (
           isCombat() &&
           playerTurn() &&
           !isTurnResolving() &&
-          (monster()?.isAlive ?? false) &&
-          (player()?.isAlive ?? false),
-      ),
-      shouldMonsterAttack: computed(
-        () =>
+          !!m &&
+          isAlive(m) &&
+          !!p &&
+          isAlive(p)
+        );
+      }),
+      shouldMonsterAttack: computed(() => {
+        const m = monster();
+        const p = player();
+        return (
           isCombat() &&
           !playerTurn() &&
           !isTurnResolving() &&
-          (monster()?.isAlive ?? false) &&
-          (player()?.isAlive ?? false),
-      ),
+          !!m &&
+          isAlive(m) &&
+          !!p &&
+          isAlive(p)
+        );
+      }),
     }),
   ),
   withMethods((store, attackResolver = inject(AttackResolver)) => {
-    function createMonster(monsterName: string, stat: Stat): Monster | null {
-      const monsterDef = MonsterDict.find(
-        (definition) => definition.name === monsterName,
-      );
-
-      if (!monsterDef) {
-        return null;
-      }
-
-      return Monster.create(
-        stat,
-        monsterDef.baseAttack,
-        pick3WeightedItem(monsterDef.attackSpeList),
-      );
-    }
-
     function createEnemy(config: CombatEnemyConfig): QueuedEnemy | null {
-      const monsterDef = MonsterDict.find(
-        (definition) => definition.name === config.monsterName,
-      );
-      const monster = createMonster(config.monsterName, config.stat);
+      const definition = MONSTER_DEFINITION_RECORD[config.monsterName];
 
-      if (!monsterDef || !monster) {
+      if (!definition) {
         return null;
       }
 
       return {
-        monster,
-        reward: { ...monsterDef.reward },
+        monster: generateCombatMonster(generateMonster(definition)),
+        reward: { ...definition.reward },
       };
     }
 
-    function getFirstTurn(player: Monster, monster: Monster): boolean {
-      return player.buffedStat.speed >= monster.buffedStat.speed;
+    function getFirstTurn(
+      player: CombatMonster,
+      monster: CombatMonster,
+    ): boolean {
+      return (
+        getBuffedCharacteristics(player).speed >=
+        getBuffedCharacteristics(monster).speed
+      );
+    }
+
+    function recordCurrentEnemyCleared(
+      reward: MonsterReward,
+    ): CombatWaveCompletion {
+      const defeatedEnemyCount = Math.min(
+        store.totalEnemyCount(),
+        store.defeatedEnemyCount() + 1,
+      );
+      const encounterComplete =
+        defeatedEnemyCount === store.totalEnemyCount();
+
+      patchState(store, {
+        accumulatedReward: reward,
+        defeatedEnemyCount,
+        currentEnemyDefeatRecorded: true,
+      });
+
+      return encounterComplete
+        ? { encounterComplete: true, reward }
+        : { encounterComplete: false, reward: null };
     }
 
     return {
@@ -245,14 +273,11 @@ export const CombatStore = signalStore(
         }
 
         const enemies = enemyConfigs.map((config) => createEnemy(config));
-        const player = createMonster('Terra larva', {
-          hp: 100,
-          defense: 0,
-          attack: 10,
-          speed: 1,
-        });
+        const player = generateCombatMonster(
+          generateMonster(MONSTER_DEFINITION_RECORD['Terra larva']),
+        );
 
-        if (!player || enemies.some((enemy) => !enemy)) {
+        if (enemies.some((enemy) => !enemy)) {
           return false;
         }
 
@@ -283,32 +308,24 @@ export const CombatStore = signalStore(
 
         if (
           !monster ||
-          monster.isAlive ||
+          isAlive(monster) ||
           store.currentEnemyDefeatRecorded()
         ) {
           return null;
         }
 
-        const reward = addRewards(
-          store.accumulatedReward(),
-          store.currentEnemyReward(),
+        return recordCurrentEnemyCleared(
+          addRewards(store.accumulatedReward(), store.currentEnemyReward()),
         );
-        const defeatedEnemyCount = Math.min(
-          store.totalEnemyCount(),
-          store.defeatedEnemyCount() + 1,
-        );
-        const encounterComplete =
-          defeatedEnemyCount === store.totalEnemyCount();
+      },
+      recordCurrentEnemyTamed(): CombatWaveCompletion | null {
+        const monster = store.monster();
 
-        patchState(store, {
-          accumulatedReward: reward,
-          defeatedEnemyCount,
-          currentEnemyDefeatRecorded: true,
-        });
+        if (!monster || store.currentEnemyDefeatRecorded()) {
+          return null;
+        }
 
-        return encounterComplete
-          ? { encounterComplete: true, reward }
-          : { encounterComplete: false, reward: null };
+        return recordCurrentEnemyCleared(store.accumulatedReward());
       },
       startNextEnemy(): boolean {
         const player = store.player();
@@ -316,7 +333,7 @@ export const CombatStore = signalStore(
 
         if (
           !player ||
-          !player.isAlive ||
+          !isAlive(player) ||
           !nextEnemy ||
           !store.currentEnemyDefeatRecorded()
         ) {
@@ -368,12 +385,12 @@ export const CombatStore = signalStore(
       },
       hitMonster(damage: number): void {
         patchState(store, (state) => ({
-          monster: state.monster?.getHit(damage) ?? null,
+          monster: state.monster ? getHit(state.monster, damage) : null,
         }));
       },
       hitPlayer(damage: number): void {
         patchState(store, (state) => ({
-          player: state.player?.getHit(damage) ?? null,
+          player: state.player ? getHit(state.player, damage) : null,
         }));
       },
       giveTurnToMonster(): void {

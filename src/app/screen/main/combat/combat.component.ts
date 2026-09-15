@@ -11,9 +11,13 @@ import { ResourceCollectionService } from 'src/app/core/service/resource-collect
 import { MapSceneRenderer } from '../../pixi-components/main/map-scene-renderer';
 import { CombatControllerComponent } from './combat-controller/combat-controller.component';
 import { CombatStore } from 'src/app/core/service/combat/combat.store';
-import type { AttackResolution } from 'src/app/core/service/combat/attack-resolver';
+import type {
+  AttackResolution,
+} from 'src/app/core/service/combat/attack-resolver';
+import type { CombatWaveCompletion } from 'src/app/core/service/combat/combat.store';
 import type { CombatAnimationTarget } from '../../pixi-components/main/combat/combat-animation-renderer';
 import { BurrowStore } from 'src/app/core/service/burrow/burrow.store';
+import { MonsterStore } from 'src/app/core/service/monster/monster.store';
 import { TurnOrderComponent } from './turn-order/turn-order.component';
 
 @Component({
@@ -33,6 +37,7 @@ export class CombatComponent implements OnInit {
     ResourceCollectionService,
   );
   private readonly burrowStore = inject(BurrowStore);
+  private readonly monsterStore = inject(MonsterStore);
 
   readonly monsterLife = this.combatStore.monsterLife;
   readonly monsterMaxLife = this.combatStore.monsterMaxLife;
@@ -119,6 +124,29 @@ export class CombatComponent implements OnInit {
     }
   }
 
+  async tame(): Promise<void> {
+    const mapSceneRenderer = this.mapSceneRenderer();
+
+    if (!mapSceneRenderer || !this.combatStore.canPlayerAttack()) {
+      return;
+    }
+
+    const monster = this.combatStore.monster()?.monster;
+
+    if (!monster) {
+      return;
+    }
+
+    this.combatStore.startTurnResolution();
+
+    try {
+      this.monsterStore.tame(monster);
+      await this.resolveEnemyCapture(mapSceneRenderer);
+    } finally {
+      this.combatStore.endTurnResolution();
+    }
+  }
+
   private async playCombatIntro(): Promise<void> {
     const mapSceneRenderer = this.mapSceneRenderer();
 
@@ -178,8 +206,25 @@ export class CombatComponent implements OnInit {
   private async resolveEnemyDefeat(
     mapSceneRenderer: MapSceneRenderer,
   ): Promise<void> {
+    await this.finishCurrentEnemy(mapSceneRenderer, () =>
+      this.combatStore.recordCurrentEnemyDefeat(),
+    );
+  }
+
+  private async resolveEnemyCapture(
+    mapSceneRenderer: MapSceneRenderer,
+  ): Promise<void> {
+    await this.finishCurrentEnemy(mapSceneRenderer, () =>
+      this.combatStore.recordCurrentEnemyTamed(),
+    );
+  }
+
+  private async finishCurrentEnemy(
+    mapSceneRenderer: MapSceneRenderer,
+    record: () => CombatWaveCompletion | null,
+  ): Promise<void> {
     const isBurrowCombat = this.combatStore.isBurrowCombat();
-    const completion = this.combatStore.recordCurrentEnemyDefeat();
+    const completion = record();
 
     if (!completion) {
       this.abortCombat(isBurrowCombat);

@@ -2,268 +2,103 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   signal,
 } from '@angular/core';
+import {
+  MONSTER_PORTRAIT,
+  MONSTER_TYPE_ICON,
+} from 'src/app/core/assets/monster-portraits';
+import { AttackEffect, MonsterName } from 'src/app/core/models/monster';
+import { generateCombatMonster } from 'src/app/core/service/combat/combat-monster';
+import { MonsterStore } from 'src/app/core/service/monster/monster.store';
+import { ACTIVE_TEAM_SIZE, TamedMonster } from 'src/app/database/type/monster';
 import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 
-type TeamJob = {
+const SPECIAL_ATTACK_ICON: Record<AttackEffect, string> = {
+  multiple: 'assets/icon/sword.png',
+  boost: 'assets/icon/stat/damage.png',
+  heal: 'assets/icon/stat/enchantedSoul.png',
+  shield: 'assets/icon/helmet.png',
+  stun: 'assets/icon/hourglass.png',
+};
+
+type ActiveSlot = {
+  tamedId: string;
+  name: MonsterName;
+  portraitSrc: string;
+  typeIconSrc: string;
+} | null;
+
+type CreatureStat = {
   label: string;
-  level: number;
-  role: 'primary' | 'secondary';
+  value: number;
   iconSrc: string;
 };
 
-type TeamStat = {
-  label: string;
-  value: number | string;
-  iconSrc: string;
-};
-
-type TeamAttack = {
+type CreatureAttack = {
   name: string;
   kind: string;
-  power: number;
+  power?: number;
   turnsRequired?: number;
   iconSrc: string;
   description: string;
 };
 
-type TeamCreature = {
-  id: string;
-  name: string;
+type CreatureSheet = {
+  name: MonsterName;
   imageSrc: string;
-  typeIconSrc: string;
-  mana: {
-    current: number;
-    max: number;
-  };
-  jobs: readonly TeamJob[];
-  combatStats: readonly TeamStat[];
-  explorationStats: readonly TeamStat[];
-  attacks: readonly TeamAttack[];
+  combatStats: readonly CreatureStat[];
+  attacks: readonly CreatureAttack[];
 };
 
-type TeamSlot =
-  | {
-      kind: 'creature';
-      creature: TeamCreature;
-    }
-  | {
-      kind: 'empty';
-      id: string;
-    };
+function toActiveSlot(tamedMonster: TamedMonster | null): ActiveSlot {
+  if (!tamedMonster) {
+    return null;
+  }
 
-const activeCreatures: readonly TeamCreature[] = [
-  {
-    id: 'terra-larva',
-    name: 'Larve de Terre',
-    imageSrc: 'assets/monster/terra_larva/Terra_larva.webp',
-    typeIconSrc: 'assets/icon/earth.png',
-    mana: {
-      current: 126,
-      max: 180,
-    },
-    jobs: [
-      {
-        label: 'Mineur',
-        level: 6,
-        role: 'primary',
-        iconSrc: 'assets/icon/gems.png',
-      },
-      {
-        label: 'Cueilleur',
-        level: 3,
-        role: 'secondary',
-        iconSrc: 'assets/icon/footsteps.png',
-      },
-    ],
+  return {
+    tamedId: tamedMonster.id,
+    name: tamedMonster.monster.name,
+    portraitSrc: MONSTER_PORTRAIT[tamedMonster.monster.name],
+    typeIconSrc: MONSTER_TYPE_ICON[tamedMonster.monster.type],
+  };
+}
+
+function toCreatureSheet(tamedMonster: TamedMonster): CreatureSheet {
+  const combatMonster = generateCombatMonster(tamedMonster.monster);
+  const { baseCharacteristics } = combatMonster.attribut;
+  const base = combatMonster.attacks.base;
+  const special = combatMonster.attacks.special;
+
+  return {
+    name: tamedMonster.monster.name,
+    imageSrc: MONSTER_PORTRAIT[tamedMonster.monster.name],
     combatStats: [
-      {
-        label: 'Initiative',
-        value: 12,
-        iconSrc: 'assets/icon/stat/fighting-speed.png',
-      },
-      {
-        label: 'Defense',
-        value: 18,
-        iconSrc: 'assets/icon/stat/defense.png',
-      },
-      {
-        label: 'Attaque',
-        value: 14,
-        iconSrc: 'assets/icon/stat/damage.png',
-      },
-      {
-        label: 'HP',
-        value: 92,
-        iconSrc: 'assets/icon/heart.png',
-      },
-    ],
-    explorationStats: [
-      {
-        label: 'Vitesse',
-        value: 8,
-        iconSrc: 'assets/icon/footsteps.png',
-      },
-      {
-        label: 'Vision',
-        value: 5,
-        iconSrc: 'assets/icon/loupe.png',
-      },
-      {
-        label: 'Perception',
-        value: 11,
-        iconSrc: 'assets/icon/information.png',
-      },
-      {
-        label: 'Cout mana',
-        value: 3,
-        iconSrc: 'assets/icon/stat/soul.png',
-      },
-      {
-        label: 'Recolte bouffe',
-        value: '18%',
-        iconSrc: 'assets/icon/stat/gathering.png',
-      },
-      {
-        label: 'Recolte minerai',
-        value: '34%',
-        iconSrc: 'assets/icon/gems.png',
-      },
+      { label: 'HP', value: baseCharacteristics.hp, iconSrc: 'assets/icon/heart.png' },
+      { label: 'Attaque', value: baseCharacteristics.attack, iconSrc: 'assets/icon/stat/damage.png' },
+      { label: 'Defense', value: baseCharacteristics.defense, iconSrc: 'assets/icon/stat/defense.png' },
+      { label: 'Vitesse', value: baseCharacteristics.speed, iconSrc: 'assets/icon/stat/fighting-speed.png' },
     ],
     attacks: [
       {
-        name: 'Morsure de Terre',
+        name: base.name,
         kind: 'Attaque de base',
-        power: 14,
+        power: base.effiency,
         iconSrc: 'assets/icon/sword.png',
-        description:
-          'Une attaque simple qui inflige des degats physiques a la cible.',
+        description: base.description,
       },
       {
-        name: 'Secousse Souterraine',
+        name: special.name,
         kind: 'Attaque speciale',
-        power: 32,
-        turnsRequired: 4,
-        iconSrc: 'assets/icon/stat/damage.png',
-        description:
-          'Frappe le sol et inflige de lourds degats aux ennemis proches.',
+        power: 'effiency' in special ? special.effiency : undefined,
+        turnsRequired: special.turn,
+        iconSrc: SPECIAL_ATTACK_ICON[special.effect],
+        description: special.description,
       },
     ],
-  },
-  {
-    id: 'slime-moss',
-    name: 'Slime Mousseux',
-    imageSrc: 'assets/monster/slime/Slime_Base.webp',
-    typeIconSrc: 'assets/icon/stat/forest.png',
-    mana: {
-      current: 74,
-      max: 120,
-    },
-    jobs: [
-      {
-        label: 'Gardien',
-        level: 4,
-        role: 'primary',
-        iconSrc: 'assets/icon/helmet.png',
-      },
-      {
-        label: 'Alchimiste',
-        level: 2,
-        role: 'secondary',
-        iconSrc: 'assets/icon/stat/soul.png',
-      },
-    ],
-    combatStats: [
-      {
-        label: 'Initiative',
-        value: 9,
-        iconSrc: 'assets/icon/stat/fighting-speed.png',
-      },
-      {
-        label: 'Defense',
-        value: 12,
-        iconSrc: 'assets/icon/stat/defense.png',
-      },
-      {
-        label: 'Attaque',
-        value: 10,
-        iconSrc: 'assets/icon/stat/damage.png',
-      },
-      {
-        label: 'HP',
-        value: 68,
-        iconSrc: 'assets/icon/heart.png',
-      },
-    ],
-    explorationStats: [
-      {
-        label: 'Vitesse',
-        value: 6,
-        iconSrc: 'assets/icon/footsteps.png',
-      },
-      {
-        label: 'Vision',
-        value: 7,
-        iconSrc: 'assets/icon/loupe.png',
-      },
-      {
-        label: 'Perception',
-        value: 14,
-        iconSrc: 'assets/icon/information.png',
-      },
-      {
-        label: 'Cout mana',
-        value: 2,
-        iconSrc: 'assets/icon/stat/soul.png',
-      },
-      {
-        label: 'Recolte bouffe',
-        value: '26%',
-        iconSrc: 'assets/icon/stat/gathering.png',
-      },
-      {
-        label: 'Recolte minerai',
-        value: '12%',
-        iconSrc: 'assets/icon/gems.png',
-      },
-    ],
-    attacks: [
-      {
-        name: 'Baffe Gluante',
-        kind: 'Attaque de base',
-        power: 10,
-        iconSrc: 'assets/icon/sword.png',
-        description:
-          'Projette une masse souple qui ralentit legerement la cible.',
-      },
-      {
-        name: 'Regeneration',
-        kind: 'Attaque speciale',
-        power: 18,
-        turnsRequired: 3,
-        iconSrc: 'assets/icon/stat/enchantedSoul.png',
-        description:
-          'Charge une reserve vitale avant de rendre des points de vie.',
-      },
-    ],
-  },
-];
-
-const teamSlots: readonly TeamSlot[] = [
-  {
-    kind: 'creature',
-    creature: activeCreatures[0],
-  },
-  {
-    kind: 'creature',
-    creature: activeCreatures[1],
-  },
-  {
-    kind: 'empty',
-    id: 'empty-slot',
-  },
-];
+  };
+}
 
 @Component({
   selector: 'app-active-team-modal',
@@ -274,45 +109,106 @@ const teamSlots: readonly TeamSlot[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActiveTeamModalComponent {
-  readonly slots = teamSlots;
-  readonly activeCreatureCount = activeCreatures.length;
-  readonly selectedCreatureId = signal(activeCreatures[0].id);
-  readonly attacksExpanded = signal(true);
+  private readonly monsterStore = inject(MonsterStore);
 
-  readonly selectedCreature = computed(
-    () =>
-      activeCreatures.find(
-        (creature) => creature.id === this.selectedCreatureId(),
-      ) ?? activeCreatures[0],
+  readonly teamSize = ACTIVE_TEAM_SIZE;
+
+  readonly activeSlots = computed(() =>
+    this.monsterStore.activeTeam().map(toActiveSlot),
+  );
+  readonly activeCreatureCount = computed(
+    () => this.activeSlots().filter((slot) => slot !== null).length,
   );
 
-  readonly selectedManaPercent = computed(() => {
-    const mana = this.selectedCreature().mana;
+  readonly selectedSlotIndex = signal(0);
+  readonly attacksExpanded = signal(true);
 
-    if (mana.max <= 0) {
-      return 0;
-    }
-
-    return Math.min(100, Math.max(0, (mana.current / mana.max) * 100));
+  readonly selectedSheet = computed<CreatureSheet | null>(() => {
+    const tamedMonster = this.monsterStore.activeTeam()[this.selectedSlotIndex()];
+    return tamedMonster ? toCreatureSheet(tamedMonster) : null;
   });
 
-  selectCreature(creatureId: string): void {
-    this.selectedCreatureId.set(creatureId);
+  readonly pickerSlotIndex = signal<number | null>(null);
+  readonly isPickerOpen = computed(() => this.pickerSlotIndex() !== null);
+
+  readonly pickerCandidates = computed(() => {
+    const slotIndex = this.pickerSlotIndex();
+
+    if (slotIndex === null) {
+      return [];
+    }
+
+    const activeIdsInOtherSlots = new Set(
+      this.monsterStore
+        .activeTeam()
+        .filter((tamedMonster, index) => tamedMonster && index !== slotIndex)
+        .map((tamedMonster) => tamedMonster!.id),
+    );
+
+    return this.monsterStore
+      .tamed()
+      .filter((tamedMonster) => !activeIdsInOtherSlots.has(tamedMonster.id));
+  });
+
+  readonly pickerHasCurrentCreature = computed(() => {
+    const slotIndex = this.pickerSlotIndex();
+    return slotIndex !== null && this.activeSlots()[slotIndex] !== null;
+  });
+
+  selectSlot(index: number): void {
+    this.selectedSlotIndex.set(index);
+
+    if (this.activeSlots()[index]) {
+      this.closePicker();
+    } else {
+      this.pickerSlotIndex.set(index);
+    }
+  }
+
+  openPicker(index: number): void {
+    this.selectedSlotIndex.set(index);
+    this.pickerSlotIndex.set(index);
+  }
+
+  closePicker(): void {
+    this.pickerSlotIndex.set(null);
+  }
+
+  pickCreature(tamedId: string): void {
+    const slotIndex = this.pickerSlotIndex();
+
+    if (slotIndex === null) {
+      return;
+    }
+
+    this.monsterStore.setTeamSlot(slotIndex, tamedId);
+    this.closePicker();
+  }
+
+  removeFromTeam(): void {
+    const slotIndex = this.pickerSlotIndex();
+
+    if (slotIndex === null) {
+      return;
+    }
+
+    this.monsterStore.setTeamSlot(slotIndex, null);
+    this.closePicker();
   }
 
   toggleAttacks(): void {
     this.attacksExpanded.update((isExpanded) => !isExpanded);
   }
 
-  trackSlot(index: number, slot: TeamSlot): string {
-    return slot.kind === 'creature' ? slot.creature.id : slot.id;
+  portraitSrcFor(tamedMonster: TamedMonster): string {
+    return MONSTER_PORTRAIT[tamedMonster.monster.name];
   }
 
-  trackStat(index: number, stat: TeamStat): string {
+  trackStat(index: number, stat: CreatureStat): string {
     return stat.label;
   }
 
-  trackAttack(index: number, attack: TeamAttack): string {
+  trackAttack(index: number, attack: CreatureAttack): string {
     return attack.name;
   }
 }

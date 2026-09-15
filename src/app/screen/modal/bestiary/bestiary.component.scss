@@ -1,0 +1,109 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.bestiary-band {
+  position: relative;
+  border: 2px solid var(--color-primary-800);
+  border-radius: 14px;
+  background-color: var(--color-primary-600);
+  box-shadow:
+    inset 0 1px 2px rgb(var(--color-white-rgb) / 0.12),
+    inset 0 -3px 5px rgb(var(--color-black-rgb) / 0.28),
+    0 3px 0 var(--color-layer-border);
+  padding: 13px;
+}
+
+.bestiary-band-header {
+  position: absolute;
+  z-index: 2;
+  top: -2px;
+  right: 8px;
+  pointer-events: none;
+}
+
+.bestiary-band-header span {
+  border: 2px solid var(--color-primary-800);
+  border-radius: 8px;
+  background-color: var(--color-primary-700);
+  color: var(--color-secondary-100);
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 900;
+  padding: 6px 10px;
+}
+
+.bestiary-empty {
+  margin: 0;
+  color: var(--color-text-primary);
+  text-align: center;
+  padding: 24px 0;
+}
+
+.bestiary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.bestiary-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 2px solid var(--color-primary-800);
+  border-radius: 12px;
+  background-color: var(--color-layer-card);
+  color: var(--color-text-primary);
+  padding: 10px;
+}
+
+.bestiary-card-portrait {
+  width: min(80px, 90%);
+  height: 80px;
+  object-fit: contain;
+}
+
+.bestiary-card-name {
+  font-family: var(--font-title);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.bestiary-card-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+}
+
+.stat-tile {
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  border: 2px solid color-mix(in srgb, var(--color-primary-500) 58%, transparent);
+  border-radius: 7px;
+  background-color: color-mix(in srgb, var(--color-primary-50) 44%, transparent);
+  padding: 4px;
+  text-align: center;
+}
+
+.stat-tile span {
+  color: var(--color-primary-700);
+  font-family: var(--font-title);
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.stat-tile strong {
+  color: var(--color-primary-900);
+  font-family: var(--font-title);
+  font-size: 15px;
+  font-weight: 900;
+}
