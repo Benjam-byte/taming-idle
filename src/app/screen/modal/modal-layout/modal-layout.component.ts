@@ -17,6 +17,8 @@ export class ModalLayoutComponent {
 
   readonly title = input<string | null>(null);
   readonly showMenuButton = input(true);
+  readonly transparent = input(false);
+  readonly hideCloseButton = input(false);
 
   close(): Promise<boolean> {
     return this.modalCtrl.dismiss();

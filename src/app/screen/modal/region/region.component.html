@@ -1,13 +1,22 @@
-<app-modal-layout title="Region">
-  <div class="flex min-h-0 flex-1 flex-col gap-3 overflow-auto">
-    <section class="region-band">
-      <div class="region-band-header">
-        <span>{{ currentRegionName() }}</span>
-      </div>
+<app-modal-layout [transparent]="true" [hideCloseButton]="true">
+  <app-floating-title text="Région actuelle" (back)="close()" />
+
+  <div class="flex min-h-0 flex-1 flex-col gap-4 overflow-auto pt-3">
+    <section class="region-card region-hero">
+      <img [src]="region().imageSrc" alt="" class="region-hero-image" />
+
+      <h2 class="region-hero-name">{{ currentRegionName() }}</h2>
+
+      <p class="region-hero-description">{{ region().description }}</p>
+    </section>
+
+    <section class="region-card">
+      <h2 class="region-card-title">Relevé d'analyse</h2>
 
       <div class="region-stats-grid">
         @for (stat of stats(); track trackStat($index, stat)) {
         <div class="stat-tile">
+          <img [src]="stat.iconSrc" alt="" />
           <span>{{ stat.label }}</span>
           <strong>{{ stat.value }}</strong>
         </div>
@@ -15,8 +24,8 @@
       </div>
     </section>
 
-    <section class="region-band">
-      <h3 class="region-section-title">Monstres débloqués</h3>
+    <section class="region-card">
+      <h2 class="region-card-title">Monstres débloqués</h2>
 
       @if (unlockedMonsters().length === 0) {
       <p class="region-empty">Aucun monstre débloqué dans cette région.</p>
@@ -30,6 +39,12 @@
         }
       </div>
       }
+    </section>
+
+    <section class="region-card">
+      <h2 class="region-card-title">Ressources récoltées</h2>
+
+      <p class="region-empty">Suivi des ressources récoltées bientôt disponible.</p>
     </section>
   </div>
 </app-modal-layout>

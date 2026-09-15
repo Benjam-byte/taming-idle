@@ -4,6 +4,8 @@ export const REGION_NAMES = ['Plaines'] as const;
 export type RegionName = (typeof REGION_NAMES)[number];
 
 export type Region = {
+  imageSrc: string;
+  description: string;
   monsterDensity: number;
   monsterManaDrop: number;
   soulDropRate: number;

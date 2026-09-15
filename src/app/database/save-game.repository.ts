@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { Region, RegionName } from 'src/app/core/models/world/region/region';
 import { DatabaseService } from './database.service';
 import { SaveGame } from './save-game.type';
 import { SAVE_KEY, createDefaultSaveGame, DB_VERSION } from './default-save';
@@ -66,10 +67,12 @@ export class SaveGameRepository {
       world: {
         ...defaults.world,
         ...(save.world ?? {}),
-        regions: {
-          ...defaults.world.regions,
-          ...(save.world?.regions ?? {}),
-        },
+        regions: Object.fromEntries(
+          Object.entries(defaults.world.regions).map(([name, region]) => [
+            name,
+            { ...region, ...(save.world?.regions?.[name as RegionName] ?? {}) },
+          ]),
+        ) as Record<RegionName, Region>,
       },
       monster: {
         ...defaults.monster,

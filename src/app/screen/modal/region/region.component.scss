@@ -3,7 +3,7 @@
   height: 100%;
 }
 
-.region-band {
+.region-card {
   position: relative;
   border: 2px solid var(--color-primary-800);
   border-radius: 14px;
@@ -15,31 +15,37 @@
   padding: 13px;
 }
 
-.region-band + .region-band {
-  margin-top: 10px;
+.region-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.region-band-header {
-  position: absolute;
-  z-index: 2;
-  top: -2px;
-  right: 8px;
-  pointer-events: none;
-}
-
-.region-band-header span {
+.region-hero-image {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
   border: 2px solid var(--color-primary-800);
-  border-radius: 8px;
-  background-color: var(--color-primary-700);
-  color: var(--color-secondary-100);
+  border-radius: 10px;
+}
+
+.region-hero-name {
+  margin: 0;
+  color: var(--color-text-primary);
   font-family: var(--font-title);
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 900;
-  padding: 6px 10px;
   text-transform: uppercase;
 }
 
-.region-section-title {
+.region-hero-description {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.region-card-title {
   margin: 0 0 10px;
   color: var(--color-text-primary);
   font-family: var(--font-title);
@@ -50,9 +56,9 @@
 
 .region-empty {
   margin: 0;
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
   text-align: center;
-  padding: 24px 0;
+  padding: 16px 0;
 }
 
 .region-stats-grid {
@@ -63,7 +69,7 @@
 
 .stat-tile {
   display: grid;
-  min-height: 48px;
+  min-height: 56px;
   place-items: center;
   gap: 2px;
   border: 2px solid color-mix(in srgb, var(--color-primary-500) 58%, transparent);
@@ -71,6 +77,12 @@
   background-color: color-mix(in srgb, var(--color-primary-50) 44%, transparent);
   padding: 6px;
   text-align: center;
+}
+
+.stat-tile img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
 }
 
 .stat-tile span {
