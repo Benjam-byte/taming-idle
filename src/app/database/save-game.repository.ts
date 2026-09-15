@@ -66,6 +66,10 @@ export class SaveGameRepository {
       world: {
         ...defaults.world,
         ...(save.world ?? {}),
+        regions: {
+          ...defaults.world.regions,
+          ...(save.world?.regions ?? {}),
+        },
       },
       monster: {
         ...defaults.monster,
