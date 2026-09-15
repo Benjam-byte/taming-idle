@@ -1,7 +1,6 @@
 import { Coordinate } from 'src/app/core/type/coordinate';
 import { MapMarker } from 'src/app/core/type/map-maker';
-import { Region } from 'src/app/core/models/world/region/region';
-import { RegionName } from 'src/app/core/models/world/world';
+import { Region, RegionName } from 'src/app/core/models/world/region/region';
 
 export type TileMutation = {
   key: string;
@@ -16,6 +15,7 @@ export type BurrowDepositCollection = {
 
 export type WorldSave = {
   regions: Record<RegionName, Region>;
+  currentRegionName: RegionName;
   playerCoordinate: Coordinate;
   visitedTileKeys: string[];
   seenTileKeys: string[];
