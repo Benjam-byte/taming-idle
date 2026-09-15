@@ -73,6 +73,11 @@ export class MenuComponent {
       return;
     }
 
+    if (item.label === 'Region') {
+      await this.openRegionModal();
+      return;
+    }
+
     console.log(`Menu placeholder selected: ${item.label}`);
   }
 
@@ -90,5 +95,21 @@ export class MenuComponent {
         (m) => m.BestiaryModalComponent,
       ),
     );
+  }
+
+  private async openRegionModal(): Promise<void> {
+    await this.modalCtrl.dismiss();
+
+    const { RegionModalComponent } =
+      await import('../region/region.component');
+
+    const modal = await this.modalCtrl.create({
+      component: RegionModalComponent,
+      cssClass: 'full-screen-modal',
+      backdropDismiss: true,
+      showBackdrop: true,
+    });
+
+    await modal.present();
   }
 }

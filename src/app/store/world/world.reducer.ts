@@ -85,6 +85,8 @@ export const {
   name: worldFeatureName,
   reducer: worldReducer,
   selectWorldState,
+  selectRegions,
+  selectCurrentRegionName,
   selectPlayerCoordinate,
   selectVisitedTileKeys,
   selectSeenTileKeys,

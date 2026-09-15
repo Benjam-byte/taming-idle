@@ -1,0 +1,35 @@
+<app-modal-layout title="Region">
+  <div class="flex min-h-0 flex-1 flex-col gap-3 overflow-auto">
+    <section class="region-band">
+      <div class="region-band-header">
+        <span>{{ currentRegionName() }}</span>
+      </div>
+
+      <div class="region-stats-grid">
+        @for (stat of stats(); track trackStat($index, stat)) {
+        <div class="stat-tile">
+          <span>{{ stat.label }}</span>
+          <strong>{{ stat.value }}</strong>
+        </div>
+        }
+      </div>
+    </section>
+
+    <section class="region-band">
+      <h3 class="region-section-title">Monstres débloqués</h3>
+
+      @if (unlockedMonsters().length === 0) {
+      <p class="region-empty">Aucun monstre débloqué dans cette région.</p>
+      } @else {
+      <div class="region-monster-grid">
+        @for (monster of unlockedMonsters(); track monster.name) {
+        <div class="region-monster-card">
+          <img [src]="monster.portraitSrc" alt="" class="region-monster-portrait" />
+          <strong>{{ monster.name }}</strong>
+        </div>
+        }
+      </div>
+      }
+    </section>
+  </div>
+</app-modal-layout>
