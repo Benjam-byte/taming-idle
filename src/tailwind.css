@@ -9,46 +9,37 @@
   --color-white-rgb: 255 255 255;
   --color-black-rgb: 0 0 0;
 
+  --color-wood-default: #573820;
+  --color-wood-elevated: #6b4729;
+  --color-wood-deep: #2a1a10;
+  --color-wood-hud: #3f2818;
+  --color-inset-default: #20150d;
+  --color-parchment-default: #f6e8bf;
+  --color-parchment-highlight: #fff8e6;
+  --color-parchment-shade: #ecd28e;
+  --color-mana: #8a67b0;
+  --color-danger: #d96b32;
+  --color-nature: #354b24;
+  --color-border-warm: #b9854f;
+  --color-border-selected: #b99549;
+  --color-border-default: #140c07;
+  --color-border-subtle: #8b5d35;
+
   --color-primary-50: #f5eadc;
   --color-primary-100: #ead4b8;
   --color-primary-200: #d4aa78;
-  --color-primary-300: #b9854f;
-  --color-primary-400: #8b5d35;
-  --color-primary-500: #6b4729;
-  --color-primary-600: #573820;
-  --color-primary-700: #3f2818;
-  --color-primary-800: #2a1a10;
   --color-primary-900: #18100a;
 
-  --color-secondary-50: #fff8e6;
-  --color-secondary-100: #f6e8bf;
-  --color-secondary-200: #ecd28e;
   --color-secondary-300: #d5b56a;
-  --color-secondary-400: #b99549;
   --color-secondary-500: #987238;
   --color-secondary-600: #78562c;
   --color-secondary-700: #5a3d22;
   --color-secondary-800: #3b2818;
-  --color-secondary-900: #20150d;
-
-  --color-accent-500: #354b24;
-
-  --color-layer-bg: #18100a;
-  --color-layer-surface: #2a1a10;
-  --color-layer-panel: #3f2818;
-  --color-layer-panel-light: #6b4729;
-  --color-layer-card: #573820;
-  --color-layer-inset: #20150d;
-  --color-layer-border: #140c07;
-  --color-layer-inset-rgb: 32 21 13;
-  --color-layer-border-rgb: 20 12 7;
 
   --color-text-primary: #fff3d0;
   --color-text-secondary: #d8bd8a;
   --color-text-muted: #9b7a52;
 
-  --color-combat-attack: #d96b32;
-  --color-combat-special: #8a67b0;
   --color-hp-player: #6fa348;
   --color-hp-mid: #d6b44a;
   --color-hp-enemy: #c94b3d;
@@ -59,9 +50,6 @@
   --color-badge-enemy: #ffd6bd;
   --color-splash-text: #f9d71c;
   --color-debug-canvas: #1099bb;
-
-  --attack-color: var(--color-combat-attack);
-  --special-color: var(--color-combat-special);
 }
 
 html,
@@ -78,43 +66,30 @@ ion-app {
   --background: transparent;
 }
 
-.hud-bar {
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  background-color: var(--color-layer-panel-light);
-  padding-inline: 12px;
-}
-
-.hud-bar-top {
-  height: 64px;
-}
-
-.hud-bar-bottom {
-  height: 36px;
-  justify-content: center;
-}
-
 .inset-panel {
-  border: 2px solid var(--color-primary-800);
+  border: 2px solid var(--color-wood-deep);
   border-radius: 16px;
-  background-color: rgb(var(--color-layer-inset-rgb) / 0.75);
+  background-color: color-mix(
+    in srgb,
+    var(--color-inset-default) 75%,
+    transparent
+  );
   box-shadow:
     inset 0 2px 4px rgb(var(--color-white-rgb) / 0.08),
     inset 0 -4px 6px rgb(var(--color-black-rgb) / 0.28);
 }
 
 .map-frame {
-  border: 2px solid var(--color-layer-border);
+  border: 2px solid var(--color-border-default);
   border-radius: 16px;
-  background-color: var(--color-layer-inset);
+  background-color: var(--color-inset-default);
 }
 
 .bottom-shadow {
   box-shadow:
     inset 0 1px 2px rgb(var(--color-white-rgb) / 0.2),
     inset 0 -2px 3px rgb(var(--color-black-rgb) / 0.4),
-    0 3px 0 var(--color-layer-border),
+    0 3px 0 var(--color-border-default),
     0 4px 6px rgb(var(--color-black-rgb) / 0.6);
 }
 
@@ -122,23 +97,6 @@ ion-app {
   box-shadow:
     inset 0 -1px 2px rgb(var(--color-white-rgb) / 0.2),
     inset 0 2px 3px rgb(var(--color-black-rgb) / 0.4),
-    0 -3px 0 var(--color-layer-border),
+    0 -3px 0 var(--color-border-default),
     0 -6px 10px rgb(var(--color-black-rgb) / 0.6);
-}
-
-.hud-slot {
-  background-color: var(--color-primary-600);
-  border: 2px solid var(--color-primary-800);
-  box-shadow:
-    inset 0 2px 4px rgb(var(--color-white-rgb) / 0.1),
-    inset 0 -3px 5px rgb(var(--color-black-rgb) / 0.25),
-    0 2px 3px rgb(var(--color-black-rgb) / 0.25);
-}
-
-.wood-grain {
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgb(var(--color-white-rgb) / 0.08) 0 1px,
-    transparent 1px 8px
-  );
 }

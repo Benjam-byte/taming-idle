@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: center;
 
-  border: 2px solid var(--color-primary-800);
+  border: 2px solid var(--color-wood-deep);
   border-radius: 18px;
   cursor: pointer;
   touch-action: manipulation;
@@ -34,7 +34,7 @@
   pointer-events: none;
 
   background: conic-gradient(
-    var(--attack-color, var(--color-combat-attack)) calc(var(--charge) * 1%),
+    var(--attack-color, var(--color-danger)) calc(var(--charge) * 1%),
     rgb(var(--color-black-rgb) / 0.35) 0
   );
 
@@ -67,7 +67,7 @@
   color: var(--color-text-primary);
   text-transform: uppercase;
 
-  text-shadow: 0 2px 0 rgb(var(--color-layer-border-rgb) / 0.9);
+  text-shadow: 0 2px 0 color-mix(in srgb, var(--color-border-default) 90%, transparent);
 }
 
 .attack-sub {
@@ -86,19 +86,19 @@
 
   box-shadow:
     inset 0 3px 5px rgb(var(--color-black-rgb) / 0.5),
-    0 1px 0 var(--color-layer-border),
+    0 1px 0 var(--color-border-default),
     0 3px 5px rgb(var(--color-black-rgb) / 0.5);
 }
 
 /* Etat spéciale prête */
 .attack-btn.is-charged {
-  --attack-color: var(--color-combat-special);
+  --attack-color: var(--color-mana);
 
   animation: specialPulse 900ms ease-in-out infinite alternate;
 }
 
 .attack-btn.is-charged .attack-ring {
-  filter: drop-shadow(0 0 6px var(--color-combat-special));
+  filter: drop-shadow(0 0 6px var(--color-mana));
 }
 
 .attack-btn.is-charged::after {

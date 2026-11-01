@@ -9,17 +9,17 @@ button {
 
 .team-band,
 .creature-sheet {
-  border: 2px solid var(--color-primary-800);
+  border: 2px solid var(--color-wood-deep);
   box-shadow:
     inset 0 1px 2px rgb(var(--color-white-rgb) / 0.12),
     inset 0 -3px 5px rgb(var(--color-black-rgb) / 0.28),
-    0 3px 0 var(--color-layer-border);
+    0 3px 0 var(--color-border-default);
 }
 
 .team-band {
   position: relative;
   border-radius: 14px;
-  background-color: var(--color-primary-600);
+  background-color: var(--color-wood-default);
   padding: 13px;
 }
 
@@ -37,9 +37,9 @@ button {
 .team-band-header h2,
 .team-band-header span {
   margin: 0;
-  border: 2px solid var(--color-primary-800);
+  border: 2px solid var(--color-wood-deep);
   border-radius: 8px;
-  background-color: var(--color-primary-500);
+  background-color: var(--color-wood-elevated);
   color: var(--color-text-primary);
   font-family: var(--font-title);
   font-weight: 900;
@@ -60,7 +60,7 @@ button {
 }
 
 .team-band-header span {
-  background-color: var(--color-primary-700);
+  background-color: var(--color-wood-hud);
   padding: 6px 10px;
 }
 
@@ -80,19 +80,19 @@ button {
   justify-content: flex-end;
   gap: 4px;
   overflow: hidden;
-  border: 2px solid var(--color-primary-800);
+  border: 2px solid var(--color-wood-deep);
   border-radius: 12px;
-  background-color: var(--color-layer-card);
+  background-color: var(--color-wood-default);
   color: var(--color-text-primary);
   cursor: pointer;
   padding: 9px;
 }
 
 .team-slot.is-selected {
-  border-color: var(--color-secondary-200);
+  border-color: var(--color-parchment-shade);
   box-shadow:
-    inset 0 0 0 2px color-mix(in srgb, var(--color-secondary-200) 44%, transparent),
-    0 0 14px color-mix(in srgb, var(--color-secondary-200) 32%, transparent);
+    inset 0 0 0 2px color-mix(in srgb, var(--color-parchment-shade) 44%, transparent),
+    0 0 14px color-mix(in srgb, var(--color-parchment-shade) 32%, transparent);
 }
 
 .team-slot:disabled {
@@ -109,7 +109,7 @@ button {
   height: 27px;
   place-items: center;
   border-radius: 6px;
-  background-color: var(--color-accent-500);
+  background-color: var(--color-nature);
 }
 
 .team-slot-type img {
@@ -140,9 +140,9 @@ button {
 
 .team-slot span:not(.team-slot-type):not(.team-slot-plus) {
   border-radius: 999px;
-  background-color: var(--color-primary-700);
+  background-color: var(--color-wood-hud);
   padding: 2px 8px;
-  color: var(--color-secondary-100);
+  color: var(--color-parchment-default);
   font-family: var(--font-title);
   font-size: 12px;
   font-weight: 900;
@@ -153,9 +153,9 @@ button {
   width: 51px;
   height: 51px;
   place-items: center;
-  border: 2px solid var(--color-primary-800);
+  border: 2px solid var(--color-wood-deep);
   border-radius: 50%;
-  color: var(--color-secondary-200);
+  color: var(--color-parchment-shade);
   font-family: var(--font-title);
   font-size: 40px;
   font-weight: 900;
@@ -176,7 +176,7 @@ button {
   display: grid;
   min-height: 224px;
   place-items: center;
-  border: 2px solid var(--color-primary-400);
+  border: 2px solid var(--color-border-subtle);
   border-radius: 10px;
   background-color: color-mix(in srgb, var(--color-primary-50) 44%, transparent);
 }
@@ -196,7 +196,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  border-bottom: 2px solid color-mix(in srgb, var(--color-primary-600) 32%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--color-wood-default) 32%, transparent);
   padding-bottom: 10px;
 }
 
@@ -208,9 +208,9 @@ button {
 
 .creature-sheet-change {
   flex: 0 0 auto;
-  border: 2px solid var(--color-primary-500);
+  border: 2px solid var(--color-wood-elevated);
   border-radius: 8px;
-  background-color: var(--color-primary-600);
+  background-color: var(--color-wood-default);
   color: var(--color-text-primary);
   cursor: pointer;
   font: inherit;
@@ -231,8 +231,8 @@ button {
 
 .stats-section h3,
 .attacks-section-toggle {
-  border: 2px solid var(--color-primary-400);
-  background-color: var(--color-primary-500);
+  border: 2px solid var(--color-border-subtle);
+  background-color: var(--color-wood-elevated);
   color: var(--color-text-primary);
 }
 
@@ -262,7 +262,7 @@ button {
   display: grid;
   min-height: 80px;
   place-items: center;
-  border: 2px solid color-mix(in srgb, var(--color-primary-500) 58%, transparent);
+  border: 2px solid color-mix(in srgb, var(--color-wood-elevated) 58%, transparent);
   border-radius: 7px;
   background-color: color-mix(in srgb, var(--color-primary-50) 44%, transparent);
   padding: 6px;
@@ -271,7 +271,7 @@ button {
 
 .stat-tile span,
 .attack-row-numbers dt {
-  color: var(--color-primary-700);
+  color: var(--color-wood-hud);
   font-family: var(--font-title);
   font-size: 12px;
   font-weight: 900;
@@ -295,7 +295,7 @@ button {
 .attacks-section {
   margin-top: 12px;
   overflow: hidden;
-  border: 2px solid var(--color-primary-500);
+  border: 2px solid var(--color-wood-elevated);
   border-radius: 9px;
 }
 
@@ -322,16 +322,16 @@ button {
 }
 
 .attack-row + .attack-row {
-  border-top: 2px solid color-mix(in srgb, var(--color-primary-500) 34%, transparent);
+  border-top: 2px solid color-mix(in srgb, var(--color-wood-elevated) 34%, transparent);
 }
 
 .attack-row > img {
   grid-row: 1 / span 2;
   width: 48px;
   height: 48px;
-  border: 2px solid var(--color-primary-500);
+  border: 2px solid var(--color-wood-elevated);
   border-radius: 7px;
-  background-color: var(--color-primary-700);
+  background-color: var(--color-wood-hud);
   object-fit: contain;
   padding: 4px;
 }
@@ -360,7 +360,7 @@ button {
   display: inline-flex;
   margin-left: auto;
   border-radius: 999px;
-  background-color: var(--color-primary-700);
+  background-color: var(--color-wood-hud);
   color: var(--color-text-primary);
   font-family: var(--font-title);
   font-size: 10px;
@@ -390,7 +390,7 @@ button {
 .attack-row-numbers div {
   display: grid;
   place-items: center;
-  border-left: 2px solid color-mix(in srgb, var(--color-primary-500) 34%, transparent);
+  border-left: 2px solid color-mix(in srgb, var(--color-wood-elevated) 34%, transparent);
   padding-inline: 5px;
 }
 
@@ -460,7 +460,7 @@ button {
   }
 
   .attack-row-numbers div {
-    border-top: 2px solid color-mix(in srgb, var(--color-primary-500) 28%, transparent);
+    border-top: 2px solid color-mix(in srgb, var(--color-wood-elevated) 28%, transparent);
     border-left: 0;
     padding-top: 4px;
   }
@@ -492,9 +492,9 @@ button {
 
 .creature-picker-close,
 .creature-picker-remove {
-  border: 2px solid var(--color-primary-500);
+  border: 2px solid var(--color-wood-elevated);
   border-radius: 8px;
-  background-color: var(--color-primary-500);
+  background-color: var(--color-wood-elevated);
   color: var(--color-text-primary);
   cursor: pointer;
   font: inherit;
@@ -514,7 +514,7 @@ button {
 
 .creature-picker-empty {
   margin: 0;
-  color: var(--color-primary-700);
+  color: var(--color-wood-hud);
   text-align: center;
   padding: 20px 0;
 }
@@ -530,9 +530,9 @@ button {
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  border: 2px solid var(--color-primary-400);
+  border: 2px solid var(--color-border-subtle);
   border-radius: 10px;
-  background-color: var(--color-layer-card);
+  background-color: var(--color-wood-default);
   color: var(--color-text-primary);
   cursor: pointer;
   font: inherit;

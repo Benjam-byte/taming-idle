@@ -3,18 +3,18 @@
   --combatant-badge-color: var(--color-badge-player);
 
   position: relative;
-  border: 2px solid var(--color-primary-800);
+  border: 2px solid var(--color-wood-deep);
   border-radius: 14px;
   background:
     linear-gradient(180deg,
       rgb(var(--color-white-rgb) / 0.08),
       rgb(var(--color-black-rgb) / 0.18)),
-    var(--color-primary-600);
+    var(--color-wood-default);
   padding: 8px 8px 8px 16px;
   box-shadow:
     inset 0 1px 2px rgb(var(--color-white-rgb) / 0.16),
     inset 0 -3px 4px rgb(var(--color-black-rgb) / 0.38),
-    0 3px 0 var(--color-layer-border),
+    0 3px 0 var(--color-border-default),
     0 5px 7px rgb(var(--color-black-rgb) / 0.55);
 }
 
@@ -31,7 +31,7 @@
   box-shadow:
     inset 0 1px 2px rgb(var(--color-white-rgb) / 0.16),
     inset 0 -4px 6px rgb(var(--color-black-rgb) / 0.38),
-    -4px 5px 0 var(--color-layer-border),
+    -4px 5px 0 var(--color-border-default),
     -8px 8px 14px rgb(var(--color-black-rgb) / 0.55);
 }
 
@@ -44,7 +44,7 @@
   box-shadow:
     inset 0 1px 2px rgb(var(--color-white-rgb) / 0.16),
     inset 0 -4px 6px rgb(var(--color-black-rgb) / 0.38),
-    4px 5px 0 var(--color-layer-border),
+    4px 5px 0 var(--color-border-default),
     8px 8px 14px rgb(var(--color-black-rgb) / 0.55);
 }
 
@@ -58,7 +58,7 @@
   background-color: var(--combatant-accent-color);
   box-shadow:
     inset 0 1px 1px rgb(var(--color-white-rgb) / 0.25),
-    0 1px 0 rgb(var(--color-layer-border-rgb) / 0.8);
+    0 1px 0 color-mix(in srgb, var(--color-border-default) 80%, transparent);
 }
 
 .combatant-panel.is-enemy .combatant-accent {
@@ -117,7 +117,7 @@
   font-weight: 900;
   line-height: 1;
   text-overflow: ellipsis;
-  text-shadow: 0 2px 0 rgb(var(--color-layer-border-rgb) / 0.9);
+  text-shadow: 0 2px 0 color-mix(in srgb, var(--color-border-default) 90%, transparent);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -130,7 +130,7 @@
   flex-shrink: 0;
   border: 1px solid rgb(var(--color-white-rgb) / 0.1);
   border-radius: 9999px;
-  background-color: rgb(var(--color-layer-border-rgb) / 0.45);
+  background-color: color-mix(in srgb, var(--color-border-default) 45%, transparent);
   color: var(--combatant-badge-color);
   font-family: var(--font-title);
   font-size: 9px;
@@ -158,7 +158,7 @@
   font-weight: 900;
   line-height: 1;
   text-align: right;
-  text-shadow: 0 1px 0 rgb(var(--color-layer-border-rgb) / 0.9);
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--color-border-default) 90%, transparent);
 }
 
 .combatant-panel.is-enemy .combatant-health-text {

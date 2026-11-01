@@ -1,8 +1,8 @@
 <div
-  class="hud-bar hud-bar-top bottom-shadow absolute left-0 right-0 top-0 gap-3"
+  class="absolute left-0 right-0 top-0 flex bg-wood-default px-2 py-1 border-b-border-subtle border-b-2"
 >
   <div
-    class="hud-slot flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+    class="border-border-subtle border-2 flex items-center justify-center rounded-xl"
   >
     <img
       src="assets/monster/slime/Slime_Base.webp"
@@ -12,12 +12,8 @@
   </div>
 
   <div
-    class="relative flex h-12 flex-1 gap-2 items-center justify-center rounded-xl bg-primary-500"
+    class="relative flex flex-1 items-center justify-between px-2 rounded-xl"
   >
-    <div
-      class="pointer-events-none absolute inset-0 opacity-15 wood-grain"
-    ></div>
-
     <app-hud-resource-chip
       iconSrc="assets/object/Wheat.webp"
       alt="Wheat"
@@ -27,6 +23,12 @@
       iconSrc="assets/object/Soul.webp"
       alt="Soul"
       [value]="soul()"
+    />
+    <app-hud-resource-chip
+      iconSrc="assets/object/Glitched_Stone.webp"
+      alt="Glitched stone"
+      [value]="glitchedStone()"
+      [largeIcon]="true"
     />
     <app-hud-resource-chip
       iconSrc="assets/object/Glitched_Stone.webp"
