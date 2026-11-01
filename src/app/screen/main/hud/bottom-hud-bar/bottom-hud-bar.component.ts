@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { ModalController } from '@ionic/angular/standalone';
 import { IconButtonComponent } from 'src/app/components/icon-button/icon-button.component';
+import { ModalService } from 'src/app/core/service/modal-service';
 
 @Component({
   selector: 'app-bottom-hud-bar',
@@ -9,20 +9,13 @@ import { IconButtonComponent } from 'src/app/components/icon-button/icon-button.
   imports: [IconButtonComponent],
 })
 export class BottomHudBarComponent {
-  private readonly modalCtrl = inject(ModalController);
+  private readonly modalService = inject(ModalService);
 
-  async openMenu(): Promise<void> {
-    const { MenuComponent } = await import(
-      '../../../modal/menu/menu.component'
+  openMenu(): Promise<void> {
+    return this.modalService.open('menu', () =>
+      import('../../../modal/menu/menu.component').then(
+        (m) => m.MenuComponent,
+      ),
     );
-
-    const modal = await this.modalCtrl.create({
-      component: MenuComponent,
-      cssClass: 'full-screen-modal',
-      backdropDismiss: true,
-      showBackdrop: true,
-    });
-
-    await modal.present();
   }
 }

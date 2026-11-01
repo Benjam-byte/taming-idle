@@ -8,12 +8,13 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { IonContent, ModalController } from '@ionic/angular/standalone';
+import { IonContent } from '@ionic/angular/standalone';
 import { Application, Container } from 'pixi.js';
 import { PixiAssetService } from 'src/app/core/assets/PixiAssetService';
 import { getRendererPreference } from 'src/app/core/helpers/canvas-helper';
 import { CombatStore } from 'src/app/core/service/combat/combat.store';
 import { MapStore } from 'src/app/core/service/map/map.store';
+import { ModalService } from 'src/app/core/service/modal-service';
 import { ResourceCollectionService } from 'src/app/core/service/resource-collection-service';
 import { MapSceneRenderer } from '../pixi-components/main/map-scene-renderer';
 import { MinimapRenderer } from '../pixi-components/main/minimap/minimap-renderer';
@@ -43,7 +44,7 @@ export class MainPage implements AfterViewInit {
   @ViewChild(BurrowComponent, { static: true })
   burrowComponent!: BurrowComponent;
 
-  private readonly modalCtrl = inject(ModalController);
+  private readonly modalService = inject(ModalService);
   private readonly pixiAssetService = inject(PixiAssetService);
   private readonly mapStore = inject(MapStore);
   private readonly combatStore = inject(CombatStore);
@@ -90,18 +91,12 @@ export class MainPage implements AfterViewInit {
     await this.initGame();
   }
 
-  async openMap(): Promise<void> {
-    const { FullMapComponent } =
-      await import('../modal/full-map/full-map.component');
-
-    const modal = await this.modalCtrl.create({
-      component: FullMapComponent,
-      cssClass: 'full-screen-modal',
-      backdropDismiss: true,
-      showBackdrop: true,
-    });
-
-    await modal.present();
+  openMap(): Promise<void> {
+    return this.modalService.open('map', () =>
+      import('../modal/full-map/full-map.component').then(
+        (m) => m.FullMapComponent,
+      ),
+    );
   }
 
   private async initGame(): Promise<void> {

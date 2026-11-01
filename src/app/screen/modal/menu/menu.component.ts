@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ModalController } from '@ionic/angular/standalone';
+import { ModalService } from 'src/app/core/service/modal-service';
 import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 
@@ -23,7 +23,7 @@ type MenuSection = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent {
-  private readonly modalCtrl = inject(ModalController);
+  private readonly modalService = inject(ModalService);
 
   readonly sections: readonly MenuSection[] = [
     {
@@ -70,35 +70,19 @@ export class MenuComponent {
     console.log(`Menu placeholder selected: ${item.label}`);
   }
 
-  private async openActiveTeamModal(): Promise<void> {
-    await this.modalCtrl.dismiss();
-
-    const { ActiveTeamModalComponent } =
-      await import('../active-team/active-team.component');
-
-    const modal = await this.modalCtrl.create({
-      component: ActiveTeamModalComponent,
-      cssClass: 'full-screen-modal',
-      backdropDismiss: true,
-      showBackdrop: true,
-    });
-
-    await modal.present();
+  private openActiveTeamModal(): Promise<void> {
+    return this.modalService.replace('active-team', () =>
+      import('../active-team/active-team.component').then(
+        (m) => m.ActiveTeamModalComponent,
+      ),
+    );
   }
 
-  private async openBestiaryModal(): Promise<void> {
-    await this.modalCtrl.dismiss();
-
-    const { BestiaryModalComponent } =
-      await import('../bestiary/bestiary.component');
-
-    const modal = await this.modalCtrl.create({
-      component: BestiaryModalComponent,
-      cssClass: 'full-screen-modal',
-      backdropDismiss: true,
-      showBackdrop: true,
-    });
-
-    await modal.present();
+  private openBestiaryModal(): Promise<void> {
+    return this.modalService.replace('bestiary', () =>
+      import('../bestiary/bestiary.component').then(
+        (m) => m.BestiaryModalComponent,
+      ),
+    );
   }
 }

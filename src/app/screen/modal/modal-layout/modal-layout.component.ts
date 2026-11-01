@@ -1,6 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { ModalController } from '@ionic/angular/standalone';
 import { IconButtonComponent } from 'src/app/components/icon-button/icon-button.component';
+import { ModalService } from 'src/app/core/service/modal-service';
 
 @Component({
   selector: 'app-modal-layout',
@@ -11,6 +12,7 @@ import { IconButtonComponent } from 'src/app/components/icon-button/icon-button.
 })
 export class ModalLayoutComponent {
   private readonly modalCtrl = inject(ModalController);
+  private readonly modalService = inject(ModalService);
 
   readonly title = input<string | null>(null);
   readonly showMenuButton = input(true);
@@ -19,18 +21,9 @@ export class ModalLayoutComponent {
     return this.modalCtrl.dismiss();
   }
 
-  async goToMenu(): Promise<void> {
-    await this.close();
-
-    const { MenuComponent } = await import('../menu/menu.component');
-
-    const modal = await this.modalCtrl.create({
-      component: MenuComponent,
-      cssClass: 'full-screen-modal',
-      backdropDismiss: true,
-      showBackdrop: true,
-    });
-
-    await modal.present();
+  goToMenu(): Promise<void> {
+    return this.modalService.replace('menu', () =>
+      import('../menu/menu.component').then((m) => m.MenuComponent),
+    );
   }
 }
