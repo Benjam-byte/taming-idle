@@ -5,7 +5,7 @@
     (pointerdown)="moveRequested.emit('UP')"
     aria-label="Move up"
   >
-    ↑
+    <app-icon-arrow-up size="1em" />
   </button>
 
   <button
@@ -14,7 +14,7 @@
     (pointerdown)="moveRequested.emit('LEFT')"
     aria-label="Move left"
   >
-    ←
+    <app-icon-arrow-left size="1em" />
   </button>
 
   <div class="move-center" aria-hidden="true"></div>
@@ -25,7 +25,7 @@
     (pointerdown)="moveRequested.emit('RIGHT')"
     aria-label="Move right"
   >
-    →
+    <app-icon-arrow-right size="1em" />
   </button>
 
   <button
@@ -34,6 +34,6 @@
     (pointerdown)="moveRequested.emit('DOWN')"
     aria-label="Move down"
   >
-    ↓
+    <app-icon-arrow-down size="1em" />
   </button>
 </div>

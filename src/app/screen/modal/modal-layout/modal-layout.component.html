@@ -2,32 +2,16 @@
 
 <div class="flex h-dvh flex-col pt-[env(safe-area-inset-top)]">
   @if (title()) {
-    <header
-      class="hud-bar hud-bar-top bottom-shadow justify-between gap-3"
-    >
-      <h1
-        class="font-title text-xl font-extrabold text-text-primary"
-      >
-        {{ title() }}
-      </h1>
-
-      <app-ui-icon-button size="md" label="Fermer" (pressed)="close()">
-        ×
-      </app-ui-icon-button>
-    </header>
+    <app-header></app-header>
   }
 
   <main class="min-h-0 flex-1 overflow-hidden p-3">
-    <div
-      class="inset-panel flex h-full min-h-0 flex-col p-3"
-    >
+    <div class="inset-panel flex h-full min-h-0 flex-col p-3">
       <ng-content></ng-content>
     </div>
   </main>
 
-  <footer
-    class="hud-bar hud-bar-bottom top-shadow"
-  >
+  <footer class="hud-bar hud-bar-bottom top-shadow">
     @if (showMenuButton()) {
       <app-ui-icon-button size="sm" label="Menu" (pressed)="goToMenu()">
         <img

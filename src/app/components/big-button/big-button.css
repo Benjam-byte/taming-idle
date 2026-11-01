@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.big-button {
+  border: 2px solid var(--color-border-warm);
+  border-radius: 8px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    transform 100ms ease,
+    background-color 100ms ease,
+    box-shadow 100ms ease;
+}
+
+.big-button:active {
+  transform: translateY(2px);
+  background-color: var(--color-wood-hud);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .big-button {
+    transition: none;
+  }
+}
+
+.big-button:focus-visible {
+  outline: 2px solid var(--color-parchment-shade);
+  outline-offset: 3px;
+}

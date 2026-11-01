@@ -2,13 +2,14 @@ import { Component, inject, input } from '@angular/core';
 import { ModalController } from '@ionic/angular/standalone';
 import { IconButtonComponent } from 'src/app/components/icon-button/icon-button.component';
 import { ModalService } from 'src/app/core/service/modal-service';
+import { Header } from 'src/app/components/header/header.component';
 
 @Component({
   selector: 'app-modal-layout',
   standalone: true,
   templateUrl: './modal-layout.component.html',
   styleUrls: ['./modal-layout.component.scss'],
-  imports: [IconButtonComponent],
+  imports: [IconButtonComponent, Header],
 })
 export class ModalLayoutComponent {
   private readonly modalCtrl = inject(ModalController);

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme static {
-  --font-title: "Baloo 2", "Trebuchet MS", sans-serif;
-  --font-body: "Nunito", "Arial", sans-serif;
+  --font-title: "Baloo 2 Variable", "Trebuchet MS", sans-serif;
+  --font-body: "Nunito Variable", "Arial", sans-serif;
 
   --color-white: #ffffff;
   --color-black: #000000;
