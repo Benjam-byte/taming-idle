@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  output,
+} from '@angular/core';
 import { BigButton } from '../big-button/big-button';
 
 @Component({
@@ -8,4 +13,11 @@ import { BigButton } from '../big-button/big-button';
   styleUrl: './header.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Header {}
+export class Header {
+  closeModal = output<void>();
+  label = input<string>();
+
+  close() {
+    this.closeModal.emit();
+  }
+}

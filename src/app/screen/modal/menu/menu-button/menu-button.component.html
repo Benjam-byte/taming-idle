@@ -1,16 +1,18 @@
-<div class="flex min-w-16 flex-col items-center gap-1.5 text-center font-title text-xs font-extrabold leading-tight text-text-primary">
-  <app-ui-icon-button
-    size="lg"
-    [label]="label()"
-    [disabled]="disabled()"
-    (pressed)="press()"
+<button
+  type="button"
+  class="menu-button flex flex-col items-center bg-parchment-highlight"
+  [disabled]="disabled()"
+  (click)="press()"
+>
+  <span
+    class="flex size-14 items-center justify-center bg-inset-default rounded-xl m-1"
   >
     <img
       [src]="displayedIconSrc()"
       alt=""
-      class="h-7 w-7 object-contain"
+      class="button-icon h-7 w-7 object-contain"
     />
-  </app-ui-icon-button>
+  </span>
 
-  <span class="max-w-[72px] [overflow-wrap:anywhere]">{{ label() }}</span>
-</div>
+  <span class="button-title text-center py-1">{{ label() }}</span>
+</button>

@@ -1,6 +1,6 @@
 <div
-  class="bg-wood-default border-border-warm border-2 rounded-xl flex gap-2 p-2 items-center"
+  class="bg-wood-default border-border-warm border-2 rounded-xl grid grid-cols-[1fr_auto_1fr] gap-2 p-2 items-center"
 >
-  <app-big-button></app-big-button>
-  <h1 class="screen-title flex-1 text-center">EQUIPE ACTIVE</h1>
+  <app-big-button class="justify-self-start" (clicked)="close()"></app-big-button>
+  <h1 class="screen-title text-center">{{ label() }}</h1>
 </div>

@@ -1,3 +1,37 @@
 :host {
   display: block;
 }
+
+.menu-button {
+  border: 2px solid var(--color-border-warm);
+  border-radius: 12px;
+  touch-action: manipulation;
+  transition: transform 100ms ease;
+}
+
+.menu-button:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+.menu-button:disabled {
+  cursor: not-allowed;
+}
+
+.menu-button:disabled .button-icon {
+  opacity: 0.55;
+  filter: grayscale(0.35) brightness(0.72);
+}
+
+.menu-button:focus-visible {
+  outline: 2px solid var(--color-parchment-shade);
+  outline-offset: 3px;
+}
+
+.button-title {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.5;
+  color: #3f2818;
+}

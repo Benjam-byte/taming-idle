@@ -1,8 +1,17 @@
-<app-modal-layout title="Menu" [showMenuButton]="false">
-  <div class="flex min-h-full flex-col gap-4 overflow-auto p-1">
+<div class="m-2">
+  <app-header (closeModal)="closeModal()" label="MENU" />
+</div>
+<div
+  class="flex flex-1 gap-4 mx-2 mb-8 bg-wood-default border-2 border-border-warm rounded-2xl"
+>
+  <div class="flex-1 m-2 bg-parchment-default rounded-2xl">
     @for (section of sections; track section.title) {
-      <section class="flex flex-col gap-3.5">
-        <h2 class="menu-section-title">{{ section.title }}</h2>
+      <section class="flex flex-col gap-0">
+        <div class="flex flex-row justify-evenly items-center">
+          <div class="border-t-2 border-border-warm w-20 h-1"></div>
+          <h3 class="section-title">{{ section.title }}</h3>
+          <div class="border-t-2 border-border-warm w-20 h-1"></div>
+        </div>
 
         <div
           class="grid grid-cols-[repeat(auto-fill,minmax(72px,1fr))] justify-items-center gap-x-3 gap-y-4"
@@ -19,4 +28,4 @@
       </section>
     }
   </div>
-</app-modal-layout>
+</div>

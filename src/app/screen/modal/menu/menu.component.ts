@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ModalController } from '@ionic/angular/standalone';
 import { ModalService } from 'src/app/core/service/modal-service';
-import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
+import { Header } from 'src/app/components/header/header.component';
 
 type MenuItem = {
   label: string;
@@ -17,17 +18,18 @@ type MenuSection = {
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [ModalLayoutComponent, MenuButtonComponent],
+  imports: [MenuButtonComponent, Header],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent {
+  private readonly modalCtrl = inject(ModalController);
   private readonly modalService = inject(ModalService);
 
   readonly sections: readonly MenuSection[] = [
     {
-      title: 'Lieux',
+      title: 'EXPLORATION',
       items: [
         { label: 'Tour', iconSrc: 'assets/icon/tower.png' },
         { label: 'Olympus', iconSrc: 'assets/icon/hands.png' },
@@ -37,17 +39,17 @@ export class MenuComponent {
       ],
     },
     {
-      title: 'Joueur',
+      title: 'PROGRESSION',
       items: [
         { label: 'Profil', iconSrc: 'assets/icon/equipe.png' },
         { label: 'Region', iconSrc: 'assets/icon/world-level.png' },
         { label: 'Metier', iconSrc: 'assets/icon/skilltree.png' },
         { label: 'Reliques', iconSrc: 'assets/icon/relic.png' },
-        { label: 'Sauvegarde', iconSrc: 'assets/icon/save.png' },
+        { label: 'Save', iconSrc: 'assets/icon/save.png' },
       ],
     },
     {
-      title: 'Monstres',
+      title: 'CREATURES',
       items: [
         { label: 'Bestiaire', iconSrc: 'assets/icon/bestiary.png' },
         { label: 'Incubateur', iconSrc: 'assets/icon/creature.png' },
@@ -55,6 +57,10 @@ export class MenuComponent {
       ],
     },
   ];
+
+  closeModal(): Promise<boolean> {
+    return this.modalCtrl.dismiss();
+  }
 
   async selectItem(item: MenuItem): Promise<void> {
     if (item.label === 'Profil') {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { ArrowLeftIcon } from '../../icons/arrow-left.component';
 
 @Component({
@@ -8,4 +8,10 @@ import { ArrowLeftIcon } from '../../icons/arrow-left.component';
   styleUrl: './big-button.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BigButton {}
+export class BigButton {
+  clicked = output<void>();
+
+  onClicked() {
+    this.clicked.emit();
+  }
+}
