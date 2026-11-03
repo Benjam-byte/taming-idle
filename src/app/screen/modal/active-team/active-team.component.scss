@@ -1,10 +1,15 @@
 :host {
   display: block;
   height: 100%;
+  margin: 8px;
 }
 
-button {
-  font: inherit;
+.separator-color {
+  border-color: color-mix(in srgb, var(--color-wood-deep) 75%, transparent);
+}
+
+.round-color {
+  background-color: #b8814f;
 }
 
 .team-band,
@@ -91,7 +96,8 @@ button {
 .team-slot.is-selected {
   border-color: var(--color-parchment-shade);
   box-shadow:
-    inset 0 0 0 2px color-mix(in srgb, var(--color-parchment-shade) 44%, transparent),
+    inset 0 0 0 2px
+      color-mix(in srgb, var(--color-parchment-shade) 44%, transparent),
     0 0 14px color-mix(in srgb, var(--color-parchment-shade) 32%, transparent);
 }
 
@@ -178,7 +184,11 @@ button {
   place-items: center;
   border: 2px solid var(--color-border-subtle);
   border-radius: 10px;
-  background-color: color-mix(in srgb, var(--color-primary-50) 44%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary-50) 44%,
+    transparent
+  );
 }
 
 .creature-sheet-portrait img {
@@ -196,7 +206,8 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  border-bottom: 2px solid color-mix(in srgb, var(--color-wood-default) 32%, transparent);
+  border-bottom: 2px solid
+    color-mix(in srgb, var(--color-wood-default) 32%, transparent);
   padding-bottom: 10px;
 }
 
@@ -262,9 +273,14 @@ button {
   display: grid;
   min-height: 80px;
   place-items: center;
-  border: 2px solid color-mix(in srgb, var(--color-wood-elevated) 58%, transparent);
+  border: 2px solid
+    color-mix(in srgb, var(--color-wood-elevated) 58%, transparent);
   border-radius: 7px;
-  background-color: color-mix(in srgb, var(--color-primary-50) 44%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary-50) 44%,
+    transparent
+  );
   padding: 6px;
   text-align: center;
 }
@@ -318,11 +334,16 @@ button {
   gap: 7px;
   align-items: center;
   padding: 7px 9px;
-  background-color: color-mix(in srgb, var(--color-primary-50) 42%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary-50) 42%,
+    transparent
+  );
 }
 
 .attack-row + .attack-row {
-  border-top: 2px solid color-mix(in srgb, var(--color-wood-elevated) 34%, transparent);
+  border-top: 2px solid
+    color-mix(in srgb, var(--color-wood-elevated) 34%, transparent);
 }
 
 .attack-row > img {
@@ -390,7 +411,8 @@ button {
 .attack-row-numbers div {
   display: grid;
   place-items: center;
-  border-left: 2px solid color-mix(in srgb, var(--color-wood-elevated) 34%, transparent);
+  border-left: 2px solid
+    color-mix(in srgb, var(--color-wood-elevated) 34%, transparent);
   padding-inline: 5px;
 }
 
@@ -460,7 +482,8 @@ button {
   }
 
   .attack-row-numbers div {
-    border-top: 2px solid color-mix(in srgb, var(--color-wood-elevated) 28%, transparent);
+    border-top: 2px solid
+      color-mix(in srgb, var(--color-wood-elevated) 28%, transparent);
     border-left: 0;
     padding-top: 4px;
   }

@@ -13,7 +13,9 @@ import { AttackEffect, MonsterName } from 'src/app/core/models/monster';
 import { generateCombatMonster } from 'src/app/core/service/combat/combat-monster';
 import { MonsterStore } from 'src/app/core/service/monster/monster.store';
 import { ACTIVE_TEAM_SIZE, TamedMonster } from 'src/app/database/type/monster';
-import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
+import { Header } from 'src/app/components/header/header.component';
+import { ModalController } from '@ionic/angular/standalone';
+import { MOCK_MONSTER_SAVE } from './active-team.mock';
 
 const SPECIAL_ATTACK_ICON: Record<AttackEffect, string> = {
   multiple: 'assets/icon/sword.png',
@@ -75,10 +77,26 @@ function toCreatureSheet(tamedMonster: TamedMonster): CreatureSheet {
     name: tamedMonster.monster.name,
     imageSrc: MONSTER_PORTRAIT[tamedMonster.monster.name],
     combatStats: [
-      { label: 'HP', value: baseCharacteristics.hp, iconSrc: 'assets/icon/heart.png' },
-      { label: 'Attaque', value: baseCharacteristics.attack, iconSrc: 'assets/icon/stat/damage.png' },
-      { label: 'Defense', value: baseCharacteristics.defense, iconSrc: 'assets/icon/stat/defense.png' },
-      { label: 'Vitesse', value: baseCharacteristics.speed, iconSrc: 'assets/icon/stat/fighting-speed.png' },
+      {
+        label: 'HP',
+        value: baseCharacteristics.hp,
+        iconSrc: 'assets/icon/heart.png',
+      },
+      {
+        label: 'Attaque',
+        value: baseCharacteristics.attack,
+        iconSrc: 'assets/icon/stat/damage.png',
+      },
+      {
+        label: 'Defense',
+        value: baseCharacteristics.defense,
+        iconSrc: 'assets/icon/stat/defense.png',
+      },
+      {
+        label: 'Vitesse',
+        value: baseCharacteristics.speed,
+        iconSrc: 'assets/icon/stat/fighting-speed.png',
+      },
     ],
     attacks: [
       {
@@ -103,13 +121,18 @@ function toCreatureSheet(tamedMonster: TamedMonster): CreatureSheet {
 @Component({
   selector: 'app-active-team-modal',
   standalone: true,
-  imports: [ModalLayoutComponent],
+  imports: [Header],
   templateUrl: './active-team.component.html',
   styleUrl: './active-team.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActiveTeamModalComponent {
   private readonly monsterStore = inject(MonsterStore);
+  private readonly modalCtrl = inject(ModalController);
+
+  constructor() {
+    this.monsterStore.hydrate(MOCK_MONSTER_SAVE);
+  }
 
   readonly teamSize = ACTIVE_TEAM_SIZE;
 
@@ -124,7 +147,8 @@ export class ActiveTeamModalComponent {
   readonly attacksExpanded = signal(true);
 
   readonly selectedSheet = computed<CreatureSheet | null>(() => {
-    const tamedMonster = this.monsterStore.activeTeam()[this.selectedSlotIndex()];
+    const tamedMonster =
+      this.monsterStore.activeTeam()[this.selectedSlotIndex()];
     return tamedMonster ? toCreatureSheet(tamedMonster) : null;
   });
 
@@ -210,5 +234,9 @@ export class ActiveTeamModalComponent {
 
   trackAttack(index: number, attack: CreatureAttack): string {
     return attack.name;
+  }
+
+  closeModal(): Promise<boolean> {
+    return this.modalCtrl.dismiss();
   }
 }
