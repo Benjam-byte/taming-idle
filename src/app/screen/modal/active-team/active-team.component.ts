@@ -16,6 +16,12 @@ import { ACTIVE_TEAM_SIZE, TamedMonster } from 'src/app/database/type/monster';
 import { Header } from 'src/app/components/header/header.component';
 import { ModalController } from '@ionic/angular/standalone';
 import { MOCK_MONSTER_SAVE } from './active-team.mock';
+import {
+  ActiveSlot,
+  TeamSelectorComponent,
+} from './team-selector/team-selector.component';
+import { BigIconButton } from 'src/app/components/big-icon-button/big-icon-button';
+import { BigButton } from 'src/app/components/big-button/big-button';
 
 const SPECIAL_ATTACK_ICON: Record<AttackEffect, string> = {
   multiple: 'assets/icon/sword.png',
@@ -24,13 +30,6 @@ const SPECIAL_ATTACK_ICON: Record<AttackEffect, string> = {
   shield: 'assets/icon/helmet.png',
   stun: 'assets/icon/hourglass.png',
 };
-
-type ActiveSlot = {
-  tamedId: string;
-  name: MonsterName;
-  portraitSrc: string;
-  typeIconSrc: string;
-} | null;
 
 type CreatureStat = {
   label: string;
@@ -121,7 +120,7 @@ function toCreatureSheet(tamedMonster: TamedMonster): CreatureSheet {
 @Component({
   selector: 'app-active-team-modal',
   standalone: true,
-  imports: [Header],
+  imports: [Header, TeamSelectorComponent, BigIconButton, BigButton],
   templateUrl: './active-team.component.html',
   styleUrl: './active-team.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -187,6 +186,16 @@ export class ActiveTeamModalComponent {
     } else {
       this.pickerSlotIndex.set(index);
     }
+  }
+
+  plusSlot(): void {
+    if (this.selectedSlotIndex() >= 2) return;
+    this.selectedSlotIndex.set(this.selectedSlotIndex() + 1);
+  }
+
+  lessSlot(): void {
+    if (this.selectedSlotIndex() <= 0) return;
+    this.selectedSlotIndex.set(this.selectedSlotIndex() - 1);
   }
 
   openPicker(index: number): void {

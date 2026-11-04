@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+.separator-color {
+  border-color: color-mix(in srgb, var(--color-wood-deep) 75%, transparent);
+}
+
+.round-color {
+  background-color: #b8814f;
+}

@@ -1,0 +1,51 @@
+<div
+  class="bg-wood-default border-border-warm border-2 rounded-xl grid grid-cols-[1fr_1fr_1fr_1fr] gap-2 my-2 p-2 items-center">
+  @for (slot of slots(); track $index) {
+    <div
+      class="bg-wood-deep rounded-2xl w-full flex flex-col aspect-square"
+      [class]="
+        $index === selectedIndex()
+          ? 'border-3 border-border-selected'
+          : 'border-2 border-border-default'
+      ">
+      <button
+        type="button"
+        class="w-full flex-1 min-h-0 flex flex-col justify-center text-left"
+        [attr.aria-pressed]="$index === selectedIndex()"
+        (click)="slotSelected.emit($index)">
+        @if (slot) {
+          <img
+            [src]="slot.portraitSrc"
+            alt=""
+            class="w-full min-h-0 flex-1 object-contain" />
+          <strong class="line-clamp-1 px-2 font-body text-text-primary text-xs">
+            {{ slot.name }}
+          </strong>
+        } @else {
+          <span
+            class="flex-1 min-h-0 flex items-center justify-center text-5xl text-text-primary">
+            +
+          </span>
+          <strong
+            class="line-clamp-1 px-2 font-body text-text-primary text-xs text-center">
+            Choisir
+          </strong>
+        }
+      </button>
+    </div>
+  }
+
+  <div
+    class="separator-color border-l-2 w-full h-full flex flex-col justify-center items-center">
+    <div
+      class="bg-wood-default border-3 border-border-warm rounded-2xl h-14 w-14 mb-1 shadow-[0_3px_0_var(--color-wood-deep)] flex items-center justify-center">
+      <div
+        class="w-6 h-6 round-color border-3 border-parchment-shade rounded-full"></div>
+      <div
+        class="w-6 h-6 -ml-3 bg-nature border-3 border-parchment-shade rounded-full"></div>
+    </div>
+    <strong class="text-[9px] text-text-secondary text-center">
+      SYNERGIES
+    </strong>
+  </div>
+</div>

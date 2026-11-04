@@ -4,14 +4,6 @@
   margin: 8px;
 }
 
-.separator-color {
-  border-color: color-mix(in srgb, var(--color-wood-deep) 75%, transparent);
-}
-
-.round-color {
-  background-color: #b8814f;
-}
-
 .team-band,
 .creature-sheet {
   border: 2px solid var(--color-wood-deep);

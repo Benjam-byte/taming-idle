@@ -1,11 +1,38 @@
-<button
-  type="button"
-  class="big-button bg-wood-elevated size-11 flex justify-center items-center"
-  (click)="onClicked()"
->
+<button type="button" class="big-button w-full" (click)="onClicked()">
   <div
-    class="size-6 rounded-md flex justify-center items-center text-text-primary"
+    class="relative flex justify-center w-full py-3 border-2 border-border-warm rounded-2xl"
+    [class]="color() === 'mana' ? 'bg-mana' : 'bg-nature'"
   >
-    <app-icon-arrow-left [size]="20" [strokeWidth]="12" />
+    <p class="font-title text-text-primary text-lg font-bold">{{ label() }}</p>
+    @if (icon()) {
+      <div class="absolute inset-y-0 right-6 flex items-center text-text-primary">
+        @switch (icon()) {
+          @case ('arrow-left') {
+            <app-icon-arrow-left [size]="20" [strokeWidth]="12" />
+          }
+          @case ('arrow-right') {
+            <app-icon-arrow-right [size]="20" [strokeWidth]="12" />
+          }
+          @case ('arrow-up') {
+            <app-icon-arrow-up [size]="20" [strokeWidth]="12" />
+          }
+          @case ('arrow-down') {
+            <app-icon-arrow-down [size]="20" [strokeWidth]="12" />
+          }
+          @case ('chevron-left') {
+            <app-icon-chevron-left [size]="20" [strokeWidth]="12" />
+          }
+          @case ('chevron-right') {
+            <app-icon-chevron-right [size]="20" [strokeWidth]="12" />
+          }
+          @case ('chevron-up') {
+            <app-icon-chevron-up [size]="20" [strokeWidth]="12" />
+          }
+          @case ('chevron-down') {
+            <app-icon-chevron-down [size]="20" [strokeWidth]="12" />
+          }
+        }
+      </div>
+    }
   </div>
 </button>

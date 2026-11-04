@@ -4,11 +4,11 @@ import {
   input,
   output,
 } from '@angular/core';
-import { BigButton } from '../big-button/big-button';
+import { BigIconButton } from '../big-icon-button/big-icon-button';
 
 @Component({
   selector: 'app-header',
-  imports: [BigButton],
+  imports: [BigIconButton],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
