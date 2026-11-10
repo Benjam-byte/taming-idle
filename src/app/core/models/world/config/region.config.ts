@@ -3,7 +3,7 @@ import { Region } from '../region/region';
 export const DEFAULT_PLAINE: Region = {
   imageSrc: 'assets/map/plaine/Plaine_1.webp',
   description:
-    'Une étendue herbeuse paisible, premier territoire exploré par les dresseurs. Sa faune abondante en fait un excellent terrain pour débuter.',
+    'Une vaste plaine traversée par de petits ruisseaux. Son sol fertile attire de nombreux monstres et concentre des ressources naturelles variées.',
   monsterDensity: 1,
   monsterManaDrop: 1,
   soulDropRate: 1,

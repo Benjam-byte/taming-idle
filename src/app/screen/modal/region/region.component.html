@@ -1,50 +1,67 @@
-<app-modal-layout [transparent]="true" [hideCloseButton]="true">
-  <app-floating-title text="Région actuelle" (back)="close()" />
+<app-header (closeModal)="closeModal()" label="RÉGION ACTUELLE" />
 
-  <div class="flex min-h-0 flex-1 flex-col gap-4 overflow-auto pt-3">
-    <section class="region-card region-hero">
-      <img [src]="region().imageSrc" alt="" class="region-hero-image" />
+<div class="flex min-h-0 flex-1 flex-col gap-4 overflow-auto pt-3">
+  <section class="region-card region-hero">
+    <img [src]="region().imageSrc" alt="" class="region-hero-image" />
 
-      <h2 class="region-hero-name">{{ currentRegionName() }}</h2>
-
-      <p class="region-hero-description">{{ region().description }}</p>
-    </section>
-
-    <section class="region-card">
-      <h2 class="region-card-title">Relevé d'analyse</h2>
-
-      <div class="region-stats-grid">
-        @for (stat of stats(); track trackStat($index, stat)) {
-        <div class="stat-tile">
-          <img [src]="stat.iconSrc" alt="" />
-          <span>{{ stat.label }}</span>
-          <strong>{{ stat.value }}</strong>
-        </div>
-        }
+    <div class="flex flex-col gap-1">
+      <div>
+        <h2 class="font-title font-bold! text-xl my-0!">
+          {{ currentRegionName() }}
+        </h2>
+        <p class="text-xs">{{ region().description }}</p>
       </div>
-    </section>
-
-    <section class="region-card">
-      <h2 class="region-card-title">Monstres débloqués</h2>
-
-      @if (unlockedMonsters().length === 0) {
-      <p class="region-empty">Aucun monstre débloqué dans cette région.</p>
-      } @else {
-      <div class="region-monster-grid">
-        @for (monster of unlockedMonsters(); track monster.name) {
-        <div class="region-monster-card">
-          <img [src]="monster.portraitSrc" alt="" class="region-monster-portrait" />
-          <strong>{{ monster.name }}</strong>
-        </div>
-        }
+      <div class="flex">
+        <p class="text-sm flex-1 font-bold uppercase">
+          Niveau de région {{ regionLevel() }}
+        </p>
+        <p class="text-sm flex-1 font-bold uppercase">Exploration 67%</p>
       </div>
-      }
-    </section>
+    </div>
+  </section>
 
-    <section class="region-card">
-      <h2 class="region-card-title">Ressources récoltées</h2>
+  <section class="region-card">
+    <div class="flex">
+      <h2 class="font-title uppercase font-bold! text-xl my-0!">
+        Relevé d'analyse
+      </h2>
+      <p class="ml-auto text-[10px] text-nature font-bold">ANALYSE COMPLÈTE</p>
+    </div>
 
-      <p class="region-empty">Suivi des ressources récoltées bientôt disponible.</p>
-    </section>
-  </div>
-</app-modal-layout>
+    @for (stat of stats(); track trackStat($index, stat)) {
+      <div
+        class="flex items-center gap-2 rounded-xl border border-primary-300 bg-secondary-200 p-2">
+        <span class="w-6.5 h-6.5 rounded-full" [class]="stat.color"></span>
+        <div class="flex flex-col gap-1.5">
+          <p class="text-xs font-bold">
+            {{ stat.label }}
+          </p>
+          <div
+            class="w-47.5 h-2.5 bg-primary-500 rounded-full overflow-hidden"
+            [id]="stat.label">
+            <div
+              class="h-2.5 rounded-e-full"
+              [class]="stat.color"
+              [style]="{ width: `${(190 * stat.value) / stat.max}px` }"></div>
+          </div>
+        </div>
+        <strong class="ml-auto">{{ stat.value }} / {{ stat.max }}</strong>
+      </div>
+    }
+  </section>
+
+  <section class="region-card-alt">
+    <h2 class="font-title uppercase font-bold! text-xl my-0!">
+      Monstres rencontrés
+    </h2>
+    <p>Suivi des monstres rencontrés bientôt disponible.</p>
+  </section>
+
+  <section class="region-card-alt">
+    <h2 class="font-title uppercase font-bold! text-xl my-0!">
+      Ressources récoltées
+    </h2>
+
+    <p>Suivi des ressources récoltées bientôt disponible.</p>
+  </section>
+</div>

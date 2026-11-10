@@ -1,24 +1,29 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { ModalController } from '@ionic/angular/standalone';
 import { Store } from '@ngrx/store';
 import { MONSTER_PORTRAIT } from 'src/app/core/assets/monster-portraits';
-import { FloatingTitleComponent } from 'src/app/components/floating-title/floating-title.component';
 import {
   selectCurrentRegionName,
   selectRegions,
 } from 'src/app/store/world/world.reducer';
-import { ModalLayoutComponent } from '../modal-layout/modal-layout.component';
+import { Header } from 'src/app/components/header/header.component';
 
 type RegionStatEntry = {
   label: string;
   value: number;
-  iconSrc: string;
+  max: number;
+  color: string;
 };
 
 @Component({
   selector: 'app-region-modal',
   standalone: true,
-  imports: [ModalLayoutComponent, FloatingTitleComponent],
+  imports: [Header],
   templateUrl: './region.component.html',
   styleUrl: './region.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,6 +36,17 @@ export class RegionModalComponent {
   readonly currentRegionName = this.store.selectSignal(selectCurrentRegionName);
   readonly region = computed(() => this.regions()[this.currentRegionName()]);
 
+  readonly regionLevel = computed(
+    () =>
+      this.region().monsterDensity +
+      this.region().monsterManaDrop +
+      this.region().soulDropRate +
+      this.region().foodDensity +
+      this.region().foodDropRate +
+      this.region().oreAmount +
+      this.region().shinyResourceRate,
+  );
+
   readonly stats = computed<RegionStatEntry[]>(() => {
     const region = this.region();
 
@@ -38,53 +54,53 @@ export class RegionModalComponent {
       {
         label: 'Densité de monstres',
         value: region.monsterDensity,
-        iconSrc: 'assets/icon/stat/monster.png',
+        color: 'bg-mana',
+        max: 10,
       },
       {
         label: 'Mana par monstre',
         value: region.monsterManaDrop,
-        iconSrc: 'assets/icon/stat/enchantedgathering.png',
+        color: 'bg-mana',
+        max: 10,
       },
       {
         label: "Taux de drop d'âmes",
         value: region.soulDropRate,
-        iconSrc: 'assets/icon/stat/soul.png',
+        color: 'bg-mana',
+        max: 10,
       },
       {
         label: 'Densité de nourriture',
         value: region.foodDensity,
-        iconSrc: 'assets/icon/stat/forest.png',
+        color: 'bg-nature',
+        max: 10,
       },
       {
         label: 'Taux de drop de nourriture',
         value: region.foodDropRate,
-        iconSrc: 'assets/icon/stat/gathering.png',
+        color: 'bg-nature',
+        max: 10,
       },
       {
         label: 'Quantité de minerai',
         value: region.oreAmount,
-        iconSrc: 'assets/icon/gems.png',
+        color: 'bg-nature',
+        max: 10,
       },
       {
         label: 'Taux de ressource shiny',
         value: region.shinyResourceRate,
-        iconSrc: 'assets/icon/stat/luck.png',
+        color: 'bg-nature',
+        max: 10,
       },
     ];
   });
 
-  readonly unlockedMonsters = computed(() =>
-    this.region().unlockedMonsters.map((name) => ({
-      name,
-      portraitSrc: MONSTER_PORTRAIT[name],
-    })),
-  );
-
-  trackStat(index: number, stat: RegionStatEntry): string {
+  trackStat(_index: number, stat: RegionStatEntry): string {
     return stat.label;
   }
 
-  close(): Promise<boolean> {
+  closeModal(): Promise<boolean> {
     return this.modalCtrl.dismiss();
   }
 }

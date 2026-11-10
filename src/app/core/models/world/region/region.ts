@@ -1,6 +1,6 @@
 import { MonsterName } from '../../monster/monster';
 
-export const REGION_NAMES = ['Plaines'] as const;
+export const REGION_NAMES = ['Plaine des Ruisseaux'] as const;
 export type RegionName = (typeof REGION_NAMES)[number];
 
 export type Region = {

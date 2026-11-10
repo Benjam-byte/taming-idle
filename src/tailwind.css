@@ -28,8 +28,14 @@
   --color-primary-50: #f5eadc;
   --color-primary-100: #ead4b8;
   --color-primary-200: #d4aa78;
+  --color-primary-300: #b9854f;
+  --color-primary-500: #6b4729;
+  --color-primary-600: #573820;
+  --color-primary-700: #3f2818;
   --color-primary-900: #18100a;
 
+  --color-secondary-100: #f6e8bf;
+  --color-secondary-200: #ecd28e;
   --color-secondary-300: #d5b56a;
   --color-secondary-500: #987238;
   --color-secondary-600: #78562c;
